@@ -49,4 +49,9 @@
  </tr>
  </table>
 
+ ### AI Engine
+
+ AI Engines are supported through the Vitis&trade; Unified Development Environment. Please see the
+ [Vitis In-Depth Tutorial](http://github.com/Xilinx/Vitis-In-Depth-Tutorial) for more information.
+
 <p align="center"><sup>Copyright&copy; 2021 Xilinx</sup></p>
