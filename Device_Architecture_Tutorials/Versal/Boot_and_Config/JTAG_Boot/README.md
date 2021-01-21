@@ -325,7 +325,6 @@ When the tutorial design is loaded successfully, the following are seen:
 
 * DS1 DONE LED on.
 * DS3-DS5 PL GPIO LEDs are toggling (connected to binary counters in design).
-* DS2 ERROR_OUT LED is off (indicating no errors have occurred during the JTAG boot).
 
 # Hardware Design Details
 
@@ -1197,7 +1196,7 @@ For additional detail on the PLM log command use the following:
 xsct% plm log -help
 ```
 
-## General Custom Board Review 
+## General Custom Board Review
 * Versal ACAP Schematic Review Checklist (XTP546) recommendations should be followed. See the schematic review checklist for the user selected peripherals, MIO, and dedicated IO usage.
 
 * Versal ACAP PCB User Guide [(UG863)](https://www.xilinx.com/support/documentation/user_guides/ug863-versal-pcb-design.pdf) recommendations should be followed. Refer to this user guide for interface recommendations on trace lengths, pull-ups and pull-downs, guidance on simulation, and PCB interface requirements.
