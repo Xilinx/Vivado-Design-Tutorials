@@ -44,7 +44,11 @@
  <td width="65%" align="center"><b>Description</b>
  </tr>
  <tr>
- <td align="center"><a href="./PCB_Design/Memory_Pinouts/README.md">Memory Pinouts</a></td>
+ <td align="center"><a href="./PCB_Design/Memory_Pinouts/">Memory Pinouts</a></td>
+ <td>This tutorial introduces best pracices for working with DDR memory pinouts in Versal.</td>
+ </tr>
+ <tr>
+ <td align="center"><a href="./PCB_Design/Hyperlynx_DDRx_Timing_Models/">Memory Pinouts</a></td>
  <td>This tutorial introduces best pracices for working with DDR memory pinouts in Versal.</td>
  </tr>
  </table>
