@@ -11,7 +11,7 @@ Xilinx silicon is famously adaptable, and each new generation brings to the late
 bear on your toughest design challenges. These per-family tutorials explore concepts that are unique
 to each generation of Xilinx devices.
 
-[Versal](./Versal/README.md)
+[Versal](./Versal/)
 
 
 <p align="center"><sup>Copyright&copy; 2020 Xilinx</sup></p>

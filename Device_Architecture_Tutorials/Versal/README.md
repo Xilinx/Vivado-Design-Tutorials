@@ -14,7 +14,7 @@
  <td width="65%" align="center"><b>Description</b>
  </tr>
  <tr>
- <td align="center"><a href="./Boot_and_Config/JTAG_Boot/README.md">JTAG Boot</a></td>
+ <td align="center"><a href="./Boot_and_Config/JTAG_Boot/">JTAG Boot</a></td>
  <td>This tutorial demonstrates the basics of booting your Versal design via JTAG for testing and development</td>
  </tr>
  </table>
@@ -27,11 +27,11 @@
  <td width="65%" align="center"><b>Description</b>
  </tr>
  <tr>
- <td align="center"><a href="./NoC_DDRMC/Intro_Design_Flow/README.md">NoC and DDRMC Design Flow Introduction</a></td>
+ <td align="center"><a href="./NoC_DDRMC/Intro_Design_Flow/">NoC and DDRMC Design Flow Introduction</a></td>
  <td>This tutorial introduces the basic concepts, tools, and techniques of the NoC and DDR memory controller design flow in Vivado</td>
  </tr>
   <tr>
- <td align="center"><a href="./NoC_DDRMC/Performance_Tuning/README.md">NoC and DDRMC Performance Tuning</a></td>
+ <td align="center"><a href="./NoC_DDRMC/Performance_Tuning/">NoC and DDRMC Performance Tuning</a></td>
  <td>Learn how to tune your NoC and DDR memory controller designs to deliver optimum performance for your designs.</td>
  </tr>
  </table>
@@ -48,8 +48,8 @@
  <td>This tutorial introduces best pracices for working with DDR memory pinouts in Versal.</td>
  </tr>
  <tr>
- <td align="center"><a href="./PCB_Design/Hyperlynx_DDRx_Timing_Models/">Memory Pinouts</a></td>
- <td>This tutorial introduces best pracices for working with DDR memory pinouts in Versal.</td>
+ <td align="center"><a href="./PCB_Design/Hyperlynx_DDRx_Timing_Models/">Hyperlynx DDRx Timing Models</a></td>
+ <td>How to perform DDRx signal integrity simulations with the Mentor Graphics DDRx Wizard.</td>
  </tr>
  </table>
 
