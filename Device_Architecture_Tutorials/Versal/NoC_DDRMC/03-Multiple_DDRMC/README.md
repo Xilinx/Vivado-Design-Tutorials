@@ -1,11 +1,23 @@
+<table>
+ <tr>
+   <td align="center"><img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/corporate/xilinx-logo.png" width="30%"/><h1>2020.2 Versal™ Network on Chip/Multiple DDR Memory Controllers Tutorial</h1>
+   </td>
+ </tr>
+</table>
+
 # Example Design Template
 
 ## **Design Summary**
 
-This Versal example design shows how to use multiple DDRMC in one design using VCK190:
+This tutorial presents an example desing that shows how to connect many different DDR devices simultaneously in one design.
+Following this tutotial, brings the following awareness:
+- the required IPs to achieve such a design.
+- how to configure NoC and DDRMC.
+- how it's mandatory to instantiate a different NoC IP for each DDRMC (none interleaved controllers).
+- the possibility to interleave multiple "similar" DDR devices (2 or 4 devices) and how to use only one NoC instance for that case.
+- how to connect multiple NoC instances through Inter-NoC Interfaces.
+- how to create a Vitis Project based on that design and to test a simple code that access all of these memory devices.
 
-    One DDRMC for DDR4
-    Two Interleaved DDRMCs for LPDDR4
 ---
 
 ## **Required Hardware**
@@ -56,7 +68,7 @@ Replace the content of the helloworld.c with the content of ./Software/ddr4_lpdd
 
   - Run Block Automation:
 
-  ![run_block_automation](./Screenshots/run_block_automation.png)
+    ![run_block_automation](./Screenshots/run_block_automation.png)
     - Enable 1 Memory Controller (this will be used to connect the DDR4 device on the board):
 
     ![run_block_automation2](./Screenshots/run_block_automation2.png)
@@ -158,7 +170,7 @@ Replace the content of the helloworld.c with the content of ./Software/ddr4_lpdd
 
   - Validate Design
 
-  ![validate_design](./Screenshots/validate_design.png)
+    ![validate_design](./Screenshots/validate_design.png)
 
     - You will get the following pop-up window if the design is valid:
 
@@ -178,7 +190,7 @@ Replace the content of the helloworld.c with the content of ./Software/ddr4_lpdd
 
   - Export Hardware:
 
-  ![export_hardware](./Screenshots/export_hardware.png)
+    ![export_hardware](./Screenshots/export_hardware.png)
 
     - Make sure to include device image:
 
@@ -189,7 +201,7 @@ Replace the content of the helloworld.c with the content of ./Software/ddr4_lpdd
 ### **Vitis:**
   - Open Vitis and create an application project:
 
-  ![application_project](./Screenshots/application_project.png)
+    ![application_project](./Screenshots/application_project.png)
 
     - Click Next.
     
@@ -219,7 +231,7 @@ Replace the content of the helloworld.c with the content of ./Software/ddr4_lpdd
 
   - Right click on the application project and open the Debug Configuration window:
 
-  ![debug_app](./Screenshots/debug_app.png)
+    ![debug_app](./Screenshots/debug_app.png)
 
     - Double click on the "Single Application Debug" to create a new configuration:
 
