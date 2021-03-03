@@ -237,9 +237,9 @@ Replace the content of the helloworld.c with the content of ./Software/ddr4_lpdd
 
     ![debug_app2](./Screenshots/debug_app2.png)
 
-    -On the new debug configuration, do the following:
+    - On the new debug configuration, do the following:
 
-      -On Main tab, make sure to set the right target on "Connection" where you have hw_server running:
+      - On Main tab, make sure to set the right target on "Connection" where you have hw_server running:
 
       ![debug_app3](./Screenshots/debug_app3.png)
 
