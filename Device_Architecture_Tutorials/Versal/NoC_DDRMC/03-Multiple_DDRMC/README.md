@@ -168,7 +168,7 @@ Replace the content of the helloworld.c with the content of ./Software/ddr4_lpdd
   ![address_editor_assign_all](./Screenshots/address_editor_assign_all.png)
 
 
-  - Validate Design
+  - Validate Design:
 
     ![validate_design](./Screenshots/validate_design.png)
 
@@ -196,7 +196,7 @@ Replace the content of the helloworld.c with the content of ./Software/ddr4_lpdd
 
     ![export_hardware2](./Screenshots/export_hardware2.png)
 
-    This generates the .XSA file to be used later with Vitis to create an application project
+    This generates the .XSA file to be used later with Vitis to create an application project.
 
 ### **Vitis:**
   - Open Vitis and create an application project:
