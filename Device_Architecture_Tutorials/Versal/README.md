@@ -34,6 +34,10 @@
  <td align="center"><a href="./NoC_DDRMC/Performance_Tuning/">NoC and DDRMC Performance Tuning</a></td>
  <td>Learn how to tune your NoC and DDR memory controller designs to deliver optimum performance for your designs.</td>
  </tr>
+ <tr>
+ <td align="center"><a href="./NoC_DDRMC/03-Multiple_DDRMC/">NoC and Multiple DDRMCs</a></td>
+ <td>Learn how to instantiate multiple DDRMCs in one design and how to interleave DDRMCs.</td>
+ </tr>
  </table>
 
  ### PCB Design
