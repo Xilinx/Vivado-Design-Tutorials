@@ -5,39 +5,45 @@
  </tr>
 </table>
 
-# Example Design Template
+# **Introduction to Versal™ NoC/DDRMC**
 
-## **Design Summary**
-
-This tutorial presents an example desing that shows how to connect many different DDR devices simultaneously in one design.
-Following this tutotial, brings the following awareness:
-- the required IPs to achieve such a design.
-- how to configure NoC and DDRMC.
-- how it's mandatory to instantiate a different NoC IP for each DDRMC (none interleaved controllers).
-- the possibility to interleave multiple "similar" DDR devices (2 or 4 devices) and how to use only one NoC instance for that case.
-- how to connect multiple NoC instances through Inter-NoC Interfaces.
-- how to create a Vitis Project based on that design and to test a simple code that access all of these memory devices.
+The Xilinx® Versal™ programmable network on chip (NoC) is an AXI-interconnecting network used for sharing data between IP endpoints in the programmable logic (PL), the processing system (PS), and other hard blocks.
+Each Versal™ device provides dedicated, hardware constructed, DDR memory controllers. These are not part of the NoC architecture, but are supported by the NoC structure. The DDR memory controller interface contains four dedicated NSU controllers. The DDR controllers are implemented using the NoC IP Wizard. To make optimal use of the available NoC features, the NoC structure provides support for interleaving across multiple physical DDR controllers (two or four).
 
 ---
 
-## **Required Hardware**
+# **Description of the Design**
 
-Platform: Versal
+This example connects many different DDR devices simultaneously in one design to communicate to PS through NoC. It connects one DDR4 device and two interleaved LPDDR4 devices, which requires one NoC instance to configure the DDRMC for the DDR4 device and another NoC instance to configure the two interleaved DDRMCs for the two LPDDR4 devices.
 
-Board: VCK190 (same steps applied for VMK180)
-
-Tool: Vivado and Vitis 2020.2
+Following this tutorial, brings the following awareness:
+- The required IPs to achieve such a design.
+- How to configure NoC and DDRMC.
+- How it's mandatory to instantiate a different NoC IP for each DDRMC (none interleaved controllers).
+- The possibility to interleave multiple "similar" DDR devices (2 or 4 devices) and how to use only one NoC instance for that case.
+- How to connect multiple NoC instances through Inter-NoC Interfaces.
+- How to create a Vitis Project based on that design and to test a simple code that access all of these memory devices.
 
 ---
 
-## **Block Diagram**
+# **Required Hardware**
+
+- Platform: Versal
+
+- Board: VCK190 (same steps applied for VMK180)
+
+- Tools: Vivado and Vitis 2020.2
+
+---
+
+# **Block Diagram**
 ![block_diagram](./Screenshots/block_diagram.png)
 
 ---
 
-## **Build Instructions - From GitHub**
+# **Build Instructions - From GitHub**
 
-### **Vivado:**
+## **Vivado:**
 
 Enter the `Scripts` directory. From the command line run the following:
 
@@ -45,15 +51,15 @@ Enter the `Scripts` directory. From the command line run the following:
 
 The Vivado project will be built in the `Hardware` directory.
 
-### **Vitis:**
+## **Vitis:**
 Create a HelloWorld project using the XSA file generated from the above Vivado project.
 Replace the content of the helloworld.c with the content of ./Software/ddr4_lpddr4.c from this repo.
 
 ---
 
-## **Build Instructions - Manual Steps**
+# **Build Instructions - Manual Steps**
 
-### **Vivado:**
+## **Vivado:**
 
   - Create a new Vivado project for VCK190.
   - Create a new Block Design:
@@ -122,7 +128,8 @@ Replace the content of the helloworld.c with the content of ./Software/ddr4_lpdd
 
   - Add a new AXI NoC instance. This will be used to connect to the LPDDR4:
 
-  ![noc2](./Screenshots/noc2.png)
+    ![noc2](./Screenshots/noc2.png)
+  
     - For this case we don't need to Run Block Automation.
 
   - Double click on the new AXI NoC to do further configuration:
@@ -136,7 +143,7 @@ Replace the content of the helloworld.c with the content of ./Software/ddr4_lpdd
       - Set the number of AXI Slaves/Masters and Clocks to 0.
       - Enable 4 Inter-NoC Slave Interfaces. These interfaces are needed to connect to the first AXI NoC instance that we have added before.
       - Set the Number of Memory Controller Ports to 4 for a maximum possible bandwidth.
-      - Set Interleave Sive in Bytes to 256 at least, to match the NoC packet size.
+      - Set Interleave Size in Bytes to 256 at least, to match the NoC packet size.
       - Map the address region to a region different that the one we used to access the DDR4. In this example we choose the DDR CH1.
 
       ![noc2_general](./Screenshots/noc2_general.png)
@@ -192,13 +199,13 @@ Replace the content of the helloworld.c with the content of ./Software/ddr4_lpdd
 
     ![export_hardware](./Screenshots/export_hardware.png)
 
-    - Make sure to include device image:
+    - Make sure to include the device image:
 
     ![export_hardware2](./Screenshots/export_hardware2.png)
 
     This generates the .XSA file to be used later with Vitis to create an application project.
 
-### **Vitis:**
+## **Vitis:**
   - Open Vitis and create an application project:
 
     ![application_project](./Screenshots/application_project.png)
@@ -221,7 +228,7 @@ Replace the content of the helloworld.c with the content of ./Software/ddr4_lpdd
 
     ![application_project4](./Screenshots/application_project4.png)
 
-  - Open helloworld.c and replace its content by the content of ./Software/ddr4_lpddr4.c:
+  - Open helloworld.c and replace its content with the content of ./Software/ddr4_lpddr4.c:
 
 	![app_code](./Screenshots/app_code.png)
 
@@ -239,7 +246,7 @@ Replace the content of the helloworld.c with the content of ./Software/ddr4_lpdd
 
     - On the new debug configuration, do the following:
 
-      - On Main tab, make sure to set the right target on "Connection" where you have hw_server running:
+      - On the Main tab, make sure to set the right target on "Connection" where you have hw_server running:
 
       ![debug_app3](./Screenshots/debug_app3.png)
 
@@ -258,7 +265,7 @@ Replace the content of the helloworld.c with the content of ./Software/ddr4_lpdd
   ![xsct](./Screenshots/xsct.png)
 
 ---
-## **Troubleshooting / Assistance**
+# **Troubleshooting / Assistance**
 If you find you are having difficulty bringing up one of the designs, or need some additional assistance, please reach out on the [Xilinx Community Forums](https://forums.xilinx.com).
 
 Be sure to [search](https://forums.xilinx.com/t5/forums/searchpage/tab/message?advanced=false&allow_punctuation=false&inactive=false) the forums first before posting, as someone may already have the solution!
