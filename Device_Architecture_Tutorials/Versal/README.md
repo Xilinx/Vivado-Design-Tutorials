@@ -38,6 +38,11 @@
  <td align="center"><a href="./NoC_DDRMC/03-Multiple_DDRMC/">NoC and Multiple DDRMCs</a></td>
  <td>Learn how to instantiate multiple DDRMCs in one design and how to interleave DDRMCs.</td>
  </tr>
+ <tr>
+ <td align="center"><a href="./NoC_DDRMC/04-NoC_Data_Movement_Comparison/">NoC Data Movement Comparison</a></td>
+ <td>This tutorial uses a complex design example to demonstrate how the NoC simplifies the design process for on-chip data movement.
+</td>
+ </tr>
  </table>
 
  ### PCB Design
