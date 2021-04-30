@@ -1,0 +1,104 @@
+# © Copyright 2021 Xilinx, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
+# Set this top directory to match your environment
+# The top directory should be the same as the git repo top directory, i.e. kmeansnoc/
+$topDir = "../"
+
+# Run run.systest script with arguments
+# 1st argument: Whether to boot and run example, or just boot
+#      "runtest"  = Load PDI and run example clustering test
+#      "bootonly" = Load PDI only (can run test manually after this, default)
+# 2nd argument: Verbose or quiet output
+#      "verbose"  = Echo XSDB and Serial output to systest console
+#      "quiet"    = Do not echo XSDB or Serial (default)
+
+# Load PDI and run example test
+execute "run.systest.vck190" "runtest" "quiet"
+
+# Load PDI only (to run test manually)
+#execute "run.systest" "bootonly" "verbose"
+
+# To run a test manually after boot, in systest, run:
+# runTest <n> <k> <r>
+#
+# n is the number of data points (valid range k+1 to 229376)
+# k is the number of clusters (valid range 0 to 63)
+# r  can be given as 0 to use whatever pre-defined data exists in the buffers, or 1 to initialise with random data
+#
+# Example:
+#    runTest 1024 32 1
+#
+#    runTest 50000 50 0
+#
+#
+# The HW buffer area starts at 0x00f2_0000
+# The SW buffer area starts at 0x01f2_0000
+#
+# The format for the buffers is
+#
+# X0
+# ...
+# Xn
+# Y0
+# ...
+# Yn
+# G0
+# ...
+# Gn
+# C0
+# ...
+# CXk
+# XY0
+# ...
+# CYk
+#
+# With 64-bit numbers, a simple 4-node, 2-cluster data buffer could look as follows
+#
+# Address : Data
+#  0x0000 : 0x4   <- X0 (LSB)
+#  0x0004 : 0x0   <- X0 (MSB)
+#  0x0008 : 0x2
+#  0x000C : 0x0
+#  0x0010 : 0x1
+#  0x0014 : 0x0
+#  0x0018 : 0x2   <- X3 (LSB)
+#  0x001C : 0x0   <- X3 (MSB)
+#  0x0020 : 0x1   <- Y0 (LSB)
+#  0x0024 : 0x0   <- Y0 (MSB)
+#  0x0028 : 0x1
+#  0x002C : 0x0
+#  0x0030 : 0x2
+#  0x0034 : 0x0
+#  0x0038 : 0x4   <- Y3 (LSB)
+#  0x003C : 0x0   <- Y3 (MSB)
+#  0x0040 : 0x0   <- G0
+#  0x0044 : 0x0
+#  0x0048 : 0x1   <- G1
+#  0x004C : 0x0
+#  0x0050 : 0x0   <- G2
+#  0x0054 : 0x0
+#  0x0058 : 0x1   <- G3
+#  0x005C : 0x0
+#  0x0060 : 0x1   <- CX0
+#  0x0064 : 0x0
+#  0x0068 : 0x3   <- CX1
+#  0x006C : 0x0
+#  0x0070 : 0x1   <- CY0
+#  0x0074 : 0x0
+#  0x0078 : 0x4   <- CY1
+#  0x007C : 0x0
+#
+
