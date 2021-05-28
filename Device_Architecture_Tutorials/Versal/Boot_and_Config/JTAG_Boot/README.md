@@ -1,5 +1,5 @@
  <tr>
-   <td align="center"><img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/corporate/xilinx-logo.png" width="30%"/><h1>2020.2 Versal JTAG Boot Tutorial</h1>
+   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>2020.2 Versal JTAG Boot Tutorial</h1>
    </td>
  </tr>
 </table>
