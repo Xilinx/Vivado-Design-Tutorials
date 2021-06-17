@@ -1,1 +1,1 @@
-*Temp*
+*Temporary*
