@@ -1,3 +1,20 @@
+# #########################################################################
+#© Copyright 2021 Xilinx, Inc.
+
+#Licensed under the Apache License, Version 2.0 (the "License");
+#you may not use this file except in compliance with the License.
+#You may obtain a copy of the License at
+
+#    http://www.apache.org/licenses/LICENSE-2.0
+
+#Unless required by applicable law or agreed to in writing, software
+#distributed under the License is distributed on an "AS IS" BASIS,
+#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#See the License for the specific language governing permissions and
+#limitations under the License.
+# ###########################################################################
+
+
 #Creating a hierarchy for rp1 and rp2
 group_bd_cells rp1 [get_bd_cells xlconstant_0] [get_bd_cells clk_wizard_0] [get_bd_cells axi_vip_0] [get_bd_cells axi_gpio_0] [get_bd_cells c_counter_binary_0] [get_bd_cells axi_gpio_2] [get_bd_cells proc_sys_reset_1]
 group_bd_cells rp2 [get_bd_cells clk_wizard_1] [get_bd_cells axi_gpio_1] [get_bd_cells axi_vip_1] [get_bd_cells c_counter_binary_1] [get_bd_cells proc_sys_reset_2] [get_bd_cells axi_gpio_3] [get_bd_cells xlconstant_1]
