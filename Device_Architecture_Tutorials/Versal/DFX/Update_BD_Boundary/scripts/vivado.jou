@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2021.1 (64-bit)
+# SW Build 3247384 on Thu Jun 10 19:36:07 MDT 2021
+# IP Build 3246043 on Fri Jun 11 00:30:35 MDT 2021
+# Start of session at: Thu Jul  1 18:29:27 2021
+# Process ID: 144893
+# Current directory: /group/xcoswmktg3/gpocklas/other_projects/git_local/update_bd_boundary/scripts
+# Command line: vivado -mode tcl -source run_all.tcl
+# Log file: /group/xcoswmktg3/gpocklas/other_projects/git_local/update_bd_boundary/scripts/vivado.log
+# Journal file: /group/xcoswmktg3/gpocklas/other_projects/git_local/update_bd_boundary/scripts/vivado.jou
+#-----------------------------------------------------------
+source run_all.tcl

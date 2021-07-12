@@ -1,0 +1,6 @@
+
+set_property PACKAGE_PIN BF33 [get_ports [list {IOBUF_IO_IO[0]}]]
+set_property IOSTANDARD SSTL12 [get_ports [list {IOBUF_IO_IO[0]}]]
+
+set_property PACKAGE_PIN BF29 [get_ports [list {GPIO_0_tri_o[0]}]]
+set_property IOSTANDARD SSTL12 [get_ports [list {GPIO_0_tri_o[0]}]]
