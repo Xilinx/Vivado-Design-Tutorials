@@ -15,7 +15,7 @@ In DFX flow, it is a fundemental requirement that all reconfigurable modules ass
 
 # Design Flow
 
-Follow Design flow from tutorial "1RP_AXI_GPIO_in_RP_Interface_INI" to become familiar with the IPI based DFX design flow using block design container feature. This is the similar flow used for this tutorial. 
+Follow Design flow from tutorial "1RP_AXI_GPIO_in_RP_Interface_INI" to become familiar with the IPI based DFX design flow using block design container feature. This is the similar flow used for this tutorial.
 
 ## IPI
 - A simple 1RP based design is used to demonstrate the feature.
@@ -39,7 +39,7 @@ Follow Design flow from tutorial "1RP_AXI_GPIO_in_RP_Interface_INI" to become fa
   <img src="./images/rp1rm2.png?raw=true" alt="rp1rm2"/>
 </p>
 
-- We also create a new reconfigurable module rp1rm3.bd using the same steps mentioned in tutorial. However, Please note that we have also added a new port to the rp1rm3.bd. The S_AXI and S_AXI1 is inherited when rp1rm3 is created using "Create_reconfigurable" option of the DFX BDC rp1.The new interface port S_AX1_0 is manually added in the script followed by new IPs : axi_gpio_1 and xlconstant_1. 
+- We also create a new reconfigurable module rp1rm3.bd using the same steps mentioned in tutorial. However, Please note that we have also added a new port to the rp1rm3.bd. The S_AXI and S_AXI1 is inherited when rp1rm3 is created using "Create_reconfigurable" option of the DFX BDC rp1.The new interface port S_AX1_0 is manually added in the script followed by new IPs : axi_gpio_1 and xlconstant_1.
 
 `source create_rp1rm3.tcl`
 
@@ -55,13 +55,13 @@ Follow Design flow from tutorial "1RP_AXI_GPIO_in_RP_Interface_INI" to become fa
 
 - Once the boundary is unlocked, select the Top BD, right click the rp1 BDC and select "Update Boundary of Sources..."
 
-`source update_rm_boundary.tcl` 
+`source update_rm_boundary.tcl`
 
 <p align="center">
   <img src="./images/update_bd_boundary.png?raw=true" alt="update_bd_boundary"/>
 </p>
 
-- In the "update Boundary" window, you can decide which reconfigurable module can be used as source to update the remaning reconfigurable module's ports. In this example, we pick rp1rm3.bd as the source and remaining sources rp1rm1.bd and rp1rm2.bd are updated to match with it. 
+- In the "update Boundary" window, you can decide which reconfigurable module can be used as source to update the remaning reconfigurable module's ports. In this example, we pick rp1rm3.bd as the source and remaining sources rp1rm1.bd and rp1rm2.bd are updated to match with it.
 
 <p align="center">
   <img src="./images/update_bd_boundary_from_source.png?raw=true" alt="update_bd_boundary_from_source"/>
@@ -81,7 +81,7 @@ Follow Design flow from tutorial "1RP_AXI_GPIO_in_RP_Interface_INI" to become fa
 
 - In this design, since a new interface is added to the reconfigurable partition, you need to make sure proper decoupling is added in the static region for the new interface. For that, we update the top BD.
 
-`source update_top_bd.tcl` 
+`source update_top_bd.tcl`
 
 <p align="center">
   <img src="./images/update_static.png?raw=true" alt="update_static"/>
@@ -90,10 +90,12 @@ Follow Design flow from tutorial "1RP_AXI_GPIO_in_RP_Interface_INI" to become fa
 - You may manually update the aperture for each BD if required.
 `source match_aperture.tcl`
 
-- Once IPI design creation is complete, you can implement the design. Note that, even though some ports of the reconfigurable module rp1rm1 and rp1rm2 are loadless, it is ok since the DFX flow automatically legalizes the netlist by inserting a LUT1 during implementation (opt_design). 
+- Once IPI design creation is complete, you can implement the design. Note that, even though some ports of the reconfigurable module rp1rm1 and rp1rm2 are loadless, it is ok since the DFX flow automatically legalizes the netlist by inserting a LUT1 during implementation (opt_design).
 
 `source run_impl.tcl`
 
 <p align="center">
   <img src="./images/schematic_LUT1.png?raw=true" alt="schematic_LUT1"/>
 </p>
+
+<p align="center"><sup>Copyright&copy; 2021 Xilinx</sup></p>

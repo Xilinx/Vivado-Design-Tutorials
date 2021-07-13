@@ -7,7 +7,8 @@ GPIO in Static Region connected to Constant: 0XC00100F
 GPIO in RP1RM1 connected to Constant: 0XFACEFEED
 GPIO in RP1RM2 connected to Constant: 0XFEEDC0DE
 
-Static-RP interface is using NoC INI (Inter NoC Interconnect). 
+Static-RP interface is using NoC INI (Inter NoC Interconnect).
   Hence there is no need of additional DFX Decoupler in the static region.
 
 Currently BRAMs are not initialized to any memory initialization value in the design.
+<p align="center"><sup>Copyright&copy; 2021 Xilinx</sup></p>
