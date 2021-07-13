@@ -13,13 +13,13 @@
 
 This design demonstrates different allowed NoC connections allowed in a DFX design. Broadly, there are three main categories demo-ed in this example design.
 - NoC Master (NMU) in static region drives NoC Slave (NSU) in reconfigurable partition (RP1).
-- NoC Master(NMU) in reconfigruable partition  (RP2) drives NoC Slave (NSU) in the static region. 
+- NoC Master(NMU) in reconfigruable partition  (RP2) drives NoC Slave (NSU) in the static region.
 - NoC Master in one reconfigurable partition (RP3) driving NoC Slave in another reconfigurable partition (RP4) through a static logical NoC instance.
-- RM-Static data transfer is done using NoC INI ports. Hence no PL based decoupler is used. 
+- RM-Static data transfer is done using NoC INI ports. Hence no PL based decoupler is used.
 
 # Design Flow
 
-Follow the design flow steps from tutorials" 1RP design 1RP_AXI_GPIO_in_RP_Interface_INI" and "2RP_GPIO_BRAM_in_RP_Interface_INI" to get familiar with IPI based DFX design creations in Vivado. 
+Follow the design flow steps from tutorials" 1RP design 1RP_AXI_GPIO_in_RP_Interface_INI" and "2RP_GPIO_BRAM_in_RP_Interface_INI" to get familiar with IPI based DFX design creations in Vivado.
 
 ## Bottom-Up IPI Design Creation Approach
 
@@ -62,4 +62,6 @@ This interface demonstrates the communication between multiple reconfigurable pa
 2. Download the rp1rm2 partial PDI . After the successful download, you should observe BRAM values back to its initialization value (0x0).
 3. AXI Traffic Generator in RP2 is configured in "Static" Mode without "Address Sweep"  in rp2rm1. Enable this and observe the data in BRAM of Static Region.
 4. Download the rp2rm2 partial PDI. In rp2rm2, AXI TG is configured in "Static" mode with "Address Sweep" enabled. Enable the AXI TG and observe the data in BRAM of static region across specific address range.
-5. In RP3, AXI TG is configured again in "Static mode" with AXIS interface to static. In the RP4, AXI Stream FIFO is the slave that recieves the data from RP3 through static LNOC. 
+5. In RP3, AXI TG is configured again in "Static mode" with AXIS interface to static. In the RP4, AXI Stream FIFO is the slave that recieves the data from RP3 through static LNOC.
+
+<p align="center"><sup>Copyright&copy; 2021 Xilinx</sup></p>
