@@ -99,6 +99,7 @@ Likewise, user can create interface port for AXI4Lite too if needed.
 
 Please note the naming convention used to distinguish the ports. For ease of identification, we have provided names that end with SLR01 for the ports that communicate b/w SLR0 and SLR1, SLR12 for ports that communicate b/w SLR1  and SLR2, SLR23 for ports that communicate b/w SLR2 and SLR3. It is completely upto the user to provide any names that enables them to identify them later in the flow. One of the main reasons to focus on the naming is that , during abstract shell based compile, each reconfigurable partitions is compiled in parallel. Hence developer for SLR0 RP compile need not see SLR1 RP IPs. Hence a right naming convention for reconfigurable partition's ports will enable to later connect IPs to right AXI interface ports. 
 
+You need not explicitly use create_bd_intf_ports explicitly using TCL. Rather if you have IP connections to each of the BD interface port, let validate_bd_design ensure parameters for the ports and matches it with the IP connected to it. 
 
 ### Usage of AXI VIP and AXI Register Slice in the training RM
 
