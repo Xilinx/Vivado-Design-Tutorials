@@ -18,6 +18,12 @@ This tutorial demonstrates a  methodology to hierarchically arrange your design 
 This methodology leverages the abstract shell technology available on Xilinx Ultrascale+ families from Vivado 2020.2. Abstract shell works on the top of DFX technology. Please read more about the abstract shell feature in UG909 and UG947. 
 
 # Workflow of the tutorial 
+
+<p align="center">
+  <img src="./images/flowchart.png?raw=true" alt="flowchart"/>
+</p>
+
+
 1. Hierarchically partition the design into multiple hierarchies. This design uses a VU13p that has 4 SLRs. Hence the design is divided into 4 partitions. Each partition is defined as a reconfigurable partition.
 2. Hierarchical arrangement of IPs are very easily acheivable using Vivado IP Integrator (IPI). Also, from 2021.1 onwards, Vivado IPI supports Dynamic Function eXchange (DFX) using Block Design Container (BDC) feature. Hence this tutorial uses IPI BDC to create hierarchies and reconfigurable partitions.
 3. This tutorial assumes that all  SLR crossings are AXI based. These SLR crossing IPs are in the static region in a seperate hierarchy. These will be locked down in the static region after initial implementation. If your SLR crossings are not AXI based , you still can use the same approach mentioned in this tutorial to lock them down in the static region.  
@@ -31,6 +37,13 @@ This methodology leverages the abstract shell technology available on Xilinx Ult
 
 ## Create a design by partitioning into multiple hierarchies.
 This tutorial uses Vivado IPI to create 4 reconfigurable partitions and a seperate hierarchy for registers between these hierarchies.
+
+<p align="center">
+  <img src="./images/block_diagram.png?raw=true" alt="block_diagram"/>
+</p>
+
+
+
 
 ## About AXI Register Slices for SLR crossing 
 This tutorial uses AXI based SLR crossing registers to transfer signals across SLRs. SLR crossing registers are connected in cascade as recommended in the [AXI Regslice Documentation Guide](https://www.xilinx.com/support/documentation/ip_documentation/axi_register_slice/v2_1/pg373-axi-register-slice.pdf) page 24.
