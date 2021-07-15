@@ -115,6 +115,52 @@ The AXI based interface ports in the BD currently require an endpoint inside the
   <img src="./images/axis_vip_master.png?raw=true" alt="axis_vip_master"/>
 </p>
 
+### Creation of Embedded IO Ports
+
+In Vivado, even though IO buffers are embedded inside a hierarchy, the ports are still inferred at the top. For DFX designs, it is required to make all ports available in the initial implementation, including that of embedded IOBs. This is because of the requirement that, in DFX flow, after initial implementation, the reconfigurable module's ports cannot be modified.  In this design, we have IPs like DDR and QDMA, both having embedded IOBs inside IP. However, we do not want to implement large IPs inside reconfigurable partition during initial implementation. Intent of Initial implementation is only to lock down the static region and boundary to reconfigurable partition. This section describes the approach taken in this tutorial to make those ports available in the design, even though actual IP is not compiled.
+
+There are two approaches user can do to create ports for the IPs which have embedded IOBs, but do not want to implement those IPs in the initial implementation. 
+
+#### Approach-1
+
+1. Instantiate the QDMA and DDR IP in your reconfigurable partition's block design container.
+2. Customize the IP to get the right configuration for the ports. 
+3. Once customization of IP is complete, make the required ports as External.
+4. Validate the BD so that external ports get the right properties and width from the IP.
+5. Once validation is complete and ports are accurate to the requirement of IPs, lock the the bd interface port using the HDL attribute property.
+    For example:
+```
+  set bd_intf_prts [get_bd_intf_ports  CH0_DDR4_rp2]`
+  foreach bd_inft_prt $bd_intf_prts { set_property HDL_ATTRIBUTE.LOCKED TRUE [get_bd_intf_ports $bd_inft_prt]}
+```
+6. Once ports are locked, validate the RP BDCs again.
+7. Go to the top BD and  upgrade the BDC cells to the latest version (using refresh modules banner in IPI). 
+8. The newly created embedded IOBs ports will be visible as new ports of BDC at the top.
+9. Mark those ports as external at the top BD to make them top level IO pads. 
+10. Validate the top BD and apply HDL_ATTRIBUTE.LOCKED on the respective BD interface ports at the top.
+11. Once validation of top BD is complete, you may go back to RP BDCs and delete those IPs from the BDC. Save and revalidate both RP BDCs and top BD to update the design.
+12. You should observe that the ports of embedded IOBs should have same width as inferred by the IP, even though IP does not exist now. This is because we used HDL_ATTRIBUTED.LOCKED to lock them down.
+
+#### Approach-2
+1. Without instantiating IPs, if you want to use default port map for such IPs, you may go ahead and use create_bd_intf_port command. 
+Example:
+
+`set C0_DDR4_1 [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:ddr4_rtl:1.0 C0_DDR4_1 -default_portmap ]`
+
+2. To do the above, you need to know the VLNV name for the IPs. You can get the VLNV property of the IP in the Block Properties while the block diagram is open.  
+
+<p align="center">
+  <img src="./images/vlnv_ip.png?raw=true" alt="vlnv_ip"/>
+</p>
+
+3. You can also get VLNV property using the TCL Command while the corresponding BD is open.  
+
+```
+get_property VLNV [get_bd_cells /static_region/axi_bram_ctrl_2]
+xilinx.com:ip:axi_bram_ctrl:4.1
+```
+
+Please note that intent of approaches provided above is to make sure you get the right port definition in your reconfigurable module boundary and at the top, when the corresponding IP does not exist during initial implementation. If the IPs are present in the initial implementation, parameter propogation in the IPI will automatically match the ports to the IPs. 
 
 ### Referencing Reconfigurable Partition BDs with Top BD
 
