@@ -36,13 +36,11 @@ This methodology leverages the abstract shell technology available on Xilinx Ult
 # Individiual Steps 
 
 ## Create a design by partitioning into multiple hierarchies.
-This tutorial uses Vivado IPI to create 4 reconfigurable partitions and a seperate hierarchy for registers between these hierarchies.
+This tutorial uses Vivado IPI to create 4 reconfigurable partitions and a seperate hierarchy for registers between these hierarchies. Static region need not necessary be one single hierarchy. However, for making floorplanning constraints easier, it is recommended to keep one hierarchy for static region. 
 
 <p align="center">
   <img src="./images/block_diagram.png?raw=true" alt="block_diagram"/>
 </p>
-
-
 
 
 ## About AXI Register Slices for SLR crossing 
@@ -55,7 +53,7 @@ The regslices are configured to get SLR crossing endpoints as registers which wi
   <img src="./images/slr_crossing_axi_reg.png?raw=true" alt="slr_crossing_axi_reg"/>
 </p>
 
-If your design does not use AXI based protocol to cross SLRs, you can also use simple one or two stage register pipelines to cross the SLRs. 
+If your design does not use AXI based protocol to cross SLRs, you can also use simple one or two stage register pipelines to cross the SLRs. You can either use a TCL based approach to lock the SLR crossing registers to LAGUNA/adjacent CLB column or use a fine-grained pblock approach used in this tutorial. Whatever approach user choose to guide the placer to lock SLR crossing registers, intent is to make sure there are no zigzag placement for SLR crossing registers.
 
 ## About SLR crossing registers hierarchy
 
@@ -322,13 +320,18 @@ set_property IS_SOFT FALSE [get_pblocks slr0_cross_column0]
  ### Placement of Static Region 
  In addition to SLR crossing registers, if your static region has more logic, it is recommended to floorplan them too. In this tutorial, we only have a clocking wizard IP and 3 reset blocks. Since the logic is very minimal, we are not adding new pblock for base static region. Otherwise, it is recommended to also control the static region placement with additional pblock constraints. 
 
+### USER_SLL_REG constraint on SLR crossing registers
+
+ USER_SLL_REG is a soft constraint to guide the placer to keep SLR crossing registers in the LAGUNA site. Please refer [UG949: Ultrasfast Design Methodology Guide](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2021_1/ug949-vivado-design-methodology.pdf) Page 288. We have enabled USER_SLL_REG on most of the SLR crossing registers. Please refer misc.xdc in the constraints folder to see the constraint. However, Please note that we have disabled USER_SLL_REG on some SLR crossing registers away from the clock root ( clock root is at the center of device for clock driving SLR crossing registers). This is to avoid hold violation which can happen  from LAGUNA TXRREG -> LAGUNA RXREG sites (dedicated SLL nodes) when they are far away from CLOCK ROOT. Ideally you should try to keep both ends of SLR crossing registers on LAGUNA site. However, if you observe hold violations at the edge of the device, offload one end of the pipeline to adjacent CLB column of LAGUNA site so that router can fix hold violation with deroutes.    
 
 ## Implementation
+
 Once floorplanning is done, implement the design. Given below shows the device view after the implementation.
 
 <p align="center">
   <img src="./images/device_view_initial_implementation.png?raw=true" alt="device_view_initial_implementation"/>
 </p>
+
 
 ## Abstract Shell Creation 
 Once initial implementation is complete, create an abstract shell for each reconfigurable partition using write_abstract_shell command.
