@@ -42,6 +42,12 @@ This tutorial uses Vivado IPI to create 4 reconfigurable partitions and a sepera
   <img src="./images/block_diagram.png?raw=true" alt="block_diagram"/>
 </p>
 
+## Using Vivado IP Integrator
+
+This design uses block design container feature in IP integrator to define the reconfigurable partitions. A block design container is created for each reconfigruable partition. SLR crossing registers between RPs are only a hierrchy at the top BD. User is free to choose their own design entry to create hierarchies. 
+
+The design has 4 Block Design Containers: rp_slr0, rp_slr1, rp_slr2 and rp_slr3 . 
+
 
 ## About AXI Register Slices for SLR crossing 
 This tutorial uses AXI based SLR crossing registers to transfer signals across SLRs. SLR crossing registers are connected in cascade as recommended in the [AXI Regslice Documentation Guide](https://www.xilinx.com/support/documentation/ip_documentation/axi_register_slice/v2_1/pg373-axi-register-slice.pdf) page 24.
@@ -78,11 +84,6 @@ Also, This tutorial design configured the AXI register slices in the default mod
   <img src="./images/slr01_hierarchy.png?raw=true" alt="slr01_hierarchy"/>
 </p>
 
-## Using Vivado IP Integrator
-
-This design uses block design container feature in IP integrator to define the reconfigurable partitions. A block design container is created for each reconfigruable partition. SLR crossing registers between RPs are only a hierrchy at the top BD. User is free to choose their own design entry to create hierarchies. 
-
-The design has 4 Block Design Containers: rp_slr0, rp_slr1, rp_slr2 and rp_slr3 . 
 
 ## Creation of BDCs for each SLR RP 
 
@@ -218,6 +219,10 @@ Once you source the TCL, proc will be available in the workspace
 You can create a new hierarchy using the proc:
 
 `create_hier_cell_slr1_to_2_crossing / slr1_to_2_crossing`
+
+## BSCAN ports for Debug
+
+The example design also demonstrates how to add BSCAN ports to the reconfigurable partition for debugging of any future RMs. For DFX designs, BSCAN ports must be part of the reconfigurable partition in the initial implementation itself, whether they are used or not.  These BSCAN ports are connected to debug bridge in the static region in the initial implementation itself. 
 
 
 ## Generate the Targets, DFX Wizard and OOC Synthesis
