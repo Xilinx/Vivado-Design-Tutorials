@@ -9,6 +9,7 @@
  </tr>
 </table>
 
+
 # Introduction
 This tutorial demonstrates a  methodology to hierarchically arrange your design to achieve maximum QoR with minimal compile time for designs targeting multi SLR devices in Ultrascale+. Target of this methodology is to achieve the following:
 - Minimal compile time by enabling parallel compilation of each SLR. 
@@ -33,6 +34,8 @@ This methodology leverages the abstract shell technology available on Xilinx Ult
 7. Populate the reconfigurable partition BDs with the IPs, synthesize it,  link it with the abstract shell. Implement the corresponding reconfigurable partition in the context of its abstract shell. This step can happen in parallel as each reconfiguarble partition can be OOC synthesized independently, and implemented with its abstract shell in parallel. 
 8. Once abstract shell based implementation is complete, write out corresponding implemented cell DCPs. These implemented cell DCPs are linked together to create a final full DCP. 
 
+
+#individual-steps
 # Individiual Steps 
 
 ## Create a design by partitioning into multiple hierarchies.
