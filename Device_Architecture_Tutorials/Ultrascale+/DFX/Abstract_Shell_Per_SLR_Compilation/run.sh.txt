@@ -14,8 +14,35 @@
 #limitations under the License.
 # ###########################################################################
 
+## 1: Initial Implementation
 cd scripts/initial_compile
 vivado -mode tcl -source run_all.tcl
+close_project
 
-cd ../slr0_compile
-vivado -mode tcl -source slr0_compile.tcl
+#Steps 2 through 5 can be done in parallel. They are implementation of each SLR content using its abstract shell.
+
+## 2: SLR0 Implementation
+cd ../slr0_rm2_compile
+source slr0_compile.tcl
+close_project
+
+## 3: SLR0 Implementation
+cd ../slr1_rm2_compile
+source slr1_compile.tcl
+close_project
+
+## 4: SLR0 Implementation
+cd ../slr2_rm2_compile
+source slr2_compile.tcl
+close_project
+
+## 5: SLR3 Implementation
+cd ../slr3_rm2_compile
+source slr3_compile.tcl
+close_project
+
+#Once steps 2 through 6 are complete, implement step 6 to merge routed cell DCPs of all SLRs with blackboxed DCP to create a final full bitstream
+## 6: Final Bitstream Merge
+cd ../link_final_dcp
+source link_dcps.tcl
+close_project
