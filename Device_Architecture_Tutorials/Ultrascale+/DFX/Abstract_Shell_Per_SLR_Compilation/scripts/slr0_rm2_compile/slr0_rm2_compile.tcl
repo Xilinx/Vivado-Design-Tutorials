@@ -24,12 +24,12 @@ set_property USE_BLACKBOX 0 [get_pr_configuration config_1]
 set_property PR_CONFIGURATION config_1 [get_runs impl_1]
 
 #Modify the BD with your IPs
-open_bd_design {./slr0_rm2_compile/slr0_rm2_compile.srcs/sources_1/bd/rp_slr0/rp_slr0.bd}
+open_bd_design {../../output/slr0_rm2_compile/slr0_rm2_compile.srcs/sources_1/bd/rp_slr0/rp_slr0.bd}
 source modify_slr0_bd_rm2.tcl
 
 #Add constraints specific for implementing this partition. Please note you do not need to add pblock constraints again because it is already present in abstract shell
 #Add constraints for slr0_rm2 xdc
-add_files -fileset constrs_1 -norecurse ../../constraints/slr0_compile/slr0_rm2_misc.xdc
+add_files -fileset constrs_1 -norecurse ../../constraints/slr0_rm2_compile/slr0_rm2_misc.xdc
 import_files -fileset constrs_1 [get_files slr0_rm2_misc.xdc]
 
 #Launch OOC synthesis of BD. By default, we use OOC per IP mode for synthesis. This is recommended to get maximum parallelization. 
