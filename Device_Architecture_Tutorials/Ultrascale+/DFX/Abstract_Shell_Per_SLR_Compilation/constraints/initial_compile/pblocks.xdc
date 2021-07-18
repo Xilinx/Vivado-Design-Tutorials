@@ -26,6 +26,7 @@ resize_pblock [get_pblocks rp_slr1] -add {RAMB18_X0Y168:RAMB18_X13Y191 RAMB18_X0
 resize_pblock [get_pblocks rp_slr1] -add {RAMB36_X0Y84:RAMB36_X13Y95 RAMB36_X0Y48:RAMB36_X13Y59}
 resize_pblock [get_pblocks rp_slr1] -add {URAM288_X0Y112:URAM288_X4Y127 URAM288_X0Y64:URAM288_X4Y79}
 resize_pblock [get_pblocks rp_slr1] -add {CLOCKREGION_X0Y5:CLOCKREGION_X7Y6}
+resize_pblock [get_pblocks rp_slr1] -remove [get_sites CONFIG_SITE*]
 set_property SNAPPING_MODE ON [get_pblocks rp_slr1]
 
 create_pblock rp_slr2
