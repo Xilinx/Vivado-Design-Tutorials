@@ -7,7 +7,7 @@ update_compile_order -fileset sources_1
 
 ###Add the pblock constraints
 add_files -fileset constrs_1 -norecurse ../../constraints/initial_compile/pblocks.xdc
-add_files -fileset constrs_1 -norecurse constraints/initial_compile/misc.xdc
+add_files -fileset constrs_1 -norecurse ../../constraints/initial_compile/misc.xdc
 import_files -fileset constrs_1 [get_files pblocks.xdc]
 import_files -fileset constrs_1 [get_files misc.xdc]
 
