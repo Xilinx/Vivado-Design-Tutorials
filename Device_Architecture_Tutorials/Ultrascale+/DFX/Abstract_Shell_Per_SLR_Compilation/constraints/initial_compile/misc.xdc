@@ -15,6 +15,7 @@ set_property USER_SLL_REG false [get_cells -hier -filter {PRIMITIVE_GROUP == REG
 set_property USER_SLL_REG false [get_cells -hier -filter {PRIMITIVE_GROUP == REGISTER && PARENT =~ "*ax*_register_slice_26/*"}] 
 set_property USER_SLL_REG false [get_cells -hier -filter {PRIMITIVE_GROUP == REGISTER && PARENT =~ "*ax*_register_slice_24/*"}] 
 set_property USER_SLL_REG false [get_cells -hier -filter {PRIMITIVE_GROUP == REGISTER && PARENT =~ "*ax*_register_slice_22/*"}] 
+set_property USER_SLL_REG false [get_cells -hier -filter {PRIMITIVE_GROUP == REGISTER && PARENT =~ "*ax*_register_slice_20/*"}] 
 
 #IO properties for ports
 set_property IOSTANDARD LVCMOS18 [get_ports ext_reset_in_0]
@@ -23,4 +24,8 @@ set_property PACKAGE_PIN K12 [get_ports ext_reset_in_0]
 set_property IOSTANDARD LVCMOS18 [get_ports clk_in1_0]
 set_property PACKAGE_PIN R14 [get_ports clk_in1_0]
 
+#Locking the BSCAN in master SLR SLR1
+set_property LOC CONFIG_SITE_X0Y1 [get_cells design_1_i/static_region/debug_bridge_0/inst/bs_switch/inst/BSCAN_SWITCH.N_EXT_BSCAN.bscan_inst/SERIES7_BSCAN.bscan_inst]
 
+#Since CONFIG_SITE_X0Y1 is removed from rp_slr0, adjacent CLB column will also be removed from rp_slr0 pblock. We need to avoid any static logic placement in this island to avoid timing closure challenges
+set_property PROHIBIT TRUE [get_sites -range SLICE_X220Y300:SLICE_X220Y359]
