@@ -4,7 +4,7 @@
    </td>
  </tr>
  <tr>
- <td align="center"><h1>RCLK Sharing between 2 reconfigurable partitions</h1>
+ <td align="center"><h1>Clock Region Sharing between 2 reconfigurable partitions</h1>
  </td>
  </tr>
 </table>
