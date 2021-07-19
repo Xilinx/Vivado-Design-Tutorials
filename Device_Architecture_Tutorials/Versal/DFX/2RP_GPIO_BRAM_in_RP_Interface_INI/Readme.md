@@ -1,3 +1,14 @@
+﻿<table>
+ <tr>
+   <td align="center"><img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/corporate/xilinx-logo.png" width="30%"/><h1>Versal DFX Tutorial</h1>
+   </td>
+ </tr>
+ <tr>
+ <td align="center"><h1>2 RP Design with NoC INI in the static-RM interface</h1>
+ </td>
+ </tr>
+</table>
+
 This Versal DFX design has 2 RPs:
   AXI GPIO in 1st RP
   AXI BRAM in 2ns RP
