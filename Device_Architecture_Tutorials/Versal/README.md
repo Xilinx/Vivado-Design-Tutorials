@@ -19,6 +19,40 @@
  </tr>
  </table>
 
+
+### Dynamic Function eXchange
+
+ <table style="width:100%">
+ <tr>
+ <td width="35%" align="center"><b>Tutorial</b>
+ <td width="65%" align="center"><b>Description</b>
+ </tr>
+ <tr>
+ <td align="center"><a href="./DFX/1RP_AXI_GPIO_in_RP_Interface_INI/"> Single Reconfigurable Partition Design using Block Design Container </a></td>
+ <td>This tutorial introduces the block design container feature in Vivado and how it can be leveraged to create DFX designs in Versal</td>
+ </tr>
+  <tr>
+ <td align="center"><a href="./DFX/2RP_GPIO_BRAM_in_RP_Interface_INI/">Multiple Reconfigurable Partitions Design using Block Design Container</a></td>
+ <td>This tutorial demonstrates how to create design with multiple reconfigurable partitions using block design container.</td>
+ </tr>
+ <tr>
+ <td align="center"><a href="./DFX/2RPs_Sharing_ClockRegion/"> Clock Region Shared by two Reconfigurable Partitions</a></td>
+ <td>This tutorial demonstrates a floorplan in Versal that allows sharing a clock region b/w two reconfigurable partitions.</td>
+ </tr>
+  <tr>
+ <td align="center"><a href="./DFX/Debug_JTAG_HSDP/"> JTAG and HSDP based debugging for Versal DFX Designs</a></td>
+ <td>This tutorial demonstrates a debug methodology for DFX designs in Versal using JTAG and HSDP.</td>
+ </tr>
+ <tr>
+ <td align="center"><a href="./DFX/Embedded_IOB_inside_RM/"> Embedded IOBs inside the Reconfigurable Partition</a></td>
+ <td>This tutorial demonstrates a methodology to insert embedded IOBs inside reconfigurable partition using utility buffer of Vivado.</td>
+ </tr>
+ <tr>
+ <td align="center"><a href="./DFX/NoC_INI_Static_RM_Interface/"> NoC connections in DFX designs</a></td>
+ <td>This tutorial introduces multiple NoC connectivity options for DFX designs to transfer data b/w static and reconfiurable partition.</td>
+ </tr>
+ </table>
+
 ### Network-on-Chip (NoC) and DDR Memory Design and Optimization
 
  <table style="width:100%">
