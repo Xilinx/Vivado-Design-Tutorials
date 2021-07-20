@@ -17,7 +17,7 @@ In DFX flow, it is a fundemental requirement that all reconfigurable modules ass
 
 Follow Design flow from tutorial "1RP_AXI_GPIO_in_RP_Interface_INI" to become familiar with the IPI based DFX design flow using block design container feature. This is the similar flow used for this tutorial.
 
-## IPI
+## IP Integrator
 - A simple 1RP based design is used to demonstrate the feature.
 - Observe that there are two AXI interfaces to reconfigurable partition: S_AXI and S_AXI1
 - The GPIO is connected to a simple constant value IP confgured to "0XFACEFEED"
