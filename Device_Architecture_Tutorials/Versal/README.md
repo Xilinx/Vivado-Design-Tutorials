@@ -20,7 +20,7 @@
  </table>
 
 
-### Dynamic Function eXchange
+### Dynamic Function eXchange (DFX)
 
  <table style="width:100%">
  <tr>
