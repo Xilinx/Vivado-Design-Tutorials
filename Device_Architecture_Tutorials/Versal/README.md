@@ -45,7 +45,7 @@
  </tr>
  <tr>
  <td align="center"><a href="./DFX/Embedded_IOB_inside_RM/"> Embedded IOBs inside the Reconfigurable Partition</a></td>
- <td>This tutorial demonstrates a methodology to insert embedded IOBs inside reconfigurable partition using utility buffer of Vivado.</td>
+ <td>This tutorial demonstrates a methodology to insert embedded IOBs inside reconfigurable partition using utility buffer IP in Vivado.</td>
  </tr>
  <tr>
  <td align="center"><a href="./DFX/NoC_INI_Static_RM_Interface/"> NoC connections in DFX designs</a></td>
