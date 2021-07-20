@@ -51,6 +51,14 @@
  <td align="center"><a href="./DFX/NoC_INI_Static_RM_Interface/"> NoC connections in DFX designs</a></td>
  <td>This tutorial introduces multiple NoC connectivity options for DFX designs to transfer data b/w static and reconfiurable partition.</td>
  </tr>
+  <tr>
+ <td align="center"><a href="./DFX/Update_BD_Boundary/"> Update BD Boundary for DFX Designs</a></td>
+ <td>If one of the reconfigurable module is modified to add or remove ports, all the remaining reconfigurable modules associated with that partition can also be updated to match with exact same ports using the command called "update_bd_boundaries".</td>
+ </tr>
+   <tr>
+ <td align="center"><a href="./DFX/VNOC_Sharing/"> VNOC column sharing b/w multiple RPs</a></td>
+ <td>This design desmonstrates that VNOC clock tiles can be shared by two reconfigurable partitions. VNOC clock tiles are automatically included in the clock routing footprint of the reconfigurable partition by the tool.</td>
+ </tr>
  </table>
 
 ### Network-on-Chip (NoC) and DDR Memory Design and Optimization
