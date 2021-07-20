@@ -37,7 +37,7 @@ Get familiar with the IPI BDC based DFX flow in Vivado using example design "2RP
   <img src="./images/vnoc_sharing_schematic.png?raw=true" alt="vnoc_sharing_schematic"/>
 </p>
 
--  This is the device view of a clock region being shared by two reconfiurable partitions: above and below the RP. Notice that RCLK row is being shared by internal clock nets from both the partitions.
+-  This is the device view of a clock region being shared by two reconfiurable partitions: above and below the RCLK row. Notice that RCLK row is being shared by internal clock nets from both the partitions.
 
 <p align="center">
   <img src="./images/vnoc_tile_sharing.png?raw=true" alt="vnoc_sharing"/>
