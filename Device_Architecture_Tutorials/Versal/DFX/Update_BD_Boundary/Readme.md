@@ -27,7 +27,7 @@ Follow Design flow from tutorial "1RP_AXI_GPIO_in_RP_Interface_INI" to become fa
 `source enable_bdc_dfx.tcl`
 
 <p align="center">
-  <img src="./images/top_bd.png.png?raw=true" alt="top_bd"/>
+  <img src="./images/top_bd.png?raw=true" alt="top_bd"/>
 </p>
 
 - This is the block diagram of second reconfigurable module : rp1rm2.bd
