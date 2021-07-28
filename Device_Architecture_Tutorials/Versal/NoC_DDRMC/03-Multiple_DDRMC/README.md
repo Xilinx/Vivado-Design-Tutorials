@@ -1,6 +1,6 @@
 <table>
  <tr>
-   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>2020.2 Versal™ Network on Chip/Multiple DDR Memory Controllers Tutorial</h1>
+   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>2021.1 Versal™ Network on Chip/Multiple DDR Memory Controllers Tutorial</h1>
    </td>
  </tr>
 </table>
@@ -32,7 +32,7 @@ Following this tutorial, brings the following awareness:
 
 - Board: VCK190 (same steps applied for VMK180)
 
-- Tools: Vivado and Vitis 2020.2
+- Tools: Vivado and Vitis 2021.1
 
 ---
 
@@ -47,7 +47,7 @@ Following this tutorial, brings the following awareness:
 
 Enter the `Scripts` directory. From the command line run the following:
 
-`vivado -source *top.tcl`
+`vivado -source multiple_mc_design_bd.tcl`
 
 The Vivado project will be built in the `Hardware` directory.
 
@@ -75,7 +75,9 @@ Replace the content of the helloworld.c with the content of ./Software/ddr4_lpdd
   - Run Block Automation:
 
     ![run_block_automation](./Screenshots/run_block_automation.png)
-    - Enable 1 Memory Controller (this will be used to connect the DDR4 device on the board):
+    - Set Design Flow as Full System.
+    - Make sure to set Apply Board Preset to Yes.
+    - Enable 1 Memory Controller, with type set to DDR and Number to 1 (this will be used to connect the DDR4 device on the board):
 
     ![run_block_automation2](./Screenshots/run_block_automation2.png)
 
@@ -83,48 +85,19 @@ Replace the content of the helloworld.c with the content of ./Software/ddr4_lpdd
 
     ![run_block_automation3](./Screenshots/run_block_automation3.png)
 
-  - Double click on the CIPS IP instance and set the PS interface to cips fixed io:
-
-  ![cips](./Screenshots/cips.png)
-
   - Double click on the AXI NoC instance to make further configurations:
-    - On the Board tab, connect the DDR4 IP interface to the board interface:
-
-    ![noc_board](./Screenshots/noc_board.png)
 
     - On the General tab:
       - Enable 4 Inter-NoC Master Interfaces. These interfaces are needed to connect to the second AXI NoC instance that will be added later.
-      - Set the Number of Memory Controller Ports to 4 for a maximum possible bandwidth.
+      - The Number of Memory Controller Ports is set to 4 for a maximum possible bandwidth.
       - Make sure that the first DDR region is mapped to DDR LOW0 (to access the first 2G of the DDR4).
-      - Map the second region to DDR LOW1 to be able to access the rest of the DDR4 device memory.
+      - Make sure that the second region is mapped to DDR LOW1 to be able to access the rest of the DDR4 device memory.
 
       ![noc_general](./Screenshots/noc_general.png)
-
-
-    - On the Inputs tab, check the Inputs clocks:
-
-    ![noc_inputs](./Screenshots/noc_inputs.png)
 
     - On the Connectivity tab, apply the following settings:
 
     ![noc_connectivity](./Screenshots/noc_connectivity.png)
-
-  - To correctly reflect the changes applied above on the Board tab, we should add the following steps:
-    - Remove the following connections:
-
-    ![remove_connection](./Screenshots/remove_connection.png)
-
-    - By doing this we will get the option to Run Connection Automation:
-
-    ![run_connection_automation](./Screenshots/run_connection_automation.png)
-
-    - Run Connection Automation and select All Automation:
-
-    ![run_connection_automation2](./Screenshots/run_connection_automation2.png)
-
-    - This will map CH0_DDR4_0 and sys_clk0 to the right interfaces on the board as we have specified on the NoC "Board" tab:
-
-    ![run_connection_automation3](./Screenshots/run_connection_automation3.png)
 
   - Add a new AXI NoC instance. This will be used to connect to the LPDDR4:
 
@@ -147,7 +120,6 @@ Replace the content of the helloworld.c with the content of ./Software/ddr4_lpdd
       - Map the address region to a region different that the one we used to access the DDR4. In this example we choose the DDR CH1.
 
       ![noc2_general](./Screenshots/noc2_general.png)
-
 
     - On the Connectivity tab, apply the following settings:
     
