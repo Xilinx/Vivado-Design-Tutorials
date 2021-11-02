@@ -1,10 +1,6 @@
 <table width="100%">
  <tr width="100%">
-<<<<<<< HEAD
     <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>2021.1 Vivado™ - Versal Architecture-Specific Tutorials</h1>
-=======
-    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>2020.2 Vivado™ - Versal Architecture-Specific Tutorials</h1>
->>>>>>> swm/2021.1-development
     <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
     </td>
  </tr>
