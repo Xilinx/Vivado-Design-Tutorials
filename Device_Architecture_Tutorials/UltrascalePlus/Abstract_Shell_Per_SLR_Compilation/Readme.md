@@ -11,7 +11,7 @@
 
 # Introduction
 This tutorial demonstrates a  methodology to hierarchically arrange your design to achieve maximum QoR with minimal compile time for designs targeting multi SLR devices in Ultrascale+. Target of this methodology is to achieve the following:
-- Minimal co)mpile time by enabling parallel compilation of each SLR logic.
+- Minimize compile time by enabling parallel compilation of each SLR logic.
 - Reduce the timing closure challenges intoroduced by SLR crossings by locking down SLR crossing registers.
 - Modify partitions of the designs independently without affecting place and route of the other partitions.
 
