@@ -11,11 +11,15 @@
 
 # Introduction
 This tutorial demonstrates a  methodology to hierarchically arrange your design to achieve maximum QoR with minimal compile time for designs targeting multi SLR devices in Ultrascale+. Target of this methodology is to achieve the following:
-- Minimal compile time by enabling parallel compilation of each SLR.
+- Minimal compile time by enabling parallel compilation of each SLR logic.
 - Reduce the timing closure challenges intoroduced by SLR crossings by locking down SLR crossing registers.
 - Modify partitions of the designs independently without affecting place and route of the other partitions.
 
 This methodology leverages the abstract shell technology available on Xilinx Ultrascale+ families from Vivado 2020.2. Abstract shell works on the top of DFX technology. Please read more about the abstract shell feature in UG909 and UG947.
+
+# Different Steps
+- [Workflow of the tutorial](#workflow-of-the-tutorial)
+- [Partitioning the Design](#create-a-design-by-partitioning-into-multiple-hierarchies)
 
 # Workflow of the tutorial
 
@@ -25,7 +29,7 @@ This methodology leverages the abstract shell technology available on Xilinx Ult
 
 
 1. Hierarchically partition the design into multiple hierarchies. This design uses a VU13p that has 4 SLRs. Hence the design is divided into 4 partitions. Each partition is defined as a reconfigurable partition.
-2. Hierarchical arrangement of IPs are very easily acheivable using Vivado IP Integrator (IPI). Also, from 2021.1 onwards, Vivado IPI supports Dynamic Function eXchange (DFX) using Block Design Container (BDC) feature. Hence this tutorial uses IPI BDC to create hierarchies and reconfigurable partitions.
+2. Hierarchical arrangement of IPs is  easily acheivable using Vivado IP Integrator (IPI). Also, from 2021.1 onwards, Vivado IPI supports Dynamic Function eXchange (DFX) using Block Design Container (BDC) feature. Hence this tutorial uses IPI BDC to create hierarchies and reconfigurable partitions.
 3. This tutorial assumes that all  SLR crossings are AXI based. These SLR crossing IPs are in the static region in a seperate hierarchy. These will be locked down in the static region after initial implementation. If your SLR crossings are not AXI based , you still can use the same approach mentioned in this tutorial to lock them down in the static region.  
 4. Do an initial implementation ( we will call it "platform compile" in this tutorial) with your static region and bare minimum training logic in your reconfigurable partitions.
 5. Once platform compile is complete, generate an abstract shell for each reconfigurable partition.
