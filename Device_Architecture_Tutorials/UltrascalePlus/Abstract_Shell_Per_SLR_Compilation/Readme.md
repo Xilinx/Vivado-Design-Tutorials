@@ -11,7 +11,7 @@
 
 # Introduction
 This tutorial demonstrates a  methodology to hierarchically arrange your design to achieve maximum QoR with minimal compile time for designs targeting multi SLR devices in Ultrascale+. Target of this methodology is to achieve the following:
-- Minimal compile time by enabling parallel compilation of each SLR logic.
+- Minimal co)mpile time by enabling parallel compilation of each SLR logic.
 - Reduce the timing closure challenges intoroduced by SLR crossings by locking down SLR crossing registers.
 - Modify partitions of the designs independently without affecting place and route of the other partitions.
 
@@ -20,6 +20,19 @@ This methodology leverages the abstract shell technology available on Xilinx Ult
 # Different Steps
 - [Workflow of the tutorial](#workflow-of-the-tutorial)
 - [Partitioning the Design](#create-a-design-by-partitioning-into-multiple-hierarchies)
+- [AXI Register Slice based SLR Crossing](#about-axi-register-slices-for-slr-crossing)
+- [Predefine fixed number of SLR crossings](#allocate-a-fixed-number-of-slr-crossings-and-design-them-upfront-in-initial-implementation)
+- [Creation of interface ports in the block design](#creation-of-ports)
+- [Training reconfigurable module in the platform compile](#usage-of-axi-vip-and-axi-register-slice-in-the-training-rm)
+- [Embedded IO Ports inside the reconfigurable module](#creation-of-embedded-io-ports)
+- [Reference reconfigurable partition block design in top block diagram](#referencing-reconfigurable-partition-bds-with-top-bd)
+- [Easier IPI based method to replicate same SLR crossing hierarchy](#creating-hierarchies-for-slr-crossing-registers)
+- [Target Generation, DFX Wizard and Synthesis of platform compile](#generate-the-targets-dfx-wizard-and-ooc-synthesis)
+- [Floorplanning](#floorplanning)
+- [Platform Compile Implementation](#mplementation)
+- [Abstract Shell Creation](#abstract-shell-creation)
+- [Abstract Shell based compile for each SLR](#implementation-of-each-reconfigurable-partition-using-its-abstract-shell)
+- [Final full bitstream Generation](#link-all-implemented-cell-dcps-to-create-one-final-routed-dcp-for-full-bitstream-generation)
 
 # Workflow of the tutorial
 
