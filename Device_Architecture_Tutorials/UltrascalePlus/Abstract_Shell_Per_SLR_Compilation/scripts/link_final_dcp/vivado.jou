@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2021.1 (64-bit)
+# SW Build 3247384 on Thu Jun 10 19:36:07 MDT 2021
+# IP Build 3246043 on Fri Jun 11 00:30:35 MDT 2021
+# Start of session at: Thu Oct 28 22:39:08 2021
+# Process ID: 22024
+# Current directory: /group/xcoswmktg3/gpocklas/other_projects/abs_shell_per_slr_compilation/21.1_release/global_synth/Abstract_Shell_Per_SLR_Compilation/scripts/link_final_dcp
+# Command line: vivado -mode batch -source link_dcps.tcl
+# Log file: /group/xcoswmktg3/gpocklas/other_projects/abs_shell_per_slr_compilation/21.1_release/global_synth/Abstract_Shell_Per_SLR_Compilation/scripts/link_final_dcp/vivado.log
+# Journal file: /group/xcoswmktg3/gpocklas/other_projects/abs_shell_per_slr_compilation/21.1_release/global_synth/Abstract_Shell_Per_SLR_Compilation/scripts/link_final_dcp/vivado.jou
+#-----------------------------------------------------------
+source link_dcps.tcl
