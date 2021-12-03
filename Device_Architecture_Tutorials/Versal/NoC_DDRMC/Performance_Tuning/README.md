@@ -1,6 +1,6 @@
-﻿<table>
+<table>
  <tr>
-   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>2020.2 Versal™ Network on Chip/DDR Memory Controller Performance Tuning Tutorial</h1>
+   <td align="center"><img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/corporate/xilinx-logo.png" width="30%"/><h1>2021.1 Versal™ Network on Chip/DDR Memory Controller Performance Tuning Tutorial</h1>
    </td>
  </tr>
 </table>
@@ -57,13 +57,16 @@ Rows 17-24 in the CSV are used to configure the linear write and read traffic.  
 Rows 25-28 in the CSV are used to configure the random write and read traffic.  AxSIZE is set to 0x6 in column O, representing a burst size of 64.  AxLEN is set to 0x1 in column N, representing a burst length of 2, so each random write burst is 128 bytes, matching the traffic spec.  Just like the linear traffic lines, start_delay, is used to regulate the bandwidth of traffic being driven by the TG.  For a burst length of 2, each write command requires two AXI clock cycles, and each read requires one cycle.  The calculation of bandwidth vs. start_delay follows the same methodology explained for linear traffic.  The write traffic is directed to a range of addresses, separate from that used for the linear traffic.  The three random read traffic streams are directed to random addresses in three separate ranges within the range to which data is being written.
 
 # Building and Simulating the First Design Iteration
-1.	As described in the earlier labs, create a new project with the xcvc1902-vsva2197-2MP-e-S-es1 part, and create a new block design.
+1.	As described in the earlier labs, create a new project with the xcvc1902-vsva2197-2MP-e-S part, and create a new block design.
 2.	Add one AXI NoC instance, and run block automation, with the following settings:
-    *	AXI Traffic Generator (AXI-MM Source): 1
-    *	External Source AXI-MM: None
+    *   Control, Interface and Processing System: Unchecked
+    *	AXI Traffic Generator: 1
+    *	External Sources: None
+    *	AXI BRAM Controller: None
+    *   Memory Controller Type: LPDDR
+    *   Number of Interleaved Memory Controllers: 1
     *	AXI Performance Monitor for PL-2-NOC AXI-MM pins: Checked
-    *	AXI BRAM Controller (AXI-MM Destination): None
-    *	Memory Controllers (DDR4): 1
+    *   AXI Clk Source: New/Reuse Simulation Clock and Reset Generator
 3.	Run Connection Automation twice, selecting **All Automation** both times.
 4.	Regenerate the layout.
 5.	Edit the axi_noc_0 properties.
@@ -78,27 +81,28 @@ Rows 25-28 in the CSV are used to configure the random write and read traffic.  
         1. Number of Channels: Dual
         2. Channel Interleaving: checked
 6.	Run Connection Automation again, selecting **All Automation**.
-7.	Delete the ddr4_rtl_0 pin.
-8.	Edit the noc_tg properties:
+7.	Edit the noc_tg properties:
     *	Configuration:
         1. Performance TG for Simulation: SYNTHESIZABLE
         2. AXI Data Width: 512
-        3. Enable NOC user Destination ID Ports: NONE
+        3. Enable Traffic Shaping: unchecked
+        4. Enable NOC user Destination ID Ports: NONE
     *	Synthesizable TG Options:
         1. Path to User Defined Pattern File (CSV) for Synthesizable TG: all_in_one.csv
-9.	Edit the noc_clk_gen properties:
+        2. Insert VIO for debug status signals: unchecked
+8.	Edit the noc_clk_gen properties:
     *	Sys Clock – 0 Frequency (MHz): 201.501
     This corresponds to the Input System Clock Period you set in step 5.
     *	AXI-0 Clock Frequency (MHz): 250
     This is the frequency you used when determining the start_delay values in the CSV.
-10. Edit the noc_sim_trig properties.
+9. Edit the noc_sim_trig properties.
     *    Enable Traffic Shaping: uncheck this option
-11.	Mark noc_tg_M_AXI for simulation.
-12.	In the Address Editor, Assign All addresses.
-13.	Validate the design.
-14.	Create an HDL Wrapper for the block design.
-15. Generate Block Design.
-16.	Simulate the Design.
+10.	Mark noc_tg_M_AXI for simulation.
+11.	In the Address Editor, Assign All addresses.
+12.	Validate the design.
+13.	Create an HDL Wrapper for the block design.
+14. Generate Block Design.
+15.	Simulate the Design.
 
 The simulation takes about 15 minutes to complete.
 
@@ -145,18 +149,18 @@ After the design finishes building, run a behavioral simulation.  The results ar
 
 | Traffic Generator  | Write Bandwidth (GB/s) | Write Bandwidth Target (GB/s) | Read Bandwidth (GB/s) | Read Bandwidth Target (GB/s) |
 | :---: | ---- | ---- | ---- | ---- |
-|  0  | 2.78 | 2.77 | 2.34 | 2.77 |
-|  1  | 2.78 | 2.77 | 2.27 | 2.77 |
-|  2  | 2.78 | 2.77 | 2.35 | 2.77 |
-|  3  | 2.78 | 2.77 | 2.31 | 2.77 |
-|  4  | 2.20 | 2.27 | 1.96 | 2.8  |
-|  5  | 0    | 0    | 1.96 | 2.8  |
-|  6  | 0    | 0    | 1.96 | 2.8  |
+|  0  | 2.19 | 2.77 | 2.24 | 2.77 |
+|  1  | 2.10 | 2.77 | 2.19 | 2.77 |
+|  2  | 2.19 | 2.77 | 2.18 | 2.77 |
+|  3  | 2.19 | 2.77 | 2.15 | 2.77 |
+|  4  | 2.26 | 2.27 | 2.14 | 2.8  |
+|  5  | 0    | 0    | 2.14 | 2.8  |
+|  6  | 0    | 0    | 2.14 | 2.8  |
 
 The waveform display is as follows.
 ![Second Simulation Overall Waveform](second_design_multiple_tgs/images/second_simulation_overall_waveform.PNG)
 
-You can see the linear writes achieve almost all the desired bandwidth, but the random writes and all the reads fall short.
+You can see the random writes achieve almost all the desired bandwidth, but the linear writes and all the reads fall short.
 
 # Debugging the Second Design
 By looking at some additional signals in the simulation, you can gain some insight into why the desired bandwidth is not being achieved.  You can view signals to the LPDDR4 memory by probing nets in the internal DDR responder model.
@@ -181,13 +185,13 @@ The new simulation results are summarized in the following table.
 
 | Traffic Generator  | Write Bandwidth (GB/s) | Write Bandwidth Target (GB/s) | Read Bandwidth (GB/s) | Read Bandwidth Target (GB/s) |
 | ------------------ | ---------------------- | ----------------------------- | --------------------- | ------------------------ |
-|  0  | 2.58 | 2.77 | 1.61 | 2.77 |
-|  1  | 2.58 | 2.77 | 1.61 | 2.77 |
-|  2  | 2.58 | 2.77 | 1.61 | 2.77 |
-|  3  | 2.58 | 2.77 | 1.61 | 2.77 |
-|  4  | 2.27 | 2.27 | 2.78 | 2.8  |
-|  5  | 0    | 0    | 2.82 | 2.8  |
-|  6  | 0    | 0    | 2.81 | 2.8  |
+|  0  | 1.62 | 2.77 | 1.71 | 2.77 |
+|  1  | 1.62 | 2.77 | 1.72 | 2.77 |
+|  2  | 1.62 | 2.77 | 1.71 | 2.77 |
+|  3  | 1.62 | 2.77 | 1.71 | 2.77 |
+|  4  | 2.29 | 2.27 | 2.92 | 2.8  |
+|  5  | 0    | 0    | 2.95 | 2.8  |
+|  6  | 0    | 0    | 2.94 | 2.8  |
 
 From the waveform display, you can see that the random traffic is now distributed across both channels of the memory controller in axi_noc_1.
 ![Second Design Interleaved Channels Waveform](second_design_multiple_tgs/images/second_design_interleaved_channels_waveform.PNG)
@@ -197,7 +201,7 @@ The random traffic now meets the bandwidth targets.
 However, the linear traffic is a bit worse, so now try tuning it.
 
 # Address Mapping for Linear Traffic
-To achieve the best performance with linear traffic, it is important to optimize the DDR Address Mapping to match the traffic pattern.  LPDDR4 memory has eight banks, as selected by the Bank Address bits.  At any given time, only one row can be activated per bank.  If the memory controller needs to access a row that is not active in a given bank, it must first execute a precharge command to close the open row, then an activate command to open the desired row.  Only then can the read or write command be issued.  This incurs a timing penalty of tRPpb + tRCD, or 36 µs in the case of LPDDR4.
+To achieve the best performance with linear traffic, it is important to optimize the DDR Address Mapping to match the traffic pattern.  LPDDR4 memory has eight banks, as selected by the Bank Address bits.  At any given time, only one row can be activated per bank.  If the memory controller needs to access a row that is not active in a given bank, it must first execute a precharge command to close the open row, then an activate command to open the desired row.  Only then can the read or write command be issued.  This incurs a timing penalty of tRPpb + tRCD, or 36 ns in the case of LPDDR4.
 There are two ways to avoid this timing penalty:
 1.	Structure memory access and address mapping such that you leave pages open as long as possible.  As an extreme example, you would not want to map the addresses such that lowest order bits mapped to row addresses.  If that were the case, each subsequent address would force a precharge/activate (or page miss) penalty.  So you want to map low order bits to column addresses rather than row addresses.
 2.	Divide the traffic such that there are multiple streams of data with each stream accessing one bank, and ideally, with all eight banks open at once.  For example, if your processing is pipelined, memory access might be structured as shown in the following sequence:
@@ -208,7 +212,7 @@ At any given time, only one process is accessing a memory bank at a time.  It is
 
 In the traffic generator model, we always write to some banks, and we always read from other banks.  There is no logic to switch the pointer from bank to bank at each time interval.  This is a reasonable approximation of the DDR bandwidth demands, as it stresses the NoC and DDRMC with concurrent writes and reads.  The final design would require the addition of logic such that you read data that was previously written.
 
-Similarly, you can choose a more optimal address mapping for the random traffic.  You can experiment with different mappings, but for this traffic spec, ROW BANK COLUMN seems to work better than the default ROW COLUMN BANK.
+Similarly, you can choose an address mapping for the random traffic.  You can experiment with different mappings, but for this traffic spec, the defaul ROW BANK COLUMN seems to work well.
 
 For more in-depth discussion of address mapping, refer to *PG313 Versal ACAP Programmable Network on Chip and Integrated memory Controller*.
 
@@ -243,10 +247,10 @@ Notice some significant differences:
 3.	The Simulation Trigger also has an extra port enabled for traffic reloading.
 4.	Each memory controller requires an external sys_clk, and an additional sys_clk input has been added to generate the internal AXI clock.
 5.	The CSV has been switched such that at boot up, each TG executes a single dummy read command, and then stops.  These are shown in the `EMPTY.csv` file.  After boot, scripts will be used to control the VIOS to load the desired traffic patterns.
-6.	In both axi_noc instances, MC0 Pinout Swapping has been selected on the DDR Memory configuration tab.
- ![Block Design](finished_design/images/pinout_swapping.PNG)
+6.	In both axi_noc instances, MC0 Flipped pinout has been selected on the DDR Memory configuration tab.
+ ![Flipped Pinout](finished_design/images/flipped_pinout.PNG)
 
-      The VCK190 board uses swapped pinout for both of the LPDDR4 interfaces.  This is described in PG313.
+      The VCK190 board uses flipped pinout for both of the LPDDR4 interfaces.  This is described in PG313.
 7.	A constraint file has been added to define the pinout being used for this memory configuration.
 
 # Load the Design into Hardware
@@ -284,13 +288,31 @@ More information about the traffic generators can be found in *PG381 Performance
 * Linear write BW (GB/s) is in cells F2, F3, F4, and F5
 * Linear read BW (GB/s) is in cells E2, E3, E4, and E5
 
+# Using the Tutorial with Boards Other than VCK190
+As written, this tutorial is designed to work with VCK190 and the xcvc1902-vsva2197-2MP-e-S part. With minor modifications, the same design can be made to work with other boards/parts. Here are things to consider when trying to use a different board.
+## Different Versal Part and/or Clock Rates
+Other boards may use a different Versal part at a different clock rate.  For the early parts of the tutorial, in which you assemble a block design manually or with a script, you should substitute the Versal part on your board.  If necessary, change the sys_clk rates to match those found on your board.
+## Different Memory Controllers
+This tutorial uses both of the 2x32 LPDDR4 memory interfaces on VCK190. Other boards may have fewer LPDDR4 interfaces, perhaps with more DDR4 interfaces instead.  The memory data rate may be greater or less than what's possible on VCK190.  You may need to edit the type of memory used in the designs to match what's found on your board.
+## Different Simulation Results
+As a consequence of using different parts, clock rates, memory controller types, and memory data rates, your simulation results will likely vary somewhat from those quoted in this tutorial.
+## Changes Required in Hardware Design
+The LPDDR4 memory interfaces on VCK190 use banks 703-5 and 709-11.  Other boards likely use different memory interfaces.  This will require providing a different XDC file to match the memory configuration on a given board.  Also, some of the memory configuration may need to be changed.  For example, VCK190 uses flipped pinout on both LPDDR4 memory interfaces.  Other boards might not use flipped pinout. Refer to [XD031 Obtaining and Verifying Versal ACAP Memory Pinouts](https://github.com/Xilinx/Vivado-Design-Tutorials/tree/master/Device_Architecture_Tutorials/Versal/PCB_Design/Memory_Pinouts) for information about how to generate an XDC file for a given board pinout. [UG994 Vivado Design Suite User Guide - Designing IP Subsystems Using IP Integrator](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2020_2/ug994-vivado-ip-subsystems.pdf) *Chapter 12: Using the Platform Board Flow in IP Integrator* explains how to create a block design targeting a specific board.  By using the Platform Board Flow, it's possible to create a temporary block design, instantiate one or more memory interfaces from that board, then view the properties of the NoC instances to see whether flipped pinout is used, as well as other relevant memory configuration properties.  You will also need to edit the tcl script used to generate the final design such that the block diagram pin names for the memory interfaces and sys_clks match the corresponding pin names in the XDC for the board you are targeting.
+## Changes Required in Run Scripts
+Edit total_flow_7tg_inf.tcl and sptg_top_load_bram_vck190.tcl.  Change the lines that say
+```tcl
+set device "xcvc1902_1"
+```
+to match whatever device is used on your board.
+
 # Revision History
 * Aug 28, 2020 - Initial draft
 * Sep 23, 2020 - Updated for 2020.2
 * Sep 23, 2020 - Updated for 2020.2 released version
+* Aug 26, 2021 - Updated for 2021.1
 
 
-© Copyright 2020 Xilinx, Inc.
+© Copyright 2020-2021 Xilinx, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

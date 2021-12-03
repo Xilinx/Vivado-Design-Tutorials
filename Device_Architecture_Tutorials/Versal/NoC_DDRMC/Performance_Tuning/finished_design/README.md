@@ -1,6 +1,6 @@
-﻿<table>
+<table>
  <tr>
-   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>2020.2 Versal™ Network on Chip/DDR Memory Controller Performance Tuning Tutorial</h1>
+   <td align="center"><img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/corporate/xilinx-logo.png" width="30%"/><h1>2021.1 Versal™ Network on Chip/DDR Memory Controller Performance Tuning Tutorial</h1>
    </td>
  </tr>
  <tr>
@@ -80,8 +80,9 @@ More information about the traffic generators can be found in the *Performance A
 * Jul 23, 2020 - Initial revision
 * Jul 24, 2020 - Changed output descriptions
 * Sep 24, 2020 - Updated for 2020.2
+* Aug 26, 2021 - Updated for 2021.1
 
-© Copyright 2020 Xilinx, Inc.
+© Copyright 2020-2021 Xilinx, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

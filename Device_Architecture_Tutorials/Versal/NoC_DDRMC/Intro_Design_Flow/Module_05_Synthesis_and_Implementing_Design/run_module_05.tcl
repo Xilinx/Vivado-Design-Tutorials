@@ -39,7 +39,7 @@ startgroup
 create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset:5.0 proc_sys_reset_0
 endgroup
 startgroup
-create_bd_cell -type ip -vlnv xilinx.com:ip:versal_cips:2.1 versal_cips_0
+create_bd_cell -type ip -vlnv xilinx.com:ip:versal_cips:3.0 versal_cips_0
 endgroup
 set_property -dict [list CONFIG.USER_NUM_OF_SYS_CLK {2} CONFIG.USER_SYS_CLK1_FREQ {200.000} CONFIG.USER_NUM_OF_AXI_CLK {0}] [get_bd_cells clk_gen_sim_0]
 startgroup
@@ -47,7 +47,7 @@ create_bd_cell -type ip -vlnv xilinx.com:ip:clk_wizard:1.0 clk_wizard_0
 endgroup
 set_property -dict [list CONFIG.PRIM_IN_FREQ.VALUE_SRC USER] [get_bd_cells clk_wizard_0]
 set_property -dict [list CONFIG.PRIM_IN_FREQ {200.000} CONFIG.PRIM_SOURCE {Differential_clock_capable_pin} CONFIG.USE_LOCKED {true} CONFIG.CLKFBOUT_MULT {15.000000}] [get_bd_cells clk_wizard_0]
-set_property -dict [list CONFIG.PS_NUM_FABRIC_RESETS {1}] [get_bd_cells versal_cips_0]
+set_property -dict [list CONFIG.PS_PMC_CONFIG { DESIGN_MODE 1  PCIE_APERTURES_DUAL_ENABLE 0  PCIE_APERTURES_SINGLE_ENABLE 0  PS_BOARD_INTERFACE Custom  PS_NUM_FABRIC_RESETS 1  PS_PCIE1_PERIPHERAL_ENABLE 0  PS_PCIE2_PERIPHERAL_ENABLE 0  SMON_ALARMS Set_Alarms_On  SMON_ENABLE_TEMP_AVERAGING 0  SMON_TEMP_AVERAGING_SAMPLES 8 } CONFIG.PS_PMC_CONFIG_APPLIED {1} CONFIG.DESIGN_MODE {1}] [get_bd_cells versal_cips_0]
 connect_bd_net [get_bd_pins clk_wizard_0/locked] [get_bd_pins proc_sys_reset_0/dcm_locked]
 connect_bd_net [get_bd_pins axi_noc_0/aclk0] [get_bd_pins clk_wizard_0/clk_out1]
 connect_bd_net [get_bd_pins proc_sys_reset_0/slowest_sync_clk] [get_bd_pins clk_wizard_0/clk_out1]
@@ -94,25 +94,4 @@ after 7000
 open_run impl_1
 after 9000
 close_design
-open_bd_design {${myPath}/project_1/project_1.srcs/sources_1/bd/design_1/design_1.bd}
-set_property SIM_ATTRIBUTE.MARK_SIM false [get_bd_intf_nets {axi_traffic_gen_0_M_AXI}]
-set_property SIM_ATTRIBUTE.MARK_SIM true [get_bd_intf_nets {axi_traffic_gen_0_M_AXI}]
-save_bd_design
-startgroup
-set_property -dict [list CONFIG.MC_EN_INTR_RESP {TRUE}] [get_bd_cells axi_noc_0]
-endgroup
-save_bd_design
-generate_target Simulation [get_files ${myPath}/project_1/project_1.srcs/sources_1/bd/design_1/design_1.bd]
-after 5000
-export_ip_user_files -of_objects [get_files ${myPath}/project_1/project_1.srcs/sources_1/bd/design_1/design_1.bd] -no_script -sync -force -quiet
-after 5000
-export_simulation -of_objects [get_files ${myPath}/project_1/project_1.srcs/sources_1/bd/design_1/design_1.bd] -directory ${myPath}/project_1/project_1.ip_user_files/sim_scripts -ip_user_files_dir ${myPath}/project_1/project_1.ip_user_files -ipstatic_source_dir ${myPath}/project_1/project_1.ip_user_files/ipstatic -lib_map_path [list {modelsim=${myPath}/project_1/project_1.cache/compile_simlib/modelsim} {questa=${myPath}/project_1/project_1.cache/compile_simlib/questa} {ies=${myPath}/project_1/project_1.cache/compile_simlib/ies} {xcelium=${myPath}/project_1/project_1.cache/compile_simlib/xcelium} {vcs=${myPath}/project_1/project_1.cache/compile_simlib/vcs} {riviera=${myPath}/project_1/project_1.cache/compile_simlib/riviera}] -use_ip_compiled_libs -force -quiet
-after 5000
 
-update_compile_order -fileset sources_1
-update_compile_order -fileset sim_1
-after 5000
-launch_simulation
-run 60 us
-#source design_1_wrapper_sim_wrapper.tcl
-#run all
