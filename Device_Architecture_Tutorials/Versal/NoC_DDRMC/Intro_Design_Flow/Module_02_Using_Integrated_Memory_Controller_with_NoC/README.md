@@ -1,6 +1,6 @@
-﻿<table>
+<table>
  <tr>
-   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>2020.2 Versal™ Using_Integrated_Memory_Controller_with_NoC</h1>
+   <td align="center"><img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/corporate/xilinx-logo.png" width="30%"/><h1>2021.1 Versal™ Using_Integrated_Memory_Controller_with_NoC</h1>
    </td>
  </tr>
  <tr>
@@ -41,8 +41,7 @@ The default AXI NoC IPs will display on the canvas as shown in the following fig
 2. Click the **Run Block Automation Designer Assistance** link in the green banner at the top of
 the page. The Run Block Automation GUI displays.
 3. Select **axi_noc_0** in the tree view and set the following values:
-* The number of AXI Traffic Generators (AXI-MM Source) is set to **1** by default. Leave this at
-its default value.
+* Set the number of AXI Traffic Generator to **1** 
 * The number of External Source AXI-MM is set to **None**. Leave this at its default value.
 * Enable AXI Performance Monitors for PL-2NOC AXI-MM pins by selecting the check
 box.
@@ -54,12 +53,11 @@ See the following figure for reference.
 4. Click OK.
 The Tcl commands to run the block automation are as follows:
 ``` tcl
-apply_bd_automation -rule xilinx.com:bd_rule:axi_noc -config {num_axi_tg "1" num_aximm_ext "None" pl2noc_apm "1" num_axi_bram "None" num_mc "1" noc_clk "New/Reuse Simulation Clock And Reset Generator" }  [get_bd_cells axi_noc_0]
+apply_bd_automation -rule xilinx.com:bd_rule:axi_noc -config { mc_type {DDR} noc_clk {New/Reuse Simulation Clock And Reset Generator} num_axi_bram {None} num_axi_tg {1} num_aximm_ext {None} num_mc {1} pl2noc_apm {1} pl2noc_cips {0}}  [get_bd_cells axi_noc_0]
 ```
 5. Click on **Run Block Automation** a second time to run Designer Assistance on `axi_noc_1`.
 6. Set the options in the Run Block Automation dialog box as follows:
-* The number of AXI Traffic Generators (AXI-MM Source) is set to **1** by default. Leave this at
-its default value.
+* Set the number of AXI Traffic Generator to **1**
 * The number of External Source AXI-MM is set to **None**. Leave this at its default value.
 * Enable AXI Performance Monitors for PL-2NOC AXI-MM pins by selecting the check
 box.
@@ -72,8 +70,9 @@ See the following figure for reference.
 7. Click **OK**.
 The corresponding Tcl commands are as follows:
 ``` tcl
-apply_bd_automation -rule xilinx.com:bd_rule:axi_noc -config {num_axi_tg "1" num_aximm_ext "None" pl2noc_apm "1" num_axi_bram "None" num_mc "2" noc_clk "/noc_clk_gen" }  [get_bd_cells axi_noc_1]
+apply_bd_automation -rule xilinx.com:bd_rule:axi_noc -config { mc_type {DDR} noc_clk {New/Reuse Simulation Clock And Reset Generator} num_axi_bram {None} num_axi_tg {1} num_aximm_ext {None} num_mc {2} pl2noc_apm {1} pl2noc_cips {0}}  [get_bd_cells axi_noc_1]
 ```
+
 8. Regenerate layout by selecting the **Regenerate Layout** button in the BD canvas, the canvas
 looks as follows:
 ![Layout after running block automation](images/layout_after_block_automation.PNG)
@@ -83,7 +82,7 @@ looks as follows:
 9. Click the **Run Connection Automation** link in the green banner.
 10. Click through the clock pins on the left side of the popup and note that the Clock Source is
 set to:
-* `/noc_clk_gen for /noc_clk_gen/axi_clk_in_0`
+* `/noc_clk_gen for /noc_clk_gen/axi_clk_in_0` select Auto option from drop down list
 and
 * `noc_tg_pmon and noc_tg_pmon_1` for `/noc_clk_gen/axi_clk_0` for the rest
 of the clocks.
@@ -94,8 +93,7 @@ Now all of the clock and reset nets are connected. Additionally, the `CH0_DDR4_0
 connected to external interface ports. These ports will provide the connections to the DDR
 I/O.
 13. The Run Connection Automation link becomes active again as there are clocks and reset
-connectivity required for the Clocking Wizard. Click the link, select **All Automation** (3 out of
-3 selected) and click **OK**.
+connectivity required for the Clocking Wizard. Click the link, select **All Automation** and click **OK**.
 
 # Configure the NoC IPs
 1. Double click **axi_noc_0** to display the Configuration Wizard.
@@ -210,41 +208,40 @@ and the achieved bandwidth for read and write transactions, as shown:
 =========================================================
 AXI Clock Period = 3332 ps
 Min Write Latency = 15 axi clock cycles
-Max Write Latency = 31 axi clock cycles
+Max Write Latency = 32 axi clock cycles
 Avg Write Latency = 24 axi clock cycles
-Actual Achieved Write Bandwidth = 10438.958192 MBps
+Actual Achieved Write Bandwidth = 10496.001679 MBps
 ***************************************************
 Min Read Latency = 36 axi clock cycles
 Max Read Latency = 106 axi clock cycles
-Avg Read Latency = 56 axi clock cycles
+Avg Read Latency = 55 axi clock cycles
 Actual Achieved Read Bandwidth = 7035.781346 MBps
 =========================================================
 >>>>>> SRC_ID 1 :: AXI_PMON :: BW ANALYSIS >>>>>>
 =========================================================
 AXI Clock Period = 3332 ps
-Min Write Latency = 18 axi clock cycles
-Max Write Latency = 77 axi clock cycles
-Avg Write Latency = 65 axi clock cycles
-Actual Achieved Write Bandwidth = 2397.962930 MBps
+Min Write Latency = 16 axi clock cycles
+Max Write Latency = 51 axi clock cycles
+Avg Write Latency = 44 axi clock cycles
+Actual Achieved Write Bandwidth = 3984.996488 MBps
 ***************************************************
 Min Read Latency = 30 axi clock cycles
-Max Read Latency = 34 axi clock cycles
+Max Read Latency = 38 axi clock cycles
 Avg Read Latency = 31 axi clock cycles
-Actual Achieved Read Bandwidth = 2362.568644 MBps
+Actual Achieved Read Bandwidth = 3880.340015 MBps
 ```
 The waveform window shows the transaction view of all the AXI interfaces in the design. To
 avoid clutter, delete all but the two waveforms labeled **M_AXI**. These are the input ports to the
 NoC. Note that the waveforms start at around 3.3 μs. This is when the memory controller
 completes its internal calibration and comes out of reset. Traffic on `axi_noc_1` completes at
-about 6.1 μs and `axi_noc_0` completes at about 4.5 μs. Zoom in on the time region
+about 5.1 μs and `axi_noc_0` completes at about 4.3 μs. Zoom in on the time region
 encompassing all of the traffic and expand both waveforms, as shown in the following figure.
 
 ![Sim wavefrom](images/simulation_waveforms.PNG)
 Both TGs are programmed to deliver 12,500 MBps in each direction. From the performance
-monitor output, you can see that the non-interleaved memory achieved an aggregate of 17,475
-MB/sec (10,439 + 7,036) while the interleaved memory achieved 4,761 MB/sec.
+monitor output, you can see that the non-interleaved memory achieved an aggregate of 17,532
+MB/sec (10,496 + 7,036) while the interleaved memory achieved 7865 MB/sec.
 
-© Copyright 2020 Xilinx, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -258,4 +255,4 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-<p align="center"><sup>XD028</sup></p>
+<p align="center"><sup>Copyright© 2020-2021 Xilinx</sup><br><sup>XD028</sup><br></p>

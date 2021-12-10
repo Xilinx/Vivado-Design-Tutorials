@@ -1,6 +1,6 @@
-﻿<table>
+<table>
  <tr>
-   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>2020.2 Versal™ NoC DDRMC Tutorials</h1>
+   <td align="center"><img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/corporate/xilinx-logo.png" width="30%"/><h1>2021.1 Versal™ NoC DDRMC Tutorials</h1>
    </td>
  </tr>
  <tr>
@@ -20,7 +20,7 @@ This tutorial introduce different design aspects for the NoC DDRMC by providing 
 
 To build and run the NoC DDRMC tutorials, download and install the following:
 
-* [Vivado 2020.2](www.xilinx.com)
+* [Vivado 2021.2](www.xilinx.com)
 
 
 ## Module 01 -Basic NoC Design
@@ -49,7 +49,8 @@ To build and run the NoC DDRMC tutorials, download and install the following:
 [Read more...](Module_05_Synthesis_and_Implementing_Design)
 
 
-© Copyright 2020 Xilinx, Inc.
+
+
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -63,6 +64,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-<p align="center"><sup>XD028</sup></p>
+<p align="center"><sup>Copyright© 2020-2021 Xilinx</sup><br><sup>XD028</sup><br></p>
 
 

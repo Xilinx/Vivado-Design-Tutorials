@@ -1,6 +1,6 @@
-﻿<table>
+<table>
  <tr>
-   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>2020.2 Versal™ Isochronous Class with Streaming traffic</h1>
+   <td align="center"><img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/corporate/xilinx-logo.png" width="30%"/><h1>2021.1 Versal™ Isochronous Class with Streaming traffic</h1>
    </td>
  </tr>
  <tr>
@@ -29,7 +29,7 @@ Note: This lab is provided as an example only. Figures and information depicted 
 
 # Create the Design
 ## Project Creation and AXI Memory Mapped Design
-1. Follow the steps given in Module_01 to open the 2020.2 release of Vivado®.
+1. Follow the steps given in Module_01 to open the 2021.1 release of Vivado®.
 2. Create a new project using part **xcvc1902-vsva2197-1LP-e-S**.
 3. Create an empty block design.
 4. Create one instance of the AXI NoC IP on the block design canvas.
@@ -110,8 +110,7 @@ The Tcl commands to create the memory mapped portion of the design are as follow
 create_project project_1 -part xcvc1902-vsva2197-1LP-e-S-es1
 create_bd_design "design_1"
 update_compile_order -fileset sources_1
-create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.0 axi_noc_0
-apply_bd_automation -rule xilinx.com:bd_rule:axi_noc -config {num_axi_tg "2" num_aximm_ext "None" pl2noc_apm "1" num_axi_bram "1" num_mc "1" noc_clk "New/Reuse Simulation Clock And Reset Generator" }  [get_bd_cells axi_noc_0]
+apply_bd_automation -rule xilinx.com:bd_rule:axi_noc -config { mc_type {DDR} noc_clk {New/Reuse Simulation Clock And Reset Generator} num_axi_bram {1} num_axi_tg {2} num_aximm_ext {None} num_mc {1} pl2noc_apm {1} pl2noc_cips {0}}  [get_bd_cells axi_noc_0]
 apply_bd_automation -rule xilinx.com:bd_rule:board -config { Manual_Source {Auto}}  [get_bd_intf_pins axi_noc_0/CH0_DDR4_0]
 apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {/noc_clk_gen/axi_clk_0 (300 MHz)} Freq {100} Ref_Clk0 {} Ref_Clk1 {} Ref_Clk2 {}}  [get_bd_pins noc_bc/s_axi_aclk]
 apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {New Clocking Wizard} Freq {100} Ref_Clk0 {} Ref_Clk1 {} Ref_Clk2 {}}  [get_bd_pins noc_clk_gen/axi_clk_in_0]
@@ -126,10 +125,10 @@ apply_bd_automation -rule xilinx.com:bd_rule:board -config { Manual_Source {New 
 apply_bd_automation -rule xilinx.com:bd_rule:board -config { Manual_Source {Auto}}  [get_bd_pins rst_clk_wiz_100M/ext_reset_in]
 regenerate_bd_layout
 set_property -dict [list CONFIG.NUM_MCP {1}] [get_bd_cells axi_noc_0]
-set_property -dict [list CONFIG.CONNECTIONS {MC_0 { read_bw {5000} write_bw {5000} read_avg_burst {4} write_avg_burst {4}} } CONFIG.R_TRAFFIC_CLASS {ISOCHRONOUS} CONFIG.W_TRAFFIC_CLASS {ISOCHRONOUS}] [get_bd_intf_pins /axi_noc_0/S00_AXI]
-set_property -dict [list CONFIG.CONNECTIONS {M00_AXI { read_bw {600} write_bw {600} read_avg_burst {4} write_avg_burst {4}} } CONFIG.R_TRAFFIC_CLASS {LOW_LATENCY}] [get_bd_intf_pins /axi_noc_0/S01_AXI]
+set_property -dict [list CONFIG.CONNECTIONS {MC_0 { read_bw {5000} write_bw {5000} read_avg_burst {100} write_avg_burst {100}} } CONFIG.R_TRAFFIC_CLASS {ISOCHRONOUS} CONFIG.W_TRAFFIC_CLASS {ISOCHRONOUS}] [get_bd_intf_pins /axi_noc_0/S00_AXI]
+set_property -dict [list CONFIG.CONNECTIONS {M00_AXI { read_bw {600} write_bw {600} read_avg_burst {100} write_avg_burst {100}} } CONFIG.R_TRAFFIC_CLASS {LOW_LATENCY}] [get_bd_intf_pins /axi_noc_0/S01_AXI]
 set_property -dict [list CONFIG.USER_C_AXI_WRITE_LEN {16} CONFIG.USER_C_AXI_WRITE_BANDWIDTH {5000} CONFIG.USER_C_AXI_NO_OF_WR_TRANS {50} CONFIG.USER_C_AXI_DATA_INTEGRITY_CHECK {ON}] [get_bd_cells noc_tg]
-set_property -dict [list CONFIG.USER_C_AXI_WRITE_LEN {8} CONFIG.USER_C_AXI_WRITE_SIZE {8} CONFIG.USER_C_AXI_WRITE_BANDWIDTH {600} CONFIG.USER_C_AXI_NO_OF_WR_TRANS {90} CONFIG.USER_C_AXI_DATA_INTEGRITY_CHECK {ON}] [get_bd_cells noc_tg_1]
+set_property -dict [list CONFIG.USER_C_AXI_WDATA_WIDTH {64} CONFIG.USER_C_AXI_RDATA_WIDTH {64} CONFIG.USER_C_AXI_WRITE_LEN {8} CONFIG.USER_C_AXI_WRITE_SIZE {8} CONFIG.USER_C_AXI_READ_SIZE {1} CONFIG.USER_C_AXI_WRITE_BANDWIDTH {600} CONFIG.USER_C_AXI_NO_OF_WR_TRANS {90} CONFIG.USER_C_AXI_DATA_INTEGRITY_CHECK {ON} CONFIG.USER_C_AXI_WDATA_VALUE {0x0000000000000000}] [get_bd_cells noc_tg_1]
 assign_bd_address
 validate_bd_design
 ```
@@ -236,10 +235,12 @@ the left most VNOC of the bottom SLR (`SLR_0_VNOC_0_NMU_0`).
 3. Click on the ellipsis box next to the NoC Site Constraint. This displays the Choose NoC Sites
 window.
 4. Click on the new site and make the selection as shown in the following figure.
+
 ![NoC Sites](images/noc_site_selection.PNG)
 
 **Note**: Clicking multiple sites will allow the NoC compiler to make an optimal choice from among those
 selected.
+
 5. Click **OK** to dismiss the Choose Sites dialog box.
 
 ![Newly selected NoC site](images/selected_noc_site.PNG)
@@ -276,7 +277,6 @@ Click Simulation → Run Simulation from the Flow Navigator pane. This will gene
 simulation netlist and start up the Vivado® simulator. With the traffic parameters given above,
 the simulation will complete after approximately 14 μs.
 
-© Copyright 2020 Xilinx, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -290,4 +290,4 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-<p align="center"><sup>XD028</sup></p>
+<p align="center"><sup>Copyright© 2020-2021 Xilinx</sup><br><sup>XD028</sup><br></p>
