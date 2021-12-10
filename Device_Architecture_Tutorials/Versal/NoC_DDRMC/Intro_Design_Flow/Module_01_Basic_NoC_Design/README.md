@@ -1,6 +1,6 @@
-﻿<table>
+<table>
  <tr>
-   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>2020.2 Versal™ Basic NoC Design</h1>
+   <td align="center"><img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/corporate/xilinx-logo.png" width="30%"/><h1>2021.1 Versal™ Basic NoC Design</h1>
    </td>
  </tr>
  <tr>
@@ -10,7 +10,7 @@
 </table>
 
 # Introduction to Logical NoC
-The Vivado® Next Generation 2020.2 tool flow introduces a pair of IPs: the AXI NoC and the
+The Vivado® Next Generation 2021.1 tool flow introduces a pair of IPs: the AXI NoC and the
 AXIS NoC. These IPs act as logical representations of the Versal™ programmable NoC. The AXI
 NoC supports the AXI memory mapped protocol while the AXIS NoC supports the AXI4-Stream
 protocol. Each instance specifies a set of connections to be mapped onto the physical NoC, along
@@ -39,7 +39,7 @@ current version.
 
 ## Start the Vivado Design Suite
 1. Open the Vivado® Design Suite. Ensure the banner at the top of the window identifies the
-**Vivado 2020.2** release.
+**Vivado 2021.1** release.
 2. Click **Create Project** from the Quick Start Menu.
 3. In the Project Name page specify a name of the project such as **lab1**.
 4. Step through the popup menus to access the Default Part page.
@@ -74,6 +74,7 @@ active.
 7. The Run Connection Automation dialog box pops up. Select **All Automation** (4 out of 4
 selected). With all the default options set, click **OK**.
 ![Run Connection Automation dialog box](images/run_connection_automation_dialog_box.PNG)
+
 This action completes the clock and reset connection to the AXI NoC as shown in the
 following figure. Note that there is a Clocking wizard IP and Simulation Clock and Reset
 Generator IP in the block design. The output clock from the Clocking Wizard IP drives the
@@ -95,7 +96,7 @@ generate an optimal layout of the design.
     ![Block design regenerated layout](images/bd_regenerated_layout.PNG)
 
 ``` tcl
-apply_bd_automation -rule xilinx.com:bd_rule:axi_noc -config {num_axi_tg "1" num_aximm_ext "None" pl2noc_apm "0" num_axi_bram "1" num_mc "None" noc_clk "New/Reuse Simulation Clock And Reset Generator" }  [get_bd_cells axi_noc_0]
+apply_bd_automation -rule xilinx.com:bd_rule:axi_noc -config { mc_type {None} noc_clk {New/Reuse Simulation Clock And Reset Generator} num_axi_bram {1} num_axi_tg {1} num_aximm_ext {None} num_mc {None} pl2noc_apm {0} pl2noc_cips {0}}  [get_bd_cells axi_noc_0]
 startgroup
 apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {/noc_clk_gen/axi_clk_0 (300 MHz)} Freq {100} Ref_Clk0 {} Ref_Clk1 {} Ref_Clk2 {}}  [get_bd_pins noc_bc/s_axi_aclk]
 apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {New Clocking Wizard} Freq {100} Ref_Clk0 {} Ref_Clk1 {} Ref_Clk2 {}}  [get_bd_pins noc_clk_gen/axi_clk_in_0]
@@ -195,8 +196,10 @@ set_property -dict [list CONFIG.USER_C_AXI_DATA_INTEGRITY_CHECK {ON}] [get_bd_ce
 To create a default address map:
 1. Open the **Address Editor** tab as shown in the following figure. Expand the tree by clicking the
 down-arrow on **noc_tg**.
+![Address Editor](images/address_editor.PNG)
 2. Right-click in the Address Editor window and select **Assign All** from the context menu.
-3. Note that the address of `0x0000_0208_0000_0000` is assigned to `axi_bram_ctrl_0`.
+![Assign All](images/address_editor_assignal.PNG)
+3. Note that the address of `0x0000_0201_0000_0000` is assigned to `axi_bram_ctrl_0`.
 When **validate_bd_design** is run these values are propagated to the traffic generator.
 
 # Validate the Block Design
@@ -257,10 +260,10 @@ figure below, the input to the NoC is expanded.
 
 You can use the Zoom control to show transaction details, as shown in the following figure.
 ![sim result zoomed in](images/sim_result_zi.PNG)
+
 Hovering the mouse over an individual transaction will display a pop-up showing transaction
 details. Clicking on a transaction component (for example, Read Address) will highlight the related transaction components.
 
-© Copyright 2020 Xilinx, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -274,4 +277,4 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-<p align="center"><sup>XD028</sup></p>
+<p align="center"><sup>Copyright© 2020-2021 Xilinx</sup><br><sup>XD028</sup><br></p>

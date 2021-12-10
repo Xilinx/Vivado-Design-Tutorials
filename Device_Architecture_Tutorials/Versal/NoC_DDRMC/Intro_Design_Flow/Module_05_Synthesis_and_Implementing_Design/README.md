@@ -1,6 +1,6 @@
-﻿<table>
+<table>
  <tr>
-   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>2020.2 Versal™ Synthesis and Implementing the Design</h1>
+   <td align="center"><img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/corporate/xilinx-logo.png" width="30%"/><h1>2021.1 Versal™ Synthesis and Implementing the Design</h1>
    </td>
  </tr>
  <tr>
@@ -30,7 +30,7 @@ Servive (QoS) parameters.
 8. Synthesize the design.
 9. Assign a DDR Memory Bank using the Nibble Planner.
 10. Implement the design.
-11. Simulate the design.
+
 
 **Note**: Synthesis and Implementing Design/`run.tcl` contains the Tcl script that will setup the project per the basic flow outlined
 above - all the way from creating the IP integrator design to implementing the design in Vivado.
@@ -139,15 +139,20 @@ See the following figure for reference.
 ![clock wizard config optional tab](images/clk_wizard_optional_port_tab.PNG)
 
 12. Double click **Control, Interfaces & Processing System**.
-13. Expand **PS-PMC**.
-14. Select **PL-PS Interfaces**.
-15. On the right-side window in PL resets set the number of PL resets to **1**.
+13. click Next and then PS PMC block follow below figures
+![Versal Cips](images/cips_config.PNG)
+![Versal Cips](images/cips_PS_PMC.PNG)
+
+
+14. Select **PS PL Interfaces**.
+15. On the right-side window in PL resets set the number of PL resets to **1**. Click Finish.
 
 See the following figure for reference.
-![Versal Cips](images/cips.PNG)
+![Versal Cips](images/cips_PS_PL.PNG)
 
 16. Make following connections:
 * Connect locked pin of `clk_wizard_0` to `dcm_locked` pin of `proc_sys_reset_0`
+* Connect dout pin of `Constant` to core_ext_start pin of `axi_traffic_gen_0`
 * Connect `clk_out1` pin of `clk_wizard_0` to `aclk0` pin of `axi_noc_0`
 * Connect `slowest_sync_clk` pin of `proc_sys_reset_0` to `clk_out1` pin of
 `clk_wizard_0`
@@ -207,38 +212,9 @@ open the Synthesis Out-of-date Due to dialog box, and at the top of the dialog b
 Navigator. The Launch Runs dialog box opens.
 14. Click **OK**.
 15. After implementation completes, the Implementation Completed dialog box opens. Click
-**Cancel** to dismiss the dialog box.
+**Cancel** to dismiss the dialog box and ok to open implemented design.
 
-# Simulate the HDL Design
-Now you can simulate the HDL design and examine the results.
-1. To ensure you examine the correct interface:
-*  To open the block design, click **IP INTEGRATOR** in the Flow Navigator.
-* In the block design canvas, right-click the AXI interface connection between the AXI NoC
-IP and the AXI Traffic Generator.
-* Click **Mark Simulation**. See the following figure for reference:
-![mark simulation tg to noc](images/mark_sim.PNG)
 
-2. Save the block design.
-3. To generate the behavioral RTL models and start the simulator, click **Simulation** → **Run
-Simulation** and select **Run Behavioral Simulation**.
-
-On the Tcl console:
-``` tcl
-save_bd_design
-generate_target Simulation [get_files /group/siapps/parthj/NOC/PG313/2020.2/lab5/project_1/project_1.srcs/sources_1/bd/design_1/design_1.bd]
-export_ip_user_files -of_objects [get_files /group/siapps/parthj/NOC/PG313/2020.2/lab5/project_1/project_1.srcs/sources_1/bd/design_1/design_1.bd] -no_script -sync -force -quiet
-export_simulation -of_objects [get_files /group/siapps/parthj/NOC/PG313/2020.2/lab5/project_1/project_1.srcs/sources_1/bd/design_1/design_1.bd] -directory /group/siapps/parthj/NOC/PG313/2020.2/lab5/project_1/project_1.ip_user_files/sim_scripts -ip_user_files_dir /group/siapps/parthj/NOC/PG313/2020.2/lab5/project_1/project_1.ip_user_files -ipstatic_source_dir /group/siapps/parthj/NOC/PG313/2020.2/lab5/project_1/project_1.ip_user_files/ipstatic -lib_map_path [list {modelsim=/group/siapps/parthj/NOC/PG313/2020.2/lab5/project_1/project_1.cache/compile_simlib/modelsim} {questa=/group/siapps/parthj/NOC/PG313/2020.2/lab5/project_1/project_1.cache/compile_simlib/questa} {ies=/group/siapps/parthj/NOC/PG313/2020.2/lab5/project_1/project_1.cache/compile_simlib/ies} {xcelium=/group/siapps/parthj/NOC/PG313/2020.2/lab5/project_1/project_1.cache/compile_simlib/xcelium} {vcs=/group/siapps/parthj/NOC/PG313/2020.2/lab5/project_1/project_1.cache/compile_simlib/vcs} {riviera=/group/siapps/parthj/NOC/PG313/2020.2/lab5/project_1/project_1.cache/compile_simlib/riviera}] -use_ip_compiled_libs -force -quiet
-launch_simulation
-```
-The waveform window will show the traffic from the traffic generator to the NoC in the design.
-These are the input ports to the NoC. Note that the waveforms start around 1.1 μs. This is when
-the memory controller completes its internal calibration and comes out of reset. Zoom in on the
-time region encompassing all of the traffic and expand the waveform, as shown in the following
-figure.
-
-![Sim waveform](images/sim_waveform.PNG)
-
-© Copyright 2020 Xilinx, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -252,4 +228,5 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-<p align="center"><sup>XD028</sup></p>
+<p align="center"><sup>Copyright© 2020-2021 Xilinx</sup><br><sup>XD028</sup><br></p>
+
