@@ -15,7 +15,7 @@
  <td width="65%" align="center"><b>Description</b>
  </tr>
  <tr>
- <td align="center"><a href="./1RP_AXI_GPIO_in_RP_Interface_INI/"> Parallel Compilation of SLRs using Abstract Shell Technology </a></td>
+ <td align="center"><a href="./Abstract_Shell_Per_SLR_Compilation/"> Parallel Compilation of SLRs using Abstract Shell Technology </a></td>
  <td>This tutorial demonstrates a methodology to hierarchically arrange your design to achieve maximum QoR with minimal 
    compile time for designs targeting multi SLR devices in Ultrascale+.</td>
  </tr>
