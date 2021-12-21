@@ -85,7 +85,12 @@
  <td>This tutorial uses a complex design example to demonstrate how the NoC simplifies the design process for on-chip data movement.
 </td>
  </tr>
- </table>
+ <tr>
+ <td align="center"><a href="./NoC_DDRMC/Versal_Performance_AXI_Traffic_Generator/">Versal NoC Performance AXI Traffic Generator</a></td>
+ <td>The Performance AXI Traffic Generator is intended for modeling traffic masters in Versal™ ACAP designs for performance evaluation of network on chip (NoC) based solutions.
+</td>
+ </tr>
+  </table>
 
  ### PCB Design
 
