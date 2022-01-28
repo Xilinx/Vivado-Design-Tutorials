@@ -17,7 +17,7 @@ The tutorial is structured as follows:
 5. [Comparison of Results](#Comparison-of-Results)
 
 # Description of the Design
-This design uses programmable logic (PL) kernels to accelerate *k*-means clustering, a popular algorithm for unsupervised learning. Details about *k*-means clustering are available online and in various other Xilinx tutorials, so they are not repeated here.  For more information about *k*-means clustering, refer to UG1123, and others. Rather, this tutorial focuses on the advantages of the NoC for designs that require lots of data movement from PL to/from DDR memory. 
+This design uses programmable logic (PL) kernels to accelerate *k*-means clustering, a popular algorithm for unsupervised learning. Details about *k*-means clustering are available online and in various other Xilinx tutorials, so they are not repeated here.  Rather, this tutorial focuses on the advantages of the NoC for designs that require lots of data movement from PL to/from DDR memory. 
 
 # Description of the *k*-Means Kernel
 As previously mentioned, this design uses multiple PL kernels to accelerate *k*-means clustering of data.  Each kernel reads a set of data points from memory, clusters the data into k clusters, determines the centroids of each of those clusters, iterates the assignment of data points to centroids and recalculation of centroid coordinates until convergence, and then writes the final centroid assignments and coordinates back to memory.
