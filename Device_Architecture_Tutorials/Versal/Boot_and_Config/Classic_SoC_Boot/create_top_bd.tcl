@@ -118,7 +118,6 @@ set proj_dir [get_property directory [current_project]]
 
 # Set project properties
 set obj [current_project]
-set_property -name "board_part_repo_paths" -value "[file normalize "$origin_dir/../../../Users/davidd/AppData/Roaming/Xilinx/Vivado/2021.1/xhub/board_store/xilinx_board_store"]" -objects $obj
 set_property -name "board_part" -value "xilinx.com:vck190:part0:2.2" -objects $obj
 set_property -name "classic_soc_boot" -value "1" -objects $obj
 set_property -name "default_lib" -value "xil_defaultlib" -objects $obj
