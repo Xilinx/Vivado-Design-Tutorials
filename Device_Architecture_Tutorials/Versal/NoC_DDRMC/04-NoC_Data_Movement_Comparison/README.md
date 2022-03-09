@@ -1,12 +1,12 @@
-﻿<table>
+<table>
  <tr>
-   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>2020.2 Efficient Data Movement with Versal Network on Chip</h1>
+   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true"/><h1>2021.1 Efficient Data Movement with Versal Network on Chip</h1>
    </td>
  </tr>
 </table>
 
 # Introduction to Versal NoC Data Movement
-This tutorial uses a complex design example to demonstrate how the Versal™ Network on Chip (NoC) simplifies the design process for on-chip data movement. For comparison, a similar design is built in a Zynq® UltraScale+™ device. The NoC frees up programmable logic resources that are consumed by SmartConnect in the Zynq UltraScale+ design. Both designs can be run in hardware, and you can measure data movement and power consumption for comparison purposes.  
+This tutorial uses a complex design example to demonstrate how the Versal® Network on Chip (NoC) simplifies the design process for on-chip data movement. For comparison, a similar design is built in a Zynq® UltraScale+™ device. The NoC frees up programmable logic resources that are consumed by SmartConnect in the Zynq UltraScale+ design. The Versal-based design can be run in hardware and you can measure data movement and power consumption.  
 
 # Overview
 The tutorial is structured as follows:
@@ -16,17 +16,32 @@ The tutorial is structured as follows:
 4. [Building and Running the Top-Level Design on UltraScale+ Devices](#Building-and-Running-the-Top\-Level-Design-on-UltraScale+-Devices)
 5. [Comparison of Results](#Comparison-of-Results)
 
+# Design Techniques Introduced
+Several interesting design techniques are introduced in this tutorial.  Among them:
+1. [Using SmartConnect to Mux from 28 NSUs to 56 PL Kernels](#muxing-from-noc-to-kernels)
+2. [Using SmartConnect to Convert AXI4 to AXI4-Lite](#muxing-from-noc-to-kernels)
+3. [Addressing Memory-Mapped PL Kernels from the PS](#fixed-address-ranges-and-nmus)
+4. [Using SmartConnect to Mux from 56 PL Kernels to 28 NMUs](#muxing-from-kernels-to-noc)
+
+
 # Description of the Design
-This design uses programmable logic (PL) kernels to accelerate *k*-means clustering, a popular algorithm for unsupervised learning. Details about *k*-means clustering are available online and in various other Xilinx tutorials, so they are not repeated here.  Rather, this tutorial focuses on the advantages of the NoC for designs that require lots of data movement from PL to/from DDR memory. 
+This design uses programmable logic (PL) kernels to accelerate *k*-means clustering, a popular algorithm for unsupervised learning. Details about *k*-means clustering are available online and in various other Xilinx tutorials, so they are not repeated here. Rather, this tutorial focuses on the advantages of the NoC for designs that require lots of data movement from PL to/from Double Data Rate (DDR) memory.
 
 # Description of the *k*-Means Kernel
-As previously mentioned, this design uses multiple PL kernels to accelerate *k*-means clustering of data.  Each kernel reads a set of data points from memory, clusters the data into k clusters, determines the centroids of each of those clusters, iterates the assignment of data points to centroids and recalculation of centroid coordinates until convergence, and then writes the final centroid assignments and coordinates back to memory.
+As previously mentioned, this design uses multiple PL kernels to accelerate *k*-means clustering of data. The following are the steps:
+1. Each kernel reads a set of data points from memory
+2. Clusters the data into k clusters
+3. Determines the centroids of each of those clusters
+4. Iterates the assignment of data points to centroids and recalculation of centroid coordinates until convergence
+5. Writes the final centroid assignments
+
+This is how it finally coordinates back to memory.
 
 There are two primary interfaces to each kernel: a memory-mapped AXI4-Lite interface (`s_axi_cfg`) for configuring and controlling the kernel; and a memory-mapped AXI4 interface (`m_axi_mem`) for accessing data in DDR memory. `s_axi_cfg` provides access to a number of configuration registers which control the operation of the kernel. `m_axi_mem` is connected to DDR memory to allow retrieval of the data set and storage of the final solution.
 
 ![*k*-means kernel](images/kernel.PNG)
 
-The *k*-means kernel is generated from C++ source code using Vitis HLS. The source code is provided in [hls/kmeans_vitis.cpp](hls/kmeans_vitis.cpp). To generate the kernel:
+The *k*-means kernel is generated from C++ source code using Vitis™ HLS. The source code is provided in [hls/kmeans_vitis.cpp](hls/kmeans_vitis.cpp). To generate the kernel:
 ```bash
 cd build/kernel
 make
@@ -41,11 +56,11 @@ make zuplus
 The resource utilization for the two versions of the kernel is summarized as follows:
 | PL Resource  | Versal Kernel Utilization | UltraScale+ Kernel Utilization |
 | ------------ | ------------------------- | ------------------------------ |
-| LUT          | 5,157                     | 5,132                          |
-| FF           | 7,075                     | 7,102                          |
+| LUT          | 5,871                     | 5,357                          |
+| FF           | 7,926                     | 7,900                          |
 | DSP          | 14                        | 23                             |
-| BRAM         | 19                        | 18                             |
-| SRL          | 114                       | 114                            |
+| BRAM         | 9.5                       | 9                              |
+| SRL          | 122                       | 122                            |
 | URAM         | 6                         | 6                              |
 
 
@@ -55,7 +70,7 @@ The Versal design is structured as shown in the following figure.
 
 A bare-metal application runs on an Arm Cortex-A72 processor in the Application Processing Unit (APU). This application generates random data points and writes them to LPDDR4 memory by way of the NoC. 56 instances of the *k*-means kernel are implemented in programmable logic. The APU uses the NoC to configure registers in the kernels, to instruct them to start the *k*-means algorithm, and to monitor them for completion. Once configured, the *k*-means kernels use the NoC to fetch data points from memory, and to write the final results back to memory. When the *k*-means kernels are done, the APU fetches the results from memory, solves the same clustering problem in software, and compares results from software versus hardware to validate the hardware accelerated result.
 
-The NoC plays a vital role in the design, and it facilitates multiple data movement paths. These are described in more detail in the following.
+The NoC plays a vital role in the design and it facilitates multiple data movement paths. These are described in more detail in the following.
 ## APU to/from Memory
 The NoC provides hardened memory controllers for connection to DDR4 or LPDDR4 memory. The VCK190 board, for example, uses one of these controllers for DDR4 memory running at 3200 MT/s, and two controllers for LPDDR4 memory running at 3933 MT/s. Each of these LPDDR4 interfaces is configured as 2x32, for a total of four independent 32-bit channels. This design does not make use of the DDR4 memory on VCK190. The APU uses eight ports for connection to the NoC. Each memory controller has four NoC ports. This design connects all eight APU NoC ports to port 0 of both memory controllers, as shown in green in the following figure.
 ![APU to Memory Path](images/apu_to_memory.PNG)
@@ -81,7 +96,7 @@ Finally, the NoC provides a path from the kernels to the hardened LPDDR4 memory 
 ![Kernel to Memory Path](images/kernel_to_memory.PNG)
 
 ### Muxing from Kernels to NoC
-As described [APU to/from Kernels](#Muxing-from-NoC-to-Kernels), the XCVC1902 device only has 28 NMUs, but this design has 56 kernels. In order to connect the kernels to the NoC, additional AXI SmartConnect instances are added to function as a 2-to-1 mux between each two kernels and a corresponding NMU port. The path to memory exits from the right side of the kernels, goes through the AXI SmartConnect acting as a 2-to-1 mux, and then exits the right side of the SmartConnect to connect to memory via the NoC.
+As described [APU to/from Kernels](#Muxing-from-NoC-to-Kernels), the XCVC1902 device only has 28 NMUs, but this design has 56 kernels. Additional AXI SmartConnect instances are added to function as a 2-to-1 mux between each two kernels and a corresponding NMU port to connect the kernels to the NoC. The path to memory exits from the right side of the kernels, goes through the AXI SmartConnect acting as a 2-to-1 mux, and then exits the right side of the SmartConnect to connect to memory via the NoC.
 ![Data Path Mux](images/data_path_mux.PNG)
 
 ## Building the Top-Level Design
@@ -92,13 +107,13 @@ source ./create_design_vck190.tcl
 After the script completes, you can see the top-level block design by looking at the Diagram tab. Three more steps are required to generate the device image:
 1. Click on **Generate Block Design**
 2. Click on **Generate Device Image**
-3. Copy the resultant PDI file from `kmeans_project_vck190/kmeans_project_vck190.runs/impl_1/design_1_wrapper.pdi` to `../../pdi/vck190`.
+3. Copy the resultant Programmable Device Image (PDI) file from `kmeans_project_vck190/kmeans_project_vck190.runs/impl_1/design_1_wrapper.pdi` to `../../pdi/vck190`.
 4. Run **File->Export->Export Hardware...**  Select the option to **Include device image**, and otherwise use the default options.
 
-Generating the device image might require more than 12 hours to complete. Alternatively, use the pregenerated PDI file available on the web. Download the files from [here](https://www.xilinx.com/bin/public/openDownload?filename=XD024_binaries.tgz). Move the downloaded file to the top directory of this tutorial, and extract the contents there. If done correctly, the PDI file will be extracted to the `pdi/vck190` directory, and the ELF file will be extracted to `elf/vck190`.
+Generating the device image might require more than 12 hours to complete. Alternatively, use the pregenerated PDI file available on the web. Download the files from [here](https://www.xilinx.com/bin/public/openDownload?filename=XD024_binaries.tgz). Move the downloaded file to the top directory of this tutorial and extract the contents there. If done correctly, the PDI file will be extracted to the `pdi/vck190` directory, and the Executable and Linkable Format (ELF) file will be extracted to `elf/vck190`.
 
 ## Compiling the Application
-Source code for the application that runs on the APU is provded in the `src/vck190` directory. To compile the application, complete the following steps:
+Source code for the application that runs on the APU is provided in the `src/vck190` directory. Complete the following steps to compile the application:
 ```bash
 cd build/elf
 xsct build_kmeans_app_vck190.tcl
@@ -116,7 +131,7 @@ To run the design within Xilinx:
 cd cmd
 /proj/systest/bin/cluster-ping vck190
 ```
-Identify an available VCK190 board with ES1 silicon.
+Identify an available VCK190 board with production silicon.
 ```bash
 /proj/systest/bin/systest <name of vck190 board>
 ```
@@ -173,31 +188,39 @@ Generating the bit file might require upwards of 12 hours to complete. Alternati
 The total resource utilization for the two versions of the block design is summarized below:
 | PL Resource  | Versal Utilization        | UltraScale+ Utilization        |
 | ------------ | ------------------------- | ------------------------------ |
-| LUT          | 393,829                   | 217,402                        |
-| LUTRAM       | 28,587                    | 11,689                         |
-| FF           | 563,257                   | 302,692                        |
+| LUT          | 434,368                   | 223,222                        |
+| LUTRAM       | 29,327                    | 11,769                         |
+| FF           | 614,237                   | 319,939                        |
 | DSP          | 784                       | 486                            |
 | BRAM         | 532                       | 306                            |
 | URAM         | 336                       | 126                            |
 
-The normalized resource utilization for the two versions of the block design is summarized below, where normalized = total / # of kernels:
-| PL Resource  | Versal Normalized Utilization | UltraScale+ Normalized Utilization |
-| ------------ | ----------------------------- | ---------------------------------- |
-| LUT          | 7,033                     | 10,352                         |
-| LUTRAM       | 510                       | 557                            |
-| FF           | 10,058                    | 14,414                         |
-| DSP          | 14                        | 23                             |
-| BRAM         | 10                        | 15                             |
-| URAM         | 6                         | 6                              |
+The UltraScale+ design is limited by the number of available URAMs. At 21 kernels, 98% of the URAMs were consumed.
 
-The UltraScale+ design is limited by the number of available URAMs. At 21 kernels, 98% of the URAMs were consumed. As expected, the Versal design consumes far fewer LUT, FF, DSP, and BRAM on a per-kernel basis. This is because the UltraScale+ design requires resources for the AXI Interconnect and DDR memory controller.
+Note that the Versal design has 56 kernels, while the UltraScale+ design can only accomodate 21 kernels.  To get a better comparison of the relative utilization between the two devices, we created a smaller version of the Versal design that only used 21 kernels.  With 21 kernels, we no longer need the SmartConnects discussed above in [Muxing from Kernels to NoC](#muxing-from-kernels-to-noc). The other SmartConnects, discussed in [Muxing from NoC to Kernels](#muxing-from-noc-to-kernels), are still needed to convert from AXI4 to AXI4-Lite, but we no longer need to do the 1-to-2 muxing from NSUs to kernels.  These can be replaced by 21 SmartConnects that just do the AXI conversion.
+
+Likewise, some adjustments can be made to the UltraScale+ utilization statistics.  The UltraScale+ design has an ILA instance for debugging purposes.  Also, this design used a soft DDR4 memory controller, instantiated in PL.  Rather, it could have used the hardened memory controller in the PS.  Together the ILA and MIG account for approximately 33,000 LUTs and 54,000 registers.  We can subtract all the MIG and ILA resources from the UltraScale+ utilization report.
+
+With these adjustments, here's the resource utilization comparison for 21-kernel designs in both devices:
+| PL Resource  | Versal 21-Kernel Utilization | UltraScale+ 21-Kernel Utilization | Versal % Savings |
+| ------------ | --------------- | -------------------- | ---- |
+| LUT          | 130,805         | 190,410              | 31.3 |
+| LUTRAM       | 2,584           | 5,908                | 56.3 |
+| FF           | 174,720         | 266,016              | 34.3 |
+| DSP          | 294             | 483                  | 39.1 |
+| BRAM         | 199.5           | 189.5                | -5.3 |
+| URAM         | 126             | 126                  |  0   |
+
+As expected, the Versal design consumes far fewer LUT, LUTRAM, FF, and DSP. This is because the UltraScale+ design requires resources for the AXI Interconnect and DDR memory controller.
 
 
 # Revision History
+* February 28, 2022 - Editorial updates
 * Mar 5, 2021 - Initial draft
+* Sep 23, 2021 - Update for 2021.1
 
 
-© Copyright 2021 Xilinx, Inc.
+© Copyright 2022 Xilinx, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
