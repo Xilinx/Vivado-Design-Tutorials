@@ -18,5 +18,4 @@ best-in-class designs on all Xilinx devices.
 Learn how to target device-specific features for specific Xilinx architectures using Vivado and any needed
 low-level software frameworks.
 
-
-<p align="center"><sup>Copyright&copy; 2020 Xilinx</sup></p>
+<p align="center"><sup>Copyright&copy; 2020-2022 Xilinx</sup></p>
