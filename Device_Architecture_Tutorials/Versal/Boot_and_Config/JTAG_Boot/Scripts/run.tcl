@@ -1,4 +1,4 @@
-# © Copyright 2019 – 2020 Xilinx, Inc.
+# © Copyright 2019 – 2022 Xilinx, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
 
 catch {internal::enable_all_devices}
 
-#Setup project directory  
+#Setup project directory
 set epoch [clock seconds]
 set proj_dir ./runs
 
