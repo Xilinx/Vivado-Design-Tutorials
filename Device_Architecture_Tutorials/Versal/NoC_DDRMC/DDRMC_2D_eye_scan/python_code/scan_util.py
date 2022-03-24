@@ -16,7 +16,12 @@
 # https://realpython.com/python-rounding/#rounding-half-up
 
 import math
-from chipscopy.api.ddr import DDR
+
+from chipscopy.api.ddr.ddr import DDR
+#For Chipscopy Version 2021.1 replace with below
+##from chipscopy.api.ddr import DDR
+
+
 
 
 def round_half_up(n, decimals=0):
