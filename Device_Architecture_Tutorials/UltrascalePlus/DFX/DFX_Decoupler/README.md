@@ -1,6 +1,6 @@
 ﻿<table>
  <tr>
-   <td align="center"><img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/corporate/xilinx-logo.png" width="30%"/><h1>DFX Tutorial</h1>
+   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>DFX Tutorial</h1>
    </td>
  </tr>
  <tr>
@@ -77,7 +77,7 @@ during the dynamic reconfiguration time.
 
 ## DFX project within IP Integrator
 
-The example design uses Vivado and Vitis 2021.1, and details the flow
+The example design uses Vivado and Vitis 2021.2, and details the flow
 for a Zynq UltraScale+ processor-based design along with Block Design Containers and
 DFX concepts. These concepts are applicable to other device families,
 including Versal, UltraScale+, UltraScale, and Zynq MPSoC and RFSoC.
@@ -130,7 +130,7 @@ All path references in this document are relative to this root location.
 
 2.  **Launch** Vivado, and navigate to the root folder in the Tcl Console.
 
-3.  **Run** the design project creation script for Vivado 2021.1. The block design shown above will be created.
+3.  **Run** the design project creation script for Vivado 2021.2. The block design shown above will be created.
 
 `source ./scripts/dfx_shdn_dcplr_proj.tcl`
 
