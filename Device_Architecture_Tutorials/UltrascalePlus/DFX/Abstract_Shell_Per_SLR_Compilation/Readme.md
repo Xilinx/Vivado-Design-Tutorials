@@ -1,6 +1,6 @@
 ﻿<table>
  <tr>
-   <td align="center"><img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/corporate/xilinx-logo.png" width="30%"/><h1>Ultrascale+ SSIT Devices DFX Tutorial</h1>
+   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Ultrascale+ SSIT Devices DFX Tutorial</h1>
    </td>
  </tr>
  <tr>
@@ -41,10 +41,10 @@ This methodology leverages the abstract shell technology available on Xilinx Ult
 </p>
 
 
-1. Hierarchically partition the design into multiple hierarchies. This design uses a VU13p that has 4 SLRs. Hence the design is divided into 4 partitions. Each partition is defined as a reconfigurable partition.
-2. Hierarchical arrangement of IPs is  easily acheivable using Vivado IP Integrator (IPI). Also, from 2021.1 onwards, Vivado IPI supports Dynamic Function eXchange (DFX) using Block Design Container (BDC) feature. Hence this tutorial uses IPI BDC to create hierarchies and reconfigurable partitions.
-3. This tutorial assumes that all  SLR crossings are AXI based. These SLR crossing IPs are in the static region in a seperate hierarchy. These will be locked down in the static region after initial implementation. If your SLR crossings are not AXI based , you still can use the same approach mentioned in this tutorial to lock them down in the static region.  
-4. Do an initial implementation ( we will call it "platform compile" in this tutorial) with your static region and bare minimum training logic in your reconfigurable partitions.
+1. Hierarchically partition the design into multiple hierarchies. This design uses a VU13P that has 4 SLRs. Hence the design is divided into 4 partitions. Each partition is defined as a reconfigurable partition.
+2. Hierarchical arrangement of IPs is easily acheivable using Vivado IP Integrator (IPI). Also, from 2021.1 onwards, Vivado IPI supports Dynamic Function eXchange (DFX) using the Block Design Container (BDC) feature. Hence this tutorial uses IPI BDC to create hierarchies and reconfigurable partitions.
+3. This tutorial assumes that all SLR crossings are AXI based. These SLR crossing IPs are in the static region in a seperate hierarchy. These will be locked down in the static region after initial implementation. If your SLR crossings are not AXI based, you still can use the same approach mentioned in this tutorial to lock them down in the static region.  
+4. Create an initial implementation (we will call it "platform compile" in this tutorial) with your static region and bare minimum training logic in your reconfigurable partitions.
 5. Once platform compile is complete, generate an abstract shell for each reconfigurable partition.
 6. Create a new project with the abstract shell and BD for the corresponding reconfigurable partition.
 7. Populate the reconfigurable partition BDs with the IPs, synthesize it,  link it with the abstract shell. Implement the corresponding reconfigurable partition in the context of its abstract shell. This step can happen in parallel as each reconfiguarble partition can be OOC synthesized independently, and implemented with its abstract shell in parallel.
@@ -53,7 +53,7 @@ This methodology leverages the abstract shell technology available on Xilinx Ult
 # Individiual Steps
 
 ## Create a design by partitioning into multiple hierarchies.
-This tutorial uses Vivado IPI to create 4 reconfigurable partitions and a seperate hierarchy for registers between these hierarchies. Static region need not necessary be one single hierarchy. However, for making floorplanning constraints easier, it is recommended to keep one hierarchy for static region.
+This tutorial uses Vivado IPI to create 4 reconfigurable partitions and a separate hierarchy for registers between these hierarchies. The static region does not necessary need to be one single hierarchy. However, for making floorplanning constraints easier, it is recommended to keep one hierarchy for the static region.
 
 <p align="center">
   <img src="./images/block_diagram.png?raw=true" alt="block_diagram"/>
@@ -61,22 +61,22 @@ This tutorial uses Vivado IPI to create 4 reconfigurable partitions and a sepera
 
 ## Using Vivado IP Integrator
 
-This design uses block design container feature in IP integrator to define the reconfigurable partitions. A block design container is created for each reconfigruable partition. SLR crossing registers between RPs are only a hierrchy at the top BD. User is free to choose their own design entry to create hierarchies.
+This design uses the block design container feature in IP integrator to define the reconfigurable partitions. A block design container is created for each reconfigruable partition. SLR crossing registers between RPs are only a hierarchy at the top BD. User is free to choose their own design entry to create hierarchies.
 
-The design has 4 Block Design Containers: rp_slr0, rp_slr1, rp_slr2 and rp_slr3 .
+The design has 4 Block Design Containers: rp_slr0, rp_slr1, rp_slr2 and rp_slr3.
 
 
 ## About AXI Register Slices for SLR crossing
 This tutorial uses AXI based SLR crossing registers to transfer signals across SLRs. SLR crossing registers are connected in cascade as recommended in the [AXI Regslice Documentation Guide](https://www.xilinx.com/support/documentation/ip_documentation/axi_register_slice/v2_1/pg373-axi-register-slice.pdf) page 24.
 
-For example , In the picture showns below, axi_register_slice_0 and axi_register_slice_1 are inside slr0_to_1_crossing hierarchy. This means Slave interface from SLR0 is communicating to Master interface in SLR1 using this set of registers.  In this example, axi_regslice_0 is configured as shown below.
+For example, In the picture shown below, axi_register_slice_0 and axi_register_slice_1 are inside the slr0_to_1_crossing hierarchy. This means the Slave interface from SLR0 is communicating to Master interface in SLR1 using this set of registers.  In this example, axi_regslice_0 is configured as shown below.
 The regslices are configured to get SLR crossing endpoints as registers which will enable us to onload them to LAGUNA sites whenever possible.
 
 <p align="center">
   <img src="./images/slr_crossing_axi_reg.png?raw=true" alt="slr_crossing_axi_reg"/>
 </p>
 
-If your design does not use AXI based protocol to cross SLRs, you can also use simple one or two stage register pipelines to cross the SLRs. You can either use a TCL based approach to lock the SLR crossing registers to LAGUNA/adjacent CLB column or use a fine-grained pblock approach used in this tutorial. Whatever approach user choose to guide the placer to lock SLR crossing registers, intent is to make sure there are no zigzag placement for SLR crossing registers.
+If your design does not use AXI based protocol to cross SLRs, you can also use simple one or two stage register pipelines to cross between SLRs. You can either use a TCL based approach to lock the SLR crossing registers to LAGUNA/adjacent CLB column or use a fine-grained pblock approach used in this tutorial. Whatever approach user choose to guide the placer to lock SLR crossing registers, the intent is to make sure there are no zigzag placement for SLR crossing registers.
 
 ## About SLR crossing registers hierarchy
 
@@ -93,9 +93,9 @@ Users are free to arrange the hierarchies in any way that makes their floorplann
 
 ## Allocate a fixed number of SLR crossings and design them upfront in initial implementation
 
-One of the main targets we try to achieve using this flow is to lock down SLR crossing registers as part of static region in DFX flow. In the DFX flow, it is required for users to anticipate all future design variants that static region needs to support and plan their static region accordingly. In this design, For demonstration purpose, we have alloted 16 AXI4 and 16 AXI Stream based registers for SLR crossing. This is under the assumption that at any point of this platform usage, there will be a maximum of 16 AXI4 and 16 AXIS interfaces crossing an SLR boundary. It is upto the user to plan and allot according to their design. For example, user may decide to split the SLR crossings b/w AXI4Lite, AXI4 and AXI Stream. The total number of  crossings depends on the number of available resources in the static region of the floorplan. We can discuss more details about it in the floorplanning section.  
+One of the main targets we try to achieve using this flow is to lock down SLR crossing registers as part of static region in DFX flow. In the DFX flow, it is required for users to anticipate all future design variants that static region needs to support and plan their static region accordingly. In this design, For demonstration purpose, we have alloted 16 AXI4 and 16 AXI Stream based registers for SLR crossing. This is under the assumption that at any point of this platform usage, there will be a maximum of 16 AXI4 and 16 AXIS interfaces crossing an SLR boundary. It is up to the user to plan and allot according to their design. For example, user may decide to split the SLR crossings between AXI4Lite, AXI4 and AXI Stream. The total number of crossings depends on the number of available resources in the static region of the floorplan. We will discuss more details about it in the floorplanning section.  
 
-Also, This tutorial design configured the AXI register slices in the default mode for data and address width. If the user anticipate different set of data or address width for these SLR crossing registers, they should customize the IP.
+Also, This tutorial design configured the AXI register slices in the default mode for data and address width. If users anticipate different sets of data or address width for these SLR crossing registers, they should customize the IP accordingly.
 
 <p align="center">
   <img src="./images/slr01_hierarchy.png?raw=true" alt="slr01_hierarchy"/>
@@ -155,16 +155,16 @@ There are two approaches user can do to create ports for the IPs which have embe
 
 1. Instantiate the QDMA and DDR IP in your reconfigurable partition's block design container.
 2. Customize the IP to get the right configuration for the ports.
-3. Once customization of IP is complete, make the required ports as External.
+3. Once customization of IP is complete, mark the required ports as External.
 4. Validate the BD so that external ports get the right properties and width from the IP.
 5. Once validation is complete and ports are accurate to the requirement of IPs, lock the the bd interface port using the HDL attribute property.
     For example:
 ```
-  set bd_intf_prts [get_bd_intf_ports  CH0_DDR4_rp2]`
+  set bd_intf_prts [get_bd_intf_ports CH0_DDR4_rp2]`
   foreach bd_inft_prt $bd_intf_prts { set_property HDL_ATTRIBUTE.LOCKED TRUE [get_bd_intf_ports $bd_inft_prt]}
 ```
 6. Once ports are locked, validate the RP BDCs again.
-7. Go to the top BD and  upgrade the BDC cells to the latest version (using refresh modules banner in IPI).
+7. Go to the top BD and upgrade the BDC cells to the latest version (using refresh modules banner in IPI).
 8. The newly created embedded IOBs ports will be visible as new ports of BDC at the top.
 9. Mark those ports as external at the top BD to make them top level IO pads.
 10. Validate the top BD and apply HDL_ATTRIBUTE.LOCKED on the respective BD interface ports at the top.
@@ -194,7 +194,7 @@ Please note that intent of approaches provided above is to make sure you get the
 
 ### Referencing Reconfigurable Partition BDs with Top BD
 
-The tutorial uses a bottom-up approach to link reconfigurable partition BDs with the Top BD. This is achieved using block design container feature.  The top_bd.tcl is responsible for creating the static region ( including the SLR crossing registers) and it references the block designs of reconfigurable partitions.
+The tutorial uses a bottom-up approach to link reconfigurable partition BDs with the Top BD. This is achieved using block design container feature.  The top_bd.tcl is responsible for creating the static region (including the SLR crossing registers) and it references the block designs of reconfigurable partitions.
 
 Given below is the code snippet in top_bd.tcl that references the BDC of RP in SLR0.
 
@@ -248,7 +248,7 @@ The example design also demonstrates how to add BSCAN ports to the reconfigurabl
 
 `generate_target all [get_files design_1.bd]`
 
-- Use DFX Wizard to define the configuration. DFX Wizard is used to define the parent/child implementation in DFX and associate them to configurations. In this tutorial, we only make 1 configuration ( config_1) that has 4 reconfigurable partitions: rp_slr0, rp_slr1, rp_slr2 and rp_slr3. Refer to [UG947](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2020_2/ug947-vivado-partial-reconfiguration-tutorial.pdf) page 57 to refer how to use DFX Wizard in GUI.  
+- Use DFX Wizard to define the configuration. DFX Wizard is used to define the parent/child implementation in DFX and associate them to configurations. In this tutorial, we only make 1 configuration (config_1) that has 4 reconfigurable partitions: rp_slr0, rp_slr1, rp_slr2 and rp_slr3. Refer to [UG947](https://docs.xilinx.com/r/en-US/ug947-vivado-partial-reconfiguration-tutorial/DFX-RTL-Project-Flow) for more information on how to use the DFX Wizard in the Vivado IDE.  
 
 ```
 ###DFX Wizard
@@ -262,12 +262,11 @@ set_property PR_CONFIGURATION config_1 [get_runs impl_1]
 </p>
 
 ## Floorplanning
-
-Floorplanning is a critical step in DFX.  Please refer to floorplanning guidelines in [UG909](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2020_2/ug909-vivado-partial-reconfiguration.pdf) (page 128) for details regarding pblock comamdn and guidelines associated with it for reconfigurable pblock.
+Floorplanning is a critical step in DFX.  Please refer to floorplanning guidelines in [UG909](https://docs.xilinx.com/r/2021.1-English/Vivado-Design-Suite-User-Guide-Dynamic-Function-eXchange-UG909) for details regarding pblock comamnds and associated guidelines for reconfigurable pblocks.
 
 The floorplanning constraints used in this tutorial is in pblocks.xdc in the constraints folder.
 
-There are four reconfigurable partitions in the design. Each reconfigurable partition should have a pblock associated with it. In the tutorial, almost all of the SLR resources are provided to reconfigurable partition except the bare minimum resources for static region.
+There are four reconfigurable partitions in the design. Each reconfigurable partition must have a pblock associated with it. In the tutorial, almost all of the SLR resources are provided to reconfigurable partition except the bare minimum resources for static region.
 
 Given below is the picture of SLR level RP pblocks. Highlighted in yellow is the pblock for RP in SLR0, blue for RP pblock in SLR1, magenta for RP pblock in SLR2 and dark blue
 for RP pblock in SLR3.
@@ -314,13 +313,13 @@ set_property SNAPPING_MODE ON [get_pblocks rp_slr0]
 
 ### About Pblocks for SLR crossing registers
 
-In this tutorial, SLR ranges are initially added to the RP pblock, followed by removing the LAGUNA sites from  it.  When a LAGUNA tile is removed from a reconfigurable pblock, adjacent CLB column that share the interconnect with the LAGUNA is also removed the RP pblock. This is due to Programmable Unit (PU) requirement of the pblock. Read more about PU requirement for US+ in UG909.
+In this tutorial, SLR ranges are initially added to the RP pblock, followed by removing the LAGUNA sites from  it.  When a LAGUNA tile is removed from a reconfigurable pblock, adjacent CLB column that share the interconnect with the LAGUNA is also removed the RP pblock. This is due to Programmable Unit (PU) requirement of the pblock. Read more about PU requirement for UltraScale+ in UG909.
 
-In VU13P, there are 16 columns of LAGUNA (two per each clock region). In the tutorial, we have created pblocks for each LAGUNA column to have better control of placement of SLR crossing logic. This helps to avoid zigag placement of SLR crossing registers and also helps to linearly distribute the SLR crossing logic across the device.
+In VU13P, there are 16 columns of LAGUNA (two per clock region). In the tutorial, we have created pblocks for each LAGUNA column to have better control of placement of SLR crossing logic. This helps to avoid zigag placement of SLR crossing registers and also helps to linearly distribute the SLR crossing logic across the device.
 
 Note that we have used two pblocks per column of LAGUNA for an SLR crossing: One at the TX side and other for RX side. This helps to neatly do the assignment of SLR crossing AXI Regslice IPs to the corresponding pblocks .
 
-Also, Please note that we have configured AXI Regslices for SLR crossing in Fully Registered Mode. Hence it uses LUTRAMs in the CLB. LUTRAMs are only availble in SLICEMs. The CLB column attached to LAGUNA tiles are SLICELs. Hence, to also give space for LUTRAMs used by AXI Regslice IP, we have also provided one additional column of CLB column to the SLR crossing pblock ranges.
+Also, please note that we have configured AXI Regslices for SLR crossing in Fully Registered Mode. Hence it uses LUTRAMs in the CLB. LUTRAMs are only availble in SLICEMs. The CLB column attached to LAGUNA tiles are SLICELs. Hence, to also give space for LUTRAMs used by AXI Regslice IP, we have also provided one additional column of CLB column to the SLR crossing pblock ranges.
 
 <p align="center">
   <img src="./images/slr_crossing_pblocks.png?raw=true" alt="slr_crossing_pblocks"/>
@@ -340,11 +339,11 @@ set_property IS_SOFT FALSE [get_pblocks slr0_cross_column0]
 ```
 
  ### Placement of Static Region
- In addition to SLR crossing registers, if your static region has more logic, it is recommended to floorplan them too. In this tutorial, we only have a clocking wizard IP and 3 reset blocks. Since the logic is very minimal, we are not adding new pblock for base static region. Otherwise, it is recommended to also control the static region placement with additional pblock constraints.
+In addition to SLR crossing registers, if your static region has more logic, it is recommended to floorplan them too. In this tutorial, we only have a clocking wizard IP and 3 reset blocks. Since the logic is very minimal, we are not adding new pblock for base static region. Otherwise, it is recommended to also control the static region placement with additional pblock constraints.
 
 ### USER_SLL_REG constraint on SLR crossing registers
 
- USER_SLL_REG is a soft constraint to guide the placer to keep SLR crossing registers in the LAGUNA site. Please refer [UG949: Ultrasfast Design Methodology Guide](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2021_1/ug949-vivado-design-methodology.pdf) Page 288. We have enabled USER_SLL_REG on most of the SLR crossing registers. Please refer misc.xdc in the constraints folder to see the constraint. However, Please note that we have disabled USER_SLL_REG on some SLR crossing registers away from the clock root ( clock root is at the center of device for clock driving SLR crossing registers). This is to avoid hold violation which can happen  from LAGUNA TXRREG -> LAGUNA RXREG sites (dedicated SLL nodes) when they are far away from CLOCK ROOT. Ideally you should try to keep both ends of SLR crossing registers on LAGUNA site. However, if you observe hold violations at the edge of the device, offload one end of the pipeline to adjacent CLB column of LAGUNA site so that router can fix hold violation with deroutes.    
+USER_SLL_REG is a soft constraint to guide the placer to keep SLR crossing registers in the LAGUNA site. Please refer [UG949: Ultrasfast Design Methodology Guide](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2021_1/ug949-vivado-design-methodology.pdf) Page 288. We have enabled USER_SLL_REG on most of the SLR crossing registers. Please refer misc.xdc in the constraints folder to see the constraint. However, please note that we have disabled USER_SLL_REG on some SLR crossing registers away from the clock root (clock root is at the center of device for clock driving SLR crossing registers). This is to avoid hold violation which can happen from LAGUNA TXRREG -> LAGUNA RXREG sites (dedicated SLL nodes) when they are far away from CLOCK ROOT. Ideally you should try to keep both ends of SLR crossing registers on LAGUNA site. However, if you observe hold violations at the edge of the device, offload one end of the pipeline to adjacent CLB column of LAGUNA site so that router can fix hold violation with deroutes.    
 
 ## Implementation
 
@@ -381,7 +380,7 @@ report_utilization -pblock rp_slr3 -file slr3_util.rpt
 ```
 ## Implementation of each Reconfigurable Partition using its abstract shell
 
-Once abstract shell is created for each reconfigurable partition, user can work on individual partitions and compile them independently in the context of its abstract shell.
+Once abstract shells are created for each reconfigurable partition, users can work on individual partitions and compile them independently in the context of its abstract shell.
 This is achieved by the following process. In this tutorial, we demonstrate modifying only SLR0 RP and SLR1 RP and compile them using its abstract shell:
 
 Following steps demo compile steps in tutorial for SLR0 reconfigurable partition.
@@ -394,7 +393,7 @@ mkdir slr1_compile
 mkdir slr2_compile
 mkdir slr3_compile
 ```
-2. We will take an example of one of the SLRs (SLR0) for demonstrating the steps. In the folder, slrx_compile.tcl (x is the SLR number), compiles all the steps at once. We will explain individual steps below. Change the working directory to slr0_compile.
+2. We will take an example of one of the SLRs (SLR0) for demonstrating the steps. In the folder, slrx_compile.tcl (x is the SLR number) compiles all the steps at once. We will explain individual steps below. Change the working directory to slr0_compile.
 
 ```
 cd slr0_compile
@@ -411,7 +410,7 @@ add_files ../abs_shells/slr0_abs.dcp
 import_files ../myproj/project_1.srcs/sources_1/bd/rp_slr0/rp_slr0.bd
 ```
 
-4. Convert the project to a DFX project.  Select Tools -> Enable Dynamic Function exchange.  
+4. Convert the project to a DFX project.  Select Tools -> Enable Dynamic Function eXchange.  
 
 ```
 #Convert the project to DFX project
@@ -423,7 +422,7 @@ set_property PR_FLOW 1 [current_project]
 </p>
 
 
-5. Set the design mode of project to GateLvl to make this a Netlist Project. This is required if you would like to link a DCP with an OOC synthesized RTL.Refer to [UG835: Vivado TCL Commands](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2020_2/ug835-vivado-tcl-commands.pdf) to read more about DESIGN_MODE usage.
+5. Set the design mode of project to GateLvl to make this a Netlist Project. This is required if you would like to link a DCP with an OOC synthesized RTL.Refer to [UG835: Vivado TCL Commands](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2021_1/ug835-vivado-tcl-commands.pdf) to read more about DESIGN_MODE usage.
 
 ```
 #Linking a OOC synthesized BD with a DCP is possible only with Design Mode set to GateLvl
@@ -438,7 +437,7 @@ set_property top design_1_wrapper [current_fileset]
 ```
 7. Create a partition defintion and make the BD as a reconfigurable module. Associate the module with the partition.
 
-  Right click the BD in the "sources" window and click "Create Partition Definition".  In the pop up window, Provide Partition Definition Name as "rp_slr0" and Reconfigurable Module Name as " rp_slr0_rm2". Since this is the second reconfigurable module of this partition ( module used in the iniital implementation can be considered as rm1), we name the module name as rp_slr0_rm2.
+Right click the BD in the "sources" window and click "Create Partition Definition".  In the pop up window, Provide Partition Definition Name as "rp_slr0" and Reconfigurable Module Name as "rp_slr0_rm2". Since this is the second reconfigurable module of this partition (the module used in the iniital implementation can be considered as rm1), we name the module name as rp_slr0_rm2.
 
 ```
 #Create partition definition and reconfigurable module for the BD. Associate reconfigurable module with the partition
@@ -469,13 +468,13 @@ create_pr_configuration -name config_1 -partitions [list design_1_i/rp_slr0:rp_s
 set_property USE_BLACKBOX 0 [get_pr_configuration config_1]
 ```
 
-10.  Associate the configuration created from DFX Wizard with the implementation.
+10. Associate the configuration created from DFX Wizard with the implementation.
 ```
 #Associate the configuration with the implementation impl_1
 set_property PR_CONFIGURATION config_1 [get_runs impl_1]
 ```
 
-11. By this time, you have converted the design to a DFX project and associated the configruation with the implementation. Now We can modify the reconfigurable BD with the IPs that goes into the corresponding SLR.
+11. By this time, you have converted the design to a DFX project and associated the configruation with the implementation. Now we can modify the reconfigurable BD with the IPs that goes into the corresponding SLR.
 
 ```
 #Modify the BD with your IPs
@@ -487,7 +486,7 @@ Please note that you cannot  add or remove any interface BD ports for the reconf
 The particular BD modification script in this example design does the following:
 
 - Remove the training logic IPs (BD cells like AXI Regslice and AXI VIP)
-- Remove the BD interface nets ( BD Intf Nets)
+- Remove the BD interface nets (BD Intf Nets)
 
 ```
 delete_bd_objs [get_bd_cells ]
@@ -499,7 +498,7 @@ delete_bd_objs [get_bd_intf_nets]
 
 12. Add any other RM specific constraints to the project. You do not need to add pblock constraint for the corresponding partition again since they exist in the abstract shell DCP itself. You are free to add any nested pblocks if needed, or any other RM specific timing constraint.
 
-For this tutorial, we add a CLOCK_DEDICATED_ROUTE constraint because static MMCM is placed in a different SLR. For the BUFG from that MMCM to drive a local MMCM in SLR0, you need to set CLOCK_DEDICATED_ROUTE ANY_CMT_COLUMN or SAME_CMT_COLUMN. Read more about CLOCK_DEDICATED_ROUTE constraint in [UG949: Vivado Ultrafast Design Methdology Guide](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2020_2/ug949-vivado-design-methodology.pdf) .
+For this tutorial, we add a CLOCK_DEDICATED_ROUTE constraint because static MMCM is placed in a different SLR. For the BUFG from that MMCM to drive a local MMCM in SLR0, you need to set CLOCK_DEDICATED_ROUTE ANY_CMT_COLUMN or SAME_CMT_COLUMN. Read more about CLOCK_DEDICATED_ROUTE constraint in [UG949: Vivado Ultrafast Design Methdology Guide](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2020_2/ug949-vivado-design-methodology.pdf).
 
 ```
 #Add constraints specific for implementing this partition. Please note you do not need to add pblock constraints again because it is already present in abstract shell
@@ -508,13 +507,13 @@ add_files -fileset constrs_1 -norecurse constraints/slr0_rm2_misc.xdc
 import_files -fileset constrs_1 [get_files slr0_rm2_misc.xdc]
 ```
 
-12. When the BD is associated with the partition, it will appear as a out-of-context module Runs in the Design Runs Window. Right click the run and Launch Synthesis.
+12. When the BD is associated with the partition, it will appear as an out-of-context module Runs in the Design Runs Window. Right click the run and Launch Synthesis.
 ```
 #Launch OOC synthesis of BD. By default, we use OOC per IP mode for synthesis. This is recommended to get maximum parallelization.
 launch_runs rp_slr0_rm2_synth_1 -jobs 8
 wait_on_run rp_slr0_rm2_synth_1
 ```
-13. Once OOC synthesis of the BD is complete, Add the generated BD DCP to the project. Please note that this DCP by itself will not have all blackboxes filled. This gets filled during link_design. This is because we had set the SYNTH_CHECKPOINT_MODE to be HIERARCHICAL. Hence each IP inside the partition will be OOC synthesized and respective DCPs will be located in the respective synthesis folders. Link Design is intelligent to identify these DCPs and stitch them together. If you would like to create one DCP per OOC Reconfigurable Partition, you may set SYNTH_CHECKPOINT_MODE to be SINGLUAR. This comes at the runtime cost because you will not get paralleization in the OOC runs per IP. You may refer [UG912: Vivado Properties](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2018_3/ug912-vivado-properties.pdf) for more information.
+13. Once OOC synthesis of the BD is complete, Add the generated BD DCP to the project. Please note that this DCP by itself will not have all blackboxes filled. This gets filled during link_design. This is because we had set the SYNTH_CHECKPOINT_MODE to be HIERARCHICAL. Hence each IP inside the partition will be OOC synthesized and respective DCPs will be located in the respective synthesis folders. Link Design is intelligent to identify these DCPs and stitch them together. If you would like to create one DCP per OOC Reconfigurable Partition, you may set SYNTH_CHECKPOINT_MODE to be SINGULAR. This comes at the runtime cost because you will not get paralleization in the OOC runs per IP. You may refer [UG912: Vivado Properties](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2021_1/ug912-vivado-properties.pdf) for more information.
 
 ```
 #Add the generated OOC synthesized BD's DCP output to the project
@@ -536,7 +535,7 @@ launch_runs impl_1 -jobs 8
 wait_on_run impl_1
 ```
 
-The steps from 1 to 15 can be implemented in parallel for each SLR as independent vivado process. The tutorial also demonstrates the implemetation of SLR1 through SLR3 to
+The steps from 1 to 15 can be implemented in parallel for each SLR as independent Vivado process. The tutorial also demonstrates the implemetation of SLR1 through SLR3 to
 connect corresponding AXI interfaces.
 
 ## Link all implemented cell DCPs to create one final routed DCP for full bitstream generation

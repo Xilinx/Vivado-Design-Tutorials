@@ -1,6 +1,6 @@
 <table>
  <tr>
-   <td align="center"><img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/corporate/xilinx-logo.png" width="30%"/><h1>Versal DFX Tutorial</h1>
+   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal DFX Tutorial</h1>
    </td>
  </tr>
  <tr>
@@ -119,7 +119,7 @@ hardware components required are in the PS.
 * PL programming is equivalent to CFRAME programming.
 
 <p align="center">
-  <img src="./images/1_zynq_us_plus.png?raw=true">
+  <img src="./images/zynq_us_plus.png?raw=true">
 </p>
 <p align="center">
  Figure 1: Zynq UltraScale+ architecture
@@ -144,7 +144,7 @@ just NPI writes (for example, it is possible to bring up DDR with only
 NPI writes).
 
 <p align="center">
-  <img src="./images/2_versal_arch.png?raw=true">
+  <img src="./images/versal_arch.png?raw=true">
 </p>
 <p align="center">
  Figure 2: Versal architecture
@@ -187,7 +187,7 @@ More information can be found on the [DFX page on Xilinx.com](http://www.xilinx.
 
 # Example Design Tutorial
 
-This tutorial design was verified with Vivado 2021.1 and PetaLinux BSP
+This tutorial design was verified with Vivado 2021.2 and PetaLinux BSP
 on a VCK190 with engineering and production silicon. The Versal VMK180
 can also be targeted -- clearly you must change any references within
 this document as appropriate to use this alternate board.
@@ -224,15 +224,24 @@ design connectivity for the base design.
 * Do not specify sources = checked
 * Default Part = Versal VCK190 (under Boards tab)
 
-2.  In the Tcl Console, enable the Classic SoC Boot flow by setting the
-    following property:
+2.  Select **Tools > Settings** to open the project settings. Under the General tab, 
+click the **Project is a Classic SoC Boot project** option.
+This property changes the project properties such that design rule
+checks and other settings unique to the Class SoC Boot flow are called.
+
+<p align="center">
+  <img src="./images/project_options_anno.png?raw=true">
+</p>
+<p align="center">
+Figure 3: Create a new project called "top"
+ </p>
+
+This sets the `classic_soc_boot` property behind the scenes. You could also 
+enable the Classic SoC Boot flow by setting the following property in the Tcl Console:
 
 ```
 set_property classic_soc_boot 1 [current_project]
 ```
-
-This property changes the project properties such that design rule
-checks and other settings unique to the Class SoC Boot flow are called.
 
 **TIP:**  Disable this property to validate block designs and compile designs
 without encountering Classic SoC Boot DRCs.  This allows you to temporarily have static 
@@ -247,10 +256,10 @@ revert to a flat flow.
     options default.
 
 <p align="center">
-  <img src="./images/3_new_project.png?raw=true">
+  <img src="./images/new_project.png?raw=true">
 </p>
 <p align="center">
-Figure 3: Create a new project called "top"
+Figure 4: Create a new project called "top"
  </p>
 
 4.  Click the + on the blank canvas and enter "CIPS" in the search field
@@ -262,19 +271,19 @@ Figure 3: Create a new project called "top"
     everything else. Click **OK** to continue.
 
 <p align="center">
-  <img src="./images/4_cips_automation_classic.png?raw=true">
+  <img src="./images/cips_automation_classic.png?raw=true">
 </p>
 <p align="center">
-Figure 4: Run block automation to connect the CIPS IP
+Figure 5: Run block automation to connect the CIPS IP
  </p>
 
 The initial block design will look like this:
 
 <p align="center">
-  <img src="./images/5_initial_bd_classic.png?raw=true">
+  <img src="./images/initial_bd_classic.png?raw=true">
 </p>
 <p align="center">
-Figure 5: Initial block design after automation
+Figure 6: Initial block design after automation
  </p>
 
 6.  After block automation completes, open the CIPS IP (versal_cips_0) for further
@@ -282,10 +291,10 @@ Figure 5: Initial block design after automation
     PMC** to configure this module.
 
 <p align="center">
-  <img src="./images/6_cips_ps_pmc.png?raw=true">
+  <img src="./images/cips_ps_pmc.png?raw=true">
 </p>
 <p align="center">
-Figure 6: Customize the CIPS IP
+Figure 7: Customize the CIPS IP
 </p>
 
 **IMPORTANT**: With the `classic_soc_boot` property enabled for this
@@ -299,29 +308,29 @@ design solution must be used.
     **PL CLK 0**.
 
 <p align="center">
-  <img src="./images/7_cips_pl_clk_0.png?raw=true">
+  <img src="./images/cips_pl_clk_0.png?raw=true">
 </p>
 <p align="center">
-Figure 7: Enable PL CLK 0
+Figure 8: Enable PL CLK 0
  </p>
 
 8.  Under the PS PL Interfaces options, set the Number of PL Resets to 1.
 
 <p align="center">
-  <img src="./images/8_cips_pl_reset.png?raw=true">
+  <img src="./images/cips_pl_reset.png?raw=true">
 </p>
 <p align="center">
-Figure 8: Set the number of PL Resets to 1
+Figure 9: Set the number of PL Resets to 1
  </p>
 
 9. Under the **NoC** options, check the boxes for the two **Non
     Coherent** **PS** **to NoC Interfaces**.
 
 <p align="center">
-  <img src="./images/9_cips_noc.png?raw=true">
+  <img src="./images/cips_noc.png?raw=true">
 </p>
 <p align="center">
-Figure 9: Enable both Non Coherent PS to NoC Interfaces
+Figure 10: Enable both Non Coherent PS to NoC Interfaces
  </p>
 
 10. Click **Finish** then **Finish** again to submit these customization edits.
@@ -331,20 +340,20 @@ Figure 9: Enable both Non Coherent PS to NoC Interfaces
     **ddr4 dimm1 sma clk** for the VCK190 board.
 
 <p align="center">
-  <img src="./images/10_noc_board.png?raw=true">
+  <img src="./images/noc_board.png?raw=true">
 </p>
 <p align="center">
-Figure 10: Customize the AXI NoC IP
+Figure 11: Customize the AXI NoC IP
  </p>
 
 12. Under the General tab, set both the Number of AXI Slave Interfaces
     and Number of AXI Clocks to 8.
 
 <p align="center">
-  <img src="./images/11_noc_general.png?raw=true">
+  <img src="./images/noc_general.png?raw=true">
 </p>
 <p align="center">
-Figure 11: Increase the number of AXI Slave Interfaces and AXI Clocks to 8
+Figure 12: Increase the number of AXI Slave Interfaces and AXI Clocks to 8
  </p>
 
 13. Under the **Inputs** tab, assign the two new AXI Slave Interface
@@ -352,20 +361,20 @@ Figure 11: Increase the number of AXI Slave Interfaces and AXI Clocks to 8
     Clocks, aclk6 and aclk7.
 
 <p align="center">
-  <img src="./images/12_noc_inputs.png?raw=true">
+  <img src="./images/noc_inputs.png?raw=true">
 </p>
 <p align="center">
-Figure 12: Connect the PS Non-Coherent interfaces to the new AXI Slave ports
+Figure 13: Connect the PS Non-Coherent interfaces to the new AXI Slave ports
  </p>
 
 14. Under the **Connectivity** tab, assign the two new AXI Slave ports
     to Memory Controller ports 1 and 2 as shown below.
 
 <p align="center">
-  <img src="./images/13_noc_connectivity.png?raw=true">
+  <img src="./images/noc_connectivity.png?raw=true">
 </p>
 <p align="center">
-Figure 13: Assign AXI Slave ports to Memory Controller ports
+Figure 14: Assign AXI Slave ports to Memory Controller ports
  </p>
 
 15. Click **OK** to finish the NoC IP customization.
@@ -381,10 +390,10 @@ The block design should look like this now. The four new connections are
 highlighted in orange.
 
 <p align="center">
-  <img src="./images/14_top_bd_cips_noc.png?raw=true">
+  <img src="./images/top_bd_cips_noc.png?raw=true">
 </p>
 <p align="center">
-Figure 14: Block design after CIPS and NoC customization
+Figure 15: Block design after CIPS and NoC customization
  </p>
 
 17. On the **Address Editor** tab, click the Assign All
@@ -404,10 +413,10 @@ Figure 14: Block design after CIPS and NoC customization
 20. Configure the AXI SmartConnect to have 1 Master and 1 Slave port.
 
 <p align="center">
-  <img src="./images/15_smartconnect_anno.png?raw=true">
+  <img src="./images/smartconnect_anno.png?raw=true">
 </p>
 <p align="center">
-Figure 15: Configure the AXI SmartConnect IP
+Figure 16: Configure the AXI SmartConnect IP
  </p>
 
 21. Configure the CIPS with the following settings. After clicking
@@ -417,10 +426,10 @@ Select the **PS PL Interfaces** group. **Check** the box for AXI Master
 Interfaces **M_AXI_FPD**, leaving the Data Width at 128.
 
 <p align="center">
-  <img src="./images/16_AXI_master_FPD.png?raw=true">
+  <img src="./images/AXI_master_FPD.png?raw=true">
 </p>
 <p align="center">
-Figure 16: Continue the CIPS IP customization by setting the PL-PS interfaces
+Figure 17: Continue the CIPS IP customization by setting the PL-PS interfaces
  </p>
 
 Select the **Clocking** group and click the **Output Clocks**. Expand
@@ -429,10 +438,10 @@ down into **PMC Domain Clocks** then **PL Fabric Clocks**. The box for
 to **100 MHz**.
 
 <p align="center">
-  <img src="./images/17_PL_clk_100.png?raw=true">
+  <img src="./images/PL_clk_100.png?raw=true">
 </p>
 <p align="center">
-Figure 17: Continue the CIPS IP customization by setting the PL
+Figure 18: Continue the CIPS IP customization by setting the PL
 reference clock frequency
  </p>
 
@@ -447,30 +456,30 @@ reference clock frequency
     **/versal_cips_0/M_AXI_FPD**.
 
 <p align="center">
-  <img src="./images/18_connection_S_AXI.png?raw=true">
+  <img src="./images/connection_S_AXI.png?raw=true">
 </p>
 <p align="center">
-Figure 18: Connection Automation for S_AXI
+Figure 19: Connection Automation for S_AXI
  </p>
 
 -   Select **ext_reset_in** and set **Select Reset Source** to
     **/versal_cips_0/pl0_resetn**.
 
 <p align="center">
-  <img src="./images/19_connection_reset.png?raw=true">
+  <img src="./images/connection_reset.png?raw=true">
 </p>
 <p align="center">
-Figure 19: Connection Automation for ext_reset_in
+Figure 20: Connection Automation for ext_reset_in
  </p>
 
 -   Select **slowest_sync_clk** and set the **Clock Source** to
     **/versal_cips_0/pl0_ref_clk**.
 
 <p align="center">
-  <img src="./images/20_connection_pl_clk.png?raw=true">
+  <img src="./images/connection_pl_clk.png?raw=true">
 </p>
 <p align="center">
-Figure 20: Connection Automation for the slowest_sync_clk
+Figure 21: Connection Automation for the slowest_sync_clk
  </p>
 
 24. Click **OK** to run connection automation.
@@ -479,10 +488,10 @@ At this point, after regenerating the layout, the block design should
 look like this:
 
 <p align="center">
-  <img src="./images/21_bd_after_automation.png?raw=true">
+  <img src="./images/bd_after_automation.png?raw=true">
 </p>
 <p align="center">
-Figure 21: Block Design after Connection Automation
+Figure 22: Block Design after Connection Automation
  </p>
 
 25. **Validate** and then **Save** the block design.
@@ -513,20 +522,20 @@ The supplied `create_pl_bdc_dfx.tcl` script automates steps 1 through 6.
     than the CIPS and AXI NoC IP.
 
 <p align="center">
-  <img src="./images/22_top_bd_pre_hier.png?raw=true">
+  <img src="./images/top_bd_pre_hier.png?raw=true">
 </p>
 <p align="center">
-Figure 22: Select the IP to be placed in the PL hierarchy
+Figure 23: Select the IP to be placed in the PL hierarchy
  </p>
 
 2. Right-click on one of these highlighted blocks and select **Create
     Hierarchy**. Given the hierarchy a name of **PL** and click **OK**.
 
 <p align="center">
-  <img src="./images/23_create_hier.png?raw=true">
+  <img src="./images/create_hier.png?raw=true">
 </p>
 <p align="center">
-Figure 23: Create the PL hierarchy
+Figure 24: Create the PL hierarchy
  </p>
 
 3. **Validate** and **Save** the design.
@@ -539,10 +548,10 @@ Figure 23: Create the PL hierarchy
     **bram_bd**, then click **OK**.
 
 <p align="center">
-  <img src="./images/24_create_bdc.png?raw=true">
+  <img src="./images/create_bdc.png?raw=true">
 </p>
 <p align="center">
-Figure 24: Convert the PL hierarchy to be a Block Design Container
+Figure 25: Convert the PL hierarchy to be a Block Design Container
  </p>
 
 **Tip:** Give the Block Design Container a descriptive name, as this will
@@ -555,10 +564,10 @@ by clicking the + sign in the corner of that block, you are looking at a
 read-only copy of this block design.
 
 <p align="center">
-  <img src="./images/25_PL_BDC.png?raw=true">
+  <img src="./images/PL_BDC.png?raw=true">
 </p>
 <p align="center">
-Figure 25: The standard Block Design Container
+Figure 26: The standard Block Design Container
  </p>
 
 To edit this block design, you must open the new source, bram_bd.bd from
@@ -571,29 +580,29 @@ top.bd.
     container**. Click **OK**.
 
 <p align="center">
-  <img src="./images/26_bdc_dfx_anno.png?raw=true">
+  <img src="./images/bdc_dfx_anno.png?raw=true">
 </p>
 <p align="center">
-Figure 26: Block Design Container customization to enable DFX
+Figure 27: Block Design Container customization to enable DFX
  </p>
 
 At this point you will see that the PL icon has changed again, this time
 to indicate that the module is a DFX Reconfigurable Partition.
 
 <p align="center">
-  <img src="./images/27_pl_bdc_dfx.png?raw=true">
+  <img src="./images/pl_bdc_dfx.png?raw=true">
 </p>
 <p align="center">
-Figure 27: The DFX Block Design Container
+Figure 28: The DFX Block Design Container
  </p>
 
 The block design should now look like this:
 
 <p align="center">
-  <img src="./images/28_final_bdc_bd.png?raw=true">
+  <img src="./images/final_bdc_bd.png?raw=true">
 </p>
 <p align="center">
- Figure 28: The final block design
+ Figure 29: The final block design
  </p>
 
 6. **Validate** and **Save** the design.
@@ -609,10 +618,10 @@ step 14 in this section. The supplied `create_second_rm.tcl` script automates st
     the RM a unique name, timer_bd, and click **OK**.
 
 <p align="center">
-  <img src="./images/29_create_timer_bd.png?raw=true">
+  <img src="./images/create_timer_bd.png?raw=true">
 </p>
 <p align="center">
-Figure 29: Create Reconfigurable Module called timer_bd
+Figure 30: Create Reconfigurable Module called timer_bd
  </p>
 
 This action creates a new block design that is added to the project. The
@@ -630,19 +639,19 @@ applied to all Reconfigurable Modules.
 9. Configure the SmartConnect to have 1 Master and 1 Slave port.
 
 <p align="center">
-  <img src="./images/15_smartconnect_anno.png?raw=true">
+  <img src="./images/smartconnect_anno.png?raw=true">
 </p>
 <p align="center">
-Figure 30: AXI SmartConnect with one master and one slave
+Figure 31: AXI SmartConnect with one master and one slave
  </p>
 
 10. Connect the IP to match the following image.
 
 <p align="center">
-  <img src="./images/31_timer_bd.png?raw=true">
+  <img src="./images/timer_bd.png?raw=true">
 </p>
 <p align="center">
- Figure 31: Completed timer_bd block design
+ Figure 32: Completed timer_bd block design
  </p>
 
 11. On the **Address Editor** tab, click the Assign All
@@ -669,10 +678,10 @@ if you did NOT create a second RM, `run_impl_twoRM.tcl` if you did.
      context per IP** and click **Generate**.
 
 <p align="center">
-  <img src="./images/32_generate_output_products.png?raw=true">
+  <img src="./images/generate_output_products.png?raw=true">
 </p>
 <p align="center">
-Figure 32: Generate Output Products for top.bd
+Figure 33: Generate Output Products for top.bd
  </p>
 
 This will generate and synthesize each IP throughout the entire project.
@@ -695,10 +704,10 @@ additional RMs come along.
      Click **Next** until the last menu, and then click **Finish**.
 
 <p align="center">
-  <img src="./images/33_wiz_runs.png?raw=true">
+  <img src="./images/wiz_runs.png?raw=true">
 </p>
 <p align="center">
-Figure 33: Run the DFX Wizard to create Configuration Runs
+Figure 34: Run the DFX Wizard to create Configuration Runs
  </p>
 
 If the second RM was not created, the DFX Wizard would show just the
@@ -766,17 +775,17 @@ the timer design functionality.
      and **Finish**.
 
 <p align="center">
-  <img src="./images/34_export_hw.png?raw=true">
+  <img src="./images/export_hw.png?raw=true">
 </p>
 <p align="center">
-Figure 34: Export the Hardware Platform with the top-level PDI
+Figure 35: Export the Hardware Platform with the top-level PDI
  </p>
 
 <p align="center">
-  <img src="./images/35_export_parent_xsa.png?raw=true">
+  <img src="./images/export_parent_xsa.png?raw=true">
 </p>
 <p align="center">
-Figure 35: Place the XSA in the implementation directory
+Figure 36: Place the XSA in the implementation directory
  </p>
 
 The .xsa that is created includes the initial programming image
@@ -814,7 +823,7 @@ At this point you are ready to build a PetaLinux image.
 This section shows the PetaLinux build process tailored to the Classic
 SoC Boot solutions. For more information on this general topic, please
 refer to the PetaLinux Tool Reference Guide
-[UG1144](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2021_1/ug1144-petalinux-tools-reference-guide.pdf).
+[UG1144](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2021_2/ug1144-petalinux-tools-reference-guide.pdf).
 
 The following artifacts from the hardware design build are used in the
 PetaLinux build process:
@@ -833,7 +842,7 @@ Reconfigurable Module has been implemented for the PL Reconfigurable
 Partition) is used, static PDI for all the XSA will be same; any XSA can
 act as the primary XSA.
 
-In Vivado 2021.1, XSA generated from a DFX project will only contain the
+In Vivado 2021.2, XSA generated from a DFX project will only contain the
 static PDI (e.g. top_wrapper.pdi). Generation of partial XSA partial PDI
 (ending with *_partial.pdi e.g top_i_PL_bram_bd_inst_0_partial.pdi)
 will be introduced in a future Vivado release.
@@ -855,7 +864,7 @@ with multiple RMs, this process must be repeated for each configuration,
 adding the respective RM partial PDI to the XSA for that child run, to
 build a complete collection of complete XSA files.
 
-2. Set up the PetaLinux environment for 2021.1.
+2. Set up the PetaLinux environment for 2021.2.
 ```
 $ source <path_to_installed_petalinux>/settings.sh
 ```
@@ -896,7 +905,7 @@ $ petalinux-config ---> Yocto Settings ---> Yocto board settings ---> (vck190) Y
   <img src="./images/plnx_yocto_board.png?raw=true">
 </p>
 <p align="center">
-Figure 36: PetaLinux customization settings
+Figure 37: PetaLinux customization settings
  </p>
  
 Command line method:
@@ -916,7 +925,7 @@ echo 'MACHINE_FEATURES += "fpga-overlay"' >> project-spec/meta-user/conf/petalin
 7. Copy the fpgamanager_dtg_dfx bitbake class from versal-partial-pdi-template/classes to meta-user layer.  
 Be sure to unzip the versal-partial-pdi-template.zip before copying from it.
 
-This archive is not included in the Vivado 2021.1 install image and therefore
+This archive is not included in the Vivado 2021.2 install image and therefore
 must be used from this tutorial archive area. This
 template is generic for all Classic SoC Boot designs and is used to link
 the PL device tree blob (DTB) with the with the partial PDI (with a file
@@ -1160,28 +1169,28 @@ valid connections that are supported in the tools with this flow.
   <img src="./images/CIPS_to_PL_via_FPD.png?raw=true">
 </p>
 <p align="center">
-Figure 37 -- CIPS to PL via FPD and LPD ports
+Figure 38 -- CIPS to PL via FPD and LPD ports
  </p>
 
 <p align="center">
   <img src="./images/CIPS_to_PL_via_INI.png?raw=true">
 </p>
 <p align="center">
-Figure 38 -- CIPS to PL via NOC INI ports
+Figure 39 -- CIPS to PL via NOC INI ports
  </p>
 
 <p align="center">
   <img src="./images/PL_to_CIPS_via_FPD.png?raw=true">
 </p>
 <p align="center">
-Figure 39 -- PL to CIPS via FPD and LPD ports
+Figure 40 -- PL to CIPS via FPD and LPD ports
  </p>
 
 <p align="center">
   <img src="./images/CIPS_to_PL_via_INI.png?raw=true">
 </p>
 <p align="center">
-Figure 40 -- PL to CIPS via NOC INI ports
+Figure 41 -- PL to CIPS via NOC INI ports
  </p>
 
 # Supported/Unsupported Features
@@ -1193,7 +1202,7 @@ supported and unsupported features for DFX Block Design Container Projects.
 ## Supported Features
 
 -   Support for Versal Prime devices enabled for the DFX flow -- in Vivado
-    2021.1 this is limited to the Versal AI Core VC1902 and Versal Prime
+    2021.2 this is limited to the Versal AI Core VC1902 and Versal Prime
     VM1802
     
     - Other Versal devices (Versal AI Core and Versal Premium, for example)
@@ -1217,7 +1226,7 @@ Some features are not yet implemented but may be considered for future releases.
 # Known Issues/Limitations and other Considerations
 
 These are the issues and limitations with the Classic SoC Boot solution
-in the Vivado 2021.1 release. Some of these issues may be fixed in
+in the Vivado 2021.2 release. Some of these issues may be fixed in
 future releases, though plans are subject to change.
 
 ## Known Issues
