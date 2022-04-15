@@ -256,7 +256,7 @@ revert to a flat flow.
     options default.
 
 <p align="center">
-  <img src="./images/3_new_project.png?raw=true">
+  <img src="./images/new_project.png?raw=true">
 </p>
 <p align="center">
 Figure 4: Create a new project called "top"
@@ -271,7 +271,7 @@ Figure 4: Create a new project called "top"
     everything else. Click **OK** to continue.
 
 <p align="center">
-  <img src="./images/4_cips_automation_classic.png?raw=true">
+  <img src="./images/cips_automation_classic.png?raw=true">
 </p>
 <p align="center">
 Figure 5: Run block automation to connect the CIPS IP
@@ -280,7 +280,7 @@ Figure 5: Run block automation to connect the CIPS IP
 The initial block design will look like this:
 
 <p align="center">
-  <img src="./images/5_initial_bd_classic.png?raw=true">
+  <img src="./images/initial_bd_classic.png?raw=true">
 </p>
 <p align="center">
 Figure 6: Initial block design after automation
@@ -291,7 +291,7 @@ Figure 6: Initial block design after automation
     PMC** to configure this module.
 
 <p align="center">
-  <img src="./images/6_cips_ps_pmc.png?raw=true">
+  <img src="./images/cips_ps_pmc.png?raw=true">
 </p>
 <p align="center">
 Figure 7: Customize the CIPS IP
@@ -308,7 +308,7 @@ design solution must be used.
     **PL CLK 0**.
 
 <p align="center">
-  <img src="./images/7_cips_pl_clk_0.png?raw=true">
+  <img src="./images/cips_pl_clk_0.png?raw=true">
 </p>
 <p align="center">
 Figure 8: Enable PL CLK 0
@@ -317,7 +317,7 @@ Figure 8: Enable PL CLK 0
 8.  Under the PS PL Interfaces options, set the Number of PL Resets to 1.
 
 <p align="center">
-  <img src="./images/8_cips_pl_reset.png?raw=true">
+  <img src="./images/cips_pl_reset.png?raw=true">
 </p>
 <p align="center">
 Figure 9: Set the number of PL Resets to 1
@@ -327,7 +327,7 @@ Figure 9: Set the number of PL Resets to 1
     Coherent** **PS** **to NoC Interfaces**.
 
 <p align="center">
-  <img src="./images/9_cips_noc.png?raw=true">
+  <img src="./images/cips_noc.png?raw=true">
 </p>
 <p align="center">
 Figure 10: Enable both Non Coherent PS to NoC Interfaces
@@ -340,7 +340,7 @@ Figure 10: Enable both Non Coherent PS to NoC Interfaces
     **ddr4 dimm1 sma clk** for the VCK190 board.
 
 <p align="center">
-  <img src="./images/10_noc_board.png?raw=true">
+  <img src="./images/noc_board.png?raw=true">
 </p>
 <p align="center">
 Figure 11: Customize the AXI NoC IP
@@ -350,7 +350,7 @@ Figure 11: Customize the AXI NoC IP
     and Number of AXI Clocks to 8.
 
 <p align="center">
-  <img src="./images/11_noc_general.png?raw=true">
+  <img src="./images/noc_general.png?raw=true">
 </p>
 <p align="center">
 Figure 12: Increase the number of AXI Slave Interfaces and AXI Clocks to 8
@@ -361,7 +361,7 @@ Figure 12: Increase the number of AXI Slave Interfaces and AXI Clocks to 8
     Clocks, aclk6 and aclk7.
 
 <p align="center">
-  <img src="./images/12_noc_inputs.png?raw=true">
+  <img src="./images/noc_inputs.png?raw=true">
 </p>
 <p align="center">
 Figure 13: Connect the PS Non-Coherent interfaces to the new AXI Slave ports
@@ -371,7 +371,7 @@ Figure 13: Connect the PS Non-Coherent interfaces to the new AXI Slave ports
     to Memory Controller ports 1 and 2 as shown below.
 
 <p align="center">
-  <img src="./images/13_noc_connectivity.png?raw=true">
+  <img src="./images/noc_connectivity.png?raw=true">
 </p>
 <p align="center">
 Figure 14: Assign AXI Slave ports to Memory Controller ports
@@ -390,7 +390,7 @@ The block design should look like this now. The four new connections are
 highlighted in orange.
 
 <p align="center">
-  <img src="./images/14_top_bd_cips_noc.png?raw=true">
+  <img src="./images/top_bd_cips_noc.png?raw=true">
 </p>
 <p align="center">
 Figure 15: Block design after CIPS and NoC customization
@@ -413,7 +413,7 @@ Figure 15: Block design after CIPS and NoC customization
 20. Configure the AXI SmartConnect to have 1 Master and 1 Slave port.
 
 <p align="center">
-  <img src="./images/15_smartconnect_anno.png?raw=true">
+  <img src="./images/smartconnect_anno.png?raw=true">
 </p>
 <p align="center">
 Figure 16: Configure the AXI SmartConnect IP
@@ -426,7 +426,7 @@ Select the **PS PL Interfaces** group. **Check** the box for AXI Master
 Interfaces **M_AXI_FPD**, leaving the Data Width at 128.
 
 <p align="center">
-  <img src="./images/16_AXI_master_FPD.png?raw=true">
+  <img src="./images/AXI_master_FPD.png?raw=true">
 </p>
 <p align="center">
 Figure 17: Continue the CIPS IP customization by setting the PL-PS interfaces
@@ -438,7 +438,7 @@ down into **PMC Domain Clocks** then **PL Fabric Clocks**. The box for
 to **100 MHz**.
 
 <p align="center">
-  <img src="./images/17_PL_clk_100.png?raw=true">
+  <img src="./images/PL_clk_100.png?raw=true">
 </p>
 <p align="center">
 Figure 18: Continue the CIPS IP customization by setting the PL
@@ -456,7 +456,7 @@ reference clock frequency
     **/versal_cips_0/M_AXI_FPD**.
 
 <p align="center">
-  <img src="./images/18_connection_S_AXI.png?raw=true">
+  <img src="./images/connection_S_AXI.png?raw=true">
 </p>
 <p align="center">
 Figure 19: Connection Automation for S_AXI
@@ -466,7 +466,7 @@ Figure 19: Connection Automation for S_AXI
     **/versal_cips_0/pl0_resetn**.
 
 <p align="center">
-  <img src="./images/19_connection_reset.png?raw=true">
+  <img src="./images/connection_reset.png?raw=true">
 </p>
 <p align="center">
 Figure 20: Connection Automation for ext_reset_in
@@ -476,7 +476,7 @@ Figure 20: Connection Automation for ext_reset_in
     **/versal_cips_0/pl0_ref_clk**.
 
 <p align="center">
-  <img src="./images/20_connection_pl_clk.png?raw=true">
+  <img src="./images/connection_pl_clk.png?raw=true">
 </p>
 <p align="center">
 Figure 21: Connection Automation for the slowest_sync_clk
@@ -488,7 +488,7 @@ At this point, after regenerating the layout, the block design should
 look like this:
 
 <p align="center">
-  <img src="./images/21_bd_after_automation.png?raw=true">
+  <img src="./images/bd_after_automation.png?raw=true">
 </p>
 <p align="center">
 Figure 22: Block Design after Connection Automation
@@ -522,7 +522,7 @@ The supplied `create_pl_bdc_dfx.tcl` script automates steps 1 through 6.
     than the CIPS and AXI NoC IP.
 
 <p align="center">
-  <img src="./images/22_top_bd_pre_hier.png?raw=true">
+  <img src="./images/top_bd_pre_hier.png?raw=true">
 </p>
 <p align="center">
 Figure 23: Select the IP to be placed in the PL hierarchy
@@ -532,7 +532,7 @@ Figure 23: Select the IP to be placed in the PL hierarchy
     Hierarchy**. Given the hierarchy a name of **PL** and click **OK**.
 
 <p align="center">
-  <img src="./images/23_create_hier.png?raw=true">
+  <img src="./images/create_hier.png?raw=true">
 </p>
 <p align="center">
 Figure 24: Create the PL hierarchy
@@ -548,7 +548,7 @@ Figure 24: Create the PL hierarchy
     **bram_bd**, then click **OK**.
 
 <p align="center">
-  <img src="./images/24_create_bdc.png?raw=true">
+  <img src="./images/create_bdc.png?raw=true">
 </p>
 <p align="center">
 Figure 25: Convert the PL hierarchy to be a Block Design Container
@@ -564,7 +564,7 @@ by clicking the + sign in the corner of that block, you are looking at a
 read-only copy of this block design.
 
 <p align="center">
-  <img src="./images/25_PL_BDC.png?raw=true">
+  <img src="./images/PL_BDC.png?raw=true">
 </p>
 <p align="center">
 Figure 26: The standard Block Design Container
@@ -580,7 +580,7 @@ top.bd.
     container**. Click **OK**.
 
 <p align="center">
-  <img src="./images/26_bdc_dfx_anno.png?raw=true">
+  <img src="./images/bdc_dfx_anno.png?raw=true">
 </p>
 <p align="center">
 Figure 27: Block Design Container customization to enable DFX
@@ -590,7 +590,7 @@ At this point you will see that the PL icon has changed again, this time
 to indicate that the module is a DFX Reconfigurable Partition.
 
 <p align="center">
-  <img src="./images/27_pl_bdc_dfx.png?raw=true">
+  <img src="./images/pl_bdc_dfx.png?raw=true">
 </p>
 <p align="center">
 Figure 28: The DFX Block Design Container
@@ -599,7 +599,7 @@ Figure 28: The DFX Block Design Container
 The block design should now look like this:
 
 <p align="center">
-  <img src="./images/28_final_bdc_bd.png?raw=true">
+  <img src="./images/final_bdc_bd.png?raw=true">
 </p>
 <p align="center">
  Figure 29: The final block design
@@ -618,7 +618,7 @@ step 14 in this section. The supplied `create_second_rm.tcl` script automates st
     the RM a unique name, timer_bd, and click **OK**.
 
 <p align="center">
-  <img src="./images/29_create_timer_bd.png?raw=true">
+  <img src="./images/create_timer_bd.png?raw=true">
 </p>
 <p align="center">
 Figure 30: Create Reconfigurable Module called timer_bd
@@ -639,7 +639,7 @@ applied to all Reconfigurable Modules.
 9. Configure the SmartConnect to have 1 Master and 1 Slave port.
 
 <p align="center">
-  <img src="./images/15_smartconnect_anno.png?raw=true">
+  <img src="./images/smartconnect_anno.png?raw=true">
 </p>
 <p align="center">
 Figure 31: AXI SmartConnect with one master and one slave
@@ -648,7 +648,7 @@ Figure 31: AXI SmartConnect with one master and one slave
 10. Connect the IP to match the following image.
 
 <p align="center">
-  <img src="./images/31_timer_bd.png?raw=true">
+  <img src="./images/timer_bd.png?raw=true">
 </p>
 <p align="center">
  Figure 32: Completed timer_bd block design
@@ -678,7 +678,7 @@ if you did NOT create a second RM, `run_impl_twoRM.tcl` if you did.
      context per IP** and click **Generate**.
 
 <p align="center">
-  <img src="./images/32_generate_output_products.png?raw=true">
+  <img src="./images/generate_output_products.png?raw=true">
 </p>
 <p align="center">
 Figure 33: Generate Output Products for top.bd
@@ -704,7 +704,7 @@ additional RMs come along.
      Click **Next** until the last menu, and then click **Finish**.
 
 <p align="center">
-  <img src="./images/33_wiz_runs.png?raw=true">
+  <img src="./images/wiz_runs.png?raw=true">
 </p>
 <p align="center">
 Figure 34: Run the DFX Wizard to create Configuration Runs
@@ -775,14 +775,14 @@ the timer design functionality.
      and **Finish**.
 
 <p align="center">
-  <img src="./images/34_export_hw.png?raw=true">
+  <img src="./images/export_hw.png?raw=true">
 </p>
 <p align="center">
 Figure 35: Export the Hardware Platform with the top-level PDI
  </p>
 
 <p align="center">
-  <img src="./images/35_export_parent_xsa.png?raw=true">
+  <img src="./images/export_parent_xsa.png?raw=true">
 </p>
 <p align="center">
 Figure 36: Place the XSA in the implementation directory
