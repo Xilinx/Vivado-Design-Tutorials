@@ -15,7 +15,7 @@
 # ###########################################################################
 
 #*****************************************************************************************
-# Vivado (TM) v2021.1 (64-bit)
+# Vivado (TM) v2021.2 (64-bit)
 #
 # project_1.tcl: Tcl script for re-creating project 'project_1'
 #
@@ -198,7 +198,7 @@ proc cr_bd_top { parentCell } {
   xilinx.com:ip:emb_mem_gen:1.0\
   xilinx.com:ip:proc_sys_reset:5.0\
   xilinx.com:ip:smartconnect:1.0\
-  xilinx.com:ip:versal_cips:3.0\
+  xilinx.com:ip:versal_cips:3.1\
   "
 
    set list_ips_missing ""
@@ -391,7 +391,7 @@ proc cr_bd_top { parentCell } {
  ] $smartconnect_0
 
   # Create instance: versal_cips_0, and set properties
-  set versal_cips_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:versal_cips:3.0 versal_cips_0 ]
+  set versal_cips_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:versal_cips:3.1 versal_cips_0 ]
   set_property -dict [ list \
    CONFIG.CLOCK_MODE {Custom} \
    CONFIG.DDR_MEMORY_MODE {Enable} \
