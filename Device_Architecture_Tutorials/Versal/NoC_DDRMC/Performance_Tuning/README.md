@@ -150,7 +150,7 @@ After the design finishes building, run a behavioral simulation.  The results ar
 | Traffic Generator  | Write Bandwidth (GB/s) | Write Bandwidth Target (GB/s) | Read Bandwidth (GB/s) | Read Bandwidth Target (GB/s) |
 | :---: | ---- | ---- | ---- | ---- |
 |  0  | 2.19 | 2.77 | 2.24 | 2.77 |
-|  1  | 2.10 | 2.77 | 2.19 | 2.77 |
+|  1  | 2.19 | 2.77 | 2.19 | 2.77 |
 |  2  | 2.19 | 2.77 | 2.18 | 2.77 |
 |  3  | 2.19 | 2.77 | 2.15 | 2.77 |
 |  4  | 2.26 | 2.27 | 2.14 | 2.8  |
@@ -310,9 +310,10 @@ to match whatever device is used on your board.
 * Sep 23, 2020 - Updated for 2020.2
 * Sep 23, 2020 - Updated for 2020.2 released version
 * Aug 26, 2021 - Updated for 2021.1
+* Apr 26, 2022 - Fixed minor typo in second design results
 
 
-© Copyright 2020-2021 Xilinx, Inc.
+© Copyright 2020-2022 Xilinx, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
