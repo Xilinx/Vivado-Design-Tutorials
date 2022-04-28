@@ -1,4 +1,4 @@
-﻿<table>
+<table>
  <tr>
    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="50%"/>
    </td>
@@ -33,10 +33,10 @@ and receive the LVDS standard. The underlying I/O and XPLL clocking architecture
 <hr style="height:2px;border-width:0;background-color:brown">
 
 # Single-Bank Source Synchronous Design
-<a href="https://gitenterprise.xilinx.com/IPSP/Tutorials/tree/master/IO_Design/Single_bank_source_synchronous_design">...more</a>
+<a href="./Single_bank_source_synchronous_design">...more</a>
 
 # Multi-Bank Source Synchronous Design
-<a href="https://gitenterprise.xilinx.com/IPSP/Tutorials/tree/master/IO_Design/Multi_bank_source_synchronous_design">...more</a>
+<a href="./Multi_bank_source_synchronous_design">...more</a>
 
 # References
 These documents provide supplemental material useful with this tutorial:
