@@ -20,7 +20,7 @@ set script_folder [_tcl::get_script_folder]
 ################################################################
 # Check if script is running in correct Vivado version.
 ################################################################
-set scripts_vivado_version 2021.1
+set scripts_vivado_version 2021.2
 set current_vivado_version [version -short]
 
 if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
@@ -125,7 +125,7 @@ set bCheckIPs 1
 if { $bCheckIPs == 1 } {
    set list_check_ips "\ 
 xilinx.com:ip:axi_noc:1.0\
-xilinx.com:ip:versal_cips:3.0\
+xilinx.com:ip:versal_cips:3.1\
 "
 
    set list_ips_missing ""
@@ -496,7 +496,7 @@ proc create_root_design { parentCell } {
  ] [get_bd_intf_pins /axi_noc_1/S03_INI]
 
   # Create instance: versal_cips_0, and set properties
-  set versal_cips_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:versal_cips:3.0 versal_cips_0 ]
+  set versal_cips_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:versal_cips:3.1 versal_cips_0 ]
   set_property -dict [ list \
    CONFIG.DDR_MEMORY_MODE {Enable} \
    CONFIG.DEBUG_MODE {JTAG} \
