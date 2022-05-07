@@ -18,4 +18,7 @@ best-in-class designs on all Xilinx devices.
 Learn how to target device-specific features for specific Xilinx architectures using Vivado and any needed
 low-level software frameworks.
 
+### [Design Flow Tutorials](./Design_Flow_Tutorials)
+Tutorials focused on showcasing Vivado design flow. 
+
 <p align="center"><sup>Copyright&copy; 2020-2022 Xilinx</sup></p>
