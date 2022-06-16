@@ -1,4 +1,4 @@
-﻿<table width="100%">
+<table width="100%">
  <tr width="100%">
     <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Vivado™ Design Flow Specific Tutorials</h1>
     </td>
