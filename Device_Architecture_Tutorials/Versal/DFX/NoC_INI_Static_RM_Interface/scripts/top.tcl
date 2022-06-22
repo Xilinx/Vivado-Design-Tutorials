@@ -1,6 +1,6 @@
 
 # #########################################################################
-#© Copyright 2021 Xilinx, Inc.
+#Â© Copyright 2021 Xilinx, Inc.
 
 #Licensed under the Apache License, Version 2.0 (the "License");
 #you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ set script_folder [_tcl::get_script_folder]
 ################################################################
 # Check if script is running in correct Vivado version.
 ################################################################
-set scripts_vivado_version 2021.1
+set scripts_vivado_version 2022.1
 set current_vivado_version [version -short]
 
 if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
@@ -157,7 +157,7 @@ xilinx.com:ip:clk_wizard:1.0\
 xilinx.com:ip:dfx_decoupler:1.0\
 xilinx.com:ip:proc_sys_reset:5.0\
 xilinx.com:ip:smartconnect:1.0\
-xilinx.com:ip:versal_cips:3.0\
+xilinx.com:ip:versal_cips:3.2\
 "
 
    set list_ips_missing ""
@@ -361,7 +361,7 @@ proc create_hier_cell_Static_Region { parentCell nameHier } {
    CONFIG.DATA_WIDTH {128} \
    CONFIG.REGION {0} \
    CONFIG.CONNECTIONS {MC_0 { read_bw {100} write_bw {100} read_avg_burst {4} write_avg_burst {4}} M01_AXI { read_bw {1720} write_bw {1720} read_avg_burst {4} write_avg_burst {4}} M00_AXI { read_bw {1720} write_bw {1720} read_avg_burst {4} write_avg_burst {4}} } \
-   CONFIG.DEST_IDS {M01_AXI:0x100:M00_AXI:0x40} \
+   CONFIG.DEST_IDS {M01_AXI:0x80:M00_AXI:0x180} \
    CONFIG.CATEGORY {ps_cci} \
  ] [get_bd_intf_pins /Static_Region/axi_noc_0/S00_AXI]
 
@@ -401,7 +401,7 @@ proc create_hier_cell_Static_Region { parentCell nameHier } {
    CONFIG.DATA_WIDTH {128} \
    CONFIG.REGION {0} \
    CONFIG.CONNECTIONS {M03_AXI { read_bw {1720} write_bw {1720} read_avg_burst {4} write_avg_burst {4}} MC_0 { read_bw {100} write_bw {100} read_avg_burst {4} write_avg_burst {4}} M01_AXI { read_bw {1720} write_bw {1720} read_avg_burst {4} write_avg_burst {4}} M00_AXI { read_bw {1720} write_bw {1720} read_avg_burst {4} write_avg_burst {4}} M00_INI { read_bw {1720} write_bw {1720}} } \
-   CONFIG.DEST_IDS {M03_AXI:0x0:M01_AXI:0x100:M00_AXI:0x40} \
+   CONFIG.DEST_IDS {M03_AXI:0x0:M01_AXI:0x80:M00_AXI:0x180} \
    CONFIG.CATEGORY {ps_pmc} \
  ] [get_bd_intf_pins /Static_Region/axi_noc_0/S05_AXI]
 
@@ -491,6 +491,7 @@ proc create_hier_cell_Static_Region { parentCell nameHier } {
   set_property -dict [ list \
    CONFIG.INI_STRATEGY {auto} \
    CONFIG.CONNECTIONS {M00_INIS { write_bw {5}} } \
+   CONFIG.DEST_IDS {} \
  ] [get_bd_intf_pins /Static_Region/axis_noc_1/S00_INIS]
 
   # Create instance: clk_wizard_0, and set properties
@@ -502,24 +503,31 @@ proc create_hier_cell_Static_Region { parentCell nameHier } {
   # Create instance: dfx_decoupler_0, and set properties
   set dfx_decoupler_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:dfx_decoupler:1.0 dfx_decoupler_0 ]
   set_property -dict [ list \
-   CONFIG.ALL_PARAMS {HAS_AXI_LITE 1 HAS_SIGNAL_CONTROL 0 HAS_SIGNAL_STATUS 0 INTF {intf_0 {ID 0 VLNV\
-xilinx.com:interface:aximm_rtl:1.0 MODE slave SIGNALS {ARVALID {PRESENT 1 WIDTH\
-1} ARREADY {PRESENT 1 WIDTH 1} AWVALID {PRESENT 1 WIDTH 1} AWREADY {PRESENT 1\
-WIDTH 1} BVALID {PRESENT 1 WIDTH 1} BREADY {PRESENT 1 WIDTH 1} RVALID {PRESENT\
-1 WIDTH 1} RREADY {PRESENT 1 WIDTH 1} WVALID {PRESENT 1 WIDTH 1} WREADY\
-{PRESENT 1 WIDTH 1} AWID {PRESENT 0 WIDTH 0} AWADDR {PRESENT 1 WIDTH 42} AWLEN\
-{PRESENT 1 WIDTH 8} AWSIZE {PRESENT 1 WIDTH 3} AWBURST {PRESENT 1 WIDTH 2}\
-AWLOCK {PRESENT 1 WIDTH 1} AWCACHE {PRESENT 1 WIDTH 4} AWPROT {PRESENT 1 WIDTH\
-3} AWREGION {PRESENT 1 WIDTH 4} AWQOS {PRESENT 1 WIDTH 4} AWUSER {PRESENT 0\
-WIDTH 0} WID {PRESENT 0 WIDTH 0} WDATA {PRESENT 1 WIDTH 32} WSTRB {PRESENT 1\
-WIDTH 4} WLAST {PRESENT 1 WIDTH 1} WUSER {PRESENT 0 WIDTH 0} BID {PRESENT 0\
-WIDTH 0} BRESP {PRESENT 1 WIDTH 2} BUSER {PRESENT 0 WIDTH 0} ARID {PRESENT 0\
-WIDTH 0} ARADDR {PRESENT 1 WIDTH 42} ARLEN {PRESENT 1 WIDTH 8} ARSIZE {PRESENT\
-1 WIDTH 3} ARBURST {PRESENT 1 WIDTH 2} ARLOCK {PRESENT 1 WIDTH 1} ARCACHE\
-{PRESENT 1 WIDTH 4} ARPROT {PRESENT 1 WIDTH 3} ARREGION {PRESENT 1 WIDTH 4}\
-ARQOS {PRESENT 1 WIDTH 4} ARUSER {PRESENT 0 WIDTH 0} RID {PRESENT 0 WIDTH 0}\
-RDATA {PRESENT 1 WIDTH 32} RRESP {PRESENT 1 WIDTH 2} RLAST {PRESENT 1 WIDTH 1}\
-RUSER {PRESENT 0 WIDTH 0}}}} IPI_PROP_COUNT 1}\
+   CONFIG.ALL_PARAMS {\
+     HAS_AXI_LITE {1}\
+     HAS_SIGNAL_CONTROL {0}\
+     HAS_SIGNAL_STATUS {0}\
+     INTF {intf_0 {ID 0 VLNV xilinx.com:interface:aximm_rtl:1.0 MODE slave SIGNALS\
+{ARVALID {PRESENT 1 WIDTH 1} ARREADY {PRESENT 1 WIDTH 1} AWVALID {PRESENT 1\
+WIDTH 1} AWREADY {PRESENT 1 WIDTH 1} BVALID {PRESENT 1 WIDTH 1} BREADY\
+{PRESENT 1 WIDTH 1} RVALID {PRESENT 1 WIDTH 1} RREADY {PRESENT 1 WIDTH 1}\
+WVALID {PRESENT 1 WIDTH 1} WREADY {PRESENT 1 WIDTH 1} AWID {PRESENT 0 WIDTH\
+0} AWADDR {PRESENT 1 WIDTH 42} AWLEN {PRESENT 1 WIDTH 8} AWSIZE {PRESENT 1\
+WIDTH 3} AWBURST {PRESENT 1 WIDTH 2} AWLOCK {PRESENT 1 WIDTH 1} AWCACHE\
+{PRESENT 1 WIDTH 4} AWPROT {PRESENT 1 WIDTH 3} AWREGION {PRESENT 0 WIDTH 4}\
+AWQOS {PRESENT 1 WIDTH 4} AWUSER {PRESENT 0 WIDTH 0} WID {PRESENT 0 WIDTH\
+0} WDATA {PRESENT 1 WIDTH 32} WSTRB {PRESENT 1 WIDTH 4} WLAST {PRESENT 1\
+WIDTH 1} WUSER {PRESENT 0 WIDTH 0} BID {PRESENT 0 WIDTH 0} BRESP {PRESENT 1\
+WIDTH 2} BUSER {PRESENT 0 WIDTH 0} ARID {PRESENT 0 WIDTH 0} ARADDR {PRESENT\
+1 WIDTH 42} ARLEN {PRESENT 1 WIDTH 8} ARSIZE {PRESENT 1 WIDTH 3} ARBURST\
+{PRESENT 1 WIDTH 2} ARLOCK {PRESENT 1 WIDTH 1} ARCACHE {PRESENT 1 WIDTH 4}\
+ARPROT {PRESENT 1 WIDTH 3} ARREGION {PRESENT 0 WIDTH 4} ARQOS {PRESENT 1\
+WIDTH 4} ARUSER {PRESENT 0 WIDTH 0} RID {PRESENT 0 WIDTH 0} RDATA {PRESENT\
+1 WIDTH 32} RRESP {PRESENT 1 WIDTH 2} RLAST {PRESENT 1 WIDTH 1} RUSER\
+{PRESENT 0 WIDTH 0}} PROTOCOL AXI4}}\
+     IPI_PROP_COUNT {2}\
+     ALWAYS_HAVE_AXI_CLK {1}\
+   } \
    CONFIG.GUI_HAS_AXI_LITE {true} \
    CONFIG.GUI_HAS_SIGNAL_CONTROL {false} \
    CONFIG.GUI_HAS_SIGNAL_STATUS {false} \
@@ -563,41 +571,49 @@ RUSER {PRESENT 0 WIDTH 0}}}} IPI_PROP_COUNT 1}\
   # Create instance: dfx_decoupler_1, and set properties
   set dfx_decoupler_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:dfx_decoupler:1.0 dfx_decoupler_1 ]
   set_property -dict [ list \
-   CONFIG.ALL_PARAMS {HAS_AXI_LITE 1 HAS_SIGNAL_CONTROL 0 HAS_SIGNAL_STATUS 0 INTF {intf_0 {ID 0 VLNV\
-xilinx.com:interface:aximm_rtl:1.0 MODE slave SIGNALS {ARVALID {PRESENT 1 WIDTH\
-1} ARREADY {PRESENT 1 WIDTH 1} AWVALID {PRESENT 1 WIDTH 1} AWREADY {PRESENT 1\
-WIDTH 1} BVALID {PRESENT 1 WIDTH 1} BREADY {PRESENT 1 WIDTH 1} RVALID {PRESENT\
-1 WIDTH 1} RREADY {PRESENT 1 WIDTH 1} WVALID {PRESENT 1 WIDTH 1} WREADY\
-{PRESENT 1 WIDTH 1} AWID {PRESENT 0 WIDTH 0} AWADDR {PRESENT 1 WIDTH 42} AWLEN\
-{PRESENT 1 WIDTH 8} AWSIZE {PRESENT 1 WIDTH 3} AWBURST {PRESENT 1 WIDTH 2}\
-AWLOCK {PRESENT 1 WIDTH 1} AWCACHE {PRESENT 1 WIDTH 4} AWPROT {PRESENT 1 WIDTH\
-3} AWREGION {PRESENT 1 WIDTH 4} AWQOS {PRESENT 1 WIDTH 4} AWUSER {PRESENT 0\
-WIDTH 0} WID {PRESENT 0 WIDTH 0} WDATA {PRESENT 1 WIDTH 32} WSTRB {PRESENT 1\
-WIDTH 4} WLAST {PRESENT 1 WIDTH 1} WUSER {PRESENT 0 WIDTH 0} BID {PRESENT 0\
-WIDTH 0} BRESP {PRESENT 1 WIDTH 2} BUSER {PRESENT 0 WIDTH 0} ARID {PRESENT 0\
-WIDTH 0} ARADDR {PRESENT 1 WIDTH 42} ARLEN {PRESENT 1 WIDTH 8} ARSIZE {PRESENT\
-1 WIDTH 3} ARBURST {PRESENT 1 WIDTH 2} ARLOCK {PRESENT 1 WIDTH 1} ARCACHE\
-{PRESENT 1 WIDTH 4} ARPROT {PRESENT 1 WIDTH 3} ARREGION {PRESENT 1 WIDTH 4}\
-ARQOS {PRESENT 1 WIDTH 4} ARUSER {PRESENT 0 WIDTH 0} RID {PRESENT 0 WIDTH 0}\
-RDATA {PRESENT 1 WIDTH 32} RRESP {PRESENT 1 WIDTH 2} RLAST {PRESENT 1 WIDTH 1}\
-RUSER {PRESENT 0 WIDTH 0}}} intf_1 {ID 1 VLNV\
-xilinx.com:interface:aximm_rtl:1.0 MODE slave SIGNALS {ARVALID {PRESENT 1 WIDTH\
-1} ARREADY {PRESENT 1 WIDTH 1} AWVALID {PRESENT 1 WIDTH 1} AWREADY {PRESENT 1\
-WIDTH 1} BVALID {PRESENT 1 WIDTH 1} BREADY {PRESENT 1 WIDTH 1} RVALID {PRESENT\
-1 WIDTH 1} RREADY {PRESENT 1 WIDTH 1} WVALID {PRESENT 1 WIDTH 1} WREADY\
-{PRESENT 1 WIDTH 1} AWID {PRESENT 0 WIDTH 0} AWADDR {PRESENT 1 WIDTH 42} AWLEN\
-{PRESENT 0 WIDTH 8} AWSIZE {PRESENT 0 WIDTH 3} AWBURST {PRESENT 0 WIDTH 2}\
-AWLOCK {PRESENT 0 WIDTH 1} AWCACHE {PRESENT 0 WIDTH 4} AWPROT {PRESENT 1 WIDTH\
-3} AWREGION {PRESENT 1 WIDTH 4} AWQOS {PRESENT 1 WIDTH 4} AWUSER {PRESENT 0\
-WIDTH 0} WID {PRESENT 0 WIDTH 0} WDATA {PRESENT 1 WIDTH 32} WSTRB {PRESENT 1\
-WIDTH 4} WLAST {PRESENT 0 WIDTH 1} WUSER {PRESENT 0 WIDTH 0} BID {PRESENT 0\
-WIDTH 0} BRESP {PRESENT 1 WIDTH 2} BUSER {PRESENT 0 WIDTH 0} ARID {PRESENT 0\
-WIDTH 0} ARADDR {PRESENT 1 WIDTH 42} ARLEN {PRESENT 0 WIDTH 8} ARSIZE {PRESENT\
-0 WIDTH 3} ARBURST {PRESENT 0 WIDTH 2} ARLOCK {PRESENT 0 WIDTH 1} ARCACHE\
-{PRESENT 0 WIDTH 4} ARPROT {PRESENT 1 WIDTH 3} ARREGION {PRESENT 1 WIDTH 4}\
-ARQOS {PRESENT 1 WIDTH 4} ARUSER {PRESENT 0 WIDTH 0} RID {PRESENT 0 WIDTH 0}\
-RDATA {PRESENT 1 WIDTH 32} RRESP {PRESENT 1 WIDTH 2} RLAST {PRESENT 0 WIDTH 1}\
-RUSER {PRESENT 0 WIDTH 0}} PROTOCOL axi4lite}} IPI_PROP_COUNT 4}\
+   CONFIG.ALL_PARAMS {\
+     HAS_AXI_LITE {1}\
+     HAS_SIGNAL_CONTROL {0}\
+     HAS_SIGNAL_STATUS {0}\
+     INTF {intf_0 {ID 0 VLNV xilinx.com:interface:aximm_rtl:1.0 MODE slave SIGNALS\
+{ARVALID {PRESENT 1 WIDTH 1} ARREADY {PRESENT 1 WIDTH 1} AWVALID {PRESENT 1\
+WIDTH 1} AWREADY {PRESENT 1 WIDTH 1} BVALID {PRESENT 1 WIDTH 1} BREADY\
+{PRESENT 1 WIDTH 1} RVALID {PRESENT 1 WIDTH 1} RREADY {PRESENT 1 WIDTH 1}\
+WVALID {PRESENT 1 WIDTH 1} WREADY {PRESENT 1 WIDTH 1} AWID {PRESENT 0 WIDTH\
+0} AWADDR {PRESENT 1 WIDTH 42} AWLEN {PRESENT 1 WIDTH 8} AWSIZE {PRESENT 1\
+WIDTH 3} AWBURST {PRESENT 1 WIDTH 2} AWLOCK {PRESENT 1 WIDTH 1} AWCACHE\
+{PRESENT 1 WIDTH 4} AWPROT {PRESENT 1 WIDTH 3} AWREGION {PRESENT 0 WIDTH 4}\
+AWQOS {PRESENT 1 WIDTH 4} AWUSER {PRESENT 0 WIDTH 0} WID {PRESENT 0 WIDTH\
+0} WDATA {PRESENT 1 WIDTH 32} WSTRB {PRESENT 1 WIDTH 4} WLAST {PRESENT 1\
+WIDTH 1} WUSER {PRESENT 0 WIDTH 0} BID {PRESENT 0 WIDTH 0} BRESP {PRESENT 1\
+WIDTH 2} BUSER {PRESENT 0 WIDTH 0} ARID {PRESENT 0 WIDTH 0} ARADDR {PRESENT\
+1 WIDTH 42} ARLEN {PRESENT 1 WIDTH 8} ARSIZE {PRESENT 1 WIDTH 3} ARBURST\
+{PRESENT 1 WIDTH 2} ARLOCK {PRESENT 1 WIDTH 1} ARCACHE {PRESENT 1 WIDTH 4}\
+ARPROT {PRESENT 1 WIDTH 3} ARREGION {PRESENT 0 WIDTH 4} ARQOS {PRESENT 1\
+WIDTH 4} ARUSER {PRESENT 0 WIDTH 0} RID {PRESENT 0 WIDTH 0} RDATA {PRESENT\
+1 WIDTH 32} RRESP {PRESENT 1 WIDTH 2} RLAST {PRESENT 1 WIDTH 1} RUSER\
+{PRESENT 0 WIDTH 0}} PROTOCOL AXI4} intf_1 {ID 1 VLNV\
+xilinx.com:interface:aximm_rtl:1.0 MODE slave SIGNALS {ARVALID {PRESENT 1\
+WIDTH 1} ARREADY {PRESENT 1 WIDTH 1} AWVALID {PRESENT 1 WIDTH 1} AWREADY\
+{PRESENT 1 WIDTH 1} BVALID {PRESENT 1 WIDTH 1} BREADY {PRESENT 1 WIDTH 1}\
+RVALID {PRESENT 1 WIDTH 1} RREADY {PRESENT 1 WIDTH 1} WVALID {PRESENT 1\
+WIDTH 1} WREADY {PRESENT 1 WIDTH 1} AWID {PRESENT 0 WIDTH 0} AWADDR\
+{PRESENT 1 WIDTH 42} AWLEN {PRESENT 0 WIDTH 8} AWSIZE {PRESENT 0 WIDTH 3}\
+AWBURST {PRESENT 0 WIDTH 2} AWLOCK {PRESENT 0 WIDTH 1} AWCACHE {PRESENT 0\
+WIDTH 4} AWPROT {PRESENT 0 WIDTH 3} AWREGION {PRESENT 0 WIDTH 4} AWQOS\
+{PRESENT 0 WIDTH 4} AWUSER {PRESENT 0 WIDTH 0} WID {PRESENT 0 WIDTH 0}\
+WDATA {PRESENT 1 WIDTH 32} WSTRB {PRESENT 1 WIDTH 4} WLAST {PRESENT 0 WIDTH\
+1} WUSER {PRESENT 0 WIDTH 0} BID {PRESENT 0 WIDTH 0} BRESP {PRESENT 1 WIDTH\
+2} BUSER {PRESENT 0 WIDTH 0} ARID {PRESENT 0 WIDTH 0} ARADDR {PRESENT 1\
+WIDTH 42} ARLEN {PRESENT 0 WIDTH 8} ARSIZE {PRESENT 0 WIDTH 3} ARBURST\
+{PRESENT 0 WIDTH 2} ARLOCK {PRESENT 0 WIDTH 1} ARCACHE {PRESENT 0 WIDTH 4}\
+ARPROT {PRESENT 0 WIDTH 3} ARREGION {PRESENT 0 WIDTH 4} ARQOS {PRESENT 0\
+WIDTH 4} ARUSER {PRESENT 0 WIDTH 0} RID {PRESENT 0 WIDTH 0} RDATA {PRESENT\
+1 WIDTH 32} RRESP {PRESENT 1 WIDTH 2} RLAST {PRESENT 0 WIDTH 1} RUSER\
+{PRESENT 0 WIDTH 0}} PROTOCOL AXI4LITE}}\
+     IPI_PROP_COUNT {5}\
+     ALWAYS_HAVE_AXI_CLK {1}\
+   } \
    CONFIG.GUI_HAS_AXI_LITE {true} \
    CONFIG.GUI_HAS_SIGNAL_CONTROL {false} \
    CONFIG.GUI_HAS_SIGNAL_STATUS {false} \
@@ -656,47 +672,80 @@ RUSER {PRESENT 0 WIDTH 0}} PROTOCOL axi4lite}} IPI_PROP_COUNT 4}\
  ] $smartconnect_1
 
   # Create instance: versal_cips_0, and set properties
-  set versal_cips_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:versal_cips:3.0 versal_cips_0 ]
+  set versal_cips_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:versal_cips:3.2 versal_cips_0 ]
   set_property -dict [ list \
-   CONFIG.DDR_MEMORY_MODE {Enable} \
+   CONFIG.DDR_MEMORY_MODE {Custom} \
    CONFIG.DEBUG_MODE {JTAG} \
    CONFIG.DESIGN_MODE {1} \
    CONFIG.PS_BOARD_INTERFACE {ps_pmc_fixed_io} \
-   CONFIG.PS_PMC_CONFIG {PS_USE_PMCPL_CLK0 1 PS_NUM_FABRIC_RESETS 1 DDR_MEMORY_MODE {Connectivity to DDR\
-via NOC} DEBUG_MODE JTAG PMC_USE_PMC_NOC_AXI0 1 PS_HSDP_EGRESS_TRAFFIC JTAG\
-PS_HSDP_INGRESS_TRAFFIC JTAG PS_HSDP_MODE None PS_USE_FPD_CCI_NOC 1\
-PS_USE_FPD_CCI_NOC0 1 PS_USE_NOC_LPD_AXI0 1 PS_MIO7 {{AUX_IO 0} {DIRECTION in}\
-{DRIVE_STRENGTH 8mA} {OUTPUT_DATA default} {PULL disable} {SCHMITT 0} {SLEW\
-slow} {USAGE Reserved}} PS_MIO9 {{AUX_IO 0} {DIRECTION in} {DRIVE_STRENGTH 8mA}\
-{OUTPUT_DATA default} {PULL disable} {SCHMITT 0} {SLEW slow} {USAGE Reserved}}\
-PS_MIO19 {{AUX_IO 0} {DIRECTION in} {DRIVE_STRENGTH 8mA} {OUTPUT_DATA default}\
-{PULL disable} {SCHMITT 0} {SLEW slow} {USAGE Reserved}} PS_MIO21 {{AUX_IO 0}\
-{DIRECTION in} {DRIVE_STRENGTH 8mA} {OUTPUT_DATA default} {PULL disable}\
-{SCHMITT 0} {SLEW slow} {USAGE Reserved}} PMC_MIO37 {{AUX_IO 0} {DIRECTION out}\
-{DRIVE_STRENGTH 8mA} {OUTPUT_DATA high} {PULL pullup} {SCHMITT 0} {SLEW slow}\
-{USAGE GPIO}} PMC_SD1 {{CD_ENABLE 1} {CD_IO {PMC_MIO 28}} {POW_ENABLE 1}\
-{POW_IO {PMC_MIO 51}} {RESET_ENABLE 0} {RESET_IO {PMC_MIO 1}} {WP_ENABLE 0}\
-{WP_IO {PMC_MIO 1}}} PMC_SD1_COHERENCY 0 PMC_SD1_DATA_TRANSFER_MODE 8Bit\
-PMC_SD1_PERIPHERAL {{ENABLE 1} {IO {PMC_MIO 26 .. 36}}} PMC_SD1_SLOT_TYPE {SD\
-3.0} PMC_GPIO0_MIO_PERIPHERAL {{ENABLE 1} {IO {PMC_MIO 0 .. 25}}}\
-PMC_GPIO1_MIO_PERIPHERAL {{ENABLE 1} {IO {PMC_MIO 26 .. 51}}}\
-PMC_I2CPMC_PERIPHERAL {{ENABLE 1} {IO {PMC_MIO 46 .. 47}}} PMC_OSPI_PERIPHERAL\
-{{ENABLE 0} {IO {PMC_MIO 0 .. 11}} {MODE Single}} PMC_QSPI_COHERENCY 0\
-PMC_QSPI_FBCLK {{ENABLE 1} {IO {PMC_MIO 6}}} PMC_QSPI_PERIPHERAL_DATA_MODE x4\
-PMC_QSPI_PERIPHERAL_ENABLE 1 PMC_QSPI_PERIPHERAL_MODE {Dual Parallel}\
-PS_CAN1_PERIPHERAL {{ENABLE 1} {IO {PMC_MIO 40 .. 41}}} PS_ENET0_MDIO {{ENABLE\
-1} {IO {PS_MIO 24 .. 25}}} PS_ENET0_PERIPHERAL {{ENABLE 1} {IO {PS_MIO 0 ..\
-11}}} PS_ENET1_PERIPHERAL {{ENABLE 1} {IO {PS_MIO 12 .. 23}}}\
-PS_I2C1_PERIPHERAL {{ENABLE 1} {IO {PMC_MIO 44 .. 45}}} PS_UART0_PERIPHERAL\
-{{ENABLE 1} {IO {PMC_MIO 42 .. 43}}} PS_USB3_PERIPHERAL {{ENABLE 1} {IO\
-{PMC_MIO 13 .. 25}}} PMC_REF_CLK_FREQMHZ 33.3333 PS_GEN_IPI0_ENABLE 1\
-PS_GEN_IPI0_MASTER A72 PS_GEN_IPI1_ENABLE 1 PS_GEN_IPI2_ENABLE 1\
-PS_GEN_IPI3_ENABLE 1 PS_GEN_IPI4_ENABLE 1 PS_GEN_IPI5_ENABLE 1\
-PS_GEN_IPI6_ENABLE 1 PS_PCIE_RESET {{ENABLE 1} {IO {PMC_MIO 38 .. 39}}}\
-PS_BOARD_INTERFACE ps_pmc_fixed_io SMON_ALARMS Set_Alarms_On\
-SMON_ENABLE_TEMP_AVERAGING 0 SMON_TEMP_AVERAGING_SAMPLES 8 DESIGN_MODE 1\
-PS_PCIE1_PERIPHERAL_ENABLE 0 PS_PCIE2_PERIPHERAL_ENABLE 0\
-PCIE_APERTURES_SINGLE_ENABLE 0 PCIE_APERTURES_DUAL_ENABLE 0}\
+   CONFIG.PS_PMC_CONFIG {\
+     DDR_MEMORY_MODE {Connectivity to DDR via NOC}\
+     DEBUG_MODE {JTAG}\
+     DESIGN_MODE {1}\
+     PCIE_APERTURES_DUAL_ENABLE {0}\
+     PCIE_APERTURES_SINGLE_ENABLE {0}\
+     PMC_GPIO0_MIO_PERIPHERAL {{ENABLE 1} {IO {PMC_MIO 0 .. 25}}}\
+     PMC_GPIO1_MIO_PERIPHERAL {{ENABLE 1} {IO {PMC_MIO 26 .. 51}}}\
+     PMC_I2CPMC_PERIPHERAL {{ENABLE 1} {IO {PMC_MIO 46 .. 47}}}\
+     PMC_MIO37 {{AUX_IO 0} {DIRECTION out} {DRIVE_STRENGTH 8mA} {OUTPUT_DATA high}\
+{PULL pullup} {SCHMITT 0} {SLEW slow} {USAGE GPIO}}\
+     PMC_OSPI_PERIPHERAL {{ENABLE 0} {IO {PMC_MIO 0 .. 11}} {MODE Single}}\
+     PMC_QSPI_COHERENCY {0}\
+     PMC_QSPI_FBCLK {{ENABLE 1} {IO {PMC_MIO 6}}}\
+     PMC_QSPI_PERIPHERAL_DATA_MODE {x4}\
+     PMC_QSPI_PERIPHERAL_ENABLE {1}\
+     PMC_QSPI_PERIPHERAL_MODE {Dual Parallel}\
+     PMC_REF_CLK_FREQMHZ {33.3333}\
+     PMC_SD1 {{CD_ENABLE 1} {CD_IO {PMC_MIO 28}} {POW_ENABLE 1} {POW_IO {PMC_MIO 51}}\
+{RESET_ENABLE 0} {RESET_IO {PMC_MIO 12}} {WP_ENABLE 0} {WP_IO {PMC_MIO\
+1}}}\
+     PMC_SD1_COHERENCY {0}\
+     PMC_SD1_DATA_TRANSFER_MODE {8Bit}\
+     PMC_SD1_PERIPHERAL {{CLK_100_SDR_OTAP_DLY 0x3} {CLK_200_SDR_OTAP_DLY 0x2}\
+{CLK_50_DDR_ITAP_DLY 0x36} {CLK_50_DDR_OTAP_DLY 0x3}\
+{CLK_50_SDR_ITAP_DLY 0x2C} {CLK_50_SDR_OTAP_DLY 0x4} {ENABLE\
+1} {IO {PMC_MIO 26 .. 36}}}\
+     PMC_SD1_SLOT_TYPE {SD 3.0}\
+     PMC_USE_PMC_NOC_AXI0 {1}\
+     PS_BOARD_INTERFACE {ps_pmc_fixed_io}\
+     PS_CAN1_PERIPHERAL {{ENABLE 1} {IO {PMC_MIO 40 .. 41}}}\
+     PS_ENET0_MDIO {{ENABLE 1} {IO {PS_MIO 24 .. 25}}}\
+     PS_ENET0_PERIPHERAL {{ENABLE 1} {IO {PS_MIO 0 .. 11}}}\
+     PS_ENET1_PERIPHERAL {{ENABLE 1} {IO {PS_MIO 12 .. 23}}}\
+     PS_GEN_IPI0_ENABLE {1}\
+     PS_GEN_IPI0_MASTER {A72}\
+     PS_GEN_IPI1_ENABLE {1}\
+     PS_GEN_IPI2_ENABLE {1}\
+     PS_GEN_IPI3_ENABLE {1}\
+     PS_GEN_IPI4_ENABLE {1}\
+     PS_GEN_IPI5_ENABLE {1}\
+     PS_GEN_IPI6_ENABLE {1}\
+     PS_HSDP_EGRESS_TRAFFIC {JTAG}\
+     PS_HSDP_INGRESS_TRAFFIC {JTAG}\
+     PS_HSDP_MODE {None}\
+     PS_I2C1_PERIPHERAL {{ENABLE 1} {IO {PMC_MIO 44 .. 45}}}\
+     PS_MIO19 {{AUX_IO 0} {DIRECTION in} {DRIVE_STRENGTH 8mA} {OUTPUT_DATA default}\
+{PULL disable} {SCHMITT 0} {SLEW slow} {USAGE Reserved}}\
+     PS_MIO21 {{AUX_IO 0} {DIRECTION in} {DRIVE_STRENGTH 8mA} {OUTPUT_DATA default}\
+{PULL disable} {SCHMITT 0} {SLEW slow} {USAGE Reserved}}\
+     PS_MIO7 {{AUX_IO 0} {DIRECTION in} {DRIVE_STRENGTH 8mA} {OUTPUT_DATA default}\
+{PULL disable} {SCHMITT 0} {SLEW slow} {USAGE Reserved}}\
+     PS_MIO9 {{AUX_IO 0} {DIRECTION in} {DRIVE_STRENGTH 8mA} {OUTPUT_DATA default}\
+{PULL disable} {SCHMITT 0} {SLEW slow} {USAGE Reserved}}\
+     PS_NUM_FABRIC_RESETS {1}\
+     PS_PCIE1_PERIPHERAL_ENABLE {0}\
+     PS_PCIE2_PERIPHERAL_ENABLE {0}\
+     PS_PCIE_RESET {{ENABLE 1}}\
+     PS_UART0_PERIPHERAL {{ENABLE 1} {IO {PMC_MIO 42 .. 43}}}\
+     PS_USB3_PERIPHERAL {{ENABLE 1} {IO {PMC_MIO 13 .. 25}}}\
+     PS_USE_FPD_CCI_NOC {1}\
+     PS_USE_FPD_CCI_NOC0 {1}\
+     PS_USE_NOC_LPD_AXI0 {1}\
+     PS_USE_PMCPL_CLK0 {1}\
+     SMON_ALARMS {Set_Alarms_On}\
+     SMON_ENABLE_TEMP_AVERAGING {0}\
+     SMON_TEMP_AVERAGING_SAMPLES {0}\
+   } \
  ] $versal_cips_0
 
   # Create interface connections
@@ -856,34 +905,34 @@ proc create_root_design { parentCell } {
   # Create address segments
   assign_bd_address -offset 0x020340000000 -range 0x00002000 -target_address_space [get_bd_addr_spaces RP2/axi_traffic_gen_0/Data] [get_bd_addr_segs Static_Region/axi_bram_ctrl_0/S_AXI/Mem0] -force
   assign_bd_address -offset 0x020180000000 -range 0x00002000 -target_address_space [get_bd_addr_spaces Static_Region/axi_traffic_gen_0/Data] [get_bd_addr_segs RP1/axi_bram_ctrl_0/S_AXI/Mem0] -force
-  assign_bd_address -offset 0x020180000000 -range 0x00002000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/PMC_NOC_AXI_0] [get_bd_addr_segs RP1/axi_bram_ctrl_0/S_AXI/Mem0] -force
-  assign_bd_address -offset 0x020140030000 -range 0x00010000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/PMC_NOC_AXI_0] [get_bd_addr_segs RP4/axi_fifo_mm_s_0/S_AXI/Mem0] -force
   assign_bd_address -offset 0x020140030000 -range 0x00010000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/FPD_CCI_NOC_0] [get_bd_addr_segs RP4/axi_fifo_mm_s_0/S_AXI/Mem0] -force
-  assign_bd_address -offset 0x00000000 -range 0x80000000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/PMC_NOC_AXI_0] [get_bd_addr_segs Static_Region/axi_noc_0/S05_AXI/C0_DDR_LOW0] -force
   assign_bd_address -offset 0x00000000 -range 0x80000000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/FPD_CCI_NOC_0] [get_bd_addr_segs Static_Region/axi_noc_0/S00_AXI/C0_DDR_LOW0] -force
-  assign_bd_address -offset 0x00000000 -range 0x80000000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/LPD_AXI_NOC_0] [get_bd_addr_segs Static_Region/axi_noc_0/S04_AXI/C0_DDR_LOW0] -force
   assign_bd_address -offset 0x000800000000 -range 0x000180000000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/FPD_CCI_NOC_0] [get_bd_addr_segs Static_Region/axi_noc_0/S00_AXI/C0_DDR_LOW1] -force
-  assign_bd_address -offset 0x000800000000 -range 0x000180000000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/PMC_NOC_AXI_0] [get_bd_addr_segs Static_Region/axi_noc_0/S05_AXI/C0_DDR_LOW1] -force
-  assign_bd_address -offset 0x000800000000 -range 0x000180000000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/LPD_AXI_NOC_0] [get_bd_addr_segs Static_Region/axi_noc_0/S04_AXI/C0_DDR_LOW1] -force
+  assign_bd_address -offset 0x020140000000 -range 0x00010000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/FPD_CCI_NOC_0] [get_bd_addr_segs RP3/axi_traffic_gen_0/S_AXI/Reg0] -force
+  assign_bd_address -offset 0x020100000000 -range 0x00010000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/FPD_CCI_NOC_0] [get_bd_addr_segs Static_Region/axi_traffic_gen_0/S_AXI/Reg0] -force
+  assign_bd_address -offset 0x020140010000 -range 0x00010000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/FPD_CCI_NOC_0] [get_bd_addr_segs Static_Region/dfx_decoupler_0/s_axi_reg/Reg] -force
+  assign_bd_address -offset 0x020140020000 -range 0x00010000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/FPD_CCI_NOC_0] [get_bd_addr_segs Static_Region/dfx_decoupler_1/s_axi_reg/Reg] -force
   assign_bd_address -offset 0x00000000 -range 0x80000000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/FPD_CCI_NOC_1] [get_bd_addr_segs Static_Region/axi_noc_0/S01_AXI/C1_DDR_LOW0] -force
   assign_bd_address -offset 0x000800000000 -range 0x000180000000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/FPD_CCI_NOC_1] [get_bd_addr_segs Static_Region/axi_noc_0/S01_AXI/C1_DDR_LOW1] -force
   assign_bd_address -offset 0x00000000 -range 0x80000000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/FPD_CCI_NOC_2] [get_bd_addr_segs Static_Region/axi_noc_0/S02_AXI/C2_DDR_LOW0] -force
   assign_bd_address -offset 0x000800000000 -range 0x000180000000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/FPD_CCI_NOC_2] [get_bd_addr_segs Static_Region/axi_noc_0/S02_AXI/C2_DDR_LOW1] -force
   assign_bd_address -offset 0x00000000 -range 0x80000000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/FPD_CCI_NOC_3] [get_bd_addr_segs Static_Region/axi_noc_0/S03_AXI/C3_DDR_LOW0] -force
   assign_bd_address -offset 0x000800000000 -range 0x000180000000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/FPD_CCI_NOC_3] [get_bd_addr_segs Static_Region/axi_noc_0/S03_AXI/C3_DDR_LOW1] -force
+  assign_bd_address -offset 0x00000000 -range 0x80000000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/LPD_AXI_NOC_0] [get_bd_addr_segs Static_Region/axi_noc_0/S04_AXI/C0_DDR_LOW0] -force
+  assign_bd_address -offset 0x000800000000 -range 0x000180000000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/LPD_AXI_NOC_0] [get_bd_addr_segs Static_Region/axi_noc_0/S04_AXI/C0_DDR_LOW1] -force
+  assign_bd_address -offset 0x020180000000 -range 0x00002000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/PMC_NOC_AXI_0] [get_bd_addr_segs RP1/axi_bram_ctrl_0/S_AXI/Mem0] -force
+  assign_bd_address -offset 0x020140030000 -range 0x00010000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/PMC_NOC_AXI_0] [get_bd_addr_segs RP4/axi_fifo_mm_s_0/S_AXI/Mem0] -force
+  assign_bd_address -offset 0x00000000 -range 0x80000000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/PMC_NOC_AXI_0] [get_bd_addr_segs Static_Region/axi_noc_0/S05_AXI/C0_DDR_LOW0] -force
+  assign_bd_address -offset 0x000800000000 -range 0x000180000000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/PMC_NOC_AXI_0] [get_bd_addr_segs Static_Region/axi_noc_0/S05_AXI/C0_DDR_LOW1] -force
   assign_bd_address -offset 0x020140000000 -range 0x00010000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/PMC_NOC_AXI_0] [get_bd_addr_segs RP3/axi_traffic_gen_0/S_AXI/Reg0] -force
-  assign_bd_address -offset 0x020140000000 -range 0x00010000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/FPD_CCI_NOC_0] [get_bd_addr_segs RP3/axi_traffic_gen_0/S_AXI/Reg0] -force
-  assign_bd_address -offset 0x020100000000 -range 0x00010000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/FPD_CCI_NOC_0] [get_bd_addr_segs Static_Region/axi_traffic_gen_0/S_AXI/Reg0] -force
   assign_bd_address -offset 0x020100000000 -range 0x00010000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/PMC_NOC_AXI_0] [get_bd_addr_segs Static_Region/axi_traffic_gen_0/S_AXI/Reg0] -force
-  assign_bd_address -offset 0x020140010000 -range 0x00010000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/FPD_CCI_NOC_0] [get_bd_addr_segs Static_Region/dfx_decoupler_0/s_axi_reg/Reg] -force
   assign_bd_address -offset 0x020140010000 -range 0x00010000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/PMC_NOC_AXI_0] [get_bd_addr_segs Static_Region/dfx_decoupler_0/s_axi_reg/Reg] -force
-  assign_bd_address -offset 0x020140020000 -range 0x00010000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/FPD_CCI_NOC_0] [get_bd_addr_segs Static_Region/dfx_decoupler_1/s_axi_reg/Reg] -force
   assign_bd_address -offset 0x020140020000 -range 0x00010000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/PMC_NOC_AXI_0] [get_bd_addr_segs Static_Region/dfx_decoupler_1/s_axi_reg/Reg] -force
 
   # Exclude Address Segments
-  exclude_bd_addr_seg -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/FPD_CCI_NOC_0] [get_bd_addr_segs RP2/axi_traffic_gen_0/S_AXI/Reg0]
-  exclude_bd_addr_seg -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/PMC_NOC_AXI_0] [get_bd_addr_segs Static_Region/axi_bram_ctrl_0/S_AXI/Mem0]
-  exclude_bd_addr_seg -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/PMC_NOC_AXI_0] [get_bd_addr_segs RP2/axi_traffic_gen_0/S_AXI/Reg0]
+  exclude_bd_addr_seg -offset 0x00000000 -range 0x00010000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/FPD_CCI_NOC_0] [get_bd_addr_segs RP2/axi_traffic_gen_0/S_AXI/Reg0]
+  exclude_bd_addr_seg -offset 0x020340000000 -range 0x00002000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/PMC_NOC_AXI_0] [get_bd_addr_segs Static_Region/axi_bram_ctrl_0/S_AXI/Mem0]
+  exclude_bd_addr_seg -offset 0x00000000 -range 0x00010000 -target_address_space [get_bd_addr_spaces Static_Region/versal_cips_0/PMC_NOC_AXI_0] [get_bd_addr_segs RP2/axi_traffic_gen_0/S_AXI/Reg0]
 
 
   # Restore current instance
@@ -900,5 +949,8 @@ proc create_root_design { parentCell } {
 ##################################################################
 
 create_root_design ""
+
+
+
 
 

@@ -1,5 +1,5 @@
 # #########################################################################
-#© Copyright 2021 Xilinx, Inc.
+#Â© Copyright 2021 Xilinx, Inc.
 
 #Licensed under the Apache License, Version 2.0 (the "License");
 #you may not use this file except in compliance with the License.
@@ -13,6 +13,8 @@
 #See the License for the specific language governing permissions and
 #limitations under the License.
 # ###########################################################################
+
+
 
 ################################################################
 # This is a generated script based on design: rp1rm2
@@ -35,7 +37,7 @@ set script_folder [_tcl::get_script_folder]
 ################################################################
 # Check if script is running in correct Vivado version.
 ################################################################
-set scripts_vivado_version 2021.1
+set scripts_vivado_version 2022.1
 set current_vivado_version [version -short]
 
 if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
@@ -302,6 +304,10 @@ proc create_root_design { parentCell } {
   # Create instance: axi_noc_1, and set properties
   set axi_noc_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.0 axi_noc_1 ]
   set_property -dict [ list \
+   CONFIG.HBM_CHNL0_CONFIG {\
+HBM_PC0_PRE_DEFINED_ADDRESS_MAP ROW_BANK_COLUMN HBM_PC1_PRE_DEFINED_ADDRESS_MAP\
+ROW_BANK_COLUMN HBM_PC0_USER_DEFINED_ADDRESS_MAP NONE\
+HBM_PC1_USER_DEFINED_ADDRESS_MAP NONE} \
    CONFIG.NUM_NSI {1} \
    CONFIG.NUM_SI {0} \
  ] $axi_noc_1

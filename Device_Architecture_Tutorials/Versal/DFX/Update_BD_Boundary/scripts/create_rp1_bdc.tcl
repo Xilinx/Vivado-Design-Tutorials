@@ -1,5 +1,5 @@
 # #########################################################################
-#© Copyright 2021 Xilinx, Inc.
+#Â© Copyright 2021 Xilinx, Inc.
 
 #Licensed under the Apache License, Version 2.0 (the "License");
 #you may not use this file except in compliance with the License.
@@ -38,4 +38,5 @@ current_bd_design [get_bd_designs design_1]
 upgrade_bd_cells [get_bd_cells rp1]
 validate_bd_design
 save_bd_design
+
 

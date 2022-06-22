@@ -1,5 +1,5 @@
 # #########################################################################
-#© Copyright 2021 Xilinx, Inc.
+#Â© Copyright 2021 Xilinx, Inc.
 
 #Licensed under the Apache License, Version 2.0 (the "License");
 #you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
 #See the License for the specific language governing permissions and
 #limitations under the License.
 # ###########################################################################
+
 ################################################################
 # This is a generated script based on design: rp1rm2
 #
@@ -34,7 +35,7 @@ set script_folder [_tcl::get_script_folder]
 ################################################################
 # Check if script is running in correct Vivado version.
 ################################################################
-set scripts_vivado_version 2021.1
+set scripts_vivado_version 2022.1
 set current_vivado_version [version -short]
 
 if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
@@ -222,6 +223,9 @@ proc create_root_design { parentCell } {
 
   # Create instance: axi_bram_ctrl_0, and set properties
   set axi_bram_ctrl_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl:4.1 axi_bram_ctrl_0 ]
+  set_property -dict [ list \
+   CONFIG.ECC_TYPE {0} \
+ ] $axi_bram_ctrl_0
 
   # Create instance: axi_bram_ctrl_0_bram, and set properties
   set axi_bram_ctrl_0_bram [ create_bd_cell -type ip -vlnv xilinx.com:ip:emb_mem_gen:1.0 axi_bram_ctrl_0_bram ]
@@ -232,6 +236,17 @@ proc create_root_design { parentCell } {
   # Create instance: axi_noc_2, and set properties
   set axi_noc_2 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.0 axi_noc_2 ]
   set_property -dict [ list \
+   CONFIG.HBM_CHNL0_CONFIG {\
+HBM_REORDER_EN FALSE HBM_MAINTAIN_COHERENCY TRUE HBM_Q_AGE_LIMIT 0x7f\
+HBM_CLOSE_PAGE_REORDER FALSE HBM_LOOKAHEAD_PCH TRUE HBM_COMMAND_PARITY FALSE\
+HBM_DQ_WR_PARITY FALSE HBM_DQ_RD_PARITY FALSE HBM_RD_DBI FALSE HBM_WR_DBI FALSE\
+HBM_REFRESH_MODE ALL_BANK_REFRESH HBM_PC0_ADDRESS_MAP\
+SID,RA14,RA13,RA12,RA11,RA10,RA9,RA8,RA7,RA6,RA5,RA4,RA3,RA2,RA1,RA0,BA3,BA2,BA1,BA0,CA5,CA4,CA3,CA2,CA1,NC,NA,NA,NA,NA\
+HBM_PC1_ADDRESS_MAP\
+SID,RA14,RA13,RA12,RA11,RA10,RA9,RA8,RA7,RA6,RA5,RA4,RA3,RA2,RA1,RA0,BA3,BA2,BA\
+HBM_PC0_PRE_DEFINED_ADDRESS_MAP ROW_BANK_COLUMN HBM_PC1_PRE_DEFINED_ADDRESS_MAP\
+ROW_BANK_COLUMN HBM_PC0_USER_DEFINED_ADDRESS_MAP NONE\
+HBM_PC1_USER_DEFINED_ADDRESS_MAP NONE} \
    CONFIG.MC_NETLIST_SIMULATION {true} \
    CONFIG.NUM_CLKS {1} \
    CONFIG.NUM_MI {1} \
@@ -283,5 +298,10 @@ proc create_root_design { parentCell } {
 ##################################################################
 
 create_root_design ""
+
+
+common::send_gid_msg -ssname BD::TCL -id 2053 -severity "WARNING" "This Tcl script was generated from a block design that has not been validated. It is possible that design <$design_name> may result in errors during validation."
+
+
 
 

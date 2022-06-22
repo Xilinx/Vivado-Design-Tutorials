@@ -1,5 +1,5 @@
 # #########################################################################
-#© Copyright 2021 Xilinx, Inc.
+#Â© Copyright 2021 Xilinx, Inc.
 
 #Licensed under the Apache License, Version 2.0 (the "License");
 #you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ set script_folder [_tcl::get_script_folder]
 ################################################################
 # Check if script is running in correct Vivado version.
 ################################################################
-set scripts_vivado_version 2021.1
+set scripts_vivado_version 2022.1
 set current_vivado_version [version -short]
 
 if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
@@ -254,7 +254,7 @@ proc create_root_design { parentCell } {
   # Create instance: axis_dwidth_converter_0, and set properties
   set axis_dwidth_converter_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_dwidth_converter:1.1 axis_dwidth_converter_0 ]
   set_property -dict [ list \
-   CONFIG.HAS_MI_TKEEP {1} \
+   CONFIG.HAS_MI_TKEEP {0} \
    CONFIG.M_TDATA_NUM_BYTES {4} \
  ] $axis_dwidth_converter_0
 
@@ -274,6 +274,7 @@ proc create_root_design { parentCell } {
   set_property -dict [ list \
    CONFIG.INI_STRATEGY {load} \
    CONFIG.CONNECTIONS {M00_AXIS { write_bw {1720} write_avg_burst {4}} } \
+   CONFIG.DEST_IDS {} \
  ] [get_bd_intf_pins /axis_noc_0/S00_INIS]
 
   set_property -dict [ list \
@@ -308,5 +309,7 @@ proc create_root_design { parentCell } {
 ##################################################################
 
 create_root_design ""
+
+
 
 
