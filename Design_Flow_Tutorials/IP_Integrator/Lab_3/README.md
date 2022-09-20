@@ -1,6 +1,6 @@
 
 #   **Contents**
-1. [**Module Referencing in IPI**](#module-referencing-in-ipi)
+1. [**Module Referencing in IP integrator**](#module-referencing-in-ip-integrator)
 
     -   [**Introduction**](#introduction)
     -   [**Tutorial Design
@@ -22,12 +22,12 @@
             attribute**](#limitations-of-the-x_module_spec-attribute)
 
 
-# **Module Referencing in IPI**
+# **Module Referencing in IP integrator**
 ## **Introduction**
 
 ***Version : Vivado 2022.1***
 
-The Module Reference feature of the Vivado IP Integrator lets you
+The Module Reference feature of the Vivado IP integrator  lets you
 quickly add a module or entity definition from a Verilog or VHDL source
 file directly in your block design. It provides a means of quickly
 adding RTL modules without having to go through the process of packaging
@@ -38,7 +38,7 @@ works for both project flow and non-project flow of Vivado.
 
 For Part 1, we will creat a basic Microblaze block design with the ZCU102 Evaluation Board.
 
-In Part 2, we will use the design created in part 1 to explore the Register Transfer Level (RTL) module reference feature of IP Integrator.
+In Part 2, we will use the design created in part 1 to explore the Register Transfer Level (RTL) module reference feature of IP integrator .
 
 In Part 3, we will explore the RTL inference feature of module reference technology based on Microblaze design created in part 1 and RTL design added in part 2.
 
@@ -114,7 +114,7 @@ to the Vivado project. An RTL source file can define one or more modules
 or entities within the file. The module can contain one or more IP
 instances (support all IP types like HLS IP, IP with ELF dependencies,
 OOC IP, etc.) one or more BD designs, one or more OOC/Global sources (IP
-or BD), and a mix of them. The Vivado IP integrator can access any of
+or BD), and a mix of them. The Vivado IP integrator  can access any of
 the modules defined within an added source file You can refer *Vivado
 Design Suite User Guide: System-Level Design Entry (UG895)* for more
 information on adding design sources.
@@ -171,7 +171,7 @@ onto the block design canvas as shown below:
 
   ![](./media/image14.png)
 
-6.  The IP integrator adds the selected module to the block design, and
+6.  The IP integrator  adds the selected module to the block design, and
     you can make connections to it just as you would with any other IP
     in the design. The IP displays in the block design with special
     markings that identify it as an RTL referenced module, as shown in
@@ -216,7 +216,7 @@ processing system.
 ## **Part 3- Inference in an RTL module**
 
 You can infer generic or parameters, control signals and AXI interfaces
-in your IPI design, while using module reference technology by following
+in your IP integrator  design, while using module reference technology by following
 specific guidelines mentioned below.
 
 1.  Inferring Generics/Parameters in an RTL Module: If the source RTL contains generics or parameters, those are inferred at the time the module is added to the block design, and can also be configured in the re-customize Module Reference dialog box for a selected module.
@@ -246,10 +246,10 @@ This opens the Language Template dialog box, as shown in the following figure
 
   ![](./media/image23.png)
   
-You can expand the required HDL language **Verilog/VHDL → IP Integrator HDL**  and select the appropriate Signal Interface to see the attributes in the Preview pane. You can copy and paste the required X_INTERFACE attributes from the preview pane and add it your RTL code to infer the required control signals.
+You can expand the required HDL language **Verilog/VHDL → IP integrator  HDL**  and select the appropriate Signal Interface to see the attributes in the Preview pane. You can copy and paste the required X_INTERFACE attributes from the preview pane and add it your RTL code to infer the required control signals.
 
 3.  Inferring AXI Interfaces: When you use the standard naming
-    convention for an AXI interface (*recommended*), the Vivado IP Integrator automatically infers the interface. If you open the RTL code for axi_slave.v, you can see that standard AXI names have been used as shown in the code snippet below:
+    convention for an AXI interface (*recommended*), the Vivado IP integrator  automatically infers the interface. If you open the RTL code for axi_slave.v, you can see that standard AXI names have been used as shown in the code snippet below:
 
   ![](./media/image24.png)
 
@@ -257,11 +257,11 @@ When this RTL module is added to the block design the AXI interface is automatic
   
   ![](./media/image25.png)
   
-Vivado IPI automatically puts together all the AXI signals as a bus interface S_AXI which can be collapsed or expanded on the canvas as needed.
+Vivado IP integrator  automatically puts together all the AXI signals as a bus interface S_AXI which can be collapsed or expanded on the canvas as needed.
 
   ![](./media/image26.png)
 
-After an AXI interface is inferred for a module, the Connection Automation feature of IP integrator becomes available for the module. This feature offers connectivity options to connect a slave interface to a master interface,
+After an AXI interface is inferred for a module, the Connection Automation feature of IP integrator  becomes available for the module. This feature offers connectivity options to connect a slave interface to a master interface,
 or the master to the slave. You have already used this feature in Part 2 of this Lab.
 
 If the names of your ports do not match with standard AXI interface names, you can force the creation of an interface and map the physical ports to the logical ports by using the
