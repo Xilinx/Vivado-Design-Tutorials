@@ -1,7 +1,7 @@
 # Table of Contents
 
 1.  [**Introduction**](#Introduction)
-2.  [**Basic Versal Design using Vivado IP Integrator**](#basic-versal-design-using-vivado-ip-integrator)
+2.  [**Basic Versal Design using Vivado IP integrator **](#basic-versal-design-using-vivado-ip-integrator)
 
     -   [**Step 1: Project
     Creation**](#step-1-project-creation)
@@ -27,17 +27,17 @@
 
 ***Version: Vivado 2022.1***
 
-When using a Versal device, the IP Integrator creates a Block Design
+When using a Versal device, the IP integrator  creates a Block Design
 (BD) that contains a CIPS block (Control, Interfaces & Processing
 System) and the NoC (Network-On-Chip) with DDR-MC (DDR Memory
 Controller).
 
-An AXI-based RTL module will be imported using IPI Module Reference to
+An AXI-based RTL module will be imported using IP integrator   Module Reference to
 demonstrate how users can quickly add their own RTL to a block design. A
 second RTL based IP that is packaged as an IP repository will also be
 added to the Block Design.
 
-The IPI Designer Assistance is also featured in this tutorial to perform Block and Connection Automation to assist in the creation of
+The IP integrator   Designer Assistance is also featured in this tutorial to perform Block and Connection Automation to assist in the creation of
 module blocks and the connect of these modules. Once the design is
 validated and the RTL wrapper is created, initial constraints are then
 added before running RTL synthesis. After synthesis is complete, the
@@ -72,7 +72,7 @@ Highlighted steps include:
 -   Generate Device Image
 
 
-# Basic Versal Design using Vivado IP Integrator
+# Basic Versal Design using Vivado IP integrator 
 
 ## **Step 1: Project Creation**
 
@@ -119,9 +119,9 @@ Highlighted steps include:
 
 ## **Step 2: Initial CIPS, NoC & DDR-MC Instantiation with Block Automation**
 
-The CIPS block will be instantiated on the Block Design IPI canvas and
-with the use of IPI “Block Automation”, the NoC and DDR-MC modules will
-be initially configured and instantiated on the IPI Canvas. Further
+The CIPS block will be instantiated on the Block Design IP integrator   canvas and
+with the use of IP integrator   “Block Automation”, the NoC and DDR-MC modules will
+be initially configured and instantiated on the IP integrator   Canvas. Further
 customization will be performed after this initial setup.
 
 1.  To create a Block Design, click the following in the Flow Navigator
@@ -131,10 +131,10 @@ customization will be performed after this initial setup.
 
     Accept the defaults on the pop-up window and click “OK”
 
-2.  Right click in the IPI Canvas and select “Add IP…” and search for
+2.  Right click in the IP integrator  Canvas and select “Add IP…” and search for
     “**cips**”. Double Click on “**Control, Interfaces & Processing
-    System**” to select and instantiate the CIPS on the IPI Canvas. The
-    Versal CIPS module should now appear on the IPI Canvas.
+    System**” to select and instantiate the CIPS on the IP integrator  Canvas. The
+    Versal CIPS module should now appear on the IP integrator  Canvas.
 
     <img src="./media/image4.jpg" style="width:2.15972in;height:2.81458in" />  
 
@@ -158,7 +158,7 @@ style="width:5.24306in;height:2.31389in" />
     alt="Graphical user interface, application, Word Description automatically generated" />
 
 4.  Once the “Block Automation” process is complete, the AXI NoC will
-    now appear on the IPI Canvas configured for DDR4 (the DDR-MC is part
+    now appear on the IP integrator  Canvas configured for DDR4 (the DDR-MC is part
     of the NoC instance) with an external port named “CH0_DDR_0\_0” and
     connections to the CIPS via multiple AXI ports along with associated
     AXI clock ports with an external clock port named “sys_clk0_0”:  
@@ -263,7 +263,7 @@ working through the IP catalog.
 
 To add HDL to the block design, first you must add the RTL source file
 to the Vivado project. A PL AXI Slave module called “axi_slave” will now
-be added to the IPI canvas.
+be added to the IP integrator  canvas.
 
 1.  Add the RTL source “axi_slave.v” provided with the tutorial to the
     project:
@@ -277,9 +277,9 @@ be added to the IPI canvas.
 
 3.  The “axi_slave.v” file should now appear in the “Sources” pane under
     “Design Sources”. There are a few ways to add the RTL module onto
-    the IPI canvas-
+    the IP integrator  canvas-
 
-    - You can click and drag the file onto the IPI Canvas.
+    - You can click and drag the file onto the IP integrator  Canvas.
 
     <img src="./media/image13.png"              
  style="width:2.96042in;height:1.76042in" />  |
@@ -311,7 +311,7 @@ be added to the IPI canvas.
 style="width:2.50187in;height:2.68826in" />
 
 
-4.  The IPI instantiated RTL Module should appear as follows on the IPI
+4.  The IP integrator  instantiated RTL Module should appear as follows on the IP integrator 
     Canvas:
 
      <img src="./media/image17.png"             
@@ -321,7 +321,7 @@ style="width:2.50187in;height:2.68826in" />
 5.  Run “Connection Automation” to connect the AXI port of this module
     to the NoC:
 
--   Click “Run Connection Automation” on the top of the IPI Canvas
+-   Click “Run Connection Automation” on the top of the IP integrator  Canvas
 
 -   Verify that “All Automation” is “checked”
 
@@ -343,7 +343,7 @@ style="width:2.50187in;height:2.68826in" />
     Automation**” to connect this input to the previously configured
     CIPS PL reset output.
 
-    -   Click “Run Connection Automation” at the top of the IPI Canvas.
+    -   Click “Run Connection Automation” at the top of the IP integrator  Canvas.
 
     -   Under “Options \> Select Reset Source” select
     “/versal_cips_0/pl0_resetn”.
@@ -354,7 +354,7 @@ style="width:2.50187in;height:2.68826in" />
 
     -   Click “OK”.
 
-7.  Right click on the IPI Canvas and select **Regenerate Layout**. The
+7.  Right click on the IP integrator  Canvas and select **Regenerate Layout**. The
     Block Diagram should now appear similar-to the following diagram:
 
     <img src="./media/image20.png"              
@@ -365,7 +365,7 @@ style="width:2.50187in;height:2.68826in" />
 
 In this section of the tutorial, a non-AXI RTL IP called “wave_gen_v1_0”
 that has previously been packaged with IP Packager will be added to the
-IPI Canvas with independent external IO connectivity (no connection to
+IP integrator  Canvas with independent external IO connectivity (no connection to
 CIPS or the NoC). This packaged IP is provided with the tutorial files
 under the sub-directory “/custom_ip_repo”. Further information on the
 packaging flow for this IP can be found in ***UG1119 Lab 4***.
@@ -390,11 +390,11 @@ packaging flow for this IP can be found in ***UG1119 Lab 4***.
 
 
 2.  Now that the IP Repo has been added to IP Catalog, the IP can be
-    instantiated on the IPI Canvas. In the Block Design “Diagram” tab,
-    right click on the IPI Canvas and select “Add IP”.
+    instantiated on the IP integrator  Canvas. In the Block Design “Diagram” tab,
+    right click on the IP integrator  Canvas and select “Add IP”.
 
 3.  In the Search window type “wave” and select “wave_gen_v1_0”. This IP
-    should now appear on the IPI Canvas:
+    should now appear on the IP integrator  Canvas:
 
     <img src="./media/image23.png"             
  style="width:2.0625in;height:1.49904in" />  |
@@ -403,7 +403,7 @@ packaging flow for this IP can be found in ***UG1119 Lab 4***.
 4.  Next, the IO for this module will be made external to the Block
     Design. Right click on the module and select **Make External**.
 
-5.  Finally, regenerate the IPI layout. Right click on the IPI Canvas
+5.  Finally, regenerate the IP integrator  layout. Right click on the IP integrator  Canvas
     and select **Regenerate Layout.**
 
     <img src="./media/image24.png"              
@@ -415,10 +415,10 @@ packaging flow for this IP can be found in ***UG1119 Lab 4***.
 ## **Step 6: Design Validation**
 
 1.  On the “Diagram” tab, validate the design to ensure there are no DRC
-    violations. By right clicking on the IPI Canvas and selecting
+    violations. By right clicking on the IP integrator  Canvas and selecting
     “Validate Design” and click “OK” once this is completed.
 
-2.  Save the IPI Block Design by clicking on **File --\> Save Block
+2.  Save the IP integrator  Block Design by clicking on **File --\> Save Block
     Design.**
 
 3.  During the “Validate Design” process, the NoC Compiler is run. A new
@@ -441,7 +441,7 @@ packaging flow for this IP can be found in ***UG1119 Lab 4***.
 
 ## **Step 7: Generate HDL Wrapper, Constraints, Synthesis**
 
-In this section, an HDL wrapper will be generated for the IPI Block
+In this section, an HDL wrapper will be generated for the IP integrator  Block
 Design, constraints will then be added to the project and the design
 synthesized. After it is synthesized, the Advanced IO Planner can be
 invoked to assign pins for the DDR-MC.
