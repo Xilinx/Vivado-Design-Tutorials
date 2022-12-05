@@ -160,16 +160,16 @@ programmable logic, certain restrictions must be imposed. This allows
 the design to align to a DFX-enabled flow to create separate programming
 images for each part of the design. These requirements include:
 
+* Only monolithic Versal AI Core and Versal Prime devices are supported.
+Versal Premium, especially those devices using SSIT, are not supported.
+
 * Use of the **CPM4** is prohibited. All PCIe, DMA and debug features
 enabled via CPM are incompatible with Classic SoC Boot, as most modes
 infer static PL resource usage.
+** Use of HSDP debug via CPM4 is not supported.
 
 * Use of the **PL** **Flow (no PS)** is prohibited, as this configuration
 is the opposite of what Classic SoC Boot will enable.
-
-* Use of HSDP debug is currently prohibited. Without a CPM4 PCIe or Aurora
-pathway these solutions will not be possible. The latter may be
-considered for a future release.
 
 * Some CIPS-based clock buffer inference must be disabled, replaced by
 instantiation within the PL hierarchy.
@@ -1202,11 +1202,10 @@ supported and unsupported features for DFX Block Design Container Projects.
 ## Supported Features
 
 -   Support for Versal Prime devices enabled for the DFX flow -- in Vivado
-    2021.2 this is limited to the Versal AI Core VC1902 and Versal Prime
-    VM1802
+    2022.1 and 2022.2 this is limited to the Versal AI Core and Versal Prime devices
     
-    - Other Versal devices (Versal AI Core and Versal Premium, for example)
-      are not yet supported
+    - Other Versal devices (Versal Premium and Versal HBM, for example) are not yet supported
+    - Devices utilizing Stacked Silicon Interconnect (SSI) Technology are not supported
 
 -   Production support of the Block Design Containers solution in IP Integrator
 
@@ -1276,6 +1275,26 @@ Reference this tcl.pre hook script before opt_design.
 ```
 resize_pblock auto_pblock_PR -add {DDRMC_RIU_X1Y0}
 ```
+
+-   Tool insertion of BUFG_FABRIC instances are not supported
+opt_design can insert BUFG_FABRIC instances on high fanout nets, but these instances are added to the static design, which is not 
+permitted.  
+```
+ ERROR: [DRC HDPR-120] General Check for Classic SoC Boot: Cell 'design_1_i/versal_cips_0/inst/pspmc_0/inst/bscan_user1_usr_update_BUFG_inst' 
+with type 'BUFG_FABRIC' cannot be included in static logic in Classic_SoC_Boot.
+```
+ 
+These buffer instances can be manually inserted in the dynamic PL region within the BDC, converted to global clock buffers by property,
+or the instances can be disabled.
+ The following command can be called prior to opt_design to define global clocks explicitly:
+```
+set_property CLOCK_BUFFER_TYPE BUFGCE [get_nets design_1_i/hier_0/aclk0_0]
+```
+ 
+ The following command can be called to eliminate the intermediate clock buffers:
+ ```
+set_property CLOCK_BUFFER_TYPE NONE [get_nets -of [get_pins design_1_i/versal_cips_0/inst/pspmc_0/inst/PS9_inst/USRUPDATE*]]
+ ```
 
 -   Application of a PL POR reset through the use of the RST_PS (CRP) register is not yet supported.
 Use of this register may result in a crash.
