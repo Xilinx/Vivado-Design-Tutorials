@@ -41,6 +41,8 @@
 
 [Known Issues/Limitations and other Considerations](#known-issueslimitations-and-other-Considerations)
 
+==Classic SoC Boot is Limited Access in Vivado 2022.2==
+
 # Overview
 
 While Versal and Zynq devices are both fundamentally SoC architectures,
@@ -203,10 +205,8 @@ if they are not included in your local installation.
 This section of the document walks through the steps to create and then
 process the Classic SoC Boot design in Vivado. Comments throughout note
 specific requirements and limitations associated with the solution,
-including changes expected in future versions of Vivado when this
-solution moves to production status. In general, however, many steps can
-be altered to meet specific needs for your connectivity, memory usage,
-or other design requirements.
+including changes expected in future versions of Vivado. In general, however, many steps can
+be altered to meet specific needs for your connectivity, memory usage, or other design requirements.
 
 Sections of this tutorial can be created via script as well as run
 interactively. The entire Vivado flow can be run via the `run_all.tcl`
@@ -1201,11 +1201,7 @@ supported and unsupported features for DFX Block Design Container Projects.
 
 ## Supported Features
 
--   Support for Versal Prime devices enabled for the DFX flow -- in Vivado
-    2022.1 and 2022.2 this is limited to the Versal AI Core and Versal Prime devices
-    
-    - Other Versal devices (Versal Premium and Versal HBM, for example) are not yet supported
-    - Devices utilizing Stacked Silicon Interconnect (SSI) Technology are not supported
+-   Support for monolithic Versal Prime and AI Core devices enabled for the DFX flow
 
 -   Production support of the Block Design Containers solution in IP Integrator
 
@@ -1215,18 +1211,17 @@ supported and unsupported features for DFX Block Design Container Projects.
 
 Some features are not yet implemented but may be considered for future releases.
 
--   Selection of the Classic SoC Boot flow via project property in the
-    IDE or CIPS IP GUI is planned for an upcoming release
-
--   Support for Aurora-based debug is planned for a future release
+-   Other Versal devices (Versal Premium and Versal HBM, for example) are not supported
+ 
+-   Devices utilizing Stacked Silicon Interconnect (SSI) Technology are not supported
 
 -   Additional DRCs and tool guidance are planned for upcoming releases
 
 # Known Issues/Limitations and other Considerations
 
 These are the issues and limitations with the Classic SoC Boot solution
-in the Vivado 2021.2 release. Some of these issues may be fixed in
-future releases, though plans are subject to change.
+through the Vivado 2022.2 release. Some of these issues may be fixed in
+future releases, but most likely will not.
 
 ## Known Issues
 
