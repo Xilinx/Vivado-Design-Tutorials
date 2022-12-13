@@ -720,11 +720,19 @@ The DFX flow requires a pblock for each Reconfigurable Partition. For
 the Classic SoC Boot flow, Vivado will automatically create a pblock to
 contain the dynamic region of the design. This is by definition the
 entire PL for the entire design that is not the PS + HNoC + DDR
-Controllers that are identified as the base processing system.
+Controllers that are identified as the base processing system. 
+When the DFX project has the CLASSIC_SOC_BOOT property enabled, during opt_design, 
+Vivado will automatically infer the pblock for the reconfigurable partition.  
+The auto-pblocking algorithm creates pblock for almost the full PL, after 
+excluding these elements, keeping them in the static region:
+- The XPIO resources required for PS on its communication path to DDR 
+- The NOC resources (NMU and NSU) in the dedicated path between PS and DDR
+- A column of CLB resources for GND/VCC nets tie-off from CIPS
+- A clocking tile containing BUFG_PS to accommodate BUFG_PS on clock nets from CIPS
+- Any XPIO resources used by any static I/O buffers
 
 17.  In the Flow Navigator, under the PROGRAM AND DEBUG header, click
-     **Generate Device Image**. Click Yes then OK to start the Vivado
-     flow.
+     **Generate Device Image**. Click Yes then OK to start the Vivado flow.
 
 This action pulls the entire design through synthesis (of the bram_bd
 module, of the timer_bd module if created, then top), implementation 
@@ -1240,9 +1248,15 @@ set_property classic_soc_boot 1 [current_project]
 
 -   Not all IO elements are flagged for inclusion in the dynamic region.
 The Classic SoC Boot flow will automatically pull top-level IO buffers connected to the Reconfigurable Partition (RP) into that dynamic region.  
-Even though they are "static" elements they are included in that region and programmed with everything else in the Programmable Logic domain.  
+Even though they are "static" elements they are included in that region and programmed with everything else in the Programmable Logic domain.
+ 
 IO instances that are not directly connected to the RP are not automatically included, so users must disable their top-level inference and 
-instantiate them in each RM via the Utility Buffer IP.
+instantiate them in each RM via the Utility Buffer IP.  This may also happen for IO buffer types that are not supported via automation, such as
+GPIO IOBUFs. Utility Buffer usage will circumvent scenarios that lead to DRC errors like this one:
+ ```
+ ERROR: [DRC HDPR-116] Illegal Static Placement: Static logic 'GPIO_0_tri_iobuf_0' is placed at site 'IOB_X14Y8' 
+ which belongs to reconfigurable PBLOCK 'auto_pblock_DFX'. 
+ ```
 
 -   The CIPS IP generates logic that is inserted in the wrapper layer. Some of this logic (e.g. vcc/gnd tie-offs) is
 managed automatically by the flow, but some situations will require user intervention in this release. For example, use of 
@@ -1299,7 +1313,9 @@ Use of this register may result in a crash.
 
 -   Use of the CPM4 (including PCIe Controller and DMA features) is not supported.
 
--   Use of Debug cores and the High Speed Debug Port (HSDP) is supported, but not debug via Aurora.
+-   Use of Debug cores and the High Speed Debug Port (HSDP) is supported, but not debug via CPM.
+    -- Do not select **HSDP PCIe** (or any other options) in CPM customization before
+       converting design to Classic SoC Boot.
     
 -   The CoreSight Trace Port Interface Unit is not supported with Classic SoC Boot. 
     Support for this feature, first via PMC MIO pins and later via the EMIO pins to the PL,
@@ -1334,3 +1350,14 @@ Use of this register may result in a crash.
     in the initial .pdi image, so the greater the overall NoC usage throughout the design, the
     larger this will be. Only the CFRAME (CFI) programming information is limited to the 
     partial .pdi images.
+ 
+-   Ensure that you have appropriate resources available in the dynamic PL region.  For example,
+    if insufficient bonded XPIO are available, the following error will be seen:
+ ```
+ ERROR: [Place 30-642] Placement Validity Check : Failed to find legal placement.
+ Reason: Could not place shape in pblock auto_pblock_DFX.
+ ```
+    This is a general DFX DRC that will be followed by the list of instances and 
+    resource types that are not contained in the auto-generated pblock.
+ 
+-   Given that the Classic SoC Boot solution uses a DFX design flow
