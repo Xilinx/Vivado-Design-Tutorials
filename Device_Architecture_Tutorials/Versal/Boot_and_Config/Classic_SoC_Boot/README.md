@@ -33,6 +33,8 @@
 
 [Booting Linux and Downloading Partial PDI](#booting-linux-and-downloading-partial-pdi)
 
+[Delivering PL images via U-boot](#delivering-pl-images-via-u-boot)
+
 [Classic SoC Boot Design Structure](#classic-soc-boot-design-structure)
 
 [Valid Connections](#valid-connections)
@@ -1163,7 +1165,79 @@ devmem 0xa4000008
 ```
 You should be able to read and write to the AXI Timer registers now.
 
-This concludes the tutorial portion of this document.
+## Delivering PL images via U-boot
+Alternatively to Linux, loading PDI images can also be achieved in U-Boot. 
+ This is a desirable alternative since U-Boot comes before Linux in the boot sequence, 
+ meaning you can load your PL faster at boot and proceed to Linux with a full PL design 
+ already loaded. In our current flow where the static PDI is handled by the primary boot 
+ interface, we can use U-Boot to load the partial PDI.
+
+1.	Place your partial.pdi file(s) on the SD card along with the rest of the PetaLinux boot files.
+
+2.	Boot the board:
+```
+petalinux-boot --jtag --u-boot --hw_server-url <MachineName>:3121
+```
+
+3.	Watch systest terminal 2 as the board boots. The boot sequence will pause with a message
+```
+ “Hit any key to stop autoboot”. Pressing any key will interrupt Linux boot and put you in U-Boot.
+```
+
+Once in U-Boot, the partial PDI file needs to be moved from the SD card to on-board device 
+ memory before it can be downloaded to the FPGA.
+ 
+4.	Use the ‘fatload’ command to move the partial PDI file to an on-board memory location with 
+ enough space (partial PDI files are typically multiple MB in size). In this case we will use 
+ DDR memory location 0x1000000:
+```
+fatload mmc 0 0x1000000 <full partial pdi filename here>
+```
+Note: the ‘mmc 0’ parameter means MultiMediaCard 0 which in this case is the SD card.
+
+Once the fatload command is ran, the size of the moved file is automatically stored in the 
+ $filesize variable which we can use in the next step.
+
+5.	Use the ‘versal loadpdi’ command to download the PDI to the FPGA. The command takes the 
+ memory location and size of the PDI data:
+```
+versal loadpdi 0x1000000 $filesize
+```
+The PDI file should download to the FPGA successfully. Now that the PL is loaded, we can 
+ also use U-Boot to access the PL memory space.
+ 
+6.	Use the ‘md’ (memory dump) command to read the unmodified BRAM memory at 0xa4000000:
+```
+ md 0xa4000000 1
+```
+Note: the second parameter is the number of values to dump, in this case ‘1’.
+
+7.	Use the ‘mm’ (memory modify) command to write to the BRAM memory at 0xa4000000.
+
+Once you run the command you will be prompted to type the write data. You can type the data 
+ and press enter which will execute the write and then prompt you to type more data for the 
+ next memory location, and so on. You can exit this writing mode by pressing ctrl+C: 
+```
+mm 0xa4000000
+deadbeef
+(Press ctrl+C)	
+```
+
+8.	Read the BRAM memory again using the ‘md’ command:
+```
+md 0xa4000000 1
+```
+
+	You should see ‘deadbeef’.
+
+9.	To boot to Linux using the image on the SD card, use the command:
+```
+run bootcmd_mmc0
+```
+
+For more information on U-Boot commands, refer to the official U-Boot documentation:
+[https://u-boot.readthedocs.io/en/latest/](https://u-boot.readthedocs.io/en/latest/)
+ 
 
 # Classic SoC Boot Design Structure
 
