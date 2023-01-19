@@ -1397,6 +1397,8 @@ Use of this register may result in a crash.
 -   Use of the auxiliary (analog) input pins for System Monitor (SYSMON) is not 
     supported, as these pins are routed through the PL to MIO or HDIO banks.
     Support for this feature may be considered in a future Vivado release.
+ 
+-   Use of XRAM (for devices that include this feature) is not supported.
     
 -   Use of MBUFG primitives must account for reset handling. If this primitive is 
     used in /2, /4 or /8 mode to create divided clocks, the CLRB_LEAF input must be
