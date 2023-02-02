@@ -45,6 +45,8 @@
 
 ## Classic SoC Boot is Limited Access in Vivado 2022.2
 
+Please contact your local support representative before engaging with this configuration solution.
+
 # Overview
 
 While Versal and Zynq devices are both fundamentally SoC architectures,
@@ -1301,7 +1303,7 @@ Some features are not yet implemented but may be considered for future releases.
 # Known Issues/Limitations and other Considerations
 
 These are the issues and limitations with the Classic SoC Boot solution
-through the Vivado 2022.2 release. Some of these issues may be fixed in
+through the Vivado 2022.1 release. Some of these issues may be fixed in
 future releases, but most likely will not.
 
 ## Known Issues
@@ -1435,4 +1437,7 @@ Use of this register may result in a crash.
     This is a general DFX DRC that will be followed by the list of instances and 
     resource types that are not contained in the auto-generated pblock.
  
--   Given that the Classic SoC Boot solution uses a DFX design flow
+-   Given that the Classic SoC Boot solution uses a DFX design flow, IO must be defined 
+ in the top-level even though the IO components (buffers, etc.) are instantiated.  
+ If greybox configurations are used, be sure to supply IO constraint information to 
+ maintain a consistent pinout requirement for the overall design.
