@@ -33,6 +33,8 @@
 
 [Booting Linux and Downloading Partial PDI](#booting-linux-and-downloading-partial-pdi)
 
+[Delivering PL images via U-boot](#delivering-pl-images-via-u-boot)
+
 [Classic SoC Boot Design Structure](#classic-soc-boot-design-structure)
 
 [Valid Connections](#valid-connections)
@@ -40,6 +42,10 @@
 [Supported/Unsupported Features](#supportedunsupported-features)
 
 [Known Issues/Limitations and other Considerations](#known-issueslimitations-and-other-Considerations)
+
+## Classic SoC Boot is Limited Access in Vivado 2022.2
+
+Please contact your local support representative before engaging with this configuration solution.
 
 # Overview
 
@@ -160,16 +166,16 @@ programmable logic, certain restrictions must be imposed. This allows
 the design to align to a DFX-enabled flow to create separate programming
 images for each part of the design. These requirements include:
 
+* Only monolithic Versal AI Core and Versal Prime devices are supported.
+Versal Premium, especially those devices using SSIT, are not supported.
+
 * Use of the **CPM4** is prohibited. All PCIe, DMA and debug features
 enabled via CPM are incompatible with Classic SoC Boot, as most modes
 infer static PL resource usage.
+** Use of HSDP debug via CPM4 is not supported.
 
 * Use of the **PL** **Flow (no PS)** is prohibited, as this configuration
 is the opposite of what Classic SoC Boot will enable.
-
-* Use of HSDP debug is currently prohibited. Without a CPM4 PCIe or Aurora
-pathway these solutions will not be possible. The latter may be
-considered for a future release.
 
 * Some CIPS-based clock buffer inference must be disabled, replaced by
 instantiation within the PL hierarchy.
@@ -203,10 +209,8 @@ if they are not included in your local installation.
 This section of the document walks through the steps to create and then
 process the Classic SoC Boot design in Vivado. Comments throughout note
 specific requirements and limitations associated with the solution,
-including changes expected in future versions of Vivado when this
-solution moves to production status. In general, however, many steps can
-be altered to meet specific needs for your connectivity, memory usage,
-or other design requirements.
+including changes expected in future versions of Vivado. In general, however, many steps can
+be altered to meet specific needs for your connectivity, memory usage, or other design requirements.
 
 Sections of this tutorial can be created via script as well as run
 interactively. The entire Vivado flow can be run via the `run_all.tcl`
@@ -720,11 +724,19 @@ The DFX flow requires a pblock for each Reconfigurable Partition. For
 the Classic SoC Boot flow, Vivado will automatically create a pblock to
 contain the dynamic region of the design. This is by definition the
 entire PL for the entire design that is not the PS + HNoC + DDR
-Controllers that are identified as the base processing system.
+Controllers that are identified as the base processing system. 
+When the DFX project has the CLASSIC_SOC_BOOT property enabled, during opt_design, 
+Vivado will automatically infer the pblock for the reconfigurable partition.  
+The auto-pblocking algorithm creates pblock for almost the full PL, after 
+excluding these elements, keeping them in the static region:
+- The XPIO resources required for PS on its communication path to DDR 
+- The NOC resources (NMU and NSU) in the dedicated path between PS and DDR
+- A column of CLB resources for GND/VCC nets tie-off from CIPS
+- A clocking tile containing BUFG_PS to accommodate BUFG_PS on clock nets from CIPS
+- Any XPIO resources used by any static I/O buffers
 
 17.  In the Flow Navigator, under the PROGRAM AND DEBUG header, click
-     **Generate Device Image**. Click Yes then OK to start the Vivado
-     flow.
+     **Generate Device Image**. Click Yes then OK to start the Vivado flow.
 
 This action pulls the entire design through synthesis (of the bram_bd
 module, of the timer_bd module if created, then top), implementation 
@@ -1155,7 +1167,78 @@ devmem 0xa4000008
 ```
 You should be able to read and write to the AXI Timer registers now.
 
-This concludes the tutorial portion of this document.
+## Delivering PL images via U-boot
+Alternatively to Linux, loading PDI images can also be achieved in U-Boot. 
+ This is a desirable alternative since U-Boot comes before Linux in the boot sequence, 
+ meaning you can load your PL faster at boot and proceed to Linux with a full PL design 
+ already loaded. In our current flow where the static PDI is handled by the primary boot 
+ interface, you can use U-Boot to load the partial PDI.
+
+1.	Place your partial.pdi file(s) on the SD card along with the rest of the PetaLinux boot files.
+
+2.	Boot the board:
+```
+petalinux-boot --jtag --u-boot --hw_server-url <MachineName>:3121
+```
+
+3.	Watch systest terminal 2 as the board boots. The boot sequence will pause with a message:
+```
+ “Hit any key to stop autoboot”. Pressing any key will interrupt Linux boot and put you in U-Boot.
+```
+
+Once in U-Boot, the partial PDI file must be moved from the SD card to on-board device 
+ memory before it can be downloaded to the FPGA.
+ 
+4.	Use the `fatload` command to move the partial PDI file to an on-board memory location with 
+ enough space (partial PDI files are typically multiple MB in size). In this case you will use 
+ DDR memory location 0x1000000:
+```
+fatload mmc 0 0x1000000 <full partial pdi filename here>
+```
+Note: the `mmc 0` parameter means MultiMediaCard 0 which in this case is the SD card.
+
+Once the fatload command has been run, the size of the moved file is automatically stored in the 
+ $filesize variable which you will use in the next step.
+
+5.	Use the `versal loadpdi` command to download the PDI to the FPGA. The command takes the 
+ memory location and size of the PDI data:
+```
+versal loadpdi 0x1000000 $filesize
+```
+The PDI file should download to the FPGA successfully. Now that the PL is loaded, you can 
+ also use U-Boot to access the PL memory space.
+ 
+6.	Use the `md` (memory dump) command to read the unmodified BRAM memory at 0xa4000000:
+```
+ md 0xa4000000 1
+```
+Note: the second parameter is the number of values to dump, in this case ‘1’.
+
+7.	Use the `mm` (memory modify) command to write to the BRAM memory at 0xa4000000.
+
+Once you run the command you will be prompted to type the write data. You can type the data 
+ and press enter which will execute the write and then prompt you to type more data for the 
+ next memory location, and so on. You can exit this writing mode by pressing ctrl+C: 
+```
+mm 0xa4000000
+deadbeef
+(Press ctrl+C)	
+```
+
+8.	Read the BRAM memory again using the ‘md’ command:
+```
+md 0xa4000000 1
+```
+You should see ‘deadbeef’.
+
+9.	To boot to Linux using the image on the SD card, use the command:
+```
+run bootcmd_mmc0
+```
+
+For more information on U-Boot commands, refer to the official U-Boot documentation:
+[https://u-boot.readthedocs.io/en/latest/](https://u-boot.readthedocs.io/en/latest/)
+ 
 
 # Classic SoC Boot Design Structure
 
@@ -1201,12 +1284,7 @@ supported and unsupported features for DFX Block Design Container Projects.
 
 ## Supported Features
 
--   Support for Versal Prime devices enabled for the DFX flow -- in Vivado
-    2021.2 this is limited to the Versal AI Core VC1902 and Versal Prime
-    VM1802
-    
-    - Other Versal devices (Versal AI Core and Versal Premium, for example)
-      are not yet supported
+-   Support for monolithic Versal Prime and AI Core devices enabled for the DFX flow
 
 -   Production support of the Block Design Containers solution in IP Integrator
 
@@ -1216,18 +1294,17 @@ supported and unsupported features for DFX Block Design Container Projects.
 
 Some features are not yet implemented but may be considered for future releases.
 
--   Selection of the Classic SoC Boot flow via project property in the
-    IDE or CIPS IP GUI is planned for an upcoming release
-
--   Support for Aurora-based debug is planned for a future release
+-   Other Versal devices (Versal Premium and Versal HBM, for example) are not supported
+ 
+-   Devices utilizing Stacked Silicon Interconnect (SSI) Technology are not supported
 
 -   Additional DRCs and tool guidance are planned for upcoming releases
 
 # Known Issues/Limitations and other Considerations
 
 These are the issues and limitations with the Classic SoC Boot solution
-in the Vivado 2021.2 release. Some of these issues may be fixed in
-future releases, though plans are subject to change.
+through the Vivado 2022.1 release. Some of these issues may be fixed in
+future releases, but most likely will not.
 
 ## Known Issues
 
@@ -1246,9 +1323,15 @@ set_property classic_soc_boot 1 [current_project]
 
 -   Not all IO elements are flagged for inclusion in the dynamic region.
 The Classic SoC Boot flow will automatically pull top-level IO buffers connected to the Reconfigurable Partition (RP) into that dynamic region.  
-Even though they are "static" elements they are included in that region and programmed with everything else in the Programmable Logic domain.  
+Even though they are "static" elements they are included in that region and programmed with everything else in the Programmable Logic domain.
+ 
 IO instances that are not directly connected to the RP are not automatically included, so users must disable their top-level inference and 
-instantiate them in each RM via the Utility Buffer IP.
+instantiate them in each RM via the Utility Buffer IP.  This may also happen for IO buffer types that are not supported via automation, such as
+GPIO IOBUFs. Utility Buffer usage will circumvent scenarios that lead to DRC errors like this one:
+ ```
+ ERROR: [DRC HDPR-116] Illegal Static Placement: Static logic 'GPIO_0_tri_iobuf_0' is placed at site 'IOB_X14Y8' 
+ which belongs to reconfigurable PBLOCK 'auto_pblock_DFX'. 
+ ```
 
 -   The CIPS IP generates logic that is inserted in the wrapper layer. Some of this logic (e.g. vcc/gnd tie-offs) is
 managed automatically by the flow, but some situations will require user intervention in this release. For example, use of 
@@ -1277,6 +1360,26 @@ Reference this tcl.pre hook script before opt_design.
 resize_pblock auto_pblock_PR -add {DDRMC_RIU_X1Y0}
 ```
 
+-   Tool insertion of BUFG_FABRIC instances are not supported
+opt_design can insert BUFG_FABRIC instances on high fanout nets, but these instances are added to the static design, which is not 
+permitted.  
+```
+ ERROR: [DRC HDPR-120] General Check for Classic SoC Boot: Cell 'design_1_i/versal_cips_0/inst/pspmc_0/inst/bscan_user1_usr_update_BUFG_inst' 
+with type 'BUFG_FABRIC' cannot be included in static logic in Classic_SoC_Boot.
+```
+ 
+These buffer instances can be manually inserted in the dynamic PL region within the BDC, converted to global clock buffers by property,
+or the instances can be disabled.
+ The following command can be called prior to opt_design to define global clocks explicitly:
+```
+set_property CLOCK_BUFFER_TYPE BUFGCE [get_nets design_1_i/hier_0/aclk0_0]
+```
+ 
+ The following command can be called to eliminate the intermediate clock buffers:
+ ```
+set_property CLOCK_BUFFER_TYPE NONE [get_nets -of [get_pins design_1_i/versal_cips_0/inst/pspmc_0/inst/PS9_inst/USRUPDATE*]]
+ ```
+
 -   Application of a PL POR reset through the use of the RST_PS (CRP) register is not yet supported.
 Use of this register may result in a crash.
 
@@ -1285,7 +1388,9 @@ Use of this register may result in a crash.
 
 -   Use of the CPM4 (including PCIe Controller and DMA features) is not supported.
 
--   Use of Debug cores and the High Speed Debug Port (HSDP) is supported, but not debug via Aurora.
+-   Use of Debug cores and the High Speed Debug Port (HSDP) is supported, but not debug via CPM.
+    -- Do not select **HSDP PCIe** (or any other options) in CPM customization before
+       converting design to Classic SoC Boot.
     
 -   The CoreSight Trace Port Interface Unit is not supported with Classic SoC Boot. 
     Support for this feature, first via PMC MIO pins and later via the EMIO pins to the PL,
@@ -1294,6 +1399,8 @@ Use of this register may result in a crash.
 -   Use of the auxiliary (analog) input pins for System Monitor (SYSMON) is not 
     supported, as these pins are routed through the PL to MIO or HDIO banks.
     Support for this feature may be considered in a future Vivado release.
+ 
+-   Use of XRAM (for devices that include this feature) is not supported.
     
 -   Use of MBUFG primitives must account for reset handling. If this primitive is 
     used in /2, /4 or /8 mode to create divided clocks, the CLRB_LEAF input must be
@@ -1320,3 +1427,17 @@ Use of this register may result in a crash.
     in the initial .pdi image, so the greater the overall NoC usage throughout the design, the
     larger this will be. Only the CFRAME (CFI) programming information is limited to the 
     partial .pdi images.
+ 
+-   Ensure that you have appropriate resources available in the dynamic PL region.  For example,
+    if insufficient bonded XPIO are available, the following error will be seen:
+ ```
+ ERROR: [Place 30-642] Placement Validity Check : Failed to find legal placement.
+ Reason: Could not place shape in pblock auto_pblock_DFX.
+ ```
+    This is a general DFX DRC that will be followed by the list of instances and 
+    resource types that are not contained in the auto-generated pblock.
+ 
+-   Given that the Classic SoC Boot solution uses a DFX design flow, IO must be defined 
+ in the top-level even though the IO components (buffers, etc.) are instantiated.  
+ If greybox configurations are used, be sure to supply IO constraint information to 
+ maintain a consistent pinout requirement for the overall design.
