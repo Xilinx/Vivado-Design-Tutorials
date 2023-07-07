@@ -276,6 +276,25 @@ For DDR4:
 *output \[9:0\] colAddr,*
 *output \[16:0\] rowAddrDuringRW*
 
+For LPDDR4(Note this tutorial is for DDR4, if using this tool for LPDDR4 add following signals):
+*output write,*  
+*output read,*
+*output precharge,*
+*output prechargeAll,*
+*output refresh,*
+*output refreshAll,*
+*output activate,*
+*output [9:0]  colAddrOut,*
+*output [18:0] rowAddrOut,*
+*output [2:0] BA,*
+*output [16:0] write_c,*
+*output [16:0] read_c,*
+*output [16:0] precharge_c,*
+*output [16:0] prechargeAll_c,*
+*output [16:0] refresh_c,*
+*output [16:0] refreshAll_c,*
+*output [16:0] activate_c*
+
 ![Graphical user interface, text, application, email Description
 automatically generated](media/image17.png)
 
@@ -296,6 +315,10 @@ For DDR4:
 .activate_c(activate_count), .other_c(other_count), .Row_adr(Row_adr),
 .Column_adr(Column_adr), .ba(ddr4_ba), .bg(ddr4_bg));*
 
+For LPDDR4(Note this tutorial is for DDR4, if using this tool for LPDDR4 add following instantiation):
+
+*Command_Decode_LP Command_Decode_LP (.clk(lpddr4_ck_t_a), .CS(lpddr4_cs_a), .CA(lpddr4_ca_a), .write(write), .read(read), .precharge(precharge), .refresh(refresh), .prechargeAll(prechargeAll), .refreshAll(refreshAll), .activate(activate), .colAddrOut(colAddrOut), .rowAddrOut(rowAddrOut), .BA(BA), .write_c(write_count), .read_c(read_count), .precharge_c(precharge_count), .refresh_c(refresh_count), .activate_c(activate_count),.refreshAll_c(refreshAll_c), .prechargeAll_c(prechargeAll_c));*
+
 6. Save changes and click **Run Simulation** again.
 
 7. After the waveform view opens up, on the left side open the
@@ -312,6 +335,12 @@ signals for DDR4:
 ![Graphical user interface, application Description automatically
 generated with medium
 confidence](media/image19.png)
+
+For LPDDR4: 
+
+![Graphical user interface, application Description automatically
+generated with medium
+confidence](media/image25.PNG)
 
 8. Click **Run All** to simulate.
 
