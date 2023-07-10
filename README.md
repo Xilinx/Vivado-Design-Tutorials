@@ -6,7 +6,7 @@
 </table>
 
 ## </br> Unparalled performance for all developers
-The Vivado design environment enables the development of high-performance FPGA and ACAP applications on
+The Vivado design environment enables the development of high-performance FPGA and Adaptive SoC applications on
 the latest cutting-edge architectures.
 
 ## Tutorials
