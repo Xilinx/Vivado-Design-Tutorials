@@ -1,6 +1,6 @@
 <table width="100%">
  <tr width="100%">
-    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>2021.1 Vivado™ - Versal Architecture-Specific Tutorials</h1>
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal Architecture-Specific Tutorials</h1>
     <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
     </td>
  </tr>
@@ -88,6 +88,11 @@
  <tr>
  <td align="center"><a href="./NoC_DDRMC/Versal_Performance_AXI_Traffic_Generator/">Versal NoC Performance AXI Traffic Generator</a></td>
  <td>The Performance AXI Traffic Generator is intended for modeling traffic masters in Versal™ ACAP designs for performance evaluation of network on chip (NoC) based solutions.
+</td>
+ </tr>
+  <tr>
+ <td align="center"><a href="./NoC_HBMC/">NoC and HBMC Design Flow Introduction</a></td>
+ <td>This tutorial introduces the basic concepts, tools, and techniques of the NoC and HBM controller design flow in Vivado along with running the design on VHK158
 </td>
  </tr>
   </table>
