@@ -121,8 +121,8 @@
 <td width="65%" align="center"><b>Description</b>
 </tr>
 <tr>
-<td align="center"><a href="./Basic_HW_Debug/">Basic PL Hardware Debugging Using ChipScope AXIS-ILA and AXIS-VIO</a></td>
-<td>This tutorial introduces the basic hardware debugging techniques using ChipScope.  Covers the adding the Integraded Logic Analyzer (AXIS-ILA) to an IP Integrator (IPI) design, an RTL Module, and after synthesis using post-synthesis insertion.</td>
+<td align="center"><a href="./HW_Debug/">Basic PL Hardware Debugging Using ChipScope AXIS-ILA and AXIS-VIO</a></td>
+<td>This tutorial introduces the basic hardware debugging techniques using ChipScope.  Covers the adding the Integrated Logic Analyzer (AXIS-ILA) to an IP Integrator (IPI) design, an RTL Module, and after synthesis using post-synthesis insertion.</td>
 </tr>
 </table>
 
