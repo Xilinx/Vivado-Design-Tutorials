@@ -290,7 +290,7 @@ proc create_root_design { parentCell } {
   set axi_gpio_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_gpio:2.0 axi_gpio_0 ]
   set_property -dict [list \
     CONFIG.C_ALL_INPUTS {1} \
-    CONFIG.C_IS_DUAL {0} \
+    CONFIG.C_IS_DUAL {1} \
   ] $axi_gpio_0
 
 
