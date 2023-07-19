@@ -1,8 +1,3 @@
-# #########################################################################
-#Copyright (C) 2023, Advanced Micro Devices, Inc. All rights reserved.
-
-#SPDX-License-Identifier: MIT
-# ###########################################################################
 
 ################################################################
 # This is a generated script based on design: design_1
@@ -25,7 +20,7 @@ set script_folder [_tcl::get_script_folder]
 ################################################################
 # Check if script is running in correct Vivado version.
 ################################################################
-set scripts_vivado_version 2022.2
+set scripts_vivado_version 2023.1
 set current_vivado_version [version -short]
 
 if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
@@ -136,17 +131,17 @@ set bCheckIPsPassed 1
 set bCheckIPs 1
 if { $bCheckIPs == 1 } {
    set list_check_ips "\ 
+xilinx.com:ip:dds_compiler:6.0\
+xilinx.com:ip:proc_sys_reset:5.0\
+xilinx.com:ip:xlslice:1.0\
 xilinx.com:ip:axi_bram_ctrl:4.1\
 xilinx.com:ip:emb_mem_gen:1.0\
 xilinx.com:ip:axi_gpio:2.0\
 xilinx.com:ip:c_counter_binary:12.0\
 xilinx.com:ip:clk_wizard:1.0\
-xilinx.com:ip:dds_compiler:6.0\
-xilinx.com:ip:proc_sys_reset:5.0\
 xilinx.com:ip:smartconnect:1.0\
 xilinx.com:ip:versal_cips:3.3\
 xilinx.com:ip:xlconstant:1.1\
-xilinx.com:ip:xlslice:1.0\
 "
 
    set list_ips_missing ""
@@ -238,37 +233,6 @@ proc create_root_design { parentCell } {
 
   # Create ports
 
-  # Create instance: axi_bram_ctrl_0, and set properties
-  set axi_bram_ctrl_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl:4.1 axi_bram_ctrl_0 ]
-
-  # Create instance: axi_bram_ctrl_0_bram, and set properties
-  set axi_bram_ctrl_0_bram [ create_bd_cell -type ip -vlnv xilinx.com:ip:emb_mem_gen:1.0 axi_bram_ctrl_0_bram ]
-  set_property CONFIG.MEMORY_TYPE {True_Dual_Port_RAM} $axi_bram_ctrl_0_bram
-
-
-  # Create instance: axi_gpio_0, and set properties
-  set axi_gpio_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_gpio:2.0 axi_gpio_0 ]
-  set_property -dict [list \
-    CONFIG.C_ALL_INPUTS {1} \
-    CONFIG.C_ALL_INPUTS_2 {1} \
-    CONFIG.C_IS_DUAL {1} \
-  ] $axi_gpio_0
-
-
-  # Create instance: c_counter_binary_0, and set properties
-  set c_counter_binary_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:c_counter_binary:12.0 c_counter_binary_0 ]
-  set_property -dict [list \
-    CONFIG.CE {true} \
-    CONFIG.Count_Mode {UPDOWN} \
-    CONFIG.Load {true} \
-    CONFIG.Output_Width {32} \
-    CONFIG.SCLR {true} \
-  ] $c_counter_binary_0
-
-
-  # Create instance: clk_wizard_0, and set properties
-  set clk_wizard_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:clk_wizard:1.0 clk_wizard_0 ]
-
   # Create instance: dds_compiler_0, and set properties
   set dds_compiler_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:dds_compiler:6.0 dds_compiler_0 ]
   set_property -dict [list \
@@ -301,6 +265,44 @@ proc create_root_design { parentCell } {
      return 1
    }
   
+  # Create instance: xlslice_0, and set properties
+  set xlslice_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlslice:1.0 xlslice_0 ]
+  set_property -dict [list \
+    CONFIG.DIN_FROM {15} \
+    CONFIG.DOUT_WIDTH {16} \
+  ] $xlslice_0
+
+
+  # Create instance: axi_bram_ctrl_0, and set properties
+  set axi_bram_ctrl_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl:4.1 axi_bram_ctrl_0 ]
+
+  # Create instance: axi_bram_ctrl_0_bram, and set properties
+  set axi_bram_ctrl_0_bram [ create_bd_cell -type ip -vlnv xilinx.com:ip:emb_mem_gen:1.0 axi_bram_ctrl_0_bram ]
+  set_property CONFIG.MEMORY_TYPE {True_Dual_Port_RAM} $axi_bram_ctrl_0_bram
+
+
+  # Create instance: axi_gpio_0, and set properties
+  set axi_gpio_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_gpio:2.0 axi_gpio_0 ]
+  set_property -dict [list \
+    CONFIG.C_ALL_INPUTS {1} \
+    CONFIG.C_IS_DUAL {0} \
+  ] $axi_gpio_0
+
+
+  # Create instance: c_counter_binary_0, and set properties
+  set c_counter_binary_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:c_counter_binary:12.0 c_counter_binary_0 ]
+  set_property -dict [list \
+    CONFIG.CE {true} \
+    CONFIG.Count_Mode {UPDOWN} \
+    CONFIG.Load {true} \
+    CONFIG.Output_Width {32} \
+    CONFIG.SCLR {true} \
+  ] $c_counter_binary_0
+
+
+  # Create instance: clk_wizard_0, and set properties
+  set clk_wizard_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:clk_wizard:1.0 clk_wizard_0 ]
+
   # Create instance: smartconnect_0, and set properties
   set smartconnect_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:smartconnect:1.0 smartconnect_0 ]
   set_property -dict [list \
@@ -312,6 +314,9 @@ proc create_root_design { parentCell } {
   # Create instance: versal_cips_0, and set properties
   set versal_cips_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:versal_cips:3.3 versal_cips_0 ]
   set_property -dict [list \
+    CONFIG.CPM_CONFIG { \
+      CPM_PCIE0_MODES {None} \
+    } \
     CONFIG.DDR_MEMORY_MODE {Custom} \
     CONFIG.DEBUG_MODE {JTAG} \
     CONFIG.DESIGN_MODE {1} \
@@ -351,7 +356,7 @@ proc create_root_design { parentCell } {
       PS_GEN_IPI6_ENABLE {1} \
       PS_HSDP_EGRESS_TRAFFIC {JTAG} \
       PS_HSDP_INGRESS_TRAFFIC {JTAG} \
-      PS_HSDP_MODE {None} \
+      PS_HSDP_MODE {NONE} \
       PS_I2C0_PERIPHERAL {{ENABLE 1} {IO {PMC_MIO 46 .. 47}}} \
       PS_I2C1_PERIPHERAL {{ENABLE 1} {IO {PMC_MIO 44 .. 45}}} \
       PS_MIO19 {{AUX_IO 0} {DIRECTION in} {DRIVE_STRENGTH 8mA} {OUTPUT_DATA default} {PULL disable} {SCHMITT 0} {SLEW slow} {USAGE Reserved}} \
@@ -376,14 +381,6 @@ proc create_root_design { parentCell } {
   # Create instance: xlconstant_0, and set properties
   set xlconstant_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 xlconstant_0 ]
 
-  # Create instance: xlslice_0, and set properties
-  set xlslice_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlslice:1.0 xlslice_0 ]
-  set_property -dict [list \
-    CONFIG.DIN_FROM {15} \
-    CONFIG.DOUT_WIDTH {16} \
-  ] $xlslice_0
-
-
   # Create interface connections
   connect_bd_intf_net -intf_net axi_bram_ctrl_0_BRAM_PORTA [get_bd_intf_pins axi_bram_ctrl_0/BRAM_PORTA] [get_bd_intf_pins axi_bram_ctrl_0_bram/BRAM_PORTA]
   connect_bd_intf_net -intf_net axi_bram_ctrl_0_BRAM_PORTB [get_bd_intf_pins axi_bram_ctrl_0/BRAM_PORTB] [get_bd_intf_pins axi_bram_ctrl_0_bram/BRAM_PORTB]
@@ -393,13 +390,13 @@ proc create_root_design { parentCell } {
 
   # Create port connections
   connect_bd_net -net c_counter_binary_0_Q [get_bd_pins c_counter_binary_0/Q] [get_bd_pins xlslice_0/Din]
-  connect_bd_net -net clk_wizard_0_clk_out1 [get_bd_pins axi_bram_ctrl_0/s_axi_aclk] [get_bd_pins axi_gpio_0/s_axi_aclk] [get_bd_pins c_counter_binary_0/CLK] [get_bd_pins clk_wizard_0/clk_out1] [get_bd_pins dds_compiler_0/aclk] [get_bd_pins proc_sys_reset_0/slowest_sync_clk] [get_bd_pins rtl_block_0/clk] [get_bd_pins smartconnect_0/aclk] [get_bd_pins versal_cips_0/m_axi_fpd_aclk]
-  connect_bd_net -net dds_compiler_0_m_axis_data_tdata [get_bd_pins axi_gpio_0/gpio_io_i] [get_bd_pins dds_compiler_0/m_axis_data_tdata]
-  connect_bd_net -net proc_sys_reset_0_peripheral_aresetn [get_bd_pins axi_bram_ctrl_0/s_axi_aresetn] [get_bd_pins axi_gpio_0/s_axi_aresetn] [get_bd_pins proc_sys_reset_0/peripheral_aresetn] [get_bd_pins smartconnect_0/aresetn]
-  connect_bd_net -net versal_cips_0_pl0_ref_clk [get_bd_pins clk_wizard_0/clk_in1] [get_bd_pins versal_cips_0/pl0_ref_clk]
-  connect_bd_net -net versal_cips_0_pl0_resetn [get_bd_pins proc_sys_reset_0/ext_reset_in] [get_bd_pins versal_cips_0/pl0_resetn]
-  connect_bd_net -net xlconstant_1_dout [get_bd_pins dds_compiler_0/s_axis_phase_tvalid] [get_bd_pins xlconstant_0/dout]
-  connect_bd_net -net xlslice_0_Dout [get_bd_pins dds_compiler_0/s_axis_phase_tdata] [get_bd_pins xlslice_0/Dout]
+  connect_bd_net -net clk_wizard_0_clk_out1 [get_bd_pins clk_wizard_0/clk_out1] [get_bd_pins dds_compiler_0/aclk] [get_bd_pins proc_sys_reset_0/slowest_sync_clk] [get_bd_pins rtl_block_0/clk] [get_bd_pins axi_bram_ctrl_0/s_axi_aclk] [get_bd_pins axi_gpio_0/s_axi_aclk] [get_bd_pins c_counter_binary_0/CLK] [get_bd_pins smartconnect_0/aclk] [get_bd_pins versal_cips_0/m_axi_fpd_aclk]
+  connect_bd_net -net dds_compiler_0_m_axis_data_tdata [get_bd_pins dds_compiler_0/m_axis_data_tdata] [get_bd_pins axi_gpio_0/gpio_io_i]
+  connect_bd_net -net proc_sys_reset_0_peripheral_aresetn [get_bd_pins proc_sys_reset_0/peripheral_aresetn] [get_bd_pins axi_bram_ctrl_0/s_axi_aresetn] [get_bd_pins axi_gpio_0/s_axi_aresetn] [get_bd_pins smartconnect_0/aresetn]
+  connect_bd_net -net versal_cips_0_pl0_ref_clk [get_bd_pins versal_cips_0/pl0_ref_clk] [get_bd_pins clk_wizard_0/clk_in1]
+  connect_bd_net -net versal_cips_0_pl0_resetn [get_bd_pins versal_cips_0/pl0_resetn] [get_bd_pins proc_sys_reset_0/ext_reset_in]
+  connect_bd_net -net xlconstant_1_dout [get_bd_pins xlconstant_0/dout] [get_bd_pins dds_compiler_0/s_axis_phase_tvalid]
+  connect_bd_net -net xlslice_0_Dout [get_bd_pins xlslice_0/Dout] [get_bd_pins dds_compiler_0/s_axis_phase_tdata]
 
   # Create address segments
   assign_bd_address -offset 0xA4000000 -range 0x00002000 -target_address_space [get_bd_addr_spaces versal_cips_0/M_AXI_FPD] [get_bd_addr_segs axi_bram_ctrl_0/S_AXI/Mem0] -force
