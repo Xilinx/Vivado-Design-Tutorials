@@ -243,11 +243,11 @@ The Versal architecture allows generating AXI transactions directly from the Deb
 
 1.  Generate an AXI write transaction with the below command.  This will write the value `0x12345678` into the first address in the block memory address space.
 
-    `mwr 0xA4000000 0x12345678`
+    `mwr -force 0xA4000000 0x12345678`
 	
 1.  Generate an AXI read transaction with the below command.  This will read the data back from the block memory address.  During this read transaction, the previously armed ILA will trigger on the read transaction.
 
-    `mrd 0xA4000000`
+    `mrd -force 0xA4000000`
 	
 1.  Return to the ILA window to observe that the ILA has triggered on the read transaction.  Using the zoom buttons or clicking on the waveform and dragging, zoom in on the read transaction and observe the AXI transaction.
 
