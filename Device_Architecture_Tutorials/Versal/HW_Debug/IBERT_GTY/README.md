@@ -17,12 +17,13 @@ A design that is IBERT capable can be generated quickly using the CED.
 
 1. Launch Vivado 2023.1
 1. Select "Open Example Design" then click **Next** to proceed.
-1. In the **Select Project Template** window, scroll to the **Versal IBERT** template.  Click **Next**.
     ![](./images/01_open_example_project.png)
-3. _(Optional)_ If desired, enter a project name and choose a location for the project to be created.
-4. Select part for VCK190
-5. The VCK190 has these GTs... (show screencap from UG)
-6. Select GTs
+3. In the **Select Project Template** window, scroll to the **Versal IBERT** template.  Click **Next**.
+    ![](./images/02_IBERT_Example_1.png)
+5. _(Optional)_ If desired, enter a project name and choose a location for the project to be created.
+6. Select part for VCK190
+7. The VCK190 has these GTs... (show screencap from UG)
+8. Select GTs
 
 ## Hardware Setup
 
