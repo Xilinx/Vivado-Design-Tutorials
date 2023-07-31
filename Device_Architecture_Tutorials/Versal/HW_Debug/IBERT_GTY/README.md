@@ -15,11 +15,14 @@
 A design that is IBERT capable can be generated quickly using the CED.
 
 
-1. Launch Vivado 2023.1
-1. Select "Open Example Design" then click **Next** to proceed.
+1. Launch Vivado 2023.1 and select **Open Example Design** at the landing page.  Click **Next** to proceed.
+    ![](./images/01_open_example_project.png)
 1. In the **Select Project Template** window, scroll to the **Versal IBERT** template.  Click **Next**.
-1. _(Optional)_ If desired, enter a project name and choose a location for the project to be created.
-1. Select part for VCK190
+    _Note:  If the Versal IBERT example design is not present, click **Refresh**
+	![](./images/02_IBERT_Example_1.png)
+1. _(Optional)_ If desired, enter a project name and choose a location for the project to be created. 
+1. This design targets the VCK190 Evaluation Kit which has the XCVC1902-2MSEVSVA2197 Versal AI Core device.  In the part selection page, select: `xcvc1902-vsva2197-2MP-e-S` to target this part.
+    ![](./images/03_part_selection.png)
 1. The VCK190 has these GTs... (show screencap from UG)
 1. Select GTs
 
