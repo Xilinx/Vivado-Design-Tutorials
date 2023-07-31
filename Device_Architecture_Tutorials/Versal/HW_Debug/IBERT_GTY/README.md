@@ -11,6 +11,10 @@
 
 ## Introduction
 
+## Hardware Setup
+
+1. QSPI loopback?
+
 ## Design Creation
 A design that is IBERT capable can be generated quickly using the CED.
 
