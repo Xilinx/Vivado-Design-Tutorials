@@ -39,17 +39,36 @@ A design that is IBERT capable can be generated quickly using the CED.
     
 	![](./images/04_quad_selection.png)
 	
-1. After the IBERT Example Design is created, click **Generate Device Image** from the flow navigator.  While PDI generation completes, proceed to the next section for hardware setup.
-   
-   ![](./images/05_generate_pdi.png)
-
-## Hardware Setup
-
-1. QSPI loopback?
 
 ## Generating the PDI and Programming into Hardware
 
-1.  Program into hardware
+1. After the IBERT Example Design is created, click **Generate Device Image** from the flow navigator.  
+   
+   ![](./images/05_generate_pdi.png)
+   
+## Connecting to the VCK190 and Programming the PDI
+1.  When PDI generation is complete, click the option in the pop-up window to **Open Hardware Manager**.
+
+    ![](./images/open_hw_manager.png)
+	
+1.  Click the text **Open target** on the green banner to open a hardware target.
+1.  Click the **Auto Connect** option to connect to the locally connected VCK190.
+    
+	*Note: if the target is not locally connected, please see UG908 for instructions to connect to a remote hardware target*
+	
+	![](./images/autoconnect.png)
+	
+1.  Click **Program device** on the green banner to program the generated PDI into the Versal Device.
+
+    ![](./images/program_device.png)
+	
+1.  When the **Program Device** window appears, ensure that the **PDI** and **Debug Probes File** dialogs are each populated with with a path to the respective files.  Click **Program**.
+
+    ![](./images/program_dialog.png)
+	
+1.  When device programming completes, the following debug cores should be visible in the Hardware panel:
+
+    ![](./images/hardware_tree.png)
 
 ## Interacting with IBERT using the Serial I/O Analyzer
 
