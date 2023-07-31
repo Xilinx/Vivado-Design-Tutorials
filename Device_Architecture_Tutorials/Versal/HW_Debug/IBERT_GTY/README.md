@@ -26,7 +26,7 @@ A design that is IBERT capable can be generated quickly using the CED.
 1. Referencing the [VCK190 User Guide GTY Transceivers Section](https://docs.xilinx.com/r/en-US/ug1366-vck190-eval-bd/GTY-Transceivers) and the [VCK190 Evaluation Board User Guide Clock Generation Section](https://docs.xilinx.com/r/en-US/ug1366-vck190-eval-bd/Clock-Generation) it can be observed that the following GTY Quads are connected as follows with the following reference clocks:
 
     | Quad | Reference Clock Source | Reference Clock Frequency (MHz) | 
-	-------------------------------------------------------------------
+	|------|------------------------|---------------------------------|
 	| 200  | IEEE-1588 eCPRI Clock | unknown |
 	| 201  | SI570_ Connected to REFCLK0 | 100 MHz | 
 	| 204  | SI570 Connected to REFCLK0 | 100 MHz |
