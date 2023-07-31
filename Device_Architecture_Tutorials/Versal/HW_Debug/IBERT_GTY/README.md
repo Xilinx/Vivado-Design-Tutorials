@@ -32,10 +32,12 @@ A design that is IBERT capable can be generated quickly using the CED.
 	| 204  | SI570 Connected to REFCLK0 | 100 MHz |
 	
 1. In the **Design Preset** menu, select the following, then click **Next** and finally **Finish** to generate the design.
-    ![](./images/04_quad_selection.png)
+    
+	![](./images/04_quad_selection.png)
 	
 1. After the IBERT Example Design is created, click **Generate Device Image** from the flow navigator.
-    ![](./images/05_generate_pdi.png)
+   
+   ![](./images/05_generate_pdi.png)
 
 
 ## Hardware Setup
