@@ -31,6 +31,7 @@ A design that is IBERT capable can be generated quickly using the CED.
 	| 204  | SI570 Connected to REFCLK0 | 100 MHz |
 1. Select GTs
 
+
 ## Hardware Setup
 
 1. QSPI loopback?
