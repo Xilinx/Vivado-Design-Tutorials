@@ -35,10 +35,9 @@ A design that is IBERT capable can be generated quickly using the CED.
     
 	![](./images/04_quad_selection.png)
 	
-1. After the IBERT Example Design is created, click **Generate Device Image** from the flow navigator.
+1. After the IBERT Example Design is created, click **Generate Device Image** from the flow navigator.  While PDI generation completes, proceed to the next section for hardware setup.
    
    ![](./images/05_generate_pdi.png)
-
 
 ## Hardware Setup
 
