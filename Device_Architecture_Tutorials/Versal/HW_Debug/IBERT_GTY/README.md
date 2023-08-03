@@ -104,7 +104,17 @@ A design that is IBERT capable can be generated quickly using the CED.
 
 	![](./images/setting_prbs.png)
 
-1.  
+1.  Next, right click on **Link 0** and select **Create Scan**
+
+	![](./images/create_scan.png)
+	
+1.  For **Horizontal Increment** and **Vertical Increment** select **10**.  Leave all other values default.
+
+	![](./images/create_scan_values.png)
+	
+1.  After the scan finishes, the Eye Diagram will be shown
+
+	![](./images/eye_diagram_2d.png)
 
 
 
