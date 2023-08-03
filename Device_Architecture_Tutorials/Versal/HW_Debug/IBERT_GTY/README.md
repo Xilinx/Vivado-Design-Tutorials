@@ -47,11 +47,12 @@ A design that is IBERT capable can be generated quickly using the CED.
 	
 	![](./images/cips_ip.png)
 	
+	
 1.  In the CIPS configuration wizard, click on **IO** and locate **MIO 37**.  Click on the small pencil icon to customize the MIO pin.  Change **External Usage** to **GPIO** and set the following:
 
-	![](./images/customize_mio.png)
-	
-	![](./images/mio_37.png)
+	1. ![](./images/cips_ip_2.png)
+	1. ![](./images/customize_mio.png)
+	1. ![](./images/mio_37.png)
 	
 1.  Click **Finish** to exit the CIPS IP customization wizard.
 	
