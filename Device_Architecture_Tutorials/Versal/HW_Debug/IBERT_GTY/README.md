@@ -39,9 +39,11 @@ A design that is IBERT capable can be generated quickly using the CED.
     
 	![](./images/04_quad_selection.png)
 	
-1.  As this design will target the VCK190 Evaluation Kit, it is required to enable MIO 37 as this is required by the board to boot.  Once the design is generated, open the block design by clicking **Open Block Design**.  Locate the CIPS IP and double click to customize the IP.  At the **Presets** page, click **Next** then click on the blue box labeled **PS PMC**.
+1.  As this design will target the VCK190 Evaluation Kit, it is required to enable MIO 37 as this is required by the board to boot.  Once the design is generated, open the block design by clicking **Open Block Design**.  
 
     ![](./images/open_bd.png)
+
+1.  Locate the CIPS IP and double click to customize the IP.  At the **Presets** page, click **Next** then click on the blue box labeled **PS PMC**.
 	
 	![](./images/cips_ip.png)
 	
@@ -80,14 +82,25 @@ A design that is IBERT capable can be generated quickly using the CED.
 
     ![](./images/program_dialog.png)
 	
-1.  When device programming completes, the following debug cores should be visible in the Hardware panel:
+1.  When device programming completes, the IBERT core should be visible in the hardware panel:
 
     ![](./images/hardware_tree.png)
 
 ## Interacting with IBERT using the Serial I/O Analyzer
 
-1. Create links
-1. Create scan
+1. The first step to interacting with IBERT is to create links, which allows users to link any TX and RX channel within the IBERT design.  To start, click on the **Serial I/O Links** tab and select **Create links**.
+
+	![](./images/create_links.png)
+
+1.  In this design each channels TX and RX will be linked together so all available links can be added by clicking the **+** button until all links are added.
+
+	![](./images/qspi_links.png)
+	
+1.  Because Quads 201 and 204 do not have a physical loopback connector, select **Internal Loopback** for all channels in Quads 201 and 204.  
+
+	![](./images/finished_links.png)
+	
+
 1. Create sweep
 
 ### Chipscopy plug?
