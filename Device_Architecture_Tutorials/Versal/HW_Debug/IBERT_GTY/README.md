@@ -96,12 +96,17 @@ A design that is IBERT capable can be generated quickly using the CED.
 
 	![](./images/qspi_links.png)
 	
-1.  Because Quads 201 and 204 do not have a physical loopback connector, select **Internal Loopback** for all channels in Quads 201 and 204.  
+1.  Because Quads 201 and 204 do not have a physical loopback connector, select **Internal Loopback** for all channels in Quads 201 and 204.  Quad 200 is connected to the external loopback connector and does not require internal loopback.
 
 	![](./images/finished_links.png)
 	
+1. After the links are created, they will be displayed in the **Serial I/O Tabs**.  By default, IBERT will default to **User Design** for the TX and RX patterns, allowing user design data to be used.  To bring the links up, change the TX and RX patterns for all links to **PRBS 31** by clicking on the TX and RX pattern drop down for **Link Group 0**.
 
-1. Create sweep
+	![](./images/setting_prbs.png)
+
+1.  
+
+
 
 ### Chipscopy plug?
 
