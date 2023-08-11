@@ -39,24 +39,6 @@ A design that is IBERT capable can be generated quickly using the CED.
     
 	![](./images/04_quad_selection.png)
 	
-1.  As this design will target the VCK190 Evaluation Kit, it is required to enable MIO 37 as this is required by the board to boot.  Once the design is generated, open the block design by clicking **Open Block Design**.  
-
-    ![](./images/open_bd.png)
-
-1.  Locate the CIPS IP and double click to customize the IP.  At the **Presets** page, click **Next** then click on the blue box labeled **PS PMC**.
-	
-	![](./images/cips_ip.png)
-	
-	
-1.  In the CIPS configuration wizard, click on **IO** and locate **MIO 37**.  Click on the small pencil icon to customize the MIO pin.  Change **External Usage** to **GPIO** and set the following:
-
-	1. ![](./images/cips_ip_2.png)
-	1. ![](./images/customize_mio.png)
-	1. ![](./images/mio_37.png)
-	
-1.  Click **Finish** to exit the CIPS IP customization wizard.
-	
-
 ## Generating the PDI and Programming into Hardware
 
 1. After the IBERT Example Design is created, click **Generate Device Image** from the flow navigator.  
