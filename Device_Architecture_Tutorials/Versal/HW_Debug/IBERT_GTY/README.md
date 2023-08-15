@@ -32,8 +32,8 @@ A design that is IBERT capable can be generated quickly using the CED.
     | Quad | Reference Clock Source | Reference Clock Frequency (MHz) | 
 	|------|------------------------|---------------------------------|
 	| 200  | Shared from QUAD 201 | - |
-	| 201  | SI570 Connected to REFCLK0 | 100 MHz | 
-	| 204  | SI570 Connected to REFCLK0 | 100 MHz |
+	| 201  | SI570 Connected to REFCLK0 (GTY REFCLK X1Y2)| 100 MHz | 
+	| 204  | SI570 Connected to REFCLK0 (GTY REFCLK X1Y8)| 100 MHz |
 	
 1. In the **Design Preset** menu, select the following, then click **Next** and finally **Finish** to generate the design.
     
