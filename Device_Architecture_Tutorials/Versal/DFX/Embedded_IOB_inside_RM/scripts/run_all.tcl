@@ -27,10 +27,8 @@ if { $list_projs eq "" } {
 #Create the flat deisgn using IPI
 source create_top_bd.tcl
 
-
 #Create the BDC for RP1 and RP2 hierarchy
 source create_rp1_bdc.tcl
-
 
 #Enable DFX for the RP1 BDC and RP2 BDC
 source enable_dfx_bdc.tcl

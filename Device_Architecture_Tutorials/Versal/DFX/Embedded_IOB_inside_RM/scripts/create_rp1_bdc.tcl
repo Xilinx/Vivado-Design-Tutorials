@@ -31,9 +31,6 @@ delete_bd_objs  [get_bd_cells /rp1]
 set_property name rp1 $new_cell
 current_bd_design [get_bd_designs rp1rm1]
 update_compile_order -fileset sources_1
-validate_bd_design
-save_bd_design
-
 
 current_bd_design [get_bd_designs design_1]
 validate_bd_design
