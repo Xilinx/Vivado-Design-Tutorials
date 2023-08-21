@@ -1,5 +1,5 @@
 # #########################################################################
-#© Copyright 2021 Xilinx, Inc.
+#Â© Copyright 2021 Xilinx, Inc.
 
 #Licensed under the Apache License, Version 2.0 (the "License");
 #you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 #limitations under the License.
 # ###########################################################################
 
-#an issue exists in Vivado 2022.2 regarding automatic address setting, requiring a revisit to the first RM
+#an issue exists in Vivado 2022.x regarding automatic address setting, requiring a revisit to the first RM
 #this issue has been resolved in Vivado 2023.1
 #assign addresses in rp1rm2 for Vivado 2022.x
 current_bd_design [get_bd_designs rp1rm1]
