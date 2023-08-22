@@ -1,4 +1,4 @@
-# © Copyright 2019 – 2021 Xilinx, Inc.
+# © Copyright 2019 – 2023 Xilinx, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,15 +15,15 @@
 set hw_path "design_1_i/sim_trig_0/inst/sim_trig_inst"
 set device "xcvc1902_1"
 #set device "vjtag40_1"
-set csv  "MULTIPLE_CSV"
-#set csv  "SINGLE_CSV"
+#set csv  "MULTIPLE_CSV"
+set csv  "SINGLE_CSV"
 set isptg 0
 set jsptg 0
 set num_tg [lindex $argv 0]
 set where [file dirname [info script]]
 
 set csv_file [lindex $argv 1]
-set argv "-csv $csv_file.csv -op_path . -ip_inst output_tg -mem_file_enc h -ip_id all -local_run -prot AXIMM"
+set argv "-csv $csv_file.csv -op_path . -ip_inst output_tg -mem_file_enc h -ip_id all -local_run -prot AXIMM -tg_mode PTG -axi_dw 256"
 source [file join $where ptg_mem.tcl]
 
 
