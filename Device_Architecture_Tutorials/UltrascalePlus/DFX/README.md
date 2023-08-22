@@ -1,13 +1,14 @@
-<table width="100%">
+<table class="sphinxhide" width="100%">
  <tr width="100%">
-    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>2022.1 Vivado™ - UltraScale+ Architecture-Specific Tutorials</h1>
-    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    <td align="center"><img src="https://raw.githubusercontent.com/Xilinx/Image-Collateral/main/xilinx-logo.png" width="30%"/><h1>AMD Vivado™ Design Suite Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado Development Environment on xilinx.com</br></a>
     </td>
  </tr>
 </table>
 
+# UltraScale+ Architecture-Specific Tutorials
 
-### Dynamic Function eXchange (DFX)
+## Dynamic Function eXchange (DFX)
 
  <table style="width:100%">
  <tr>
@@ -25,3 +26,8 @@
    apply to all architectures that support DFX.</td>
  </tr>
  </table>
+
+
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2023 Advanced Micro Devices, Inc</sub></p>
+
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

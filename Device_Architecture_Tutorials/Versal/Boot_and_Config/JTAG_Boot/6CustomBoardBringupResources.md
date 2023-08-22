@@ -1,10 +1,20 @@
-<tr>
-  <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>2021.2 Versal JTAG Boot Tutorial</h1>
-  </td>
-</tr>
+<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://raw.githubusercontent.com/Xilinx/Image-Collateral/main/xilinx-logo.png" width="30%"/><h1>AMD Vivado™ Design Suite Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado Development Environment on xilinx.com</br></a>
+    </td>
+ </tr>
 </table>
 
-# Table of Contents
+# Resources for Custom Board Bring-up
+
+This tutorial loads an example reference design into the VCK190, which has a power delivery solution option with Infineon. Each custom board must manage Versal ACAP power up and sequencing based on application requirements. The VCK190 may not be optimal for all solutions. For custom boards, review the example power delivery solutions for Versal ACAPs at http://www.xilinx.com/power.
+
+The best practices described in this section are a few key general checks for custom board bring-up. These are applicable regardless of the power solution that the board has selected and may refer to the VCK190 as an example.
+
+If boot debug is required during custom board bring-up, check that the REF_CLK is running before the POR_B signal is released. Ensure the key power rails VCCO_503, VCC_PMC, and VCCAUX_PMC are at expected levels before the POR_B is released. All rails should be checked against Xilinx power estimator (XPE) to ensure proper sequencing.
+
+## Table of Contents
 
 1. [Introduction](README.md)
 
@@ -20,12 +30,6 @@
 
 7. [References](7References.md)
 
-# Resources for Custom Board Bring-up
-This tutorial loads an example reference design into the VCK190, which has a power delivery solution option with Infineon. Each custom board must manage Versal ACAP power up and sequencing based on application requirements. The VCK190 may not be optimal for all solutions. For custom boards, review the example power delivery solutions for Versal ACAPs at http://www.xilinx.com/power.
-
-The best practices described in this section are a few key general checks for custom board bring-up. These are applicable regardless of the power solution that the board has selected and may refer to the VCK190 as an example.
-
-If boot debug is required during custom board bring-up, check that the REF_CLK is running before the POR_B signal is released. Ensure the key power rails VCCO_503, VCC_PMC, and VCCAUX_PMC are at expected levels before the POR_B is released. All rails should be checked against Xilinx power estimator (XPE) to ensure proper sequencing.
 
 ## Power Rails and Sequencing:
 When bringing up a new custom board, basic voltage power rail checks for level and sequence are recommended. Refer to the Xilinx Power Estimator User Guide for Versal ACAP [(UG1275)](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2020_2/ug1275-xilinx-power-estimator-versal.pdf) power sequence requirements, information on rail relationship to domains and components, and recommended example solutions for different applications. Refer to the Versal AI Core Series Data Sheet: DC and AC Switching Characteristics [(DS957)](https://www.xilinx.com/support/documentation/data_sheets/ds957-versal-ai-core.pdf) for the operating range of each power rail. Verify that the power rails used are within the appropriate specification levels for the selected family and speed grade.
@@ -94,9 +98,6 @@ xsct% plm log -help
 [README](README.md)
 
 
-© Copyright 2020-2022 Xilinx, Inc.
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2023 Advanced Micro Devices, Inc</sub></p>
 
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

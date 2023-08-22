@@ -1,12 +1,14 @@
-<table width="100%">
+<table class="sphinxhide" width="100%">
  <tr width="100%">
-    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>2021.1 Vivado™ - Versal Architecture-Specific Tutorials</h1>
-    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    <td align="center"><img src="https://raw.githubusercontent.com/Xilinx/Image-Collateral/main/xilinx-logo.png" width="30%"/><h1>AMD Vivado™ Design Suite Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado Development Environment on xilinx.com</br></a>
     </td>
  </tr>
 </table>
 
-### Boot and Configuration
+# Versal Architecture-Specific Tutorials
+
+## Boot and Configuration
 
  <table style="width:100%">
  <tr>
@@ -20,7 +22,7 @@
  </table>
 
 
-### Dynamic Function eXchange (DFX)
+## Dynamic Function eXchange (DFX)
 
  <table style="width:100%">
  <tr>
@@ -114,4 +116,8 @@
  AI Engines are supported through the Vitis&trade; Unified Development Environment. Please see the
  [Vitis In-Depth Tutorial](http://github.com/Xilinx/Vitis-In-Depth-Tutorial) for more information.
 
-<p align="center"><sup>Copyright&copy; 2021 Xilinx</sup></p>
+
+
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2023 Advanced Micro Devices, Inc</sub></p>
+
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

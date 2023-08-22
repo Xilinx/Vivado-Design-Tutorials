@@ -1,25 +1,24 @@
+<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://raw.githubusercontent.com/Xilinx/Image-Collateral/main/xilinx-logo.png" width="30%"/><h1>AMD Vivado™ Design Suite Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado Development Environment on xilinx.com</br></a>
+    </td>
+ </tr>
+</table>
+
 
 #   **Contents**
-1. [**Module Referencing in IP integrator**](#module-referencing-in-ip-integrator)
-
-    -   [**Introduction**](#introduction)
-    -   [**Tutorial Design
-        Description**](#tutorial-design-description)
-    -   [**Part 1- Creating the Microblaze
-        Design**](#part-1--creating-the-microblaze-design)
-    -   [**Part 2 - Referencing RTL Module**
-        ](#part-2--referencing-rtl-module)
-    -   [**Part 3 - Inference in an RTL
-        module**](#part-3--inference-in-an-rtl-module)
-    -   [**Part 4- The X_MODULE_SPEC
-        Attribute**](#part-4--the-x_module_spec-attribute)
-
-        -   [**Part 4a- Creating a Module Reference of a Block Design
-            (BD)**](#part-4a--creating-a-module-reference-of-a-block-design-bd)
-        -   [**Part 4b- Creating a module reference of an XCI
-            file**](#part-4b--creating-a-module-reference-of-an-xci-file)
-        -   [**Limitations of the X_MODULE_SPEC
-            attribute**](#limitations-of-the-x_module_spec-attribute)
+- [**Contents**](#contents)
+- [**Module Referencing in IP integrator**](#module-referencing-in-ip-integrator)
+  - [**Introduction**](#introduction)
+  - [**Tutorial Design Description**](#tutorial-design-description)
+  - [**Part 1- Creating the Microblaze Design**](#part-1--creating-the-microblaze-design)
+  - [**Part 2- Referencing RTL Module**](#part-2--referencing-rtl-module)
+  - [**Part 3- Inference in an RTL module**](#part-3--inference-in-an-rtl-module)
+  - [**Part 4- The X\_MODULE\_SPEC Attribute**](#part-4--the-x_module_spec-attribute)
+    - [**Part 4a- Creating a Module Reference of a Block Design (BD)**](#part-4a--creating-a-module-reference-of-a-block-design-bd)
+    - [**Part 4b- Creating a module reference of an XCI file**](#part-4b--creating-a-module-reference-of-an-xci-file)
+    - [**Limitations of the X\_MODULE\_SPEC attribute**](#limitations-of-the-x_module_spec-attribute)
 
 
 # **Module Referencing in IP integrator**
@@ -495,3 +494,10 @@ Keep the configuration as default, click **OK** and generate the output products
     RTL.
 
 This marks the end of the tutorial
+
+
+
+ 
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2023 Advanced Micro Devices, Inc</sub></p>
+
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

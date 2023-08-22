@@ -1,26 +1,25 @@
+<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://raw.githubusercontent.com/Xilinx/Image-Collateral/main/xilinx-logo.png" width="30%"/><h1>AMD Vivado™ Design Suite Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado Development Environment on xilinx.com</br></a>
+    </td>
+ </tr>
+</table>
+
 # Table of Contents
 
-1.  [**Introduction**](#Introduction)
-2.  [**Basic Versal Design using Vivado IP integrator **](#basic-versal-design-using-vivado-ip-integrator)
-
-    -   [**Step 1: Project
-    Creation**](#step-1-project-creation)
-    -   [**Step 2: Initial CIPS, NoC & DDR-MC Instantiation with Block
-    Automation**](#step-2-initial-cips-noc-ddr-mc-instantiation-with-block-automation)
-     -   [**Step 3: CIPS Customization**
-    ](#step-3-cips-customization)
-    -   [**Step 4: Referencing RTL
-    Modules**](#step-4-referencing-rtl-modules)
-    -   [**Step 5: Adding RTL as Packaged IP**
-    ](#step-5-adding-rtl-as-packaged-ip)
-    -   [**Step 6: Design
-    Validation**](#step-6-design-validation)
-    -   [**Step 7: Generate HDL Wrapper, Constraints,
-    Synthesis**](#step-7-generate-hdl-wrapper-constraints-synthesis)
-      -   [**Step 8: Advanced I/O
-    Planner**](#step-8-advanced-io-planner)
-    -   [**Step 9: Implementation, Generating Device
-    Image**](#step-9-implementation-generating-device-image)
+- [Table of Contents](#table-of-contents)
+- [Introduction](#introduction)
+- [Basic Versal Design using Vivado IP integrator](#basic-versal-design-using-vivado-ip-integrator)
+  - [**Step 1: Project Creation**](#step-1-project-creation)
+  - [**Step 2: Initial CIPS, NoC \& DDR-MC Instantiation with Block Automation**](#step-2-initial-cips-noc--ddr-mc-instantiation-with-block-automation)
+  - [**Step 3: CIPS Customization**](#step-3-cips-customization)
+  - [**Step 4: Referencing RTL Modules**](#step-4-referencing-rtl-modules)
+  - [**Step 5: Adding RTL as Packaged IP**](#step-5-adding-rtl-as-packaged-ip)
+  - [**Step 6: Design Validation**](#step-6-design-validation)
+  - [**Step 7: Generate HDL Wrapper, Constraints, Synthesis**](#step-7-generate-hdl-wrapper-constraints-synthesis)
+  - [**Step 8: Advanced I/O Planner**](#step-8-advanced-io-planner)
+  - [**Step 9: Implementation, Generating Device Image**](#step-9-implementation-generating-device-image)
 
 
 # Introduction
@@ -557,3 +556,10 @@ pin-out for the DDR-MC.
 
 > Note: *The device image file (.pdi) is now generated and can be found
 > in the project runs sub-directory called “/impl_1”.*
+
+
+
+ 
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2023 Advanced Micro Devices, Inc</sub></p>
+
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

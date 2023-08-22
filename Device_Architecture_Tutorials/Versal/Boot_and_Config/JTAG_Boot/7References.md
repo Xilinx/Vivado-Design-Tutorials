@@ -1,10 +1,15 @@
-<tr>
-  <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>2021.2 Versal JTAG Boot Tutorial</h1>
-  </td>
-</tr>
+<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://raw.githubusercontent.com/Xilinx/Image-Collateral/main/xilinx-logo.png" width="30%"/><h1>AMD Vivado™ Design Suite Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado Development Environment on xilinx.com</br></a>
+    </td>
+ </tr>
 </table>
 
-# Table of Contents
+
+# References
+
+## Table of Contents
 
 1. [Introduction](README.md)
 
@@ -20,7 +25,7 @@
 
 7. References
 
-# References
+
 
 |Reference|Description|
 |  ---  |  ---  |
@@ -47,12 +52,11 @@
 |Versal AI Core Series Data Sheet: DC and AC Switching Characteristics [(DS957)](https://www.xilinx.com/support/documentation/data_sheets/ds957-versal-ai-core.pdf)|Contains Versal DC and AC switching characteristics.|
 |[Xilinx Board Store](https://github.com/Xilinx/XilinxBoardStore)|Contains resources for Xilinx, Avnet, and other example evaluation boards.|
 
-## Go To Table of Contents:  
+## Go To Table of Contents:
+
 [README](README.md)
 
-© Copyright 2020-2022 Xilinx, Inc.
 
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2023 Advanced Micro Devices, Inc</sub></p>
 
-http://www.apache.org/licenses/LICENSE-2.0
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

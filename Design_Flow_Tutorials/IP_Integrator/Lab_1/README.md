@@ -1,18 +1,28 @@
+<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://raw.githubusercontent.com/Xilinx/Image-Collateral/main/xilinx-logo.png" width="30%"/><h1>AMD Vivado™ Design Suite Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado Development Environment on xilinx.com</br></a>
+    </td>
+ </tr>
+</table>
+
+
+
 # Table of Contents
 
-1. [Introduction](#introduction)
-2. [Tutorial Design Description](#tutorial-design-description)
-3. [Designing with IP integrator  ](#designing-with-ip-integrator)
-
-    -   [**Step 1: Creating a Project**](#step-1-creating-a-project)
-    -   [**Step 2: Creating an IP integrator   Design**](#step-2-creating-an-ip-integrator-design)
-    -   [**Step 3: Customizing IP**](#step-3-customizing-ip)
-    -   [**Step 4: Creating Connections**](#step-4-creating-connections)
-    -   [**Step 6: Adding Masters and Block Automation**](#step-6-adding-masters-and-block-automation)
-    -   [**Step 7: Using the Address Editor**](#step-7-using-the-address-editor)
-    -   [**Step 8: Validating the Design**](#step-8-validating-the-design)
-    -   [**Step 9: Debugging the Design**](#step-9-debugging-the-design)
-    -   [**Step 10: Creating and Implementing the Top-level Design**](#step-10-creating-and-implementing-the-top-level-design)
+- [Table of Contents](#table-of-contents)
+- [Introduction](#introduction)
+- [Tutorial Design Description](#tutorial-design-description)
+- [Designing with IP integrator](#designing-with-ip-integrator)
+  - [**Step 1: Creating a Project**](#step-1-creating-a-project)
+  - [**Step 2: Creating an IP integrator   Design**](#step-2-creating-an-ip-integrator---design)
+  - [**Step 3: Customizing IP**](#step-3-customizing-ip)
+  - [**Step 4: Creating Connections**](#step-4-creating-connections)
+  - [**Step 6: Adding Masters and Block Automation**](#step-6-adding-masters-and-block-automation)
+  - [**Step 7: Using the Address Editor**](#step-7-using-the-address-editor)
+  - [**Step 8: Validating the Design**](#step-8-validating-the-design)
+  - [**Step 9: Debugging the Design**](#step-9-debugging-the-design)
+  - [**Step 10: Creating and Implementing the Top-level Design**](#step-10-creating-and-implementing-the-top-level-design)
 
 
 # Introduction
@@ -660,3 +670,9 @@ the subsystem design.
     <img src="media/image49.png" style="width:2.54321in;height:2.31247in" />
 
 This marks the end of the tutorial. You can now exit Vivado.
+
+
+ 
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2023 Advanced Micro Devices, Inc</sub></p>
+
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

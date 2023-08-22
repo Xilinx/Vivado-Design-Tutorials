@@ -1,24 +1,22 @@
+<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://raw.githubusercontent.com/Xilinx/Image-Collateral/main/xilinx-logo.png" width="30%"/><h1>AMD Vivado™ Design Suite Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado Development Environment on xilinx.com</br></a>
+    </td>
+ </tr>
+</table>
+
   [Table of Contents](#table-of-contents)
 
--   [Designing with IP Integrator Design with RTL
-    top](#designing-with-ip-integrator-design-with-rtl-top)
-    -   
-    -   [**Step 1: Creating an IPI design with RTL as
-        top**](#step-1-creating-an-ipi-design-with-rtl-as-top)
-    -   [**Step 2: Running implementation and generating
-        xsa**](#step-2-running-implementation-and-generating-xsa)
-    -   [**Step 3: Exporting Hardware Platform(xsa) to PetaLinux
-        Project**](#step-3-exporting-hardware-platformxsa-to-petalinux-project)
-    -   [**Step4: Analysing the device
-        tree**](#step4-analysing-the-device-tree)
-    -   [**Step5: Booting PetaLinux Image on Hardware**
-        ](#step5-booting-petalinux-image-on-hardware)
+- [Designing with IP Integrator Design with RTL top](#designing-with-ip-integrator-design-with-rtl-top)
+  - [](#)
+  - [**Step 1: Creating an IPI design with RTL as top**](#step-1-creating-an-ipi-design-with-rtl-as-top)
+  - [**Step 2: Running implementation and generating xsa**](#step-2-running-implementation-and-generating-xsa)
+  - [**Step 3: Exporting Hardware Platform(xsa) to PetaLinux Project**](#step-3-exporting-hardware-platformxsa-to-petalinux-project)
+  - [**Step4: Analysing the device tree**](#step4-analysing-the-device-tree)
+  - [**Step5: Booting PetaLinux Image on Hardware**](#step5-booting-petalinux-image-on-hardware)
 
 
-
-# 
-
-# 
 
 # Designing with IP Integrator Design with RTL top
 
@@ -378,3 +376,9 @@ Refer to below link for more detail\'s other methods of booting:
 [Boot-a-PetaLinux-Image-on-Hardware-with-TFTP]{.underline}
 
 [Boot-a-PetaLinux-Image-on-Hardware-with-JTAG]{.underline}
+
+
+ 
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2023 Advanced Micro Devices, Inc</sub></p>
+
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>
