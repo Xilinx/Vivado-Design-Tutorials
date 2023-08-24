@@ -20,6 +20,7 @@ source ./read_register.tcl
 source ./write_register.tcl
 source ./start.tcl
 source ./start_all.tcl
+source ./pause.tcl
 source ./reset.tcl
 set argv [list 0 4TG_LIN_MC1_3TG_RND_MC3_M1]
 source sptg_top_load_bram_vck190.tcl
@@ -35,6 +36,14 @@ set argv [list 5 4TG_LIN_MC1_3TG_RND_MC3_M6]
 source sptg_top_load_bram_vck190.tcl
 set argv [list 6 4TG_LIN_MC1_3TG_RND_MC3_M7]
 source sptg_top_load_bram_vck190.tcl
+pause 0
+pause 1
+pause 2
+pause 3
+pause 4
+pause 5
+pause 6
+after 1000
 reset 0
 reset 1
 reset 2
