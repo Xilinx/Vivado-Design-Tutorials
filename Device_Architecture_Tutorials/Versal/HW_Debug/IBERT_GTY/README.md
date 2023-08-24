@@ -19,7 +19,7 @@
 A design that is IBERT capable can be generated quickly using the CED.
 
 
-1. Launch Vivado 2023.1 and select **Open Example Design** at the landing page.  Click **Next** to proceed.
+1. Launch Vivado 2023.2 and select **Open Example Design** at the landing page.  Click **Next** to proceed.
     ![](./images/01_open_example_project.png)
 1. In the **Select Project Template** window, scroll to the **Versal IBERT** template.  Click **Next**.
     _Note:  If the Versal IBERT example design is not present, click **Refresh**
