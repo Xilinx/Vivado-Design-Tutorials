@@ -29,7 +29,7 @@ A design that is IBERT capable can be generated quickly using the CED.
     
     _Note: The Versal IBERT example design does not currently support selecting a board part._
     ![](./images/03_part_selection.png)
-1. Referencing the [VCK190 User Guide GTY Transceivers Section](https://docs.xilinx.com/r/en-US/ug1366-vck190-eval-bd/GTY-Transceivers) and the [VCK190 Evaluation Board User Guide Clock Generation Section](https://docs.xilinx.com/r/en-US/ug1366-vck190-eval-bd/Clock-Generation) it can be observed that the following GTY Quads are connected as follows with the following reference clocks:
+1. Referencing the [VCK190 User Guide GTY Transceivers Section](https://docs.xilinx.com/r/en-US/ug1366-vck190-eval-bd/GTY-Transceivers) and the [VCK190 Evaluation Board User Guide Clock Generation Section](https://docs.xilinx.com/r/en-US/ug1366-vck190-eval-bd/Clock-Generation) it can be observed that the following GTY Quads are connected as follows using the below reference clocks:
 
     | Quad | Reference Clock Source | Reference Clock Frequency (MHz) | 
 	|------|------------------------|---------------------------------|
