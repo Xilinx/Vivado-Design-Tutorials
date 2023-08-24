@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-set total_nibble 96
-set used_nibble 96
+set total_nibble 104
+set used_nibble 103
 
 
 set strb_max [expr {($total_nibble - 8 ) / 8}]
@@ -74,10 +74,11 @@ while {1} {
  
 
  
-  #set wdth $extra_nibble_zeros$line
-  set wdth $line
+  set wdth $extra_nibble_zeros$line
+  #set wdth $line
   set nb_cnt [string length $wdth]
-  while {$dword_cnt <= $nibble_count  } {
+
+  while {$dword_cnt <= $nb_cnt-8  } {
     set dword [string range $wdth $dword_cnt $dword_cnt+7]
   
     set addr_value [format {%09d} [dec2bin $addr]]
