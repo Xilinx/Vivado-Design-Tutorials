@@ -13,9 +13,9 @@
 
 This  design demonstrates a simple DFX design in Versal. Content of the design is as follows:
 - Static Region has CIPS IP, AXI NoC Interface to DDRs and DDR Controller.
-- Reconfigurable Partition has AXI GPIO IP connected to Constant Values that differ in different reconfigurable modules
-- Static - RM interface is NoC Inter NoC Interconnect (INI)
-- Since the Static-RM interface is using NoC INI, No PL based decoupler is  used.
+- Reconfigurable Partition has AXI GPIO IP connected to Constant Values that differ in different reconfigurable modules.
+- Static - RM interface is NoC Inter NoC Interconnect (INI).
+- Since the Static-RM interface is using NoC INI, No PL based decoupler is used.
 
 # Design Flow
 ---
@@ -31,7 +31,7 @@ This  design demonstrates a simple DFX design in Versal. Content of the design i
 
 ## Create Flat Top BD
 ---
-Source the create_top_bd.tcl to create the flat BD. This BD contains static region IPs and the IPs that eventually go to reconfigurable partition.
+Source the create_top_bd.tcl to create the flat BD. This BD contains static region IPs and the IPs that eventually go to reconfigurable partition.<p>
 `source create_top_bd.tcl`
 
 <p align="center">
@@ -39,14 +39,14 @@ Source the create_top_bd.tcl to create the flat BD. This BD contains static regi
 </p>
 
 ## Create hierarchies for reconfigruable partition and static region
-In the DFX flow, a seperate hierarchy for reconfigurable partition is a must. It is recommended to keep a hierarchy for static region whenever possible for easier floorplanning down the flow if needed.
+In the DFX flow, a separate hierarchy for each reconfigurable partition is required. It is recommended to keep a hierarchy for static region whenever possible for easier floorplanning down the flow if needed.
 
 <p align="center">
   <img src="./images/static_rp_hierarchies.png?raw=true" alt="static_rp_hierarchy"/>
 </p>
 
 ## Create a block design container for reconfigurable partition RP1
-We need to create a new BD for reconfigurable module that contains all its sources. This is achieved using block design container feature in IPI. For each reconfigurable module, a block design is created using BDC.
+We need to create a new BD for reconfigurable module that contains all its sources. This is achieved using the block design container feature in IPI. For each reconfigurable module, a block design is created using BDC.
 
 `source create_rp1_bdc.tcl` rearranges the design into right hierarchies and creates a block design container "rp1rm1.bd" for the RP1 partition. rp1rm1.bd will be the first reconfigurable module for this partition.
 
@@ -58,8 +58,8 @@ We need to create a new BD for reconfigurable module that contains all its sourc
 ---
 `source enable_dfx_bdc.tcl`
 
-We need to enable DFX on a block design container. Double click the BDC, in the "General" tab , select "Enable Dynamic Function eXchange on this container" . You can also "freeze the boundary of this container" if the Static-RP interface definition is complete. This will stop  further parameter propogration across static-RP boundary.
-In the "Addressing" tab, the aperture will be automatically defined for each interface based on  address assignment at the top. You can switch the aperture inference to "Manual" if interested.
+DFX must be enabled on a block design container. Double click the BDC, in the "General" tab , select "Enable Dynamic Function eXchange on this container" . You can also "freeze the boundary of this container" if the Static-RP interface definition is complete. This will stop further parameter propogration across static-RP boundary.
+In the "Addressing" tab, the aperture will be automatically defined for each interface based on  address assignment at the top. You can switch the aperture inference to "Manual" if desired.
 
 
 <p align="center">
@@ -96,7 +96,7 @@ In the "Addressing" tab, the aperture will be automatically defined for each int
 ## Create RTL wrapper, Generate Targets and define the pblocks
 ---
 
-Once the BD sources are defined and validated, create the RTL wrapper for the top, followed by generate targets for BD. You may also add the constraints ( timing and physical constraints) to the project at this stage.
+Once the BD sources are defined and validated, create the RTL wrapper for the top, followed by generate targets for BD. You may also add the constraints (timing and physical constraints) to the project at this stage.
 
 1. Create the RTL wrapper for the top BD
 
@@ -113,7 +113,7 @@ Once the BD sources are defined and validated, create the RTL wrapper for the to
 ## Use DFX Wizard to define the parent and child configurations
 ---
 
-1. Once the targets are generated, click the DFX wizard in the "Flow Navigator" of Vivado. The associated RMs of the RP will be automatically asscoaited with the partition in the DFX wizard.
+1. Once the targets are generated, click the DFX wizard in the "Flow Navigator" of Vivado. The associated RMs of the RP will be automatically associated with the partition in the DFX wizard.
 
 
 <p align="center">
@@ -139,7 +139,7 @@ Once the BD sources are defined and validated, create the RTL wrapper for the to
   <img src="./images/design_runs_window.png?raw=true" alt="design_runs_window"/>
 </p>
 
-## Launch Synthesis, Implementation and WDI generation
+## Launch Synthesis, Implementation and PDI generation
 ---
 `source run_impl.tcl` generates the targets, add constraints, define configurations using DFX wizard, launch synthesis, implementation and export XSA after device image generation.
 
@@ -154,7 +154,7 @@ Selecting "write_device_image" in the flow navigator automatically starts the sy
 ## Generate the Hardware Hand-off file XSA for software application
 ---
 
-For DFX designs, XSA hand-off is not officially supported in project mode. However, user can write out flat fixed XSAs and extract the reconfigurable module's contents using XSCT.
+For DFX designs, XSA hand-off is not officially supported in project mode. However, users can write out flat fixed XSAs and extract the reconfigurable module's contents using XSCT.
 
 ```
 open_run impl_1
@@ -163,4 +163,3 @@ write_hw_platform -fixed -force  xsa/design_1_wrapper_impl_1.xsa
 open_run child_0_impl_1
 write_hw_platform -fixed -force  xsa/design_1_wrapper_child_0_impl_1.xsa
 ```
-<p align="center"><sup>Copyright&copy; 2021 Xilinx</sup></p>
