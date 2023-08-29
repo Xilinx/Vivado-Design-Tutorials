@@ -1,19 +1,7 @@
-# #########################################################################
-#© Copyright 2021 Xilinx, Inc.
-
-#Licensed under the Apache License, Version 2.0 (the "License");
-#you may not use this file except in compliance with the License.
-#You may obtain a copy of the License at
-
-#    http://www.apache.org/licenses/LICENSE-2.0
-
-#Unless required by applicable law or agreed to in writing, software
-#distributed under the License is distributed on an "AS IS" BASIS,
-#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#See the License for the specific language governing permissions and
-#limitations under the License.
-# ###########################################################################
-
+#
+# Copyright (C) 2023, Advanced Micro Devices, Inc. All rights reserved.
+# SPDX-License-Identifier: X11
+#
 
 ################################################################
 # This is a generated script based on design: rp1rm3
@@ -36,14 +24,13 @@ set script_folder [_tcl::get_script_folder]
 ################################################################
 # Check if script is running in correct Vivado version.
 ################################################################
-set scripts_vivado_version 2022.1
+set scripts_vivado_version 2023.1
 set current_vivado_version [version -short]
 
 if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
    puts ""
-   catch {common::send_gid_msg -ssname BD::TCL -id 2041 -severity "ERROR" "This script was generated using Vivado <$scripts_vivado_version> and is being run in <$current_vivado_version> of Vivado. Please run the script in Vivado <$scripts_vivado_version> then open the design in Vivado <$current_vivado_version>. Upgrade the design by running \"Tools => Report => Report IP Status...\", then run write_bd_tcl to create an updated script."}
+   common::send_gid_msg -ssname BD::TCL -id 2040 -severity "WARNING" "This script was generated using Vivado <$scripts_vivado_version> without IP versions in the create_bd_cell commands, but is now being run in <$current_vivado_version> of Vivado. There may have been major IP version changes between Vivado <$scripts_vivado_version> and <$current_vivado_version>, which could impact the parameter settings of the IPs."
 
-   return 1
 }
 
 ################################################################
@@ -55,11 +42,11 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 
 # If there is no project opened, this script will create a
 # project, but make sure you do not have an existing project
-# <./myproj/project_1.xpr> in the current working folder.
+# <../vivado_prj/project_1.xpr> in the current working folder.
 
 set list_projs [get_projects -quiet]
 if { $list_projs eq "" } {
-   create_project project_1 myproj -part xcvc1902-vsva2197-2MP-e-S
+   create_project project_1 ../vivado_prj -part xcvc1902-vsva2197-2MP-e-S
    set_property BOARD_PART xilinx.com:vck190:part0:2.2 [current_project]
 }
 
@@ -140,13 +127,13 @@ set bCheckIPsPassed 1
 set bCheckIPs 1
 if { $bCheckIPs == 1 } {
    set list_check_ips "\ 
-xilinx.com:ip:axi_dbg_hub:2.0\
-xilinx.com:ip:axi_gpio:2.0\
-xilinx.com:ip:axi_noc:1.0\
-xilinx.com:ip:axis_ila:1.1\
-xilinx.com:ip:axis_vio:1.0\
-xilinx.com:ip:c_counter_binary:12.0\
-xilinx.com:ip:smartconnect:1.0\
+xilinx.com:ip:axi_dbg_hub:*\
+xilinx.com:ip:axi_gpio:*\
+xilinx.com:ip:axi_noc:*\
+xilinx.com:ip:axis_ila:*\
+xilinx.com:ip:axis_vio:*\
+xilinx.com:ip:c_counter_binary:*\
+xilinx.com:ip:smartconnect:*\
 "
 
    set list_ips_missing ""
@@ -294,30 +281,27 @@ proc create_root_design { parentCell } {
  ] $s_axi_aresetn
 
   # Create instance: axi_dbg_hub_0, and set properties
-  set axi_dbg_hub_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_dbg_hub:2.0 axi_dbg_hub_0 ]
+  set axi_dbg_hub_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_dbg_hub axi_dbg_hub_0 ]
 
   # Create instance: axi_gpio_0, and set properties
-  set axi_gpio_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_gpio:2.0 axi_gpio_0 ]
-  set_property -dict [ list \
-   CONFIG.C_ALL_INPUTS {1} \
- ] $axi_gpio_0
+  set axi_gpio_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_gpio axi_gpio_0 ]
+  set_property CONFIG.C_ALL_INPUTS {1} $axi_gpio_0
+
 
   # Create instance: axi_gpio_1, and set properties
-  set axi_gpio_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_gpio:2.0 axi_gpio_1 ]
-  set_property -dict [ list \
-   CONFIG.C_ALL_INPUTS {1} \
- ] $axi_gpio_1
+  set axi_gpio_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_gpio axi_gpio_1 ]
+  set_property CONFIG.C_ALL_INPUTS {1} $axi_gpio_1
+
 
   # Create instance: axi_noc_1, and set properties
-  set axi_noc_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.0 axi_noc_1 ]
-  set_property -dict [ list \
-   CONFIG.HBM_CHNL0_CONFIG {\
-HBM_PC0_PRE_DEFINED_ADDRESS_MAP ROW_BANK_COLUMN HBM_PC1_PRE_DEFINED_ADDRESS_MAP\
-ROW_BANK_COLUMN HBM_PC0_USER_DEFINED_ADDRESS_MAP NONE\
-HBM_PC1_USER_DEFINED_ADDRESS_MAP NONE} \
-   CONFIG.NUM_NSI {1} \
-   CONFIG.NUM_SI {0} \
- ] $axi_noc_1
+  set axi_noc_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc axi_noc_1 ]
+  set_property -dict [list \
+    CONFIG.HBM_CHNL0_CONFIG { HBM_PC0_PRE_DEFINED_ADDRESS_MAP ROW_BANK_COLUMN HBM_PC1_PRE_DEFINED_ADDRESS_MAP ROW_BANK_COLUMN HBM_PC0_USER_DEFINED_ADDRESS_MAP NONE HBM_PC1_USER_DEFINED_ADDRESS_MAP NONE}\
+\
+    CONFIG.NUM_NSI {1} \
+    CONFIG.NUM_SI {0} \
+  ] $axi_noc_1
+
 
   set_property -dict [ list \
    CONFIG.DATA_WIDTH {128} \
@@ -334,51 +318,55 @@ HBM_PC1_USER_DEFINED_ADDRESS_MAP NONE} \
    CONFIG.ASSOCIATED_BUSIF {M00_AXI} \
  ] [get_bd_pins /axi_noc_1/aclk0]
 
-  # Create instance: axis_ila_0, and set properties
-  set axis_ila_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_ila:1.1 axis_ila_0 ]
-  set_property -dict [ list \
-   CONFIG.C_BRAM_CNT {1} \
-   CONFIG.C_MON_TYPE {Net_Probes} \
-   CONFIG.C_PROBE0_TYPE {0} \
-   CONFIG.C_PROBE0_WIDTH {32} \
- ] $axis_ila_0
-
   # Create instance: axis_ila_1, and set properties
-  set axis_ila_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_ila:1.1 axis_ila_1 ]
-  set_property -dict [ list \
-   CONFIG.C_BRAM_CNT {1} \
-   CONFIG.C_MON_TYPE {Net_Probes} \
-   CONFIG.C_PROBE0_TYPE {0} \
-   CONFIG.C_PROBE0_WIDTH {32} \
- ] $axis_ila_1
+  set axis_ila_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_ila axis_ila_1 ]
+  set_property -dict [list \
+    CONFIG.C_MON_TYPE {Net_Probes} \
+    CONFIG.C_PROBE0_TYPE {0} \
+    CONFIG.C_PROBE0_WIDTH {32} \
+  ] $axis_ila_1
+
 
   # Create instance: axis_vio_0, and set properties
-  set axis_vio_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_vio:1.0 axis_vio_0 ]
-  set_property -dict [ list \
-   CONFIG.C_NUM_PROBE_OUT {0} \
-   CONFIG.C_PROBE_IN0_WIDTH {32} \
- ] $axis_vio_0
+  set axis_vio_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_vio axis_vio_0 ]
+  set_property -dict [list \
+    CONFIG.C_NUM_PROBE_OUT {0} \
+    CONFIG.C_PROBE_IN0_WIDTH {32} \
+  ] $axis_vio_0
+
 
   # Create instance: c_counter_binary_0, and set properties
-  set c_counter_binary_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:c_counter_binary:12.0 c_counter_binary_0 ]
-  set_property -dict [ list \
-   CONFIG.Count_Mode {UP} \
-   CONFIG.Output_Width {32} \
- ] $c_counter_binary_0
+  set c_counter_binary_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:c_counter_binary c_counter_binary_0 ]
+  set_property -dict [list \
+    CONFIG.Count_Mode {UP} \
+    CONFIG.Output_Width {32} \
+  ] $c_counter_binary_0
+
 
   # Create instance: c_counter_binary_1, and set properties
-  set c_counter_binary_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:c_counter_binary:12.0 c_counter_binary_1 ]
-  set_property -dict [ list \
-   CONFIG.Count_Mode {DOWN} \
-   CONFIG.Output_Width {32} \
- ] $c_counter_binary_1
+  set c_counter_binary_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:c_counter_binary c_counter_binary_1 ]
+  set_property -dict [list \
+    CONFIG.Count_Mode {DOWN} \
+    CONFIG.Output_Width {32} \
+  ] $c_counter_binary_1
+
 
   # Create instance: smartconnect_0, and set properties
-  set smartconnect_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:smartconnect:1.0 smartconnect_0 ]
-  set_property -dict [ list \
-   CONFIG.NUM_MI {2} \
-   CONFIG.NUM_SI {1} \
- ] $smartconnect_0
+  set smartconnect_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:smartconnect smartconnect_0 ]
+  set_property -dict [list \
+    CONFIG.NUM_MI {2} \
+    CONFIG.NUM_SI {1} \
+  ] $smartconnect_0
+
+
+  # Create instance: axis_ila_0, and set properties
+  set axis_ila_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_ila axis_ila_0 ]
+  set_property -dict [list \
+    CONFIG.C_MON_TYPE {Net_Probes} \
+    CONFIG.C_PROBE0_TYPE {0} \
+    CONFIG.C_PROBE0_WIDTH {32} \
+  ] $axis_ila_0
+
 
   # Create interface connections
   connect_bd_intf_net -intf_net S_AXI_1 [get_bd_intf_ports S_AXI] [get_bd_intf_pins smartconnect_0/S00_AXI]
@@ -388,11 +376,10 @@ HBM_PC1_USER_DEFINED_ADDRESS_MAP NONE} \
   connect_bd_intf_net -intf_net smartconnect_0_M01_AXI [get_bd_intf_pins axi_gpio_1/S_AXI] [get_bd_intf_pins smartconnect_0/M01_AXI]
 
   # Create port connections
-  connect_bd_net -net c_counter_binary_0_Q [get_bd_pins axi_gpio_0/gpio_io_i] [get_bd_pins axis_ila_0/probe0] [get_bd_pins axis_vio_0/probe_in0] [get_bd_pins c_counter_binary_0/Q]
-  set_property HDL_ATTRIBUTE.DEBUG {true} [get_bd_nets c_counter_binary_0_Q]
-  connect_bd_net -net c_counter_binary_1_Q [get_bd_pins axi_gpio_1/gpio_io_i] [get_bd_pins axis_ila_1/probe0] [get_bd_pins c_counter_binary_1/Q]
+  connect_bd_net -net c_counter_binary_0_Q [get_bd_pins c_counter_binary_0/Q] [get_bd_pins axi_gpio_0/gpio_io_i] [get_bd_pins axis_vio_0/probe_in0] [get_bd_pins axis_ila_0/probe0]
+  connect_bd_net -net c_counter_binary_1_Q [get_bd_pins c_counter_binary_1/Q] [get_bd_pins axi_gpio_1/gpio_io_i] [get_bd_pins axis_ila_1/probe0]
   set_property HDL_ATTRIBUTE.DEBUG {true} [get_bd_nets c_counter_binary_1_Q]
-  connect_bd_net -net clk_wizard_0_clk_out1 [get_bd_ports s_axi_aclk] [get_bd_pins axi_dbg_hub_0/aclk] [get_bd_pins axi_gpio_0/s_axi_aclk] [get_bd_pins axi_gpio_1/s_axi_aclk] [get_bd_pins axi_noc_1/aclk0] [get_bd_pins axis_ila_0/clk] [get_bd_pins axis_ila_1/clk] [get_bd_pins axis_vio_0/clk] [get_bd_pins c_counter_binary_0/CLK] [get_bd_pins c_counter_binary_1/CLK] [get_bd_pins smartconnect_0/aclk]
+  connect_bd_net -net clk_wizard_0_clk_out1 [get_bd_ports s_axi_aclk] [get_bd_pins axi_dbg_hub_0/aclk] [get_bd_pins axi_gpio_0/s_axi_aclk] [get_bd_pins axi_gpio_1/s_axi_aclk] [get_bd_pins axi_noc_1/aclk0] [get_bd_pins axis_ila_1/clk] [get_bd_pins axis_vio_0/clk] [get_bd_pins c_counter_binary_0/CLK] [get_bd_pins c_counter_binary_1/CLK] [get_bd_pins smartconnect_0/aclk] [get_bd_pins axis_ila_0/clk]
   connect_bd_net -net proc_sys_reset_0_interconnect_aresetn [get_bd_ports s_axi_aresetn] [get_bd_pins axi_dbg_hub_0/aresetn] [get_bd_pins axi_gpio_0/s_axi_aresetn] [get_bd_pins axi_gpio_1/s_axi_aresetn] [get_bd_pins smartconnect_0/aresetn]
 
   # Create address segments

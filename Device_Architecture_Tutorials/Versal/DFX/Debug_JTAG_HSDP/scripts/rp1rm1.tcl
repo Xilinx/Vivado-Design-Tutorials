@@ -1,19 +1,7 @@
-# #########################################################################
-#© Copyright 2021 Xilinx, Inc.
-
-#Licensed under the Apache License, Version 2.0 (the "License");
-#you may not use this file except in compliance with the License.
-#You may obtain a copy of the License at
-
-#    http://www.apache.org/licenses/LICENSE-2.0
-
-#Unless required by applicable law or agreed to in writing, software
-#distributed under the License is distributed on an "AS IS" BASIS,
-#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#See the License for the specific language governing permissions and
-#limitations under the License.
-# ###########################################################################
-
+#
+# Copyright (C) 2023, Advanced Micro Devices, Inc. All rights reserved.
+# SPDX-License-Identifier: X11
+#
 
 ################################################################
 # This is a generated script based on design: rp1rm1
@@ -36,7 +24,7 @@ set script_folder [_tcl::get_script_folder]
 ################################################################
 # Check if script is running in correct Vivado version.
 ################################################################
-set scripts_vivado_version 2022.1
+set scripts_vivado_version 2023.2
 set current_vivado_version [version -short]
 
 if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
@@ -55,11 +43,11 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 
 # If there is no project opened, this script will create a
 # project, but make sure you do not have an existing project
-# <./myproj/project_1.xpr> in the current working folder.
+# <../vivado_prj/project_1.xpr> in the current working folder.
 
 set list_projs [get_projects -quiet]
 if { $list_projs eq "" } {
-   create_project project_1 myproj -part xcvc1902-vsva2197-2MP-e-S
+   create_project project_1 ../vivado_prj -part xcvc1902-vsva2197-2MP-e-S
    set_property BOARD_PART xilinx.com:vck190:part0:2.2 [current_project]
 }
 
@@ -143,7 +131,6 @@ if { $bCheckIPs == 1 } {
 xilinx.com:ip:axi_dbg_hub:2.0\
 xilinx.com:ip:axi_gpio:2.0\
 xilinx.com:ip:axi_noc:1.0\
-xilinx.com:ip:axis_ila:1.1\
 xilinx.com:ip:c_counter_binary:12.0\
 "
 
@@ -260,20 +247,18 @@ proc create_root_design { parentCell } {
 
   # Create instance: axi_gpio_0, and set properties
   set axi_gpio_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_gpio:2.0 axi_gpio_0 ]
-  set_property -dict [ list \
-   CONFIG.C_ALL_INPUTS {1} \
- ] $axi_gpio_0
+  set_property CONFIG.C_ALL_INPUTS {1} $axi_gpio_0
+
 
   # Create instance: axi_noc_1, and set properties
   set axi_noc_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.0 axi_noc_1 ]
-  set_property -dict [ list \
-   CONFIG.HBM_CHNL0_CONFIG {\
-HBM_PC0_PRE_DEFINED_ADDRESS_MAP ROW_BANK_COLUMN HBM_PC1_PRE_DEFINED_ADDRESS_MAP\
-ROW_BANK_COLUMN HBM_PC0_USER_DEFINED_ADDRESS_MAP NONE\
-HBM_PC1_USER_DEFINED_ADDRESS_MAP NONE} \
-   CONFIG.NUM_NSI {1} \
-   CONFIG.NUM_SI {0} \
- ] $axi_noc_1
+  set_property -dict [list \
+    CONFIG.HBM_CHNL0_CONFIG { HBM_PC0_PRE_DEFINED_ADDRESS_MAP ROW_BANK_COLUMN HBM_PC1_PRE_DEFINED_ADDRESS_MAP ROW_BANK_COLUMN HBM_PC0_USER_DEFINED_ADDRESS_MAP NONE HBM_PC1_USER_DEFINED_ADDRESS_MAP NONE}\
+\
+    CONFIG.NUM_NSI {1} \
+    CONFIG.NUM_SI {0} \
+  ] $axi_noc_1
+
 
   set_property -dict [ list \
    CONFIG.DATA_WIDTH {128} \
@@ -290,20 +275,10 @@ HBM_PC1_USER_DEFINED_ADDRESS_MAP NONE} \
    CONFIG.ASSOCIATED_BUSIF {M00_AXI} \
  ] [get_bd_pins /axi_noc_1/aclk0]
 
-  # Create instance: axis_ila_0, and set properties
-  set axis_ila_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_ila:1.1 axis_ila_0 ]
-  set_property -dict [ list \
-   CONFIG.C_BRAM_CNT {1} \
-   CONFIG.C_MON_TYPE {Net_Probes} \
-   CONFIG.C_PROBE0_TYPE {0} \
-   CONFIG.C_PROBE0_WIDTH {32} \
- ] $axis_ila_0
-
   # Create instance: c_counter_binary_0, and set properties
   set c_counter_binary_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:c_counter_binary:12.0 c_counter_binary_0 ]
-  set_property -dict [ list \
-   CONFIG.Output_Width {32} \
- ] $c_counter_binary_0
+  set_property CONFIG.Output_Width {32} $c_counter_binary_0
+
 
   # Create interface connections
   connect_bd_intf_net -intf_net axi_noc_0_M00_INI [get_bd_intf_ports S00_INI] [get_bd_intf_pins axi_noc_1/S00_INI]
@@ -311,9 +286,9 @@ HBM_PC1_USER_DEFINED_ADDRESS_MAP NONE} \
   connect_bd_intf_net -intf_net dfx_decoupler_0_rp_intf_0 [get_bd_intf_ports S_AXI] [get_bd_intf_pins axi_gpio_0/S_AXI]
 
   # Create port connections
-  connect_bd_net -net c_counter_binary_0_Q [get_bd_pins axi_gpio_0/gpio_io_i] [get_bd_pins axis_ila_0/probe0] [get_bd_pins c_counter_binary_0/Q]
+  connect_bd_net -net c_counter_binary_0_Q [get_bd_pins c_counter_binary_0/Q] [get_bd_pins axi_gpio_0/gpio_io_i]
   set_property HDL_ATTRIBUTE.DEBUG {true} [get_bd_nets c_counter_binary_0_Q]
-  connect_bd_net -net clk_wizard_0_clk_out1 [get_bd_ports s_axi_aclk] [get_bd_pins axi_dbg_hub_0/aclk] [get_bd_pins axi_gpio_0/s_axi_aclk] [get_bd_pins axi_noc_1/aclk0] [get_bd_pins axis_ila_0/clk] [get_bd_pins c_counter_binary_0/CLK]
+  connect_bd_net -net clk_wizard_0_clk_out1 [get_bd_ports s_axi_aclk] [get_bd_pins axi_dbg_hub_0/aclk] [get_bd_pins axi_gpio_0/s_axi_aclk] [get_bd_pins axi_noc_1/aclk0] [get_bd_pins c_counter_binary_0/CLK]
   connect_bd_net -net proc_sys_reset_0_interconnect_aresetn [get_bd_ports s_axi_aresetn] [get_bd_pins axi_dbg_hub_0/aresetn] [get_bd_pins axi_gpio_0/s_axi_aresetn]
 
   # Create address segments

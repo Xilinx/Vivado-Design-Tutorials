@@ -4,7 +4,7 @@
    </td>
  </tr>
  <tr>
- <td align="center"><h1>VNOC tile Sharing between 2 reconfigurable partitions</h1>
+ <td align="center"><h1>VNOC tile Sharing between 2 Reconfigurable Partitions</h1>
  </td>
  </tr>
 </table>
@@ -15,7 +15,7 @@ This design demonstrates that VNOC clock tiles can be shared by two reconfigurab
 
 # Design Flow
 
-Get familiar with the IPI BDC based DFX flow in Vivado using example design "2RP_GPIO_BRAM_in_RP_Interface_INI". Same design flow is used here too.
+Become familiar with the IPI BDC based DFX flow in Vivado using example design "2RP_GPIO_BRAM_in_RP_Interface_INI." The same design flow is used here.
 
 ## IPI 
 
@@ -25,7 +25,7 @@ Get familiar with the IPI BDC based DFX flow in Vivado using example design "2RP
 
 ## Implementation 
 
-- This is the pblocks used in the implementation. To include clocking sites from the bottom clock region in the pblock, notice that both pblocks has an island in the bottom clock region. 
+- These are the pblocks used in the implementation. To include clocking sites from the bottom clock region in the pblock, notice that both pblocks has an island in the bottom clock region. 
 
 <p align="center">
   <img src="./images/pblocks.png?raw=true" alt="pblocks"/>
@@ -48,5 +48,3 @@ Get familiar with the IPI BDC based DFX flow in Vivado using example design "2RP
 <p align="center">
   <img src="./images/voc_shared_tile.png?raw=true" alt="voc_shared_tile"/>
 </p>
-
-<p align="center"><sup>Copyright&copy; 2021 Xilinx</sup></p>
