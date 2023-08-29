@@ -11,7 +11,7 @@
 
 This Versal DFX design has 2 RPs:
 - AXI GPIO in 1st RP
-- AXI BRAM in 2ns RP
+- AXI BRAM in 2nd RP
 
 Each RP has 2 RMs: 
 - RP1: RP1RM1, RP1RM2
@@ -25,4 +25,4 @@ Each RP has 2 RMs:
   Hence there is no need of additional DFX Decoupler in the static region.
 
 Currently BRAMs are not initialized to any memory initialization value in the design.
-<p align="center"><sup>Copyright&copy; 2021 Xilinx</sup></p>
+
