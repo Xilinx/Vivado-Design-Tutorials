@@ -1,18 +1,7 @@
-# #########################################################################
-#© Copyright 2021 Xilinx, Inc.
-
-#Licensed under the Apache License, Version 2.0 (the "License");
-#you may not use this file except in compliance with the License.
-#You may obtain a copy of the License at
-
-#    http://www.apache.org/licenses/LICENSE-2.0
-
-#Unless required by applicable law or agreed to in writing, software
-#distributed under the License is distributed on an "AS IS" BASIS,
-#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#See the License for the specific language governing permissions and
-#limitations under the License.
-# ###########################################################################
+#
+# Copyright (C) 2023, Advanced Micro Devices, Inc. All rights reserved.
+# SPDX-License-Identifier: X11
+#
 
 
 ################################################################
@@ -36,7 +25,7 @@ set script_folder [_tcl::get_script_folder]
 ################################################################
 # Check if script is running in correct Vivado version.
 ################################################################
-set scripts_vivado_version 2022.1
+set scripts_vivado_version 2022.2
 set current_vivado_version [version -short]
 
 if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
@@ -55,11 +44,11 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 
 # If there is no project opened, this script will create a
 # project, but make sure you do not have an existing project
-# <./myproj/project_1.xpr> in the current working folder.
+# <../vivado_prj/project_1.xpr> in the current working folder.
 
 set list_projs [get_projects -quiet]
 if { $list_projs eq "" } {
-   create_project project_1 myproj -part xcvc1902-vsva2197-2MP-e-S
+   create_project project_1 ../vivado_prj -part xcvc1902-vsva2197-2MP-e-S
    set_property BOARD_PART xilinx.com:vck190:part0:2.2 [current_project]
 }
 
@@ -143,7 +132,7 @@ if { $bCheckIPs == 1 } {
 xilinx.com:ip:axi_dbg_hub:2.0\
 xilinx.com:ip:axi_gpio:2.0\
 xilinx.com:ip:axi_noc:1.0\
-xilinx.com:ip:axis_ila:1.1\
+xilinx.com:ip:axis_ila:1.2\
 xilinx.com:ip:c_counter_binary:12.0\
 "
 
@@ -291,7 +280,7 @@ HBM_PC1_USER_DEFINED_ADDRESS_MAP NONE} \
  ] [get_bd_pins /axi_noc_1/aclk0]
 
   # Create instance: axis_ila_0, and set properties
-  set axis_ila_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_ila:1.1 axis_ila_0 ]
+  set axis_ila_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_ila:1.2 axis_ila_0 ]
   set_property -dict [ list \
    CONFIG.C_BRAM_CNT {1} \
    CONFIG.C_MON_TYPE {Net_Probes} \
