@@ -1,12 +1,20 @@
-//Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
-//--------------------------------------------------------------------------------
-//Tool Version: Vivado v.2021.1 (lin64) Build 3219921 Sat May 15 11:19:17 MDT 2021
-//Date        : Mon May 17 16:20:26 2021
-//Host        : xcoswapps102 running 64-bit CentOS Linux release 7.4.1708 (Core)
-//Command     : generate_target design_1_wrapper.bd
-//Design      : design_1_wrapper
-//Purpose     : IP block netlist
-//--------------------------------------------------------------------------------
+//////////////////////////////////////////////////////////////////////////////
+// © Copyright 2023 Advanced Micro Devices, Inc. All rights reserved.
+// This file contains confidential and proprietary information of 
+// Advanced Micro Devices, Inc. and is protected under U.S. and 
+// international copyright and other intellectual property laws. 
+//////////////////////////////////////////////////////////////////////////////
+// Vendor: AMD 
+// Version: 1.0
+// Application: DFX
+// Filename: design_1_wrapper
+// Date Last Modified: 30AUG2023
+//
+// Board: VCK190
+// Device: VC1902
+// Design Name: Embedded IO inside RM
+// Purpose: DFX Tutorial
+//////////////////////////////////////////////////////////////////////////////
 `timescale 1 ps / 1 ps
 
 module design_1_wrapper

@@ -1,3 +1,7 @@
+#
+# Copyright (C) 2023, Advanced Micro Devices, Inc. All rights reserved.
+# SPDX-License-Identifier: X11
+#
 
 ################################################################
 # This is a generated script based on design: rp1rm1
@@ -39,11 +43,11 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 
 # If there is no project opened, this script will create a
 # project, but make sure you do not have an existing project
-# <./myproj/project_1.xpr> in the current working folder.
+# <../vivado_prj/project_1.xpr> in the current working folder.
 
 set list_projs [get_projects -quiet]
 if { $list_projs eq "" } {
-   create_project project_1 myproj -part xcvc1902-vsva2197-2MP-e-S
+   create_project project_1 ../vivado_prj -part xcvc1902-vsva2197-2MP-e-S
    set_property BOARD_PART xilinx.com:vck190:part0:2.2 [current_project]
 }
 

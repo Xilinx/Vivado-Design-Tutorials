@@ -1,18 +1,7 @@
-# #########################################################################
-#© Copyright 2021 Xilinx, Inc.
-
-#Licensed under the Apache License, Version 2.0 (the "License");
-#you may not use this file except in compliance with the License.
-#You may obtain a copy of the License at
-
-#    http://www.apache.org/licenses/LICENSE-2.0
-
-#Unless required by applicable law or agreed to in writing, software
-#distributed under the License is distributed on an "AS IS" BASIS,
-#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#See the License for the specific language governing permissions and
-#limitations under the License.
-# ###########################################################################
+#
+# Copyright (C) 2023, Advanced Micro Devices, Inc. All rights reserved.
+# SPDX-License-Identifier: X11
+#
 
 #Creating a hierarchy for rp1 and rp2
 group_bd_cells rp1 [get_bd_cells util_ds_buf_0] [get_bd_cells axi_gpio_0] [get_bd_cells axi_gpio_1]
@@ -31,9 +20,6 @@ delete_bd_objs  [get_bd_cells /rp1]
 set_property name rp1 $new_cell
 current_bd_design [get_bd_designs rp1rm1]
 update_compile_order -fileset sources_1
-validate_bd_design
-save_bd_design
-
 
 current_bd_design [get_bd_designs design_1]
 validate_bd_design
