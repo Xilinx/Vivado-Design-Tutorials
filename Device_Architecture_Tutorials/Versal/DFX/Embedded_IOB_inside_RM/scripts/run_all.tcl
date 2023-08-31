@@ -1,20 +1,9 @@
-# #########################################################################
-#© Copyright 2021 Xilinx, Inc.
+#
+# Copyright (C) 2023, Advanced Micro Devices, Inc. All rights reserved.
+# SPDX-License-Identifier: X11
+#
 
-#Licensed under the Apache License, Version 2.0 (the "License");
-#you may not use this file except in compliance with the License.
-#You may obtain a copy of the License at
-
-#    http://www.apache.org/licenses/LICENSE-2.0
-
-#Unless required by applicable law or agreed to in writing, software
-#distributed under the License is distributed on an "AS IS" BASIS,
-#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#See the License for the specific language governing permissions and
-#limitations under the License.
-# ###########################################################################
-
-#Source this script to compile the full Versal DFX tutorial design in Vivado 2020.2
+#Source this script to compile the full Versal DFX tutorial design in Vivado 2022.2
 #Source individual steps to work more interactively with the tools / flow
 
 set list_projs [get_projects -quiet]
@@ -27,10 +16,8 @@ if { $list_projs eq "" } {
 #Create the flat deisgn using IPI
 source create_top_bd.tcl
 
-
 #Create the BDC for RP1 and RP2 hierarchy
 source create_rp1_bdc.tcl
-
 
 #Enable DFX for the RP1 BDC and RP2 BDC
 source enable_dfx_bdc.tcl

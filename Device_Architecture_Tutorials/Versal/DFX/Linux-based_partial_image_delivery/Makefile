@@ -1,5 +1,5 @@
 export VER      	= 2022.2
-export CWD             	= $(shell readlink -f .)
+export CWD          = $(shell readlink -f .)
 
 VIVADO = $(XILINX_VIVADO)/bin/vivado
 PETALINUX_SETTINGS = $(PETALINUX)/settings.sh
