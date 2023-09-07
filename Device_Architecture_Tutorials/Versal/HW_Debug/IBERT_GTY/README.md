@@ -34,7 +34,7 @@ In this tutorial you will:
 1. Setup the VCK190 as per [XTP619 - VCK190 Software Install and Board Setup Tutorial](https://www.xilinx.com/member/forms/download/design-license.html?cid=feabc14f-c88a-4bdf-86f5-5acb34db291d&filename=xtp619-vck190-setup-c-2021-2.pdf).  
     _Note: ensure that the VCK190 mode pins are setup for JTAG._
 	
-1._(Optional)_ Insert the QSFP28 loopback module into the QSFP cage (J288) on the VCK190.
+1. _(Optional)_ Insert the QSFP28 loopback module into the QSFP cage (J288) on the VCK190.
 
 ## Design Creation
 A design that is IBERT capable can be generated quickly using the CED.
