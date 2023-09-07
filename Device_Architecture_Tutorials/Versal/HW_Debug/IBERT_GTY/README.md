@@ -23,9 +23,9 @@ In this tutorial you will:
 
 ### Required Hardware
 
-	- [Versal AI Core Series VCK190 Evaluation Kit](https://www.xilinx.com/products/boards-and-kits/vck190.html)
-	- Micro USB Type C cable capable of connecting a PC to the VCK190 **or** a compatable programmer capable of programming the VCK190
-	- QSFP28 Loopback Connector (Reccomended Part Number [ML4002-28-C5](https://www.multilaneinc.com/products/ml4002-28-c5)) _(Optional)_
+- [Versal AI Core Series VCK190 Evaluation Kit](https://www.xilinx.com/products/boards-and-kits/vck190.html)
+- Micro USB Type C cable capable of connecting a PC to the VCK190 **or** a compatable programmer capable of programming the VCK190
+- QSFP28 Loopback Connector (Reccomended Part Number [ML4002-28-C5](https://www.multilaneinc.com/products/ml4002-28-c5)) _(Optional)_
 
 ### Board Setup 
 
