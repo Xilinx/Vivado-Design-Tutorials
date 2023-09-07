@@ -15,9 +15,9 @@ Versal IBERT GTY is used to interact with GTY lianes contained in a design.  It 
 
 In this tutorial you will:
 
- - Customize and generate an IBERT capable design using the IBERT Configurable Example Design (CED) in Vivado.
- - Interact with the design in hardware using the Serial I/O Analyzer.  This includes connecting to the target VCK190 evaluation board, programming the device, and interacting with the Serial I/O lanes.
- - Perform a sweep test to optimize a transciever channel.
+- Customize and generate an IBERT capable design using the IBERT Configurable Example Design (CED) in Vivado.
+- Interact with the design in hardware using the Serial I/O Analyzer.  This includes connecting to the target VCK190 evaluation board, programming the device, and interacting with the Serial I/O lanes.
+- Perform a sweep test to optimize a transciever channel.
 
 ## Hardware Setup
 
