@@ -127,7 +127,7 @@ A design that is IBERT capable can be generated quickly using the CED.
 
 <img src="https://raw.githubusercontent.com/Xilinx/chipscopy/master/docs/images/chipscopy_logo_head_right_transparent_background.png" width="350">
 
-ChipScoPy is an open-source project from AMD that enables high-level control of Versal debug cores (including IBERT) in Python.  If you are interested in learning more, see [ChipScoPy on GitHub](https://github.com/Xilinx/chipscopy).  For an example that interacts with IBERT, see [link_and_eye_scan.ipynb](https://github.com/Xilinx/chipscopy/blob/master/chipscopy/examples/ibert/versal_gty/link_and_eye_scan.ipynb)
+ChipScoPy is an open-source project from AMD that enables high-level control of Versal debug cores (including IBERT) in Python without using Vivado.  If you are interested in learning more, see [ChipScoPy on GitHub](https://github.com/Xilinx/chipscopy).  For an example that interacts with IBERT GTY lanes, see [link_and_eye_scan.ipynb](https://github.com/Xilinx/chipscopy/blob/master/chipscopy/examples/ibert/versal_gty/link_and_eye_scan.ipynb).
 
 ## Conclusion
 
