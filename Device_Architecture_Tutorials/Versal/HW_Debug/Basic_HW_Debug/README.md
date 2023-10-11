@@ -18,7 +18,7 @@ This tutorial contains two tcl scripts that can be used to build the design.  Th
 ### Building the Base Design
 1.  Begin by cloning this tutorial and changing directory to the location where the design files were saved.
 
-1.  Using Vivado 2023.1, run one of the following at the command line:
+1.  Using Vivado 2023.2, run one of the following at the command line:
 
     - To get build the design up to the starting point for this tutorial, run `vivado -source run.tcl`.  
     - To run the design end to end run `vivado -source run_complete.tcl`.  This will build the complete design (skipping all hardware debug IP insertion) that is ready for PDI generation and runtime steps.
