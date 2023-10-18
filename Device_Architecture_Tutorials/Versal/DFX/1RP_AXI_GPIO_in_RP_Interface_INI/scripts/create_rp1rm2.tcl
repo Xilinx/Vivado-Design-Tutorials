@@ -1,18 +1,7 @@
-# #########################################################################
-#© Copyright 2021 Xilinx, Inc.
-
-#Licensed under the Apache License, Version 2.0 (the "License");
-#you may not use this file except in compliance with the License.
-#You may obtain a copy of the License at
-
-#    http://www.apache.org/licenses/LICENSE-2.0
-
-#Unless required by applicable law or agreed to in writing, software
-#distributed under the License is distributed on an "AS IS" BASIS,
-#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#See the License for the specific language governing permissions and
-#limitations under the License.
-# ###########################################################################
+#
+# Copyright (C) 2023, Advanced Micro Devices, Inc. All rights reserved.
+# SPDX-License-Identifier: X11
+#
 
 set curdesign [current_bd_design]
 create_bd_design -boundary_from_container [get_bd_cells /rp1] rp1rm2
@@ -46,6 +35,10 @@ connect_bd_net [get_bd_ports s_axi_aresetn] [get_bd_pins axi_gpio_0/s_axi_areset
 connect_bd_net [get_bd_pins xlconstant_0/dout] [get_bd_pins axi_gpio_0/gpio_io_i]
 connect_bd_intf_net [get_bd_intf_pins axi_noc_0/M00_AXI] [get_bd_intf_pins smartconnect_0/S00_AXI]
 connect_bd_intf_net [get_bd_intf_pins smartconnect_0/M00_AXI] [get_bd_intf_pins axi_gpio_0/S_AXI]
+
+#the following command resolves an issue only in Vivado 2023.1 where new RMs are started with incremented base addresses.
+#this resets the address for the AXI connection to RM2 to match the base with RM1
+set_property CONFIG.APERTURES {{0x201_8000_0000 1G}} [get_bd_intf_pins /axi_noc_0/M00_AXI]
 
 assign_bd_address -target_address_space /S00_INI [get_bd_addr_segs axi_gpio_0/S_AXI/Reg] -force
 set_property offset 0x20180010000 [get_bd_addr_segs {S00_INI/SEG_axi_gpio_0_Reg}]
