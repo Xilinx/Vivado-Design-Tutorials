@@ -1,20 +1,7 @@
-# #########################################################################
-#© Copyright 2021 Xilinx, Inc.
-
-#Licensed under the Apache License, Version 2.0 (the "License");
-#you may not use this file except in compliance with the License.
-#You may obtain a copy of the License at
-
-#    http://www.apache.org/licenses/LICENSE-2.0
-
-#Unless required by applicable law or agreed to in writing, software
-#distributed under the License is distributed on an "AS IS" BASIS,
-#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#See the License for the specific language governing permissions and
-#limitations under the License.
-# ###########################################################################
-
-
+#
+# Copyright (C) 2023, Advanced Micro Devices, Inc. All rights reserved.
+# SPDX-License-Identifier: X11
+#
 
 ################################################################
 # This is a generated script based on design: rp1rm2
@@ -37,14 +24,13 @@ set script_folder [_tcl::get_script_folder]
 ################################################################
 # Check if script is running in correct Vivado version.
 ################################################################
-set scripts_vivado_version 2022.1
+set scripts_vivado_version 2023.1
 set current_vivado_version [version -short]
 
 if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
    puts ""
-   catch {common::send_gid_msg -ssname BD::TCL -id 2041 -severity "ERROR" "This script was generated using Vivado <$scripts_vivado_version> and is being run in <$current_vivado_version> of Vivado. Please run the script in Vivado <$scripts_vivado_version> then open the design in Vivado <$current_vivado_version>. Upgrade the design by running \"Tools => Report => Report IP Status...\", then run write_bd_tcl to create an updated script."}
+   common::send_gid_msg -ssname BD::TCL -id 2040 -severity "WARNING" "This script was generated using Vivado <$scripts_vivado_version> without IP versions in the create_bd_cell commands, but is now being run in <$current_vivado_version> of Vivado. There may have been major IP version changes between Vivado <$scripts_vivado_version> and <$current_vivado_version>, which could impact the parameter settings of the IPs."
 
-   return 1
 }
 
 ################################################################
@@ -54,13 +40,20 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 # To test this script, run the following commands from Vivado Tcl console:
 # source rp1rm2_script.tcl
 
+
+# The design that will be created by this Tcl script contains the following 
+# module references:
+# up_counter_rtl
+
+# Please add the sources of those modules before sourcing this Tcl script.
+
 # If there is no project opened, this script will create a
 # project, but make sure you do not have an existing project
-# <./myproj/project_1.xpr> in the current working folder.
+# <../vivado_prj/project_1.xpr> in the current working folder.
 
 set list_projs [get_projects -quiet]
 if { $list_projs eq "" } {
-   create_project project_1 myproj -part xcvc1902-vsva2197-2MP-e-S
+   create_project project_1 ../vivado_prj -part xcvc1902-vsva2197-2MP-e-S
    set_property BOARD_PART xilinx.com:vck190:part0:2.2 [current_project]
 }
 
@@ -141,11 +134,10 @@ set bCheckIPsPassed 1
 set bCheckIPs 1
 if { $bCheckIPs == 1 } {
    set list_check_ips "\ 
-xilinx.com:ip:axi_dbg_hub:2.0\
-xilinx.com:ip:axi_gpio:2.0\
-xilinx.com:ip:axi_noc:1.0\
-xilinx.com:ip:axis_vio:1.0\
-xilinx.com:ip:c_counter_binary:12.0\
+xilinx.com:ip:axi_dbg_hub:*\
+xilinx.com:ip:axi_gpio:*\
+xilinx.com:ip:axi_noc:*\
+xilinx.com:ip:axis_vio:*\
 "
 
    set list_ips_missing ""
@@ -163,6 +155,31 @@ xilinx.com:ip:c_counter_binary:12.0\
       set bCheckIPsPassed 0
    }
 
+}
+
+##################################################################
+# CHECK Modules
+##################################################################
+set bCheckModules 1
+if { $bCheckModules == 1 } {
+   set list_check_mods "\ 
+up_counter_rtl\
+"
+
+   set list_mods_missing ""
+   common::send_gid_msg -ssname BD::TCL -id 2020 -severity "INFO" "Checking if the following modules exist in the project's sources: $list_check_mods ."
+
+   foreach mod_vlnv $list_check_mods {
+      if { [can_resolve_reference $mod_vlnv] == 0 } {
+         lappend list_mods_missing $mod_vlnv
+      }
+   }
+
+   if { $list_mods_missing ne "" } {
+      catch {common::send_gid_msg -ssname BD::TCL -id 2021 -severity "ERROR" "The following module(s) are not found in the project: $list_mods_missing" }
+      common::send_gid_msg -ssname BD::TCL -id 2022 -severity "INFO" "Please add source files for the missing module(s) above."
+      set bCheckIPsPassed 0
+   }
 }
 
 if { $bCheckIPsPassed != 1 } {
@@ -293,24 +310,22 @@ proc create_root_design { parentCell } {
  ] $s_axi_aresetn
 
   # Create instance: axi_dbg_hub_0, and set properties
-  set axi_dbg_hub_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_dbg_hub:2.0 axi_dbg_hub_0 ]
+  set axi_dbg_hub_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_dbg_hub axi_dbg_hub_0 ]
 
   # Create instance: axi_gpio_0, and set properties
-  set axi_gpio_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_gpio:2.0 axi_gpio_0 ]
-  set_property -dict [ list \
-   CONFIG.C_ALL_INPUTS {1} \
- ] $axi_gpio_0
+  set axi_gpio_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_gpio axi_gpio_0 ]
+  set_property CONFIG.C_ALL_INPUTS {1} $axi_gpio_0
+
 
   # Create instance: axi_noc_1, and set properties
-  set axi_noc_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.0 axi_noc_1 ]
-  set_property -dict [ list \
-   CONFIG.HBM_CHNL0_CONFIG {\
-HBM_PC0_PRE_DEFINED_ADDRESS_MAP ROW_BANK_COLUMN HBM_PC1_PRE_DEFINED_ADDRESS_MAP\
-ROW_BANK_COLUMN HBM_PC0_USER_DEFINED_ADDRESS_MAP NONE\
-HBM_PC1_USER_DEFINED_ADDRESS_MAP NONE} \
-   CONFIG.NUM_NSI {1} \
-   CONFIG.NUM_SI {0} \
- ] $axi_noc_1
+  set axi_noc_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc axi_noc_1 ]
+  set_property -dict [list \
+    CONFIG.HBM_CHNL0_CONFIG { HBM_PC0_PRE_DEFINED_ADDRESS_MAP ROW_BANK_COLUMN HBM_PC1_PRE_DEFINED_ADDRESS_MAP ROW_BANK_COLUMN HBM_PC0_USER_DEFINED_ADDRESS_MAP NONE HBM_PC1_USER_DEFINED_ADDRESS_MAP NONE}\
+\
+    CONFIG.NUM_NSI {1} \
+    CONFIG.NUM_SI {0} \
+  ] $axi_noc_1
+
 
   set_property -dict [ list \
    CONFIG.DATA_WIDTH {128} \
@@ -328,28 +343,33 @@ HBM_PC1_USER_DEFINED_ADDRESS_MAP NONE} \
  ] [get_bd_pins /axi_noc_1/aclk0]
 
   # Create instance: axis_vio_0, and set properties
-  set axis_vio_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_vio:1.0 axis_vio_0 ]
-  set_property -dict [ list \
-   CONFIG.C_NUM_PROBE_OUT {0} \
-   CONFIG.C_PROBE_IN0_WIDTH {32} \
- ] $axis_vio_0
+  set axis_vio_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axis_vio axis_vio_0 ]
+  set_property -dict [list \
+    CONFIG.C_NUM_PROBE_OUT {0} \
+    CONFIG.C_PROBE_IN0_WIDTH {32} \
+  ] $axis_vio_0
 
-  # Create instance: c_counter_binary_0, and set properties
-  set c_counter_binary_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:c_counter_binary:12.0 c_counter_binary_0 ]
-  set_property -dict [ list \
-   CONFIG.Count_Mode {DOWN} \
-   CONFIG.Output_Width {32} \
- ] $c_counter_binary_0
 
+  # Create instance: up_counter_rtl_0, and set properties
+  set block_name up_counter_rtl
+  set block_cell_name up_counter_rtl_0
+  if { [catch {set up_counter_rtl_0 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $up_counter_rtl_0 eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+  
   # Create interface connections
   connect_bd_intf_net -intf_net axi_noc_0_M00_INI [get_bd_intf_ports S00_INI] [get_bd_intf_pins axi_noc_1/S00_INI]
   connect_bd_intf_net -intf_net axi_noc_1_M00_AXI [get_bd_intf_pins axi_dbg_hub_0/S_AXI] [get_bd_intf_pins axi_noc_1/M00_AXI]
   connect_bd_intf_net -intf_net dfx_decoupler_0_rp_intf_0 [get_bd_intf_ports S_AXI] [get_bd_intf_pins axi_gpio_0/S_AXI]
 
   # Create port connections
-  connect_bd_net -net c_counter_binary_0_Q [get_bd_pins axi_gpio_0/gpio_io_i] [get_bd_pins axis_vio_0/probe_in0] [get_bd_pins c_counter_binary_0/Q]
-  connect_bd_net -net clk_wizard_0_clk_out1 [get_bd_ports s_axi_aclk] [get_bd_pins axi_dbg_hub_0/aclk] [get_bd_pins axi_gpio_0/s_axi_aclk] [get_bd_pins axi_noc_1/aclk0] [get_bd_pins axis_vio_0/clk] [get_bd_pins c_counter_binary_0/CLK]
-  connect_bd_net -net proc_sys_reset_0_interconnect_aresetn [get_bd_ports s_axi_aresetn] [get_bd_pins axi_dbg_hub_0/aresetn] [get_bd_pins axi_gpio_0/s_axi_aresetn]
+  connect_bd_net -net c_counter_binary_0_Q [get_bd_pins up_counter_rtl_0/count_out] [get_bd_pins axi_gpio_0/gpio_io_i] [get_bd_pins axis_vio_0/probe_in0]
+  connect_bd_net -net clk_wizard_0_clk_out1 [get_bd_ports s_axi_aclk] [get_bd_pins axi_dbg_hub_0/aclk] [get_bd_pins axi_gpio_0/s_axi_aclk] [get_bd_pins axi_noc_1/aclk0] [get_bd_pins axis_vio_0/clk] [get_bd_pins up_counter_rtl_0/clk]
+  connect_bd_net -net proc_sys_reset_0_interconnect_aresetn [get_bd_ports s_axi_aresetn] [get_bd_pins axi_dbg_hub_0/aresetn] [get_bd_pins axi_gpio_0/s_axi_aresetn] [get_bd_pins up_counter_rtl_0/rst]
 
   # Create address segments
   assign_bd_address -offset 0x020100000000 -range 0x00200000 -target_address_space [get_bd_addr_spaces S00_INI] [get_bd_addr_segs axi_dbg_hub_0/S_AXI_DBG_HUB/Mem0] -force

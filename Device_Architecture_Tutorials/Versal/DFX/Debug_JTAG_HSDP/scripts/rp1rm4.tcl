@@ -4,7 +4,7 @@
 #
 
 ################################################################
-# This is a generated script based on design: rp2rm1
+# This is a generated script based on design: rp1rm4
 #
 # Though there are limitations about the generated script,
 # the main purpose of this utility is to make learning
@@ -29,9 +29,8 @@ set current_vivado_version [version -short]
 
 if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
    puts ""
-   catch {common::send_gid_msg -ssname BD::TCL -id 2041 -severity "ERROR" "This script was generated using Vivado <$scripts_vivado_version> and is being run in <$current_vivado_version> of Vivado. Please run the script in Vivado <$scripts_vivado_version> then open the design in Vivado <$current_vivado_version>. Upgrade the design by running \"Tools => Report => Report IP Status...\", then run write_bd_tcl to create an updated script."}
+   common::send_gid_msg -ssname BD::TCL -id 2040 -severity "WARNING" "This script was generated using Vivado <$scripts_vivado_version> without IP versions in the create_bd_cell commands, but is now being run in <$current_vivado_version> of Vivado. There may have been major IP version changes between Vivado <$scripts_vivado_version> and <$current_vivado_version>, which could impact the parameter settings of the IPs."
 
-   return 1
 }
 
 ################################################################
@@ -39,7 +38,7 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 ################################################################
 
 # To test this script, run the following commands from Vivado Tcl console:
-# source rp2rm1_script.tcl
+# source rp1rm4_script.tcl
 
 # If there is no project opened, this script will create a
 # project, but make sure you do not have an existing project
@@ -54,7 +53,7 @@ if { $list_projs eq "" } {
 
 # CHANGE DESIGN NAME HERE
 variable design_name
-set design_name rp2rm1
+set design_name rp1rm4
 
 # If you do not already have an existing IP Integrator design open,
 # you can create a design using the following command:
@@ -128,8 +127,10 @@ set bCheckIPsPassed 1
 set bCheckIPs 1
 if { $bCheckIPs == 1 } {
    set list_check_ips "\ 
-xilinx.com:ip:axi_noc:1.0\
-xilinx.com:ip:axi_traffic_gen:3.0\
+xilinx.com:ip:axi_dbg_hub:*\
+xilinx.com:ip:axi_gpio:*\
+xilinx.com:ip:axi_noc:*\
+xilinx.com:ip:c_counter_binary:*\
 "
 
    set list_ips_missing ""
@@ -193,107 +194,104 @@ proc create_root_design { parentCell } {
 
 
   # Create interface ports
-  set M00_INI [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:inimm_rtl:1.0 M00_INI ]
+  set S00_INI [ create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:inimm_rtl:1.0 S00_INI ]
   set_property -dict [ list \
    CONFIG.COMPUTED_STRATEGY {load} \
-   ] $M00_INI
-  set_property APERTURES {{0x203_4000_0000 64K}} [get_bd_intf_ports M00_INI]
+   CONFIG.INI_STRATEGY {load} \
+   ] $S00_INI
 
   set S_AXI [ create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:aximm_rtl:1.0 S_AXI ]
   set_property -dict [ list \
-   CONFIG.ADDR_WIDTH {42} \
+   CONFIG.ADDR_WIDTH {32} \
    CONFIG.ARUSER_WIDTH {0} \
    CONFIG.AWUSER_WIDTH {0} \
    CONFIG.BUSER_WIDTH {0} \
    CONFIG.DATA_WIDTH {32} \
    CONFIG.FREQ_HZ {99999900} \
    CONFIG.HAS_BRESP {1} \
-   CONFIG.HAS_BURST {1} \
-   CONFIG.HAS_CACHE {1} \
-   CONFIG.HAS_LOCK {1} \
-   CONFIG.HAS_PROT {1} \
-   CONFIG.HAS_QOS {1} \
+   CONFIG.HAS_BURST {0} \
+   CONFIG.HAS_CACHE {0} \
+   CONFIG.HAS_LOCK {0} \
+   CONFIG.HAS_PROT {0} \
+   CONFIG.HAS_QOS {0} \
    CONFIG.HAS_REGION {0} \
    CONFIG.HAS_RRESP {1} \
    CONFIG.HAS_WSTRB {1} \
    CONFIG.ID_WIDTH {0} \
-   CONFIG.MAX_BURST_LENGTH {256} \
-   CONFIG.NUM_READ_OUTSTANDING {7} \
+   CONFIG.MAX_BURST_LENGTH {1} \
+   CONFIG.NUM_READ_OUTSTANDING {1} \
    CONFIG.NUM_READ_THREADS {1} \
-   CONFIG.NUM_WRITE_OUTSTANDING {7} \
+   CONFIG.NUM_WRITE_OUTSTANDING {1} \
    CONFIG.NUM_WRITE_THREADS {1} \
-   CONFIG.PROTOCOL {AXI4} \
+   CONFIG.PROTOCOL {AXI4LITE} \
    CONFIG.READ_WRITE_MODE {READ_WRITE} \
    CONFIG.RUSER_BITS_PER_BYTE {0} \
    CONFIG.RUSER_WIDTH {0} \
-   CONFIG.SUPPORTS_NARROW_BURST {1} \
+   CONFIG.SUPPORTS_NARROW_BURST {0} \
    CONFIG.WUSER_BITS_PER_BYTE {0} \
    CONFIG.WUSER_WIDTH {0} \
    ] $S_AXI
-  set_property APERTURES {{0x202_8000_0000 64K}} [get_bd_intf_ports S_AXI]
 
 
   # Create ports
-  set aclk0 [ create_bd_port -dir I -type clk -freq_hz 99999900 aclk0 ]
+  set s_axi_aclk [ create_bd_port -dir I -type clk -freq_hz 99999900 s_axi_aclk ]
   set_property -dict [ list \
    CONFIG.ASSOCIATED_BUSIF {S_AXI} \
- ] $aclk0
+   CONFIG.ASSOCIATED_RESET {s_axi_aresetn} \
+ ] $s_axi_aclk
   set s_axi_aresetn [ create_bd_port -dir I -type rst s_axi_aresetn ]
 
+  # Create instance: axi_dbg_hub_0, and set properties
+  set axi_dbg_hub_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_dbg_hub axi_dbg_hub_0 ]
+
+  # Create instance: axi_gpio_0, and set properties
+  set axi_gpio_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_gpio axi_gpio_0 ]
+  set_property CONFIG.C_ALL_INPUTS {1} $axi_gpio_0
+
+
   # Create instance: axi_noc_1, and set properties
-  set axi_noc_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.0 axi_noc_1 ]
+  set axi_noc_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc axi_noc_1 ]
+  set_property -dict [list \
+    CONFIG.HBM_CHNL0_CONFIG { HBM_PC0_PRE_DEFINED_ADDRESS_MAP ROW_BANK_COLUMN HBM_PC1_PRE_DEFINED_ADDRESS_MAP ROW_BANK_COLUMN HBM_PC0_USER_DEFINED_ADDRESS_MAP NONE HBM_PC1_USER_DEFINED_ADDRESS_MAP NONE}\
+\
+    CONFIG.NUM_NSI {1} \
+    CONFIG.NUM_SI {0} \
+  ] $axi_noc_1
+
+
   set_property -dict [ list \
-   CONFIG.HBM_CHNL0_CONFIG {\
-HBM_PC0_PRE_DEFINED_ADDRESS_MAP ROW_BANK_COLUMN HBM_PC1_PRE_DEFINED_ADDRESS_MAP\
-ROW_BANK_COLUMN HBM_PC0_USER_DEFINED_ADDRESS_MAP NONE\
-HBM_PC1_USER_DEFINED_ADDRESS_MAP NONE} \
-   CONFIG.MC_NETLIST_SIMULATION {true} \
-   CONFIG.NUM_MI {0} \
-   CONFIG.NUM_NMI {1} \
-   CONFIG.NUM_NSI {0} \
-   CONFIG.NUM_SI {1} \
- ] $axi_noc_1
+   CONFIG.DATA_WIDTH {128} \
+   CONFIG.APERTURES {{0x201_0000_0000 1G}} \
+   CONFIG.CATEGORY {pl} \
+ ] [get_bd_intf_pins /axi_noc_1/M00_AXI]
 
   set_property -dict [ list \
    CONFIG.INI_STRATEGY {load} \
-   CONFIG.APERTURES {{0x202_0000_0000 1G}} \
- ] [get_bd_intf_pins /axi_noc_1/M00_INI]
+   CONFIG.CONNECTIONS {M00_AXI { read_bw {1720} write_bw {1720} read_avg_burst {4} write_avg_burst {4}} } \
+ ] [get_bd_intf_pins /axi_noc_1/S00_INI]
 
   set_property -dict [ list \
-   CONFIG.DATA_WIDTH {32} \
-   CONFIG.CONNECTIONS {M00_INI { read_bw {1720} write_bw {1720}} } \
-   CONFIG.DEST_IDS {} \
-   CONFIG.CATEGORY {pl} \
- ] [get_bd_intf_pins /axi_noc_1/S00_AXI]
-
-  set_property -dict [ list \
-   CONFIG.ASSOCIATED_BUSIF {S00_AXI} \
+   CONFIG.ASSOCIATED_BUSIF {M00_AXI} \
  ] [get_bd_pins /axi_noc_1/aclk0]
 
-  # Create instance: axi_traffic_gen_0, and set properties
-  set axi_traffic_gen_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_traffic_gen:3.0 axi_traffic_gen_0 ]
-  set_property -dict [ list \
-   CONFIG.C_ATG_MODE_L2 {Static} \
-   CONFIG.C_ATG_STATIC_INCR {false} \
-   CONFIG.C_ATG_STATIC_RD_ADDRESS {0x40000000} \
-   CONFIG.C_ATG_STATIC_RD_ADDRESS_EXT {0x00000203} \
-   CONFIG.C_ATG_STATIC_WR_ADDRESS {0x40000000} \
-   CONFIG.C_ATG_STATIC_WR_ADDRESS_EXT {0x00000203} \
-   CONFIG.C_EXTENDED_ADDRESS_WIDTH {64} \
- ] $axi_traffic_gen_0
+  # Create instance: c_counter_binary_0, and set properties
+  set c_counter_binary_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:c_counter_binary c_counter_binary_0 ]
+  set_property CONFIG.Output_Width {32} $c_counter_binary_0
+
 
   # Create interface connections
-  connect_bd_intf_net -intf_net Static_Region_M01_AXI [get_bd_intf_ports S_AXI] [get_bd_intf_pins axi_traffic_gen_0/S_AXI]
-  connect_bd_intf_net -intf_net axi_noc_1_M00_INI1 [get_bd_intf_ports M00_INI] [get_bd_intf_pins axi_noc_1/M00_INI]
-  connect_bd_intf_net -intf_net axi_traffic_gen_0_M_AXI [get_bd_intf_pins axi_noc_1/S00_AXI] [get_bd_intf_pins axi_traffic_gen_0/M_AXI]
+  connect_bd_intf_net -intf_net axi_noc_0_M00_INI [get_bd_intf_ports S00_INI] [get_bd_intf_pins axi_noc_1/S00_INI]
+  connect_bd_intf_net -intf_net axi_noc_1_M00_AXI [get_bd_intf_pins axi_dbg_hub_0/S_AXI] [get_bd_intf_pins axi_noc_1/M00_AXI]
+  connect_bd_intf_net -intf_net dfx_decoupler_0_rp_intf_0 [get_bd_intf_ports S_AXI] [get_bd_intf_pins axi_gpio_0/S_AXI]
 
   # Create port connections
-  connect_bd_net -net clk_wizard_0_clk_out1 [get_bd_ports aclk0] [get_bd_pins axi_noc_1/aclk0] [get_bd_pins axi_traffic_gen_0/s_axi_aclk]
-  connect_bd_net -net s_axi_aresetn_1 [get_bd_ports s_axi_aresetn] [get_bd_pins axi_traffic_gen_0/s_axi_aresetn]
+  connect_bd_net -net c_counter_binary_0_Q [get_bd_pins c_counter_binary_0/Q] [get_bd_pins axi_gpio_0/gpio_io_i]
+  connect_bd_net -net clk_wizard_0_clk_out1 [get_bd_ports s_axi_aclk] [get_bd_pins axi_dbg_hub_0/aclk] [get_bd_pins axi_gpio_0/s_axi_aclk] [get_bd_pins axi_noc_1/aclk0] [get_bd_pins c_counter_binary_0/CLK]
+  connect_bd_net -net proc_sys_reset_0_interconnect_aresetn [get_bd_ports s_axi_aresetn] [get_bd_pins axi_dbg_hub_0/aresetn] [get_bd_pins axi_gpio_0/s_axi_aresetn]
 
   # Create address segments
-  assign_bd_address -offset 0x020340000000 -range 0x00010000 -target_address_space [get_bd_addr_spaces axi_traffic_gen_0/Data] [get_bd_addr_segs M00_INI/Reg] -force
-  assign_bd_address -offset 0x020280000000 -range 0x00010000 -target_address_space [get_bd_addr_spaces S_AXI] [get_bd_addr_segs axi_traffic_gen_0/S_AXI/Reg0] -force
+  assign_bd_address -offset 0x020100000000 -range 0x00200000 -target_address_space [get_bd_addr_spaces S00_INI] [get_bd_addr_segs axi_dbg_hub_0/S_AXI_DBG_HUB/Mem0] -force
+  assign_bd_address -offset 0x80220000 -range 0x00010000 -target_address_space [get_bd_addr_spaces S_AXI] [get_bd_addr_segs axi_gpio_0/S_AXI/Reg] -force
 
 
   # Restore current instance
@@ -312,6 +310,5 @@ HBM_PC1_USER_DEFINED_ADDRESS_MAP NONE} \
 create_root_design ""
 
 
-
-
+common::send_gid_msg -ssname BD::TCL -id 2053 -severity "WARNING" "This Tcl script was generated from a block design that has not been validated. It is possible that design <$design_name> may result in errors during validation."
 
