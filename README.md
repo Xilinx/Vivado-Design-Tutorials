@@ -5,7 +5,7 @@
  </tr>
 </table>
 
-## </br> Unparalled performance for all developers
+## </br> Unparalleled performance for all developers
 The Vivado design environment enables the development of high-performance FPGA and Adaptive SoC applications on
 the latest cutting-edge architectures.
 
