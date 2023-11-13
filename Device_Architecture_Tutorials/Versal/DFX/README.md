@@ -34,6 +34,10 @@
  <td align="center"><a href="./Embedded_IOB_inside_RM/"> Embedded IOBs inside the Reconfigurable Partition</a></td>
  <td>This tutorial demonstrates a methodology to insert embedded IOBs inside reconfigurable partition using the utility buffer IP in Vivado.</td>
  </tr>
+<tr>
+ <td align="center"><a href="./Linux-based-partial-image-delivery/"> Linux-based partial image delivery</a></td>
+ <td>This tutorial demonstrates a methodology to manage partial image delivery from Linux using fpgautil and libdfx.</td>
+ </tr>
  <tr>
  <td align="center"><a href="./NoC_INI_Static_RM_Interface/"> NoC connections in DFX designs</a></td>
  <td>This tutorial introduces multiple NoC connectivity options for DFX designs to transfer data between static and reconfiurable partitions.</td>
