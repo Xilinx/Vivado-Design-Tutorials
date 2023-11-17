@@ -227,14 +227,15 @@ The registers can be used to calculate BootROM xx_REF_CLK speeds. xx_REF_CLK is 
 
 The following QSPI_REF_CLK example assumes the board default settings are used, which uses the PMC PLL as the source and REF_CLK is 33.33 MHz.
 
-The following formula should be used to calculate QSPI_REF_CLK:
+The following formula should be used to calculate QSPI_REF_CLK:  
 `QSPI_REF_CLK = REF_CLK x FBDIV / CLKOUTDIV / DIVISOR`
 
-Referencing AM012, FBDIV is 0x48(72), CLKOUTDIV is 4, and DIVISOR is 11:
+Referencing AM012, FBDIV is 0x48(72), CLKOUTDIV is 4, and DIVISOR is 11:  
 `QSPI_REF_CLK = 33.33 x 72 / 4 / 11 = 54.54 MHz`
 
-To get the interface clock frequencies, the following formulas should be used:
+To get the interface clock frequencies, the following formulas should be used:  
 `QSPI_CLK = QSPI_REF_CLK / BAUD_RATE_DIV`
+
 `SD_CLK = SD_REF_CLK / SDClkFreqDiv_L`
 
 ### Multiplexed IOs
