@@ -5,6 +5,20 @@
  </tr>
 </table>
 
+# Table of Contents
+
+1. [Introduction](#introduction)
+
+2. [Before You Begin](#before-you-begin)
+
+3. [Building Hardware Design](#building-hardware-design)
+
+4. [Building Software Design](#building-software-design)
+
+5. [Running the Design](#running-the-design)
+
+6. [Collecting Results](#collecting-results)
+
 # Introduction
 
 This Versal example design is intended to illustrate the post bootROM state (pre-PLM) of the device on different boot modes, just to verify the registers modified by Versal ROM code. The idea is to replicate for Versal the information provided on Table 6-22 and Table 6-11 of UG585 for Zynq-7000 and Table 37-7 of UG1085 for Zynq UltraScale+ MPSoC/RFSoC.
@@ -42,6 +56,7 @@ Recommended general knowledge of:
 * VCK190 Evaluation Board User Guide [(UG1366)](https://docs.xilinx.com/r/en-US/ug1366-vck190-eval-bd)
 * Versal Technical Reference Manual [(AM011)](https://www.xilinx.com/support/documentation/architecture-manuals/am011-versal-acap-trm.pdf)
 * Versal System Software Developers User Guide [(UG1304)](https://www.xilinx.com/cgi-bin/docs/rdoc?v=latest;d=ug1304-versal-acap-ssdg.pdf)
+* Versal Adaptive SoC Register Reference [(AM012)](https://docs.xilinx.com/r/en-US/am012-versal-register-reference)
 
 </details>
 
@@ -208,6 +223,20 @@ OSPI_REF_CTRL is 0x01000400
 | CFU_REF_CTRL   | 0xF1260108 | 0x02000300 | - | - | - |
 | NPI_REF_CTRL   | 0xF1260114 | 0x00000400 | - | - | - |
 
+The registers can be used to calculate BootROM xx_REF_CLK speeds. xx_REF_CLK is used by the respective controller. This is NOT the clock at the interface pins. 
+
+The following QSPI_REF_CLK example assumes the board default settings are used, which uses the PMC PLL as the source and REF_CLK is 33.33 MHz.
+
+The following formula should be used to calculate QSPI_REF_CLK:
+`QSPI_REF_CLK = REF_CLK x FBDIV / CLKOUTDIV / DIVISOR`
+
+Referencing AM012, FBDIV is 0x48(72), CLKOUTDIV is 4, and DIVISOR is 11:
+`QSPI_REF_CLK = 33.33 x 72 / 4 / 11 = 54.54 MHz`
+
+To get the interface clock frequencies, the following formulas should be used:
+`QSPI_CLK = QSPI_REF_CLK / BAUD_RATE_DIV`
+`SD_CLK = SD_REF_CLK / SDClkFreqDiv_L`
+
 ### Multiplexed IOs
 
 #### QSPI32 with x4 single configuration
@@ -222,6 +251,8 @@ OSPI_REF_CTRL is 0x01000400
 |0xF1060018 | MIO_PIN_6 | 0x0 | sysmon_i2c_smbalert_input |
 
 `BootROM does not use qspi_clk_for_lpbk signal so the MIO Pin 6 remains in the default state as an input signal`
+
+The registers can be used to interpret MIO settings. For example, MIO_PIN_1 has the value 0x6. Referencing AM012, this shows that MIO1 is configured as QSPI0_IO[1] input/output.
 
 #### QSPI32 with x8 dual parallel configuration
 | Base Address | MIO Pin | Register Value  | I/O signal |
@@ -241,6 +272,8 @@ OSPI_REF_CTRL is 0x01000400
 
 `BootROM does not use qspi_clk_for_lpbk signal so the MIO Pin 6 remains in the default state as an input signal`
 
+The registers can be used to interpret MIO settings. For example, MIO_PIN_8 has the value 0x6. Referencing AM012, this shows that MIO1 is configured as QSPI1_IO[0] input/output.
+
 #### SD1_LS (3.0)
 | Base Address | MIO Pin | Register Value  | I/O signal |
 |---|---|---|---|
@@ -259,6 +292,8 @@ OSPI_REF_CTRL is 0x01000400
 |0xF10600CC | MIO_PIN_51 | **0x2** | sdio1_bus_pow |
 
 `BootROM does not use sdio1_cd_n and sdio1_wp signals so the MIO Pin 28 and 50 remains in the default state as an input signal`
+
+The registers can be used to interpret MIO settings. For example, MIO_PIN_29 has the value 0x2. Referencing AM012, this shows that MIO29 is configured as SD1_CMD, eMMC_CMD input/output.
 
 # Notes
 
