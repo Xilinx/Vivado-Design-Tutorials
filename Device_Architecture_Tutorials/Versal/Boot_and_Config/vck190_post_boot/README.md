@@ -103,7 +103,9 @@ To set up the Vitis environment, use the command-line interpreter:
 
 Enter the `Scripts` directory. From the command line run the following:
 
-```xsct ../Scripts/vitis.tcl```
+```Tcl
+xsct ../Scripts/vitis.tcl
+```
 
 The Vitis workspace will be created in `Software/Vitis/workspace` with the VCK190_platform and the customized PLM code. The PLM is customized by adding a `while(1);` loop at the beginning of main() to halt the PLM execution so bootROM post configuration is NOT altered.
 
@@ -121,9 +123,15 @@ Program/copy the boot image into the boot device:
 The `postbootrom.tcl` script reads and prints relevant registers. The script takes as reference the boot mode and the URL of the hw_server used to connect to the device and dumps the register values. 
 The script assumes the board is configured in JTAG boot mode and the boot image has been already programed/copied into the boot device. Run the script from the `vck190_post_boot` directory.
 
-```xsct Scripts/postbootrom.tcl -bootmode jtag -url <hw_server URL>```
-```xsct Scripts/postbootrom.tcl -bootmode qspi32 -url <hw_server URL>```
-```xsct Scripts/postbootrom.tcl -bootmode sd1_ls -url <hw_server URL>```
+```Tcl
+xsct Scripts/postbootrom.tcl -bootmode jtag -url <hw_server URL>
+```
+```Tcl
+xsct Scripts/postbootrom.tcl -bootmode qspi32 -url <hw_server URL>
+```
+```Tcl
+xsct Scripts/postbootrom.tcl -bootmode sd1_ls -url <hw_server URL>
+```
 
 Here is an example of the script output running QSPI boot mode:
 ```
