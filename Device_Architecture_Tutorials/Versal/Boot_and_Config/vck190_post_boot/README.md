@@ -7,7 +7,7 @@
 
 # Introduction
 
-This Versal example design is intended to illustrate the post bootROM state (pre-PLM) of the device on different boot modes, just to verify the registers modified by Versal ROM code. The idea is to replicate for Versal the information provided on Table 6-22 and Table 6-11 of UG585 for zynq-7000 and Table 37-7 of UG1085 for Zynq UltraScale+ MPSoC/RFSoC.
+This Versal example design is intended to illustrate the post bootROM state (pre-PLM) of the device on different boot modes, just to verify the registers modified by Versal ROM code. The idea is to replicate for Versal the information provided on Table 6-22 and Table 6-11 of UG585 for Zynq-7000 and Table 37-7 of UG1085 for Zynq UltraScale+ MPSoC/RFSoC.
 
 ## Directory Structure
 <details>
@@ -116,7 +116,9 @@ Program/copy the boot image into the boot device:
 * SD: Copy the BOOT.bin file into the SD card
 * QSPI: Use program_flash to program the flash device with the previously generated boot image.
 
-```program_flash -f Software/Vitis/bootimage/BOOT.bin -pdi Software/Vitis/workspace/vck190_platform/hw/vck190.pdi -flash_type qspi-x8-dual_parallel -url <hw_server URL>```
+```
+program_flash -f Software/Vitis/bootimage/BOOT.bin -pdi Software/Vitis/workspace/vck190_platform/hw/vck190.pdi -flash_type qspi-x8-dual_parallel -url <hw_server URL>
+```
 
 # Running the Design
 
