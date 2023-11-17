@@ -10,16 +10,30 @@
 This Versal example design is intended to illustrate the post bootROM state (pre-PLM) of the device on different boot modes, just to verify the registers modified by Versal ROM code. The idea is to replicate for Versal the information provided on Table 6-22 and Table 6-11 of UG585 for zynq-7000 and Table 37-7 of UG1085 for Zynq UltraScale+ MPSoC/RFSoC.
 
 ## Directory Structure
+<details>
+<summary> Tutorial Directory Details </summary>
+
+```
+Post_Boot
+|___Software/Vitis.........Contains Vitis Design files
+  |___bootimage......................Contains bootimage files
+  |___src............................Contains Software source files
+|___Scripts................Contains TCL scripts to generate reference Design, PDI, etc...
+  |___postbootrom.tcl................Prints Register Readouts
+  |___vitis.tcl......................Generates the Vitis Design
+|___README.md..............Includes tutorial overview, steps to create reference design, and debug resources
+```
+</details>
 
 # Before You Begin
 
-Recommended general knwoledge of:
+Recommended general knowledge of:
 
-*VCK190 evaluation board
-*Versal QSPI boot mode
-*Versal SD boot mode
-*Versal PMC
-*AMD Vitis IDE
+* VCK190 evaluation board
+* Versal QSPI boot mode
+* Versal SD boot mode
+* Versal PMC
+* AMD Vitis IDE
 
 <details>
 
@@ -89,9 +103,9 @@ To set up the Vitis environment, use the command-line interpreter:
 
 Enter the `Scripts` directory. From the command line run the following:
 
-`xsct ../Scripts/vitis.tcl`
+```xsct ../Scripts/vitis.tcl```
 
-The Vitis workspace will be created in `Software/Vitis/workspace` with the VCK190_platform and the customized PLM code. The PLM is customized by adding a `while(1);` loop at the beginng of main() to halt the PLM execution so bootROM post configuration is NOT altered.
+The Vitis workspace will be created in `Software/Vitis/workspace` with the VCK190_platform and the customized PLM code. The PLM is customized by adding a `while(1);` loop at the beginning of main() to halt the PLM execution so bootROM post configuration is NOT altered.
 
 Additionally the boot image containing solely the custom PLM will be generated and the BOOT.bin file placed within the `Software/Vitis/bootimage` folder.
 
@@ -100,20 +114,20 @@ Program/copy the boot image into the boot device:
 * SD: Copy the BOOT.bin file into the SD card
 * QSPI: Use program_flash to program the flash device with the previously generated boot image.
 
-`program_flash -f Software/Vitis/bootimage/BOOT.bin -pdi Software/Vitis/workspace/vck190_platform/hw/vck190.pdi -flash_type qspi-x8-dual_parallel -url <hw_server URL>`
+```program_flash -f Software/Vitis/bootimage/BOOT.bin -pdi Software/Vitis/workspace/vck190_platform/hw/vck190.pdi -flash_type qspi-x8-dual_parallel -url <hw_server URL>```
 
 # Running the Design
 
 The `postbootrom.tcl` script reads and prints relevant registers. The script takes as reference the boot mode and the URL of the hw_server used to connect to the device and dumps the register values. 
 The script assumes the board is configured in JTAG boot mode and the boot image has been already programed/copied into the boot device. Run the script from the `vck190_post_boot` directory.
 
-`xsct Scripts/postbootrom.tcl -bootmode jtag -url <hw_server URL>`
-`xsct Scripts/postbootrom.tcl -bootmode qspi32 -url <hw_server URL>`
-`xsct Scripts/postbootrom.tcl -bootmode sd1_ls -url <hw_server URL>`
+```xsct Scripts/postbootrom.tcl -bootmode jtag -url <hw_server URL>```
+```xsct Scripts/postbootrom.tcl -bootmode qspi32 -url <hw_server URL>```
+```xsct Scripts/postbootrom.tcl -bootmode sd1_ls -url <hw_server URL>```
 
 Here is an example of the script output running QSPI boot mode:
-
-`Versal PostBootROM Register Status
+```
+Versal PostBootROM Register Status
 HW Server URL:  XXXXXXXXXX
 attempting to launch symbol_server
 Boot mode: qspi32
@@ -148,7 +162,7 @@ OSPI_REF_CTRL is 0x01000400
 0xF106000C: 0x00000006
 0xF1060010: 0x00000006
 0xF1060014: 0x00000006
-`
+```
 
 # Collecting Results
 
@@ -156,7 +170,7 @@ OSPI_REF_CTRL is 0x01000400
 
 ### PLL
 
-| Register Name | Base Address | Reset Value   | JTAG  | 32 | SD1_LS |
+| Register Name | Base Address | Reset Value   | JTAG  | QSPI32 | SD1_LS |
 |---|---|---|---|---|---|
 | PMCPLL_CTRL | 0xF1260040 | 0x00024809 | **0x00024800**  | **0x00024800**  | **0x00024800** |
 | NOCPLL_CTRL | 0xF1260050 | 0x00024809 |  - |  - | -  |
@@ -166,14 +180,14 @@ OSPI_REF_CTRL is 0x01000400
 
 ### Processors
 
-| Register Name | Base Address | Reset Value   | JTAG  | 32 | SD1_LS |
+| Register Name | Base Address | Reset Value   | JTAG  | QSPI32 | SD1_LS |
 |---|---|---|---|---|---|
 | ACPU_CTRL   | 0XFD1A010C | 0X02000200 | -  | -  | - |
 | CPU_R5_CTRL | 0XFF5E010C | 0x0E000300 |  - |  - | -  |
 
 #### Peripherals
 
-| Register Name | Base Address | Reset Value   | JTAG  | 32 | SD1_LS |
+| Register Name | Base Address | Reset Value   | JTAG  | QSPI32 | SD1_LS |
 |---|---|---|---|---|---|
 | QSPI_REF_CTRL  | 0XF1260118 | 0X01000400 | - | **0x1000B00**  | - |
 | OSPI_REF_CTRL  | 0xF1260120 | 0X01000400 | - | - | - |
