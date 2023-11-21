@@ -230,7 +230,7 @@ The following QSPI_REF_CLK example assumes the board default settings are used, 
 The following formula should be used to calculate QSPI_REF_CLK:  
 `QSPI_REF_CLK = REF_CLK x FBDIV / CLKOUTDIV / DIVISOR`
 
-Referencing CRP.PMCPLL_CTRL in [(AM012)](https://docs.xilinx.com/r/en-US/am012-versal-register-reference/PMCPLL_CTRL-CRP-Register), FBDIV is 0x48(72), CLKOUTDIV is 4, and DIVISOR is 11:  
+Referencing CRP.PMCPLL_CTRL in [AM012](https://docs.xilinx.com/r/en-US/am012-versal-register-reference/PMCPLL_CTRL-CRP-Register), FBDIV is 0x48(72), CLKOUTDIV is 4, and DIVISOR is 11:  
 `QSPI_REF_CLK = 33.33 x 72 / 4 / 11 = 54.54 MHz`
 
 To get the interface clock frequencies, the following formulas should be used:  
