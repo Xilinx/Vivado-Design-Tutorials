@@ -236,7 +236,7 @@ Referencing CRP.PMCPLL_CTRL in [(AM012)](https://docs.xilinx.com/r/en-US/am012-v
 To get the interface clock frequencies, the following formulas should be used:  
 `QSPI_CLK = QSPI_REF_CLK / BAUD_RATE_DIV = 54.54 / 4 = 13.64 MHz`
 
-`Note: the BAUD_RATE_DIV for BootROM is 4. The user can read QSPI.GQSPI_Cfg in [(AM012)](https://docs.xilinx.com/r/en-US/am012-versal-register-reference/GQSPI_Cfg-QSPI-Register) to verify. This register is not covered in this script.`
+Note: the BAUD_RATE_DIV for BootROM is 4. The user can read QSPI.GQSPI_Cfg in [AM012](https://docs.xilinx.com/r/en-US/am012-versal-register-reference/GQSPI_Cfg-QSPI-Register) to verify. This register is not covered in this script.
 
 
 ### Multiplexed IOs
@@ -254,7 +254,7 @@ To get the interface clock frequencies, the following formulas should be used:
 
 `BootROM does not use qspi_clk_for_lpbk signal so the MIO Pin 6 remains in the default state as an input signal`
 
-The registers can be used to interpret MIO settings. For example, MIO_PIN_1 has the value 0x6. Referencing PMC_IOP_SLCR.MIO_PIN_1 in [(AM012)](https://docs.xilinx.com/r/en-US/am012-versal-register-reference/MIO_PIN_1-PMC_IOP_SLCR-Register), this shows that MIO1 is configured as QSPI0_IO[1] input/output.
+The registers can be used to interpret MIO settings. For example, MIO_PIN_1 has the value 0x6. Referencing PMC_IOP_SLCR.MIO_PIN_1 in [AM012](https://docs.xilinx.com/r/en-US/am012-versal-register-reference/MIO_PIN_1-PMC_IOP_SLCR-Register), this shows that MIO1 is configured as QSPI0_IO[1] input/output.
 
 #### QSPI32 with x8 dual parallel configuration
 | Base Address | MIO Pin | Register Value  | I/O signal |
@@ -274,7 +274,7 @@ The registers can be used to interpret MIO settings. For example, MIO_PIN_1 has 
 
 `BootROM does not use qspi_clk_for_lpbk signal so the MIO Pin 6 remains in the default state as an input signal`
 
-The registers can be used to interpret MIO settings. For example, MIO_PIN_8 has the value 0x6. Referencing PMC_IOP_SLCR.MIO_PIN_8 in [(AM012)](https://docs.xilinx.com/r/en-US/am012-versal-register-reference/MIO_PIN_8-PMC_IOP_SLCR-Register), this shows that MIO1 is configured as QSPI1_IO[0] input/output.
+The registers can be used to interpret MIO settings. For example, MIO_PIN_8 has the value 0x6. Referencing PMC_IOP_SLCR.MIO_PIN_8 in [AM012](https://docs.xilinx.com/r/en-US/am012-versal-register-reference/MIO_PIN_8-PMC_IOP_SLCR-Register), this shows that MIO1 is configured as QSPI1_IO[0] input/output.
 
 #### SD1_LS (3.0)
 | Base Address | MIO Pin | Register Value  | I/O signal |
@@ -295,7 +295,7 @@ The registers can be used to interpret MIO settings. For example, MIO_PIN_8 has 
 
 `BootROM does not use sdio1_cd_n and sdio1_wp signals so the MIO Pin 28 and 50 remains in the default state as an input signal`
 
-The registers can be used to interpret MIO settings. For example, MIO_PIN_29 has the value 0x2. Referencing PMC_IOP_SLCR.MIO_PIN_29 in [(AM012)](https://docs.xilinx.com/r/en-US/am012-versal-register-reference/MIO_PIN_29-PMC_IOP_SLCR-Register), this shows that MIO29 is configured as SD1_CMD, eMMC_CMD input/output.
+The registers can be used to interpret MIO settings. For example, MIO_PIN_29 has the value 0x2. Referencing PMC_IOP_SLCR.MIO_PIN_29 in [AM012](https://docs.xilinx.com/r/en-US/am012-versal-register-reference/MIO_PIN_29-PMC_IOP_SLCR-Register), this shows that MIO29 is configured as SD1_CMD, eMMC_CMD input/output.
 
 # Notes
 
