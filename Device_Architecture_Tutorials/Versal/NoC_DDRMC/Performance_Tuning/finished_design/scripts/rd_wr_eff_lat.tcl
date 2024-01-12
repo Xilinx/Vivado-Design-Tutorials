@@ -87,40 +87,23 @@ set rdreqt       [concat 000$tgrinhex$rdreq]
 
 
 set rb [read_reg $raddr_bt] 
-set rb [read_reg $raddr_bt] 
-set rbw [read_reg $raddr_bw] 
 set rbw [read_reg $raddr_bw] 
 set wb [read_reg $waddr_bt] 
-set wb [read_reg $waddr_bt] 
-set wbw [read_reg $waddr_bw] 
 set wbw [read_reg $waddr_bw] 
 set wrc [read_reg $wrreqcapt] 
-set wrc [read_reg $wrreqcapt] 
-set rdc [read_reg $rdreqcapt] 
 set rdc [read_reg $rdreqcapt] 
 set awrc [read_reg $wrreqt] 
-set awrc [read_reg $wrreqt] 
-set ardc [read_reg $rdreqt] 
 set ardc [read_reg $rdreqt] 
 
-
-set rmnl_i [read_reg $raddr_minlat] 
 set rmnl_i [read_reg $raddr_minlat] 
 set rmxl_i [read_reg $raddr_maxlat] 
-set rmxl_i [read_reg $raddr_maxlat] 
-set ravl   [read_reg $raddr_avglat] 
 set ravl   [read_reg $raddr_avglat] 
 
 set wmnl_i [read_reg $waddr_minlat] 
-set wmnl_i [read_reg $waddr_minlat] 
 set wmxl_i [read_reg $waddr_maxlat] 
-set wmxl_i [read_reg $waddr_maxlat] 
-set wavl   [read_reg $waddr_avglat] 
 set wavl   [read_reg $waddr_avglat] 
 
 set rrq  [read_reg $raddr_req] 
-set rrq  [read_reg $raddr_req] 
-set wrq  [read_reg $waddr_req] 
 set wrq  [read_reg $waddr_req] 
 
 if {$rrq != 0} {

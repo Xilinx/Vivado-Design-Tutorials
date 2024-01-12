@@ -15,8 +15,8 @@
 set hw_path "design_1_i/sim_trig_0/inst/sim_trig_inst"
 set device "xcvc1902_1"
 #set device "vjtag40_1"
-#set csv  "MULTIPLE_CSV"
-set csv  "SINGLE_CSV"
+set csv  "MULTIPLE_CSV"
+#set csv  "SINGLE_CSV"
 set isptg 0
 set jsptg 0
 set num_tg [lindex $argv 0]
@@ -28,7 +28,7 @@ source [file join $where ptg_mem.tcl]
 
 
 if {$csv == "SINGLE_CSV" } {
-while {$isptg < $num_tg} {
+while {$isptg <= $num_tg} {
   set tg $isptg
   source [file join $where sptg_load_bram.tcl]
   set isptg [expr $isptg + 1]
