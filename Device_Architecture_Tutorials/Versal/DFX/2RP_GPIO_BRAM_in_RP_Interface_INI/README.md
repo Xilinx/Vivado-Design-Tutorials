@@ -8,6 +8,7 @@
  </td>
  </tr>
 </table>
+<b><i>Version: Vivado 2023.2</b></i><p>
 
 This Versal DFX design has 2 RPs:
 - AXI GPIO in 1st RP
