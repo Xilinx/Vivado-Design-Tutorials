@@ -10,7 +10,7 @@
 
 set list_projs [get_projects -quiet]
 if { $list_projs eq "" } {
-   create_project -force bdc_dfx_ports_match ../vivado_prj -part xcvc1902-vsva2197-2MP-e-S
+   create_project -force project_1 ../vivado_prj -part xcvc1902-vsva2197-2MP-e-S
    set_property BOARD_PART xilinx.com:vck190:part0:2.2 [current_project]
 }
 
