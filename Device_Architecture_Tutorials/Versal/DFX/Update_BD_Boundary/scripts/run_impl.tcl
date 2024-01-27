@@ -5,8 +5,8 @@
 
 
 #Create a wrapper for Top BD
-make_wrapper -files [get_files ../vivado_prj/bdc_dfx_ports_match.srcs/sources_1/bd/design_1/design_1.bd] -top
-add_files -norecurse ../vivado_prj/bdc_dfx_ports_match.gen/sources_1/bd/design_1/hdl/design_1_wrapper.v 
+make_wrapper -files [get_files ../vivado_prj/project_1.srcs/sources_1/bd/design_1/design_1.bd] -top
+add_files -norecurse ../vivado_prj/project_1.gen/sources_1/bd/design_1/hdl/design_1_wrapper.v 
 update_compile_order -fileset sources_1
 
 ##Add the pblock constraints
@@ -16,7 +16,7 @@ import_files -fileset constrs_1 [get_files io.xdc]
 import_files -fileset constrs_1 [get_files pblocks.xdc]
 
 ##Generate the targets
-generate_target all [get_files ../vivado_prj/bdc_dfx_ports_match.srcs/sources_1/bd/design_1/design_1.bd]
+generate_target all [get_files ../vivado_prj/project_1.srcs/sources_1/bd/design_1/design_1.bd]
 
 ##DFX Wizard to configure parent/child implementation
 create_pr_configuration -name config_1 -partitions [list design_1_i/rp1:rp1rm1_inst_0 ]
