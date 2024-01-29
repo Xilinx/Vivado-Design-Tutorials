@@ -8,7 +8,7 @@
  </td>
  </tr>
 </table>
-<b><i>Version: Vivado 2023.1</b></i><p>
+<b><i>Version: Vivado 2023.2</b></i><p>
 
 # Introduction
 
