@@ -1,16 +1,16 @@
-﻿<table>
- <tr>
-   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal DFX Tutorial</h1>
-   </td>
- </tr>
- <tr>
- <td align="center"><h1>1 RP Design with NoC INI in the static-RM interface</h1>
- </td>
+﻿<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ Adaptive SoC DFX Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    </td>
  </tr>
 </table>
-<b><i>Version: Vivado 2023.2</b></i><p>
 
-# Introduction
+# 1 RP Design with NoC INI in the static-RM interface
+
+***Version: Vivado 2023.2***
+
+## Introduction
 
 This  design demonstrates a simple DFX design in Versal. Content of the design is as follows:
 - Static Region has CIPS IP, AXI NoC Interface to DDRs and DDR Controller.
@@ -18,7 +18,7 @@ This  design demonstrates a simple DFX design in Versal. Content of the design i
 - Static - RM interface is NoC Inter NoC Interconnect (INI).
 - Since the Static-RM interface is using NoC INI, No PL based decoupler is used.
 
-# Design Flow
+## Design Flow
 ---
 1. Create flat Top BD
 2. Group the design to hierarchies: Static Region and Reconfigurable Partitions
@@ -30,7 +30,7 @@ This  design demonstrates a simple DFX design in Versal. Content of the design i
 8. Use DFX Wizard to configure parent and child implementation
 9. Launch Synthesis, Implementation and WDI generation
 
-## Create Flat Top BD
+### Create Flat Top BD
 ---
 Source the create_top_bd.tcl to create the flat BD. This BD contains static region IPs and the IPs that eventually go to reconfigurable partition.<p>
 `source create_top_bd.tcl`
@@ -39,14 +39,14 @@ Source the create_top_bd.tcl to create the flat BD. This BD contains static regi
   <img src="./images/flat_bd.png?raw=true" alt="flat bd"/>
 </p>
 
-## Create hierarchies for reconfigruable partition and static region
+### Create hierarchies for reconfigruable partition and static region
 In the DFX flow, a separate hierarchy for each reconfigurable partition is required. It is recommended to keep a hierarchy for static region whenever possible for easier floorplanning down the flow if needed.
 
 <p align="center">
   <img src="./images/static_rp_hierarchies.png?raw=true" alt="static_rp_hierarchy"/>
 </p>
 
-## Create a block design container for reconfigurable partition RP1
+### Create a block design container for reconfigurable partition RP1
 We need to create a new BD for reconfigurable module that contains all its sources. This is achieved using the block design container feature in IPI. For each reconfigurable module, a block design is created using BDC.
 
 `source create_rp1_bdc.tcl` rearranges the design into right hierarchies and creates a block design container "rp1rm1.bd" for the RP1 partition. rp1rm1.bd will be the first reconfigurable module for this partition.
@@ -55,7 +55,7 @@ We need to create a new BD for reconfigurable module that contains all its sourc
   <img src="./images/rp1_bdc.png?raw=true" alt="rp1 bdc"/>
 </p>
 
-## Enable DFX and define the aperture for Static-RM interfaces
+### Enable DFX and define the aperture for Static-RM interfaces
 ---
 `source enable_dfx_bdc.tcl`
 
@@ -71,7 +71,7 @@ In the "Addressing" tab, the aperture will be automatically defined for each int
   <img src="./images/addressing_BDC_DFX.png?raw=true" alt="addressing_BDC"/>
 </p>
 
-## Create a new reconfigurable module for the partition RP1
+### Create a new reconfigurable module for the partition RP1
 ---
 
 `source create_rp1rm2.tcl`
@@ -94,7 +94,7 @@ In the "Addressing" tab, the aperture will be automatically defined for each int
   <img src="./images/rp1rm2_bd.png?raw=true" alt="rp1rm2_bd"/>
 </p>
 
-## Create RTL wrapper, Generate Targets and define the pblocks
+### Create RTL wrapper, Generate Targets and define the pblocks
 ---
 
 Once the BD sources are defined and validated, create the RTL wrapper for the top, followed by generate targets for BD. You may also add the constraints (timing and physical constraints) to the project at this stage.
@@ -111,7 +111,7 @@ Once the BD sources are defined and validated, create the RTL wrapper for the to
   <img src="./images/generate_targets.png?raw=true" alt="generate_targets"/>
 </p>
 
-## Use DFX Wizard to define the parent and child configurations
+### Use DFX Wizard to define the parent and child configurations
 ---
 
 1. Once the targets are generated, click the DFX wizard in the "Flow Navigator" of Vivado. The associated RMs of the RP will be automatically associated with the partition in the DFX wizard.
@@ -140,7 +140,7 @@ Once the BD sources are defined and validated, create the RTL wrapper for the to
   <img src="./images/design_runs_window.png?raw=true" alt="design_runs_window"/>
 </p>
 
-## Launch Synthesis, Implementation and PDI generation
+### Launch Synthesis, Implementation and PDI generation
 ---
 `source run_impl.tcl` generates the targets, add constraints, define configurations using DFX wizard, launch synthesis, implementation and export XSA after device image generation.
 
@@ -152,7 +152,7 @@ Selecting "write_device_image" in the flow navigator automatically starts the sy
 - Child Implememtation (child_0_impl_1) where corresponding reconfigurable module (rp1rm2) is implemented in the context of locked static region from impl_1
 - Device Image is generated for both parent and child implementations.
 
-## Generate the Hardware Hand-off file XSA for software application
+### Generate the Hardware Hand-off file XSA for software application
 ---
 
 For DFX designs, XSA hand-off is not officially supported in project mode. However, users can write out flat fixed XSAs and extract the reconfigurable module's contents using XSCT.
@@ -164,3 +164,10 @@ write_hw_platform -fixed -force  xsa/design_1_wrapper_impl_1.xsa
 open_run child_0_impl_1
 write_hw_platform -fixed -force  xsa/design_1_wrapper_child_0_impl_1.xsa
 ```
+
+
+<hr class="sphinxhide"></hr>
+
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
+
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

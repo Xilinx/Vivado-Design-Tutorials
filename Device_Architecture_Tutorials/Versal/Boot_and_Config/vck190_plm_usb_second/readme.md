@@ -1,10 +1,19 @@
-<tr>
-   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>2022.1 Versal Example Design: USB as secondary boot device</h1>
-   </td>
+﻿<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™Boot and Configuration Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    </td>
  </tr>
 </table>
 
-# Table of Contents
+
+# Versal Example Design: USB as Secondary Boot Device
+
+***Version: Vivado 2022.1***
+
+
+
+## Table of Contents
 
 1. [Introduction](#introduction)
 
@@ -16,16 +25,16 @@
 
 5. [Running the Design](#running-the-design)
 
-# Introduction
-Versal™ ACAP combines adaptable processing and acceleration engines with programmable logic and configurable connectivity to enable custom, heterogeneous hardware solutions for a wide variety of applications in Data Center, automotive, 5G wireless, wired network, and defense. Versal ACAP supports several secondary boot modes for application flexibility. This tutorial highlights the way to use USB as secondary boot device.
+## Introduction
+Versal™ Adaptive SoC combines adaptable processing and acceleration engines with programmable logic and configurable connectivity to enable custom, heterogeneous hardware solutions for a wide variety of applications in Data Center, automotive, 5G wireless, wired network, and defense. Versal Adaptive SoC supports several secondary boot modes for application flexibility. This tutorial highlights the way to use USB as secondary boot device.
 	
-## Objectives
+### Objectives
 This example is going to demonstrate how to modify bif to load second PDI via USB in 2022.1. VCK190 will be used for demonstration. We will use SD card as first boot device to load PLM, and use USB as secondary boot device to load the other partitions(A72 helloworld applications or u-boot)
 
-## Design Block Diagram
+### Design Block Diagram
 ![Block Diagram](./Figures/block.png)
 
-## Directory Structure
+### Directory Structure
 <details>
 <summary> Tutorial Directory Details </summary>
 
@@ -53,7 +62,7 @@ USB_Boot
 ```
 </details>
 
-# Before You Begin
+## Before You Begin
 
 Recommended general knowledge of:
 * VCK190 evaluation board
@@ -66,24 +75,24 @@ Recommended general knowledge of:
 <summary> Key  Reference Documents </summary>
 
 * VCK190 Evaluation Board User Guide [(UG1366)](https://docs.xilinx.com/r/en-US/ug1366-vck190-eval-bd)
-* Versal ACAP System Software Developers Guide [(UG1304)](https://docs.xilinx.com/r/en-US/ug1304-versal-acap-ssdg)
+* Versal Adaptive SoC System Software Developers Guide [(UG1304)](https://docs.xilinx.com/r/en-US/ug1304-versal-acap-ssdg)
 * Bootgen User Guide [(UG1283)](https://docs.xilinx.com/r/en-US/ug1283-bootgen-user-guide)
 
 </details>
 
 
-#### Hardware Requirements:
+##### Hardware Requirements:
 
 * Host machine with an operating system supported by Vivado Design Suite and Vitis 2022.1
 * VCK190 Evaluation Board, which includes:
-  * Versal ACAP XCVC1902-2VSVA2197
+  * Versal Adaptive SoC XCVC1902-2VSVA2197
   * AC power adapter (100-240VAC input, 12VDC 15.0A output).
   * System controller microSD card in socket (J302).
   * USB Type-C cable (for JTAG and UART communications).
   * USB 2.0 type A connector (J308).
 * Board setup: Connect VCK190 J308 to PC host with USB cable; Set SW1[1:4] to 0111(up, down, down, down) as sd boot mode.
 
-#### Software Requirements:
+##### Software Requirements:
 In order to build and run the tutorial reference design, the following must be available or installed:
   * Vivado Design Suite, Vitis, and petalinux 2022.1:
   	- Visit https://www.xilinx.com/support/download.html for the latest tool version.
@@ -94,27 +103,27 @@ In order to build and run the tutorial reference design, the following must be a
 	- Vitis serial Terminal or a terminal emulator program for UART (i.e. Putty or Tera Term) can be used to display valuable PLM log boot status.  
     - When UART is not available, Vivado Design Suite and Vitis xsct/xsdb command line tools can be used to read the plm log after a boot attempt. See [Debug During Board Bring-up](#debug-during-board-bring-up) for detail.
     
-# Building Hardware Design  
+## Building Hardware Design  
 
-## Vivado steps
+### Vivado steps
 Be sure to source `settings.sh` for Vivado.
 Enter the `Scripts` directory. From the command line run the following:
 ```
 vivado -source create_vivado_project.tcl
 ```
 The Vivado project `vck190_ddr4` will be created and built in the `Design/Hardware` directory. A .xsa file will be generated in Vivado project directory.
-#### **NOTE**:
+##### **NOTE**:
 If you are working under windows, you may need to move the file location and change the project name to keep the file path as short as possible since vivado has a limit on file path length under windows.
 
-# Building Software Design 
+## Building Software Design 
 
-## Vitis steps
+### Vitis steps
 1. Open XSCT and change working directory to `Scripts`. Run below command to create a vitis project generating plm.elf needed by usb booting.
 ```
 source vck190_vitis_plm.tcl
 ```
 A Vitis workspace will be created and built in the `Design/Software/Vitis/prj_plm` directory.
-#### *NOTE*:
+##### *NOTE*:
 The PLM generated by vivado does not support USB as secondary boot device, so we need to generate a PLM with USB enabled in Vitis. 
 
 2. In XSCT, run below command to create an application running on the APU.
@@ -127,10 +136,10 @@ Launch the Vitis software platform and set the workspace path to `Design/Softwar
 
 Copy helloworld.c file in the `Design/Software/src` folder to `Design/Software/Vitis/prj_app/hello_a72_0/src`, and then rebuild the project.
 
-#### *NOTE*:
+##### *NOTE*:
 The modified `helloworld.c` is to add some delays before printing helloworld. This is because when A72 is printing helloworld, PLM may not release the control of UART, so helloworld may not be seen in the console. So in this example, 5 seconds delay is added before printing helloworld.
 
-## Petalinux steps
+### Petalinux steps
 1. Be sure to source `settings.sh` for 2022.1 Petalinux. Enter `Design/Software/Petalinux` directory.
 
 2. Create a new Petalinux project based on release VCK190 BSP 
@@ -147,8 +156,8 @@ petalinux-config --get-hw-description=../../../Hardware/vck190_ddr4/ --silentcon
 petalinux-build
 ```
 
-## Generate Boot Images
-### Generate the primary boot image
+### Generate Boot Images
+#### Generate the primary boot image
 The primary boot image is used to boot plm from primary boot device, in this example, it is microSD card. The simplest method to generate the primary boot image is to modify the generated bif in vivado and then generate pdi again. User can look for the bif file that Vivado uses to generate PDI at <vivado_project>/<vivado_project>.runs/impl_1/ *.bif, and then add "boot_device {usb}" to this bif, which would let PLM know that USB is the secondary boot device.
 ```
 new_bif:
@@ -172,7 +181,7 @@ new_bif:
  bootgen -arch versal -image a72_primary.bif -w -o boot_primary.bin
  ```
  
-### Generate the secondary boot image for A72 helloworld
+#### Generate the secondary boot image for A72 helloworld
 The second bif is used to generate pdi which contains helloworld appliation and is loaded via USB DFU.
 1. Copy a72_secondary_helloworld.bif to `Design/Software/Vitis/prj_app/hello_a72_0/Debug/`
 2. Change directory to `/Design/Software/Vitis/prj_app/hello_a72_0/Debug/`
@@ -180,7 +189,7 @@ The second bif is used to generate pdi which contains helloworld appliation and 
 ```sh
 bootgen -arch versal -image a72_secondary_helloworld.bif -w -o boot_secondary_helloworld.bin
 ```
-### Generate the secondary boot image for u-boot 
+#### Generate the secondary boot image for u-boot 
 1. Copy a72_secondary_u-boot.bif to `Design/Software/Petalinux/vck190_plnx/images/linux/`
 2. Change directory to `Design/Software/Petalinux/vck190_plnx/images/linux/` 
 3. Open XSCT and generate secondary boot image for helloworld application by running below Bootgen command in XSCT:
@@ -188,8 +197,8 @@ bootgen -arch versal -image a72_secondary_helloworld.bif -w -o boot_secondary_he
 bootgen -arch versal -image a72_secondary_u-boot.bif -w -o boot_secondary_u-boot.bin
 ```
 
-# Running the Design
 ## Running the Design
+### Running the Design
 1. Change the name of boot_primary.bin to boot.bin, then copy it to MicroSD card, and then boot up VCK190 with MicroSD.
 2. PLM should wait for secondary image after printing below messages
 ```sh
@@ -342,15 +351,11 @@ Warning: ethernet@ff0d0000 (eth1) using random MAC address - 62:5f:35:ad:91:b5
 Hit any key to stop autoboot:  0
 Versal>
 ```
-## Tips and Tricks
+### Tips and Tricks
 - About how to install DFU on Windows/Linux host, please refer to this wiki page: https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842468/ZynqMp+USB+Stadalone+Driver#ZynqMpUSBStadaloneDriver-USBDFUTesting
  
-© Copyright [2022] Xilinx, Inc. All rights reserved.
+<hr class="sphinxhide"></hr>
 
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
 
-
-
-
-
-
-
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

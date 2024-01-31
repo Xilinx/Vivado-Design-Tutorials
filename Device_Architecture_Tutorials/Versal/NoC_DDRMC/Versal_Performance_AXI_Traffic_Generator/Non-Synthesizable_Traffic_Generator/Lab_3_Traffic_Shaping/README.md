@@ -1,19 +1,24 @@
-<table>
- <tr>
-   <td align="center"><img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/corporate/xilinx-logo.png" width="30%"/><h1>2021.2 Versal™ Network on Chip Non-Synthesizable Performance AXI Traffic Generator Tutorial</h1>
-   </td>
+<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ NoC/DDRMC Design Flow Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    </td>
  </tr>
 </table>
 
-# Lab 3 - Traffic Shaping
+# Versal NoC Non-Synthesizable Performance AXI Traffic Generator: Lab 3 - Traffic Shaping
+
+***Version: Vivado 2021.2***
+
+
 
 This tutorial leverages the design from Lab 2 - Performance Monitor and adds a second Performance AXI Traffic Generator to demonstrate a traffic shaping use case which has two different workloads.  Traffic shaping is only available with a CSV user defined pattern for the Non-Synthesizable Performance AXI Traffic Generator.
 
-# Description of the Design
+## Description of the Design
 
 This design leverages the project from Lab 2 which targets a VCK190 evaluation board using the 64-Bit DDR4 interface at 3200 Mbps but with two instantiations of the Performance AXI Traffic Generator.  An additional NoC AXI Performance Monitor is added to the second traffic generator.  The CSV traffic specification is also updated to demonstrate the difference between the two workloads.
 
-# Building the Design
+## Building the Design
 
 1. Copy and paste the pg381_non_synth_tg_lab_2.tcl and non_synth_tg_lab_2.csv files from Lab_2 to your pg381_non_synth_tg_labs working directory.
     * Open the pg381_non_synth_tg_lab_2.tcl file with a text editor.
@@ -103,7 +108,7 @@ This design leverages the project from Lab 2 which targets a VCK190 evaluation b
 1. After the wrapper is created select the Generate Block Design option under the IP INTEGRATOR tab of the Flow Navigator.
     * When prompted select Global under Synthesis Options and press Generate.
 
-# Simulating the Design
+## Simulating the Design
 
 1. After generation is complete update the Simulation settings.
     * Right click on the Simulation heading in the Flow Navigator column and select Simulation Settings.
@@ -124,7 +129,7 @@ This design leverages the project from Lab 2 which targets a VCK190 evaluation b
     * Notice how SRC_ID 0 for TG0 has higher performance and lower latency while SRC_ID 1 for TG1 has lower performance and higher latency.
     * This is because TG0 is using a linear access pattern through the memory space while TG1 uses a random addressing pattern, which greatly reduces the possibility of a page hit and thus lowers performance while also increasing latency.
 
-# Export Design Files
+## Export Design Files
 
 1. Export the Block Design.
     * Go back to the Block Design by selecting the Open Block Design tab under the Flow Navigator columns.
@@ -143,21 +148,9 @@ This design leverages the project from Lab 2 which targets a VCK190 evaluation b
     * Call the archive name Lab_3, check the box for Include configuration settings, and then press OK to generate the archive.
       * It is safe to ignore the Critical Warnings during the archiving process if they appear.
 
-# Revision History
-* November 10, 2021 - First Release
 
+<hr class="sphinxhide"></hr>
 
-© Copyright 2021 Xilinx, Inc.
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-<p align="center"><br><sup>XD124</sup></br></p>
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

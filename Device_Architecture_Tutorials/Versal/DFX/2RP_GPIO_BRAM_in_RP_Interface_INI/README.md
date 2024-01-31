@@ -1,14 +1,14 @@
-﻿<table>
- <tr>
-   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal DFX Tutorial</h1>
-   </td>
- </tr>
- <tr>
- <td align="center"><h1>2 RP Design with NoC INI in the static-RM interface</h1>
- </td>
+﻿<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ Adaptive SoC DFX Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    </td>
  </tr>
 </table>
-<b><i>Version: Vivado 2023.2</b></i><p>
+
+# 2 RP Design with NoC INI in the static-RM interface
+
+***Version: Vivado 2023.2***
 
 This Versal DFX design has 2 RPs:
 - AXI GPIO in 1st RP
@@ -27,3 +27,8 @@ Each RP has 2 RMs:
 
 Currently BRAMs are not initialized to any memory initialization value in the design.
 
+<hr class="sphinxhide"></hr>
+
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
+
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

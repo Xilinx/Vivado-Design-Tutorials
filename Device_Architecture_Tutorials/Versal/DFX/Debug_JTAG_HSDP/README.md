@@ -1,16 +1,17 @@
-<table>
- <tr>
-   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal DFX Tutorial</h1>
-   </td>
- </tr>
- <tr>
- <td align="center"><h1>Debugging Versal DFX Designs</h1>
- </td>
+﻿<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ Adaptive SoC DFX Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    </td>
  </tr>
 </table>
-<b><i>Version: Vivado 2023.2</b></i><p>
 
-# Introduction
+# Debugging Versal DFX Designs
+
+***Version: Vivado 2023.2***
+
+
+## Introduction
 
 Versal® devices provide more capability for users to debug their designs in hardware. This includes JTAG based debug as well as High Speed Debug Protocol (HSDP) using GT transceivers or PCI™-Express. For debugging DFX designs in Versal, the user must take additional steps to ensure proper connectivity to debug cores like ILA, VIO that are contained within both the static region and the reconfigurable partition. For all DFX designs, the user should instantiate an instance of the AXI Debug Hub IP with connectivity to the Versal CIPS IP inside each design partition, both static and reconfigurable, that may contain debug cores. The AXI Debug Hub IP instantiated in each design partition will be used by the debug flow for the connectivity infrastructure to all debug cores (ILA, VIO, etc) contained within that design partition. 
 
@@ -27,18 +28,18 @@ Interacting with the debug cores for a DFX design, regardless of design flow, ma
 -	**rp1rm4:** The same as RM1 but with no MARK_DEBUG
 
 
-## Adding Debug Cores
+### Adding Debug Cores
 
 There are two supported methodologies for adding debug cores to Versal DFX designs. Debug cores can be <b>instantiated</b> or <b>inserted</b>. In either case, an AXI Debug Hub IP must be added to the design in the target partition where debug is desired. The debug hub must exist in each reconfigurable module to accommodate any debug cores in that RM. Each RM in the parent configuration must include a debug hub to establish the debug infrastructure that will be used in any child configurations.
 
-### Instantiation
+#### Instantiation
 
 For the instantiation approach, manually add debug cores and connect them to signals you wish to probe. In the following block design, a Debug Hub (green) has been added and connect to the NoC, then multiple ILA (red) and VIO (purple) cores have been added to monitor two counter IP. Note that green bug icons have been added to the signals to be probed by the ILA cores. By explicitly adding the ILA cores and adding probe points, you can define all the debug details early in the design flow. 
 
 <p align="center"> <img src="./images/debug_instantiated.png?raw=true" alt="Instantiation Example"/> </p>
 
 
-### Insertion
+#### Insertion
 
 For the insertion case, signals are identified in the block design or RTL source and insertion of the ILA debug core is done later in the flow. To add a debug tag to a signal on a block design canvas, right-click and select **Debug**. When this has been done, the green bug icon is added to the signal as shown here.
 
@@ -55,7 +56,7 @@ The equivalent process within RTL is done using the **MARK_DEBUG** attribute. Wh
 
 Note that in each of these cases, the Debug Hub IP (green) has been explicitly added to the BD canvas and connected to the NoC.
 
-## Setting Up Inserted Debug Cores
+### Setting Up Inserted Debug Cores
 
 After synthesis, details about the debug features can be identified. This step is necessary for the insertion flow but not the instantiation flow. The insertion flow allows users to defer selection of which signals to probe and the customization of the ILA core itself.
 
@@ -91,34 +92,42 @@ Once open, the process is the same: call Set Up Debug to define the details of t
 Compile the parent and child runs as are done for any DFX design. Debug cores are generated during the opt_design step. You can confirm successful insertion by opening the routed checkpoints and examining the design hierarchy. Reconfigurable modules do not have to have ILA core insertion performed even if other RMs for the same RP do have inserted ILA, though it is recommended that debug hubs are still added to these RMs to maintain a consistent NoC topology. Grey box configurations are supported (as child configurations) with the insertion flow.
 
 
-## Working Hardware Example
+### Working Hardware Example
 Download the full PDI from initial implementation and poll the GPIOs from rp1rm1, rp1rm2, rp1rm3 and rp1rm4. You can find the .PDI & .LTX files in each RM's respective implementation (.proj folder).
 
 `Note: You cannot upload the partial .pdi to the board.`
 
-### Static Region
+#### Static Region
 
   The static region in this design has the output of the counter being probed for debug. Waveforms for the static region are shown in the waveform screenshots below.
   <p align="center"> <img src="./images/static_region_diagram.png?raw=true" alt="Static Region Diagram"/> </p>
 
-### rp1rm1
+#### rp1rm1
 
   These screenshots show the ***Q*** output of the counter being probed with the ILA. Additionally, the counter ***c_counter_binary*** in the static region is probed.
   <p align="center"> <img src="./images/rm1_diagram.png?raw=true" alt="rm1 Diagram"/> </p>
   <p align="center"> <img src="./images/rm1_waves.png?raw=true" alt="rp1rm1 Waves"/> </p>
 
-### rp1rm2
+#### rp1rm2
 
   These screenshots show the ***count_out*** output of the RTL Mod Ref counter being probed with the ILA and VIO. Additionally, the counter ***c_counter_binary*** in the static region is probed.
   <p align="center"> <img src="./images/rm2_diagram.png?raw=true" alt="rm2 Diagram"/> </p>
   <p align="center"> <img src="./images/rm2_waves.png?raw=true" alt="rp1rm2 Waves"/> </p>
 
-### rp1rm3
+#### rp1rm3
 
  These screenshots show the **Q** output of the counters being probed with the ILA and VIO.
   <p align="center"> <img src="./images/rm3_diagram.png?raw=true" alt="rm3 Diagram"/> </p>
   <p align="center"> <img src="./images/rm3_waves.png?raw=true" alt="rp1rm3 Waves"/> </p>
 
-### rp1rm4
+#### rp1rm4
  This screenshot is the block diagram for rp1rm4, which has no debug probes.
   <p align="center"> <img src="./images/rm4_diagram.png?raw=true" alt="rm4 Diagram"/> </p>
+
+
+
+<hr class="sphinxhide"></hr>
+
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
+
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

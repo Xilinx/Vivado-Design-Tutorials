@@ -1,22 +1,25 @@
-﻿<table>
- <tr>
-   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Obtaining and Verifying Versal ACAP Memory Pinouts</h1>
-   </td>
- </tr>
- <tr>
- <td align="center"><h1>A Tutorial for Schematic Designers</h1>
- </td>
+﻿<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ Adaptive SoC PCB Design Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    </td>
  </tr>
 </table>
 
-# Introduction
+# Memory Pinouts
+
+***Version: Vivado 2023.1***
+
+
+
+## Introduction
 The role of a schematic designer is in some cases separated from the system design, and as such, there may be a level of non-familiarity with system-level design tools such as the Vivado&reg; Design Suite, which are geared towards higher levels of system design.<p>
 However, there is often a need for a schematic designer to obtain pinouts for various elements of the design, such as memory interfaces.    For example, in the beginning stages of a design cycle, schematics are often begun before many of the full system designs are complete.   The schematic designer will need to obtain pinouts as soon as possible to facilitate the design process and will also sometimes need to change pinouts due to PCB layout constraints (such as pin swapping) as the design matures.<p>
 This document guides the schematic designer, or anyone with a lower level of familiarity with the Vivado Design Suite, to obtain and verify memory pinouts for Versal&trade; devices.    The steps shown are detailed, yet minimal, as the primarily goal is to obtain and verify pinouts without concern for the higher-level design flows that the Vivado tools offer.<p>
-It is also important to note that the pinouts for the Versal ACAP hardened memory controllers are fixed, with limited pin swapping options.   This is a departure from the soft memory controllers used in prior generations of devices.   It is extremely important that the relevant options are entered correctly in Vivado and that the pin swapping rules from the *Versal ACAP Programmable Network on Chip and Integrated Memory Controller* ([PG313](https://www.xilinx.com/cgi-bin/docs/ipdoc?c=axi_noc;v=latest;d=pg313-network-on-chip.pdf)) are followed closely. [Appendix A](#appendix-a-configuring-memory-options-for-ddr4-interfaces) and [Appendix B](#appendix-b-configuring-memory-options-for-lpddr4-interfaces) in this tutorial provide thorough guidance for selecting the appropriate options.<p>
+It is also important to note that the pinouts for the Versal Adaptive SoC hardened memory controllers are fixed, with limited pin swapping options.   This is a departure from the soft memory controllers used in prior generations of devices.   It is extremely important that the relevant options are entered correctly in Vivado and that the pin swapping rules from the *Versal Adaptive SoC Programmable Network on Chip and Integrated Memory Controller* ([PG313](https://www.xilinx.com/cgi-bin/docs/ipdoc?c=axi_noc;v=latest;d=pg313-network-on-chip.pdf)) are followed closely. [Appendix A](#appendix-a-configuring-memory-options-for-ddr4-interfaces) and [Appendix B](#appendix-b-configuring-memory-options-for-lpddr4-interfaces) in this tutorial provide thorough guidance for selecting the appropriate options.<p>
 **NOTE:**    This tutorial assumes the user has access to an installed version of the Vivado Design Suite and appropriate licenses. For information regarding Installation and Licensing, refer to the* Vivado Design Suite User Guide: Release Notes, Installation, and Licensing ([UG973](https://www.xilinx.com/cgi-bin/docs/rdoc?v=latest;t=vivado+install+guide)).
 
- # Table of Contents
+ ## Table of Contents
 
  [Obtaining Versal Memory Pinouts in Vivado](#obtaining-versal-memory-pinouts-in-vivado)
 
@@ -26,7 +29,7 @@ It is also important to note that the pinouts for the Versal ACAP hardened memor
 
  [Appendix B Configuring Memory Options for LPDDR4 Interfaces](#appendix-b-configuring-memory-options-for-lpddr4-interfaces)
 
-# Obtaining Versal Memory Pinouts in Vivado
+## Obtaining Versal Memory Pinouts in Vivado
 This portion of the tutorial is geared towards the creation of one memory interface.   However, it is possible to add multiple memory interfaces in one project by repeating these steps for each desired interface.
 
 1. Open the Vivado Design Suite.
@@ -186,8 +189,8 @@ This portion of the tutorial is geared towards the creation of one memory interf
 
  ![Save Constraints File](images/save_constraints_file.png)
 
-# Modifying XDC Pinouts and DRC Checking
-Many times, it is necessary to swap certain pin locations (such as dq bits and/or bytes), and when this is done, the new pinout must be verified in the Vivado tools to make sure it adheres to the pinout rules (as specified in the Pinout Rules section in *Versal ACAP Programmable Network on Chip and Integrated Memory Controller* ([PG313](https://www.xilinx.com/cgi-bin/docs/ipdoc?c=axi_noc;v=latest;d=pg313-network-on-chip.pdf))).
+## Modifying XDC Pinouts and DRC Checking
+Many times, it is necessary to swap certain pin locations (such as dq bits and/or bytes), and when this is done, the new pinout must be verified in the Vivado tools to make sure it adheres to the pinout rules (as specified in the Pinout Rules section in *Versal Adaptive SoC Programmable Network on Chip and Integrated Memory Controller* ([PG313](https://www.xilinx.com/cgi-bin/docs/ipdoc?c=axi_noc;v=latest;d=pg313-network-on-chip.pdf))).
 The following steps illustrate how to run a DRC on a modified pinout.
 Manually edit the .xdc file to reflect the pin location changes.    The following example shows an original .xdc file portion and one that has been modified to reflect bits swap within a byte:
 ![XDC Original](images/xdc_original.png)
@@ -248,200 +251,184 @@ The modified .xdc file must be added to the Vivado tools.
 After the corrections have been made and are reflected in the .xdc file, repeat all the steps from the beginning of this section ([Modifying XDC Pinouts and DRC Checking](#modifying-xdc-pinouts-and-drc-checking)) with the modified .xdc file.
 
 
-# Appendix A Configuring Memory Options for DDR4 Interfaces
+## Appendix A Configuring Memory Options for DDR4 Interfaces
 
-## DDR Basic Tab
+### DDR Basic Tab
 The primary items of concern in this tab are the **Controller Type** and **Memory Clock period (ps)** selections.    The Memory Clock period should be the period of the intended clock speed of the interface.    For example, a 3200 Mb/s interface has a clock frequency of 1600 MHz and a period of 625 ps. It is important to specify the correct memory clock period as this will affect some of the available and legal options in the DDR Memory tab. If the period is unknown at the time the pinout needs to be generated, assume **625** for the memory clock period.
 ![DDR4 Basic](images/ddr4_basic.png)
 
-## DDR Memory Tab
+### DDR Memory Tab
 
-## Device Type
+### Device Type
 Select between discreet memory components or DIMMs.
 ![DDR4 Memory Type](images/ddr4_memory_type.png)
 
-## Speed Bin
+### Speed Bin
 The memory pinouts do not depend on the memory speed.   For the sake of consistency, however, it is recommended to choose any **DDR4-3200** option.   If a 3D-Silicon (3DS) device will be used, be sure to choose a device from the list with **3DS**, for example **DDR4-3200AA-3DS4A**.
 ![DDR4 Speed Bin](images/ddr4_memory_speed_bin.png)
 
-## For 3D-Silicon (3DS):
+### For 3D-Silicon (3DS):
 ![DDR4 Speed Bin 3DS](images/ddr4_memory_speed_bin_3ds.png)
 
-## Base Component Width
+### Base Component Width
 Choose the data width for the selected memory device type.   The selection should represent the data width for each individual device on the component package or DIMM module.
 ![DDR4 Base Width](images/ddr4_memory_base_width.png)
 
-## Memory Device Width (if present)
+### Memory Device Width (if present)
 The data width of the full package.   This will match the Base Component Width for single-die devices and be double the Base Component Width for dual-die devices.
 ![DDR4 Memory Width](images/ddr4_memory_memory_width.png)
 
-## Row Address Width
+### Row Address Width
 This is the number of address pins on each device.
 ![DDR4 Address Width](images/ddr4_memory_address_width.png)
 
-## Number of Channels
+### Number of Channels
 This will always be **Single** for DIMM interfaces.   Some component interfaces, however, can be dual.
 ![DDR4 Number of Channels](images/ddr4_memory_channels.png)
 
-## Data Width
+### Data Width
 For single-channel interfaces, this will be the total number of data bits in the interface.   For dual-channel interfaces, this will be one half of the total number of bits in the interface.
 ![DDR4 Data Width](images/ddr4_memory_data_width.png)
 
-## Ranks
+### Ranks
 Choose the number of ranks in the interface.   This will be **1** for component interfaces and can be as high as **4** for DIMM interfaces.
 ![DDR4 Ranks](images/ddr4_memory_ranks.png)
 
-## Stack Height
+### Stack Height
 If a 3D-Silicon (3DS) device was chosen in the Speed Bin menu, the number of dies on the package can be specified here.
 ![DDR4 Stack Height](images/ddr4_memory_stack_height.png)
 
-## Slot
+### Slot
 This is the total number of physical slots in the interface.   This will be **Single** for all component interfaces and **Single** or **Dual** for DIMM interfaces.
 ![DDR4 Slot](images/ddr4_memory_slot.png)
 
-## Number of Memory Clocks
-This will automatically be selected depending on the memory interface configuration.   For most configurations, the number of memory clocks will be **1**.    The specific rules for the number of memory clocks is explained in the Configure the NoC IPs section, item 6: Number of Memory Clocks in *Versal ACAP Programmable Network on Chip and Integrated Memory Controller* ([PG313](https://www.xilinx.com/cgi-bin/docs/ipdoc?c=axi_noc;v=latest;d=pg313-network-on-chip.pdf)).
+### Number of Memory Clocks
+This will automatically be selected depending on the memory interface configuration.   For most configurations, the number of memory clocks will be **1**.    The specific rules for the number of memory clocks is explained in the Configure the NoC IPs section, item 6: Number of Memory Clocks in *Versal Adaptive SoC Programmable Network on Chip and Integrated Memory Controller* ([PG313](https://www.xilinx.com/cgi-bin/docs/ipdoc?c=axi_noc;v=latest;d=pg313-network-on-chip.pdf)).
 
 ![DDR4 Memory Clocks](images/ddr4_memory_memory_clocks.png)
 
-## ECC
+### ECC
 This will automatically be selected depending on the configuration options.   This will be unchecked if the number of components in the interface is an even number, and will be checked if the number of components is odd.
 ![DDR4 ECC](images/ddr4_memory_ecc.png)
 
-## Write DBI
+### Write DBI
 Select the Data Mask (DM) and Data Bus Inversion (DBI) options.   For purposes of pinouts, AC DBI is the same as DC DBI.   AC and DC DBI refers to the rules for inverting the data bits.  In addition, checking or unchecking the **Read DBI** checkbox will not affect the pinouts.
 ![DDR4 Write DBI](images/ddr4_memory_write_dbi.png)
 
-## Channel Interleaving
+### Channel Interleaving
 This option affects only the internal operation of the controller and does not change the pinouts.   It is only selectable in dual-channel interfaces.
 ![DDR4 Channel Interleaving](images/ddr4_memory_interleaving.png)
 
-## DRAM Command/Address Parity
+### DRAM Command/Address Parity
 Check to utilize the parity feature in the memory controller.    The parity pin *par* will only be present in the pinout if this box is selected.
 ![DDR4 Parity](images/ddr4_memory_parity.png)
 
-## CA Mirror
+### CA Mirror
 This will be automatically selected based on the interface configuration, and only applies to multi-rank DIMM interfaces.
 ![DDR4 CA Mirror](images/ddr4_memory_ca_mirror.png)
 
-## Clamshell
+### Clamshell
 This option will instruct the memory controller to re-map certain address signals internally and does not affect the pinout.    It only applies to single-rank, component interfaces.
 ![DDR4 Clamshell](images/ddr4_memory_clamshell.png)
 
-## Future Expansion for PCB Designs for each Interleaved MC Instance
-The options presented here are slightly different depending on the current and future expansion plans for the memory interface.   Selecting **Optimum** will provide the standard pinout for the interface and only include the necessary pins.    Other options can add extra pins to the interface so that they can be routed on the PCB and used at a later time depending on the memory devices used.     A full explanation of these options can be found in the Design Generation Flow section in *Versal ACAP Programmable Network on Chip and Integrated Memory Controller* ([PG313](https://www.xilinx.com/cgi-bin/docs/ipdoc?c=axi_noc;v=latest;d=pg313-network-on-chip.pdf)).
+### Future Expansion for PCB Designs for each Interleaved MC Instance
+The options presented here are slightly different depending on the current and future expansion plans for the memory interface.   Selecting **Optimum** will provide the standard pinout for the interface and only include the necessary pins.    Other options can add extra pins to the interface so that they can be routed on the PCB and used at a later time depending on the memory devices used.     A full explanation of these options can be found in the Design Generation Flow section in *Versal Adaptive SoC Programmable Network on Chip and Integrated Memory Controller* ([PG313](https://www.xilinx.com/cgi-bin/docs/ipdoc?c=axi_noc;v=latest;d=pg313-network-on-chip.pdf)).
 ![DDR4 Future Expansion](images/ddr4_memory_future_expansion.png)
 
-## Pinout Swapping for each Interleaved MC Instance
-The pins in the interface can be reversed in the triplet of banks depending on PCB layout needs and also to account for *shadowed* banks in the chosen device.     A full explanation of this option can be found in the Design Generation Flow and Pinout Rules sections in *Versal ACAP Programmable Network on Chip and Integrated Memory Controller* ([PG313](https://www.xilinx.com/cgi-bin/docs/ipdoc?c=axi_noc;v=latest;d=pg313-network-on-chip.pdf)).
+### Pinout Swapping for each Interleaved MC Instance
+The pins in the interface can be reversed in the triplet of banks depending on PCB layout needs and also to account for *shadowed* banks in the chosen device.     A full explanation of this option can be found in the Design Generation Flow and Pinout Rules sections in *Versal Adaptive SoC Programmable Network on Chip and Integrated Memory Controller* ([PG313](https://www.xilinx.com/cgi-bin/docs/ipdoc?c=axi_noc;v=latest;d=pg313-network-on-chip.pdf)).
 ![DDR4 Pinout Swapping](images/ddr4_memory_pinout_swap.png)
 
-## Timing Parameters and Mode Register Settings
+### Timing Parameters and Mode Register Settings
 It is recommended to not change the entries in these fields as they will not affect the pinout.
 ![DDR4 Timing](images/ddr4_memory_timing.png)
 
-## DDR Address Mapping & DDR Advanced Tabs
+### DDR Address Mapping & DDR Advanced Tabs
 Do not change any entries in these tabs as they do not affect the memory pinouts.
 
-# Appendix B Configuring Memory Options for LPDDR4 Interfaces
+## Appendix B Configuring Memory Options for LPDDR4 Interfaces
 
-## DDR Basic Tab
+### DDR Basic Tab
 The primary items of concern in this tab are the **Controller Type** and **Memory Clock period (ps)** selections.    The Memory Clock period should be the period of the intended clock speed of the interface.    For example, a 3733 Mb/s interface has a clock frequency of 1866.5 MHz and a period of 536 ps. It is important to specify the correct memory clock period as this will affect some of the available and legal options in the DDR Memory tab.    If the period is unknown at the time the pinout needs to be generated, assume **536** for the memory clock period.
 ![LPDDR4 Basic](images/lpddr4_basic.png)
 
-## DDR Memory Tab
+### DDR Memory Tab
 
-## Device Type
+### Device Type
 There is only one type of device for LPDDR4 devices, so this selection will be automatically selected as **Components**.
 ![LPDDR4 Memory Type](images/lpddr4_memory_type.png)
 
-## Speed Bin
+### Speed Bin
 The memory pinouts do not depend on the memory speed.   For the sake of consistency, however, it is recommended to choose either **LPDDR4-3733** or **LPDDR4X-3733**.    There are no pinout differences between LPDDR4 and LPDDR4X.
 ![LPDDR4 Speed Bin](images/lpddr4_memory_speed_bin.png)
 
-## Base Component Width
+### Base Component Width
 As of Vivado Design Suite 2020.2, only x32 devices are supported, so **x32** is the only option.   LPDDR4 x32 devices are comprised of two independent 16-bit channels per device.
 ![LPDDR4 Base Width](images/lpddr4_memory_base_width.png)
 
-## Row Address Width
+### Row Address Width
 This number is used by the memory controller and does not affect the pinout, so any value can be used.
 ![LPDDR4 Row Address Width](images/lpddr4_memory_address_width.png)
 
-## Bank Address Width
+### Bank Address Width
 This value is calculated automatically and does not affect the pinout.
 ![LPDDR4 Bank Address Width](images/lpddr4_memory_bank_address_width.png)
 
-## Component Density
+### Component Density
 This number is used by the memory controller and does not affect the pinout, so any value can be used.
 ![LPDDR4 Density](images/lpddr4_memory_density.png)
 
-## Number of Channels
+### Number of Channels
 Single channels are comprised of x32 bits across one device (two x16 channels).   Dual channels are comprised of two independent single-channel interfaces across two devices (four total x16 channels).
 ![LPDDR4 Number of Channels](images/lpddr4_memory_channels.png)    
 
-## Data Width
+### Data Width
 For single-channel designs, this is the total number of bits in the interface.   An interface can have 16 bits (one channel), 32 bits (two channels), and 48 bits (two channels in one device and 16 bits as ECC in another device.    Dual-channel designs can be either 16 bits each or 32 bits each.
 ![LPDDR4 data Width](images/lpddr4_memory_data_width.png)    
 
-## LP4 Pin Efficient
+### LP4 Pin Efficient
 Dual-channel LPDDR4 interfaces can share certain address buses between devices, reducing the overall pin count.    Select **true** to share pins or **false** to keep all channels completely independent.
 ![LPDDR4 Pin Efficient](images/lpddr4_memory_pin_efficient.png)    
 
-## Ranks
+### Ranks
 Single Die Package (SDP) devices will allow for one rank, while two ranks can be supported for Dual Die Package (DDP) devices.
 ![LPDDR4 Ranks](images/lpddr4_memory_ranks.png)    
 
-## ECC
+### ECC
 When selectable, a channel can be utilized as an ECC channel.   Selecting **ECC** will reduce the amount of available memory to access, but it will not change the pinout.
 ![LPDDR4 ECC](images/lpddr4_memory_ecc.png)  
 
-## Write DBI
+### Write DBI
 Select the Data Mask (DM) and Data Bus Inversion (DBI) options.   For purposes of pinouts, AC DBI is the same as DC DBI.   AC and DC DBI refers to the rules for inverting the data bits.  In addition, checking or unchecking the **Read DBI** checkbox will not affect the pinouts.
 ![LPDDR4 Write DBI](images/lpddr4_memory_write_dbi.png)  
 
-## Channel Interleaving
+### Channel Interleaving
 This option affects only the internal operation of the controller and does not change the pinouts.   It is only selectable in dual-channel interfaces.
 ![LPDDR4 Channel Interleaving](images/lpddr4_memory_interleaving.png)  
 
-## Clamshell
+### Clamshell
 This will always be greyed out and not selectable for LPDDR4 interfaces.
 ![LPDDR4 Clamshell](images/lpddr4_memory_clamshell.png)  
 
-## Future Expansion for PCB Designs for each Interleaved MC Instance
-The options presented here are slightly different depending on the current and future expansion plans for the memory interface.   Selecting **Optimum** will provide the standard pinout for the interface and only include the necessary pins.    Other options can add extra pins to the interface so that they can be routed on the PCB and used at a later time depending on the devices used.     A full explanation of these options can be found in the Design Generation Flow section in *Versal ACAP Programmable Network on Chip and Integrated Memory Controller* ([PG313](https://www.xilinx.com/cgi-bin/docs/ipdoc?c=axi_noc;v=latest;d=pg313-network-on-chip.pdf)).
+### Future Expansion for PCB Designs for each Interleaved MC Instance
+The options presented here are slightly different depending on the current and future expansion plans for the memory interface.   Selecting **Optimum** will provide the standard pinout for the interface and only include the necessary pins.    Other options can add extra pins to the interface so that they can be routed on the PCB and used at a later time depending on the devices used.     A full explanation of these options can be found in the Design Generation Flow section in *Versal Adaptive SoC Programmable Network on Chip and Integrated Memory Controller* ([PG313](https://www.xilinx.com/cgi-bin/docs/ipdoc?c=axi_noc;v=latest;d=pg313-network-on-chip.pdf)).
 ![LPDDR4 Future Expansion](images/lpddr4_memory_future_expansion.png)  
 
-## Pinout Swapping for each Interleaved MC Instance
-The pins in the interface can be reversed in the triplet of banks depending on PCB layout needs and also to account for *shadowed* banks in the chosen device.     A full explanation of is option can be found in the Design Generation Flow and Pinout Rules sections in *Versal ACAP Programmable Network on Chip and Integrated Memory Controller* ([PG313](https://www.xilinx.com/cgi-bin/docs/ipdoc?c=axi_noc;v=latest;d=pg313-network-on-chip.pdf)).
+### Pinout Swapping for each Interleaved MC Instance
+The pins in the interface can be reversed in the triplet of banks depending on PCB layout needs and also to account for *shadowed* banks in the chosen device.     A full explanation of is option can be found in the Design Generation Flow and Pinout Rules sections in *Versal Adaptive SoC Programmable Network on Chip and Integrated Memory Controller* ([PG313](https://www.xilinx.com/cgi-bin/docs/ipdoc?c=axi_noc;v=latest;d=pg313-network-on-chip.pdf)).
 ![LPDDR4 Pinout Swapping](images/lpddr4_memory_pinout_swap.png)  
 
-## Operating Temperature
+### Operating Temperature
 This option does not affect the pinout.
 ![LPDDR4 Operating Temperature](images/lpddr4_memory_temperature.png)  
 
-## Timing Parameters and Mode Register Settings
+### Timing Parameters and Mode Register Settings
 It is recommended to not change the entries in these fields as they will not affect the pinout.
 ![LPDDR4 Timing](images/lpddr4_memory_timing.png)  
 
-## DDR Address Mapping & DDR Advanced Tabs
+### DDR Address Mapping & DDR Advanced Tabs
 Do not change any entries in these tabs as they do not affect the memory pinouts.
 
-# Xilinx Support
+## Xilinx Support
 The Vitis tutorials are supported only for the versions and specific steps and conditions outlined in the tutorials.  If you have any technical questions on the subjects contained in these tutorials, please post on the boards located at Xilinx Community Forums.
 
-# License
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-<p align="center"><sup>XD031 | Copyright&copy; 2020 Xilinx, Inc.</sup></p>

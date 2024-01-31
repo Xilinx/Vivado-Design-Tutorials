@@ -1,18 +1,23 @@
-<table>
- <tr>
-   <td align="center"><img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/corporate/xilinx-logo.png" width="30%"/><h1>2021.2 Versal™ Network on Chip Non-Synthesizable Performance AXI Traffic Generator Tutorial</h1>
-   </td>
+<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ NoC/DDRMC Design Flow Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    </td>
  </tr>
 </table>
 
-# Lab 1 - Introduction to the Performance AXI Traffic Generator
+# Versal NoC Non-Synthesizable Performance AXI Traffic Generator: Lab 1 - Introduction to the Performance AXI Traffic Generator
+
+***Version: Vivado 2021.2***
+
+
 This tutorial covers the basics of building a non-synthesizable performance AXI traffic generator design. This lab will demonstrate a pre-defined workload as well as leveraging the default CSV traffic specification for a simple AXI traffic generator simulation on a VCK190 evaluation board. The lab walks through the steps to build a design with various IP components in IP integrator. Additionally, instructions are included on how to configure and connect the various IP components to have a working design in simulation. The design uses a basic 64-bit DDR4 memory interface running at 3200 Mbps, which is accessible through an AXI NoC instantiation.
 
-# Description of the Design
+## Description of the Design
 
 This design targets the VCK190 evaluation board and uses a single Performance AXI traffic generator instantiation to drive traffic to an AXI NoC instance with a 64-Bit 3200 Mbps DDR4 interface. A pre-defined workload will be used as well as a traffic specification leveraged from the default CSV file but is modified to have larger aligned memory accesses and less write/read transactions to reduce the simulation run time. Little automation is used to build the project in order to reinforce the design process.
 
-# Building the Design
+## Building the Design
 
 1. Create a working directory called pg381_non_synth_tg_labs.
 1. Create the Project.
@@ -128,7 +133,7 @@ This design targets the VCK190 evaluation board and uses a single Performance AX
     * Note that the Generate Block Design step runs validation checks on user CSV files assigned to the Performance AXI Traffic Generators.
     ![Global Output Products](images/global_output_products.jpg)
 
-# Simulating with the Pre Defined Workload
+## Simulating with the Pre Defined Workload
 
 1. After generation is complete update the Simulation settings.
     * Right click on the Simulation heading in the Flow Navigator column and select Simulation Settings.
@@ -147,7 +152,7 @@ This design targets the VCK190 evaluation board and uses a single Performance AX
     * Notice how the AXI Address move linearly through the address space with 0x100 Byte offsets, which aligns with 4 bursts of 64 Bytes per command.
     * Also note that for most of the simulation time the Write and Read traffic is mixed but there is a period of Read only traffic after the Writes have completed.
 
-# Simulating with a CSV Workload
+## Simulating with a CSV Workload
 
 1. Copy the default CSV file to the project.
     * The default CSV file path can be seen here:
@@ -190,7 +195,7 @@ This design targets the VCK190 evaluation board and uses a single Performance AX
     * Notice how the AXI Address move linearly through the address space with 0x100 Byte offsets, which aligns with 4 bursts of 64 Bytes per command.
     * Also note that for most of the simulation time the Write and Read traffic is mixed but there is a period of Read only traffic after the Writes have completed.
 
-# Export Design Files
+## Export Design Files
 
 1. Export the Block Design.
     * Go back to the Block Design by selecting the Open Block Design tab under the Flow Navigator columns.
@@ -212,20 +217,9 @@ This design targets the VCK190 evaluation board and uses a single Performance AX
       * It is safe to ignore the Critical Warnings during the archiving process if they appear.
 
 
-# Revision History
-* November 10, 2021 - First Release
 
-© Copyright 2021 Xilinx, Inc.
+<hr class="sphinxhide"></hr>
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
 
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-<p align="center"><br><sup>XD124</sup></br></p>
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

@@ -1,10 +1,19 @@
-<tr>
-   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>2022.1 Versal Tutorial: Fallback</h1>
-   </td>
+﻿<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™Boot and Configuration Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    </td>
  </tr>
 </table>
 
-# Table of Contents
+
+# Fallback
+
+***Version: Vivado 2022.1***
+
+
+
+## Table of Contents
 
 1. [Introduction](#introduction)
 
@@ -19,9 +28,9 @@
 
 
 
-# Introduction
+## Introduction
 
-Fallback boot allows Versal ACAP to automatically boot a different PDI than the initial PDI on the same primary boot device if the first PDI fails to boot.
+Fallback boot allows Versal Adaptive SoC to automatically boot a different PDI than the initial PDI on the same primary boot device if the first PDI fails to boot.
 
 An error during boot PDI load can occur due to various reasons. Some examples for PLM errors include:
 
@@ -32,11 +41,11 @@ An error during boot PDI load can occur due to various reasons. Some examples fo
 * Command failures (such as DDR memory calibration mask_poll command time out) during CDO processing.
 
 
-### **Fallback boot process** (starting from the initial boot after POR):
+#### **Fallback boot process** (starting from the initial boot after POR):
 
 The BootROM executable accesses the PDI at the location specified when PMC_MULTI_BOOT is 0 (the POR value). The BootROM executable performs integrity and security checks on the boot header (valid ID, checksum), and the associated PLM, ensures that the PDI is not corrupted, decrypts the PDI, and checks that authentication is successful.
 
-If the integrity and security checks fail, then the fallback boot is used to try to boot Versal ACAP from an alternate PDI on the same primary boot device.
+If the integrity and security checks fail, then the fallback boot is used to try to boot Versal Adaptive SoC from an alternate PDI on the same primary boot device.
 
 To begin the fallback boot, the BootROM executable increments PMC_MULTI_BOOT within search offset limit and executes a system-level reset (SRST), which then uses the PMC_MULTI_BOOT register to read the PDI from the newly specified location within the primary boot device.
 
@@ -46,10 +55,10 @@ From this point, there are two paths:
 
 • **Failure**: In this case, either the BootROM executable does not find a boot header at the new location, or the boot header/PLM integrity and security checks fail. The BootROM executable again increments PMC_MULTI_BOOT, issues an SRST, and continues searching, while incrementing PMC_MULTI_BOOT as needed until either a valid boot header/PLM is found, or the search limit is reached.
 
-### PMC_MULTI_BOOT Register:
+#### PMC_MULTI_BOOT Register:
 
 Inside the PMC, there is a MultiBoot register (PMC_MULTI_BOOT). After a system-level reset (SRST), the BootROM executable uses PMC_MULTI_BOOT to specify the PDI location in the boot device. PMC_MULTI_BOOT is a number. The type of boot device determines whether PMC_MULTI_BOOT is used to specify the alternative PDI location as an address or a file name.
-Refer the Versal ACAP Register Reference [(AM012)](https://www.xilinx.com/htmldocs/registers/am012/am012-versal-register-reference.html) for more details.
+Refer the Versal Adaptive SoC Register Reference [(AM012)](https://www.xilinx.com/htmldocs/registers/am012/am012-versal-register-reference.html) for more details.
 
 For example, if multiple boot files are present on the *SD card*, the register value indicates the following:
 ```
@@ -67,7 +76,7 @@ Below are the partition types:
 * F: User partition (File system mode) 
 
 
-### Boot Device choices for Fallback:
+#### Boot Device choices for Fallback:
 ```
 eMMC (4.51) ---------------------------------------------search offset limit **8191 FAT files
 Qctal SPI single or dual stacked-------------------------search offset limit **8GB
@@ -80,21 +89,21 @@ SD1 (2.0)------------------------------------------------search offset limit **8
 SD1 (3.0)------------------------------------------------search offset limit **8191 FAT files
 ```
 
-## Objectives
+### Objectives
 After completing this tutorial, users should be able to:
 
 * Understand the concept and the steps required to run the fallback tutorial.
 * Build the fallback reference design in vivado and generate boot images to boot the system via SD card and QSPI booting techniques.
 	
 
-## Design Block Diagram
+### Design Block Diagram
 
 
-### <Block vck190_fallback>
+#### <Block vck190_fallback>
 
 ![Block_Diagram](Figures/block_design.PNG)
 
-## Directory Structure
+### Directory Structure
 <details>
 <summary> Tutorial Directory Details </summary>
 
@@ -117,7 +126,7 @@ vck190_fallback
 ```
 </details>
 
-# Before You Begin
+## Before You Begin
 
 Recommended general knowledge of:
 * VCK190 evaluation board
@@ -133,11 +142,11 @@ Recommended general knowledge of:
 
 * VCK190 Fallback and Multiboot reference [(UG1304)](https://docs.xilinx.com/r/2021.1-English/ug1304-versal-acap-ssdg/Fallback-Boot-and-MultiBoot)
 * VCK190 Evaluation Board User Guide [(UG1366)](https://docs.xilinx.com/r/en-US/ug1366-vck190-eval-bd)
-* Versal ACAP Embedded Design Tutorial [(UG1305)](https://xilinx.github.io/Embedded-Design-Tutorials/docs/2021.2/build/html/docs/Introduction/Versal-EDT/Versal-EDT.html)
+* Versal Adaptive SoC Embedded Design Tutorial [(UG1305)](https://xilinx.github.io/Embedded-Design-Tutorials/docs/2021.2/build/html/docs/Introduction/Versal-EDT/Versal-EDT.html)
 * Versal Technical Reference Manual [(AM011)](https://docs.xilinx.com/r/en-US/am011-versal-acap-trm)
 * Versal System Software Developers User Guide [(UG1304)](https://docs.xilinx.com/r/en-US/ug1304-versal-acap-ssdg)
 * Versal Control Interfaces and Processing System (CIPS) [(PG352)](https://docs.xilinx.com/r/en-US/pg352-cips)
-* Versal ACAP Register Reference [(AM012)](https://www.xilinx.com/htmldocs/registers/am012/am012-versal-register-reference.html)
+* Versal Adaptive SoC Register Reference [(AM012)](https://www.xilinx.com/htmldocs/registers/am012/am012-versal-register-reference.html)
 
 
 </details>
@@ -148,7 +157,7 @@ Recommended general knowledge of:
 
 |Term|Description|
 |  ---  |  ---  |
-|Platform management controller (PMC)|Manages Versal ACAP boot and the life cycle management of the device. The PMC ROM Code Unit (RCU) and platform processing unit (PPU) are responsible for booting the device.|
+|Platform management controller (PMC)|Manages Versal Adaptive SoC boot and the life cycle management of the device. The PMC ROM Code Unit (RCU) and platform processing unit (PPU) are responsible for booting the device.|
 |ROM code unit (RCU)| Includes a microblaze processor that executes the BootROM to initiate the boot phase2: boot setup.|
 |Platform processing unit (PPU)|Includes a microblaze processor that executes the platform loader and manager (PLM) to initiate the boot phase3: load platform.|
 |Scalar engines|Includes the processing system (PS) Dual-Core ARM Cortex R5F and A72.|
@@ -156,29 +165,29 @@ Recommended general knowledge of:
 |Control Interfaces and Processing System (CIPS)|CIPS LogiCORE IP sets the configuration of PMC/PS peripherals, clocks, and MIO.|
 |BootROM|Responsible for initial security and boot mode interface checks. Reads and processes the PDI boot header. Releases the PMC PPU to complete the boot phases. See the Versal Technical Reference Manual [(AM011)](https://www.xilinx.com/support/documentation/architecture-manuals/am011-versal-acap-trm.pdf) for more detail on BootROM.|
 |Platform loader and manager (PLM)|Responsible for the final boot phases to load the PDI. Executes supported platform management libraries and application user code. See the Versal System Software Developers User Guide [(UG1304)](https://www.xilinx.com/cgi-bin/docs/rdoc?v=latest;d=ug1304-versal-acap-ssdg.pdf) for more detail on the PLM.|
-|Programmable device image (PDI)|Boot image for programming and configuring the Versal ACAP device. See the BootGen UG1283 for details on the format. See system software developers user guide for details on how PLM manages the images and partitions.|
+|Programmable device image (PDI)|Boot image for programming and configuring the Versal Adaptive SoC device. See the BootGen UG1283 for details on the format. See system software developers user guide for details on how PLM manages the images and partitions.|
 |MIO| Multiplexed IO pins that can be configured for different peripherals and functions.|
 |DIO| Dedicated IO pins dedicated for specific functions, such as JTAG (TCK, TMS, TDI, TDO) or power-on reset (POR_B).|
 
 </details>
 
-## Tutorial Requirements
+### Tutorial Requirements
 
 This tutorial is demonstrated on the VCK190 production evaluation board. To run this tutorial download the necessary files from the lounge and ensure you have the correct licenses installed. If you do not have a board and Vivado license contact your Xilinx sales representative. See https://www.xilinx.com/products/boards-and-kits/vck190.html for more information.
 
 >Note: This tutorial targets the VCK190 evaluation board, but the methodology flow also applies to the VMK180 evaluation board.
 
-### Hardware Requirements:
+#### Hardware Requirements:
 
 * Host machine with an operating system supported by Vivado Design Suite and Vitis 2022.1
 * VCK190 Evaluation board, which includes:
-  * Versal ACAP XCVC1902-2VSVA2197
+  * Versal Adaptive SoC XCVC1902-2VSVA2197
   * AC power adapter (100-240VAC input, 12VDC 15.0A output).
   * System controller microSD card in socket (J302).
   * USB Type-C cable (for JTAG and UART communications).
   * Boot Module X-EBM-01 (Dual Parallel QSPI) Rev_A02
 
-### Software Requirements:
+#### Software Requirements:
 In order to build and run the tutorial reference design, the following must be available or installed:
   * Vivado Design Suite and Vitis 2022.1:
   	- Visit https://www.xilinx.com/support/download.html for the latest tool version.
@@ -190,9 +199,9 @@ In order to build and run the tutorial reference design, the following must be a
 
 
 
-# Building Hardware Design  
+## Building Hardware Design  
 
-## Vivado
+### Vivado
 
 To set up the Vivado environment:
 
@@ -205,7 +214,7 @@ To build Vivado fallback reference design one can use two methods, either use GU
 
 **Method 1**:
 
-Follow Versal Embedded Design Tutorial [(UG1305)](https://xilinx.github.io/Embedded-Design-Tutorials/docs/2021.2/build/html/docs/Introduction/Versal-EDT/docs/2-cips-noc-ip-config.html#creating-a-new-embedded-project-with-the-versal-acap) Chapter 2: Versal ACAP CIPS and NoC (DDR) IP Core Configuration till *Exporting Hardware* to generate XSA design file.
+Follow Versal Embedded Design Tutorial [(UG1305)](https://xilinx.github.io/Embedded-Design-Tutorials/docs/2021.2/build/html/docs/Introduction/Versal-EDT/docs/2-cips-noc-ip-config.html#creating-a-new-embedded-project-with-the-versal-acap) Chapter 2: Versal Adaptive SoC CIPS and NoC (DDR) IP Core Configuration till *Exporting Hardware* to generate XSA design file.
 
 **Method 2**:
 
@@ -227,10 +236,10 @@ write_hw_platform -fixed -include_bit -force -file ../Design/Hardware/vck190_wra
 ```
 
 
-# Building Software Design 
+## Building Software Design 
 
 
-## Vitis
+### Vitis
 
 
 To set up the Vitis environment:
@@ -262,7 +271,7 @@ all:
 ```
 Copy all the required files into the BootImages directory to generate a Boot Image.
 
-### Boot Image (BIN) file generation:
+#### Boot Image (BIN) file generation:
 
 Make modifications to the 'helloworld' application project to perform this tutorial. Make changes to the print statement as follows and build the application to generate the .elf files.
 ```
@@ -298,7 +307,7 @@ exec bootgen -image image.bif -arch versal -o boot0001.bin
 ```
 
 
-# Running the Design
+## Running the Design
 
 For Fallback, we will be corrupting the first binary file and boot the system automatically using the next valid binary file.
 
@@ -357,10 +366,8 @@ mrd 0xF1110004
 > Note: Test results for Fallback are captured in the `Figures/` Directory
 
 
+<hr class="sphinxhide"></hr>
 
-© Copyright 2022 Xilinx, Inc.
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
 
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

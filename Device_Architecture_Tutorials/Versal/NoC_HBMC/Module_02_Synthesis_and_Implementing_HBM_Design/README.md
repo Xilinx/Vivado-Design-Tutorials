@@ -1,22 +1,24 @@
-<table>
- <tr>
-   <td align="center"><img src="https://raw.githubusercontent.com/Xilinx/Image-Collateral/main/xilinx-logo.png" width="30%"/><h1>Versal™ Synthesis and Implementing the HBM Design</h1>
-   </td>
- </tr>
- <tr>
- <td align="center"><h1>Synthesizing and Implementing the Design</h1>
- </td>
+<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ Adaptive SoC NoC HBMC Design Flow Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    </td>
  </tr>
 </table>
 
-# Description of the Design
+# Synthesizing and Implementing the Design
+
+***Version: Vivado 2023.1***
+
+## Description of the Design
+
 The design from Module 1 uses one Performance AXI TG to transact with one pseudo channel (PC) of a HBM Controller. Each HBM Controller is divided into two semi-independent pseudo channels which address a dedicated portion of the HBM. The design in this module will have four Performance AXI TGs transacting with 2 PCs of an HBM Controller. AXI Performance Monitor will be used to report the average bandwidth and latency achieved by each of the AXI connections in the simulation. In addition to simulating the design, this module will also guide through the steps to synthesize, implement, generate the device image (PDI) and, the debug probes file (LTX). The generated PDI and LTX files are then loaded on Versal VHK158 Evaluation Platform to observe the transactions going in and out of the Performance AXI TG.
 
 **Note**: This lab is provided as an example only. Figures and information depicted here might vary from the current version. It is highly recommended to follow all the steps below to learn how to build the design with Integrated HBM Controllers. To build the design directly without following all the steps, users can skip all the sections below and jump to [Script to build and Simulate the Design](#script-to-build-and-simulate-the-design)
 
-# Create the Design
+## Create the Design
 
-## Start the Vivado Design Suite
+### Start the Vivado Design Suite
 
 1. Open the Vivado® Design Suite with 2023.1 release or later.
 2. Click **Create Project** from the Quick Start Menu.
@@ -28,18 +30,21 @@ The design from Module 1 uses one Performance AXI TG to transact with one pseudo
 8. Click **OK**. An empty block design diagram canvas opens. The Tcl commands to create the project and initial block design are as follows:
 
 In the Vivado Tcl Console:
-``` tcl
+
+```tcl
 create_project hbm_module_2 ./hbm_module_2 -part xcvh1582-vsva3697-2MP-e-S
 create_bd_design "design_1"
 ```
 
-## Instantiate the AXI NoC IP and run Designer Assistance
+### Instantiate the AXI NoC IP and run Designer Assistance
 
 1. Instantiate one AXI NoC instance from the IP catalog (**IP catalog** → **AXI NoC**) and drag it onto the design canvas.
 The corresponding Tcl commands to instantiate the AXI NoCs are:
-``` tcl
+
+```tcl
 create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc axi_noc_0
 ```
+
 The default AXI NoC IP will display on the canvas as shown in the following figure.
 
 ![AXI NoC IP addition](images/noc_ip_instance.PNG)
@@ -59,8 +64,10 @@ Check the following figure for reference.
 ![Run Block Automation](images/run_block_automation.PNG)
 
 4. Click **OK**.
+
 The Tcl commands to run the block automation are as follows:
-``` tcl
+
+```tcl
 apply_bd_automation -rule xilinx.com:bd_rule:axi_noc -config { hbm_density {2} hbm_nmu {4} mc_type {HBM} noc_clk {New/Reuse Simulation Clock And Reset Generator} num_axi_bram {None} num_axi_tg {None} num_aximm_ext {None} num_mc_ddr {None} num_mc_lpddr {None} pl2noc_apm {1} pl2noc_cips {0}}  [get_bd_cells axi_noc_0]
 ```
 
@@ -70,7 +77,8 @@ apply_bd_automation -rule xilinx.com:bd_rule:axi_noc -config { hbm_density {2} h
     
 **Note:** The AXI clock and reset nets are not connected.
 
-## Configure the NoC IP
+### Configure the NoC IP
+
 1. Double click **axi_noc_0** to display the Configuration Wizard.
 2. On the General tab, make the following selections:
    * The Number of AXI Slave Interfaces is set to **0**. Leave this at its default value.
@@ -98,7 +106,7 @@ apply_bd_automation -rule xilinx.com:bd_rule:axi_noc -config { hbm_density {2} h
 
 The Tcl commands to configure the NoC IP are as follows:
 
-``` tcl
+```tcl
 set_property CONFIG.HBM_REF_CLK_SELECTION {Internal} [get_bd_cells axi_noc_0]
 set_property -dict [list CONFIG.CONNECTIONS {HBM0_PORT0 {read_bw {12800} write_bw {12800} read_avg_burst {4} write_avg_burst {4}}}] [get_bd_intf_pins /axi_noc_0/HBM00_AXI]
 set_property -dict [list CONFIG.CONNECTIONS {HBM0_PORT1 {read_bw {12800} write_bw {12800} read_avg_burst {4} write_avg_burst {4}}}] [get_bd_intf_pins /axi_noc_0/HBM01_AXI]
@@ -107,7 +115,7 @@ set_property -dict [list CONFIG.CONNECTIONS {HBM0_PORT3 {read_bw {12800} write_b
 delete_bd_objs [get_bd_intf_nets noc_clk_gen_SYS_CLK0]
 ```
 
-## Configure the Simulation Clock and Reset Generator
+### Configure the Simulation Clock and Reset Generator
 
 1. Double click **noc_clk_gen** to display the Configuration Wizard.
 2. Make the following selections:
@@ -128,7 +136,8 @@ set_property -dict [list CONFIG.USER_NUM_OF_SYS_CLK {0} CONFIG.USER_NUM_OF_AXI_C
 regenerate_bd_layout
 ```
 
-## Configure the Traffic Generators
+### Configure the Traffic Generators
+
 1. Configure each of the Performance AXI TGs in turn. To display the TG configuration screen for a particular instance, double-click the TG instance: **noc_tg**.
 2. In this example design, set the following parameters on the Configuration tab:
    * Set the Performance TG for Simulation to **NON SYNTHESIZABLE**.
@@ -159,6 +168,7 @@ There's a separate file per TG for both synthesizable and non-synthesizable vers
 The following figure shows the snapshot of the CSV file used for synthesizable TG:
 
 ![Synth TG CSV](images/axi_noc_tg_synth_csv.PNG)
+
 * Click on the image to open it in high resolution
 
 Row 3 in the CSV indicates the start of a loop and Row 7 indicates the end of that loop. The commands between Row 3 and Row 7 are run infinite times as indicated by the option **INF** in Row 3, Column C. The option **use_original_addr** indicates that while executing the loop each time, the address offset of the writes and reads inside the loop is reset to the original value.
@@ -172,11 +182,13 @@ Row 6 in the CSV indicates a read command with a transaction count of 100 (as in
 The following figure shows the snapshot of the CSV file used for non-synthesizable TG:
 
 ![Non Synth TG CSV](images/axi_noc_tg_nonsynth_csv.PNG)
+
 * Click on the image to open it in high resolution
 
 As mentioned above, the 2 CSV files are identical with the only differene being the loop in this CSV file runs only once instead of running non-stop. This is done so as to reduce the simulation time. 
 
 The Tcl commands to configure the 4 TGs are as follows:
+
 ```tcl
 set_property -dict [list CONFIG.USER_C_AXI_TEST_SELECT {user_defined_pattern} CONFIG.USER_EN_VIO_STATUS_MONITOR {FALSE} CONFIG.USER_USR_DEFINED_PATTERN_CSV {../../../../../../../tg_sim_wr_followed_by_rd_0.csv} CONFIG.USER_SYNTH_DEFINED_PATTERN_CSV {../../../../../../../tg_synth_wr_followed_by_rd_0.csv}] [get_bd_cells noc_tg]
 set_property -dict [list CONFIG.USER_C_AXI_TEST_SELECT {user_defined_pattern} CONFIG.USER_EN_VIO_STATUS_MONITOR {FALSE} CONFIG.USER_USR_DEFINED_PATTERN_CSV {../../../../../../../tg_sim_wr_followed_by_rd_1.csv} CONFIG.USER_SYNTH_DEFINED_PATTERN_CSV {../../../../../../../tg_synth_wr_followed_by_rd_1.csv}] [get_bd_cells noc_tg_1]
@@ -186,13 +198,15 @@ set_property -dict [list CONFIG.USER_C_AXI_TEST_SELECT {user_defined_pattern} CO
 
 The address region of the TG will be set through the address editor (described later in the section **Set the Addressing**).
 
-## Add and Configure the Control, Interface & Processing System (CIPS) IP to the Design
+### Add and Configure the Control, Interface & Processing System (CIPS) IP to the Design
 
 1. Instantiate one CIPS instance from the IP catalog (**IP catalog** → **Control, Instance & Processing System**) and drag it onto the design canvas.
 The corresponding Tcl commands instantiate the CIPS IP:
-``` tcl
+
+```tcl
 create_bd_cell -type ip -vlnv xilinx.com:ip:versal_cips versal_cips_0
 ```
+
 2. Double Click on the CIPS IP to open and configure it. 
 3. Click on Next.
 4. Click on **PS PMC 0-1**. This should spawn a new Processign System, Platform Management Controller window.
@@ -214,56 +228,65 @@ create_bd_cell -type ip -vlnv xilinx.com:ip:versal_cips versal_cips_0
 8. Click Finish on both Processign System, Platform Management Controller and CIPS window.
 
 The corresponding Tcl commands will configure CIPS:
-``` tcl
+
+```tcl
 set_property -dict [list CONFIG.CLOCK_MODE {Custom} CONFIG.PS_PMC_CONFIG { CLOCK_MODE {Custom} PMC_CRP_HSM0_REF_CTRL_FREQMHZ {33.333} PMC_CRP_PL0_REF_CTRL_FREQMHZ {100} PS_NUM_FABRIC_RESETS {1} PS_USE_PMCPL_CLK0 {1} SMON_ALARMS {Set_Alarms_On} SMON_ENABLE_TEMP_AVERAGING {0} SMON_TEMP_AVERAGING_SAMPLES {0} } ] [get_bd_cells versal_cips_0]
 ```
 
-## Add Processor System Reset IP to the Design
+### Add Processor System Reset IP to the Design
 
 Instantiate one Processor System Reset instance from the IP catalog (**IP catalog** → **Processor System Reset**) and drag it onto the design canvas.
 The corresponding Tcl commands instantiate the IP:
-``` tcl
+
+```tcl
 create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset proc_sys_reset_0
 ```
 
-## Add Clocking Wizard to the Design
+### Add Clocking Wizard to the Design
 
 1. Instantiate one Clocking Wizard instance from the IP catalog (**IP catalog** → **Clocking Wizard**) and drag it onto the design canvas.
 The corresponding Tcl commands instantiate the IP:
-``` tcl
+
+```tcl
 create_bd_cell -type ip -vlnv xilinx.com:ip:clk_wizard clk_wizard_0
 ```
+
 2. Double Click on the Clocking Wizard instance to open and configure it.
 3. Click on the **Output Clocks** tab and set the Requested Output Frequency to **300**MHz as shown in the figure below.
 
 ![Clocking Wizard](images/Clocking_wizard_300.PNG)
 
 The corresponding Tcl commands configure the Clocking Wizard:
-``` tcl
+
+```tcl
 set_property -dict [list CONFIG.CLKOUT_DRIVES {BUFG,BUFG,BUFG,BUFG,BUFG,BUFG,BUFG} CONFIG.CLKOUT_DYN_PS {None,None,None,None,None,None,None} CONFIG.CLKOUT_GROUPING {Auto,Auto,Auto,Auto,Auto,Auto,Auto} CONFIG.CLKOUT_MATCHED_ROUTING {false,false,false,false,false,false,false} CONFIG.CLKOUT_PORT {clk_out1,clk_out2,clk_out3,clk_out4,clk_out5,clk_out6,clk_out7} CONFIG.CLKOUT_REQUESTED_DUTY_CYCLE {50.000,50.000,50.000,50.000,50.000,50.000,50.000} CONFIG.CLKOUT_REQUESTED_OUT_FREQUENCY {300,100.000,100.000,100.000,100.000,100.000,100.000} CONFIG.CLKOUT_REQUESTED_PHASE {0.000,0.000,0.000,0.000,0.000,0.000,0.000} CONFIG.CLKOUT_USED {true,false,false,false,false,false,false} ] [get_bd_cells clk_wizard_0]
 ```
 
-## Add ILA to the Design
+### Add ILA to the Design
 
 1. Instantiate one ILA (Integrated Logic Analyzer with AXIS Interface) instance from the IP catalog (**IP catalog** → **ILA(Integrated Logic Analyzer with AXIS Interface)**) and drag it onto the design canvas.
 The corresponding Tcl commands instantiate the IP:
-``` tcl
+
+```tcl
 create_bd_cell -type ip -vlnv xilinx.com:ip:axis_ila axis_ila_0
 ```
+
 2. Double Click on the ILA instance to open and configure it.
 3. Set the ILA Input Type to **Interface Monitor** and Click **OK**.
 
 ![ILA](images/ILA_config.PNG)
 
 The corresponding Tcl command configures the ILA:
-``` tcl
+
+```tcl
 set_property CONFIG.C_MON_TYPE {Interface_Monitor} [get_bd_cells axis_ila_0]
 ```
+
 4. Regenerate the layout by selecting the **Regenerate Layout** button in the BD canvas or running the tcl command ```regenerate_bd_layout```. There can be minor differences but the canvas should look similar to the figure shown below.
 
 ![Canvas before Regen BD Layout](images/all_ip_before_con_regen_bd_layout.PNG)
 
-## Connect all the IPs
+### Connect all the IPs
 
 1. Connect **pl0_ref_clk** port of the **CIPS** IP to the **clk_in1** port of the **Clocking Wizard**.
 2. Connect **pl0_resetn** port of the **CIPS** IP to the **ext_reset_in** port of the **Processor System Reset**.
@@ -300,6 +323,7 @@ set_property CONFIG.C_MON_TYPE {Interface_Monitor} [get_bd_cells axis_ila_0]
 ![Connections](images/all_ip_after_con_bd_layout.PNG)
 
 The corresponding Tcl commands makes all the connections mentioned in this section
+
 ```tcl
 connect_bd_net [get_bd_pins versal_cips_0/pl0_ref_clk] [get_bd_pins clk_wizard_0/clk_in1]
 connect_bd_net [get_bd_pins versal_cips_0/pl0_resetn] [get_bd_pins proc_sys_reset_0/ext_reset_in]
@@ -334,12 +358,14 @@ connect_bd_intf_net [get_bd_intf_pins noc_tg/M_AXI] [get_bd_intf_pins axis_ila_0
 
 ![Canvas after Regen BD Layout with Connections](images/final_regen_bd_layout.PNG)
 
-## Set the Addressing
+### Set the Addressing
+
 Open the Address Editor by clicking the tab at the top of the canvas, click the **Expand All** icon from the Address Editor toolbar, and select the **Assign All** icon in the toolbar at the top of the block design canvas. Alternatively, run ```assign_bd_address``` command in the Tcl Console. The default address mapping is shown in the following figure.
 
 ![Address map](images/Address_Editor.PNG)
 
-# Validate the Block Design
+## Validate the Block Design
+
 Validation of a NoC design invokes the NoC compiler to find an optimal configuration for the NoC. To validate the design, right-click anywhere in the canvas and, from the context menu, select **Validate Design**. Alternatively, you can also perform validation by clicking the **Validate Design** icon on the toolbar or running ```validate_bd_design``` in the Tcl Console.
 The NoC GUI should show the NoC placement and routing solution as shown in the figure below.
 
@@ -349,9 +375,10 @@ The NoC QoS table shows the required and estimated QoS for each of the paths thr
 
 ![Validate BD](images/validate_bd.PNG)
 
-# Synthesize and Implement the Design
+## Synthesize and Implement the Design
 
 In preparation for synthesis and implementation, a top level HDL wrapper must be created as follows:
+
 1. Open the **Sources** window.
 2. Open the **Hierarchy** tab.
 3. Under the Design Sources tree, select the **design_1** (`design_1.bd`) subtree.
@@ -376,12 +403,13 @@ In preparation for synthesis and implementation, a top level HDL wrapper must be
 
 ![Device Image Generation Completed](images/Device_Image_Generation_Completed.PNG)
 
-10. The device image (**design_1_wrapper.pdi**) and the debug probes file (**design_1_wrapper.ltx**) are generated under **./hbm_module_2/hbm_module_2.runs/impl_1/**. 
+10. The device image (**design_1_wrapper.pdi**) and the debug probes file (**design_1_wrapper.ltx**) are generated under **./hbm_module_2/hbm_module_2.runs/impl_1/**.
 
-# Running the Design on Hardware
+## Running the Design on Hardware
 
 The next step is to load the generated device image and debug probes file on VHK158. In order to do that, connect the board to your machine and follow the steps below:
-1. Open the Vivado® Design Suite (Lab edition) with 2023.1 release or later. 
+
+1. Open the Vivado® Design Suite (Lab edition) with 2023.1 release or later.
 2. Click on Open Hardware Manager.
 3. Click on Open Target in the green banner and connect to the board.
 4. Click on Program Device in the green banner and select the PDI (**design_1_wrapper.pdi**) and the Debug Probes file (**design_1_wrapper.ltx**) in their respective fields.
@@ -407,8 +435,7 @@ The next step is to load the generated device image and debug probes file on VHK
 
 ![hw_ila_waveform](images/hw_ila_1_wave_capture.PNG)
 
-
-# Simulate the Design
+## Simulate the Design
 
 To simulate the design, follow the steps mentioned below:
 
@@ -417,7 +444,7 @@ Settings menu at the Simulation tab as shown in the following figure.
 
 **Note:** Ensure that Simulator language is set to Mixed.
 
-2. In this design, set the Target simulator to Vivado Simulator. 
+2. In this design, set the Target simulator to Vivado Simulator.
 
 3. On the Simulation tab, set the simulation run time to 150000 and select **xsim.simulate.log_all_signals** as shown in the figure below. Click Apply and then OK.
 
@@ -559,9 +586,18 @@ This should list all the show all the AXI signals on the waveform window. All th
 
 ![Simulation Waveforms](images/Simulation_Waveforms.PNG)
 
-# Script to Build and Simulate the Design
+## Script to Build and Simulate the Design
 
 To build and simulate the above design with a script, source **run_hbm_module2.tcl** from the Tcl Console after launching Vivado® Design Suite with 2023.1 release or later.
+
 ```tcl
 source ./run_hbm_module2.tcl
 ```
+
+
+
+<hr class="sphinxhide"></hr>
+
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
+
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>
