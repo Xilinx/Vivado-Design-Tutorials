@@ -1,25 +1,37 @@
-# Table of Contents
+<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Vivado™ Design Flow Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado Development Environment on xilinx.com</a>
+    </td>
+ </tr>
+</table>
 
-1. [Introduction](#introduction)
-2. [Tutorial Design Description](#tutorial-design-description)
-3. [Designing with IP integrator  ](#designing-with-ip-integrator)
-
-    -   [**Step 1: Creating a Project**](#step-1-creating-a-project)
-    -   [**Step 2: Creating an IP integrator   Design**](#step-2-creating-an-ip-integrator-design)
-    -   [**Step 3: Customizing IP**](#step-3-customizing-ip)
-    -   [**Step 4: Creating Connections**](#step-4-creating-connections)
-    -   [**Step 6: Adding Masters and Block Automation**](#step-6-adding-masters-and-block-automation)
-    -   [**Step 7: Using the Address Editor**](#step-7-using-the-address-editor)
-    -   [**Step 8: Validating the Design**](#step-8-validating-the-design)
-    -   [**Step 9: Debugging the Design**](#step-9-debugging-the-design)
-    -   [**Step 10: Creating and Implementing the Top-level Design**](#step-10-creating-and-implementing-the-top-level-design)
-
-
-# Introduction
+# Designing with IP integrator
 
 ***Version: Vivado 2022.1***
 
-The Xilinx® Vivado® Design Suite IP integrator   lets you create complex
+## Table of Contents
+
+- [Designing with IP integrator](#designing-with-ip-integrator)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [Tutorial Design Description](#tutorial-design-description)
+    - [**Step 1: Creating a Project**](#step-1-creating-a-project)
+    - [**Step 2: Creating an IP integrator   Design**](#step-2-creating-an-ip-integrator---design)
+    - [**Step 3: Customizing IP**](#step-3-customizing-ip)
+    - [**Step 4: Creating Connections**](#step-4-creating-connections)
+    - [**Step 6: Adding Masters and Block Automation**](#step-6-adding-masters-and-block-automation)
+    - [**Step 7: Using the Address Editor**](#step-7-using-the-address-editor)
+    - [**Step 8: Validating the Design**](#step-8-validating-the-design)
+    - [**Step 9: Debugging the Design**](#step-9-debugging-the-design)
+    - [**Step 10: Creating and Implementing the Top-level Design**](#step-10-creating-and-implementing-the-top-level-design)
+
+
+## Introduction
+
+
+
+The Xilinx® Vivado® Design Suite IP integrator lets you create complex
 system designs by instantiating and interconnecting IP cores from the Vivado IP catalog
 onto a design canvas. You can create designs interactively through the
 IP integrator   design canvas GUI, or programmatically using a Tcl
@@ -33,7 +45,7 @@ your design, and then integrate the design into a top-level design in
 the Vivado Design Suite. Finally, you will run synthesis and
 implementation and generate a bitstream on the design
 
-# Tutorial Design Description
+## Tutorial Design Description
 
 This tutorial is based on a simple processor-based IP integrator   design.
 It contains peripheral IP cores and an AXI Interconnect core, which
@@ -45,10 +57,9 @@ of using an automated option all the time.
 
 The design targets a Virtex UltraScale+ VCU118 Evaluation Platform with
 a xcvu9p-flga2104-2L-e part. The lab results should be similar.
+  
 
-# Designing with IP integrator  
-
-## **Step 1: Creating a Project**
+### **Step 1: Creating a Project**
 
 1.  Open the Vivado® Integrated Design Environment (IDE).
 
@@ -112,7 +123,7 @@ something different from Xilinx Design Tools on the Start menu.
 
 10. The new project opens in the Vivado IDE.
 
-## **Step 2: Creating an IP integrator   Design**
+### **Step 2: Creating an IP integrator   Design**
 
 1.  Using the Flow Navigator, select Create Block Design.
 
@@ -172,7 +183,7 @@ something different from Xilinx Design Tools on the Start menu.
       
     <img src="media/image11.png" style="width:5.20069in;height:0.35972in" />
 
-## **Step 3: Customizing IP**
+### **Step 3: Customizing IP**
 
 1.  Double-click the AXI SmartConnect core to open the Re-Customize IP
     dialog box, as shown in the following figure:  
@@ -191,7 +202,7 @@ something different from Xilinx Design Tools on the Start menu.
 
     Now you can connect the three slave IP cores to the AXI SmartConnect.
 
-## **Step 4: Creating Connections**
+### **Step 4: Creating Connections**
 
 At this point, you have instantiated several AXI slaves that you can access through a master such as a processor. To connect to a master controlling these slaves, first let’s create connectivity between the AXI SmartConnect and the instantiated IPs.
 
@@ -233,7 +244,7 @@ Processor System Reset block.
     
 As you drag the connection wire, a green checkmark appears on the
 S_AXI interface pin indicating that you can make a valid connection
-between these points. The Vivado IP integrator   highlights all possibleconnection points in the subsystem design as you interactively wire
+between these points. The Vivado IP integrator   highlights all possiblec onnection points in the subsystem design as you interactively wire
 the pins and ports.
 
 2.  Release the mouse button and Vivado IP integrator   makes a connection
@@ -310,7 +321,7 @@ feature to connect a Block Memory Generator to the BRAM Controller.
     <img src="media/image21.jpg" style="width:2.89552in;height:1.75044in"
     alt="Graphical user interface, text, application, email Description automatically generated" />
 
-## **Step 6: Adding Masters and Block Automation**
+### **Step 6: Adding Masters and Block Automation**
 
 The next step is to add and connect the masters to the subsystem created
 so far.
@@ -451,7 +462,7 @@ so far.
 
 23. Click on **File → Save Block Design** command from the main menu.
 
-## **Step 7: Using the Address Editor**
+### **Step 7: Using the Address Editor**
 
 For various memory mapped master and slave interfaces, IP integrator  
 follows the industry standard IP-XACT data format for capturing memory requirements and
@@ -507,7 +518,7 @@ bus masters.*
 3.  Select the **Diagram** tab, to return to the IP integrator   design
     canvas.
 
-## **Step 8: Validating the Design**
+### **Step 8: Validating the Design**
 
 1.  From the menu at the top of the IPI design canvas, run the IP
     subsystem design rule checks (DRCs) by clicking the **Validate Design** button
@@ -524,7 +535,7 @@ bus masters.*
 2.  Select **File → Save Block Design** command from the main menu to
     save the design.
 
-## **Step 9: Debugging the Design**
+### **Step 9: Debugging the Design**
 
 The System ILA debug core in IP integrator   allows you to perform
 in-system debugging of block designs. This feature should be used when
@@ -553,7 +564,7 @@ demonstrate how to debug a signal in this section.
 
 4.  Validate Design to ensure that design connectivity is correct.
 
-## **Step 10: Creating and Implementing the Top-level Design**
+### **Step 10: Creating and Implementing the Top-level Design**
 
 With the IP subsystem design completed and validated, it can be included
 as a module or block in the top-level design or it may be the top-level
@@ -660,3 +671,11 @@ the subsystem design.
     <img src="media/image49.png" style="width:2.54321in;height:2.31247in" />
 
 This marks the end of the tutorial. You can now exit Vivado.
+
+
+
+<hr class="sphinxhide"></hr>
+
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
+
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>
