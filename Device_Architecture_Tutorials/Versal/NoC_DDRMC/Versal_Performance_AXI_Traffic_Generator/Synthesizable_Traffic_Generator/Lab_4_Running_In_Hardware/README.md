@@ -1,19 +1,25 @@
-<table>
- <tr>
-   <td align="center"><img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/corporate/xilinx-logo.png" width="30%"/><h1>2021.2 Versal™ Network on Chip Synthesizable Performance AXI Traffic Generator Tutorial</h1>
-   </td>
+<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ NoC/DDRMC Design Flow Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    </td>
  </tr>
 </table>
 
-# Lab 4 - Running in Hardware
+# Versal NoC Synthesizable Performance AXI Traffic Generator: Lab 4 - Running in Hardware
+
+***Version: Vivado 2021.2***
+
+
+## Lab 4 - Running in Hardware
 
 Lab 4 builds off of Lab 3 - Traffic Shaping and shows how to modify a design so it can go from a simulation environment to running in hardware.
 
-# Description of the Design
+## Description of the Design
 
 This design leverages the project from Lab 3 which targets a VCK190 evaluation board using the 64-Bit DDR4 interface at 3200 Mbps with two traffic generators running two different workloads. Additional debug signals are added so it is easier to see signs of life with the traffic generators and verify they are operating as expected.
 
-# Building the Design
+## Building the Design
 
 1. Copy and paste the pg381_synth_tg_lab_3.tcl and synth_tg_lab_3.csv files from Lab_3 to your pg381_synth_tg_labs working directory.
     * Open the pg381_synth_tg_lab_3.tcl file with a text editor.
@@ -31,7 +37,7 @@ This design leverages the project from Lab 3 which targets a VCK190 evaluation b
     * Right click on the canvas and select Regenerate Layout.
     * At this point the canvas should look exactly like it did at the end of Lab 3.
 
-# Update the CSV Traffic Specification
+## Update the CSV Traffic Specification
 
 1. Modify the CSV file to create an infinite loop while running in hardware.
    * Open the synth_tg_lab_3.csv file and save a new copy as synth_tg_lab_4.csv.
@@ -51,7 +57,7 @@ This design leverages the project from Lab 3 which targets a VCK190 evaluation b
 1. After the wrapper is created select the Generate Block Design option under the IP INTEGRATOR tab of the Flow Navigator.
    * When prompted select Global under Synthesis Options and press generate.
 
-# Marking Debug Nets and Generating a Programmable Device Image
+## Marking Debug Nets and Generating a Programmable Device Image
 1. Run Synthesis after Generating Output Products is complete.
     * Once output products are generated press the Run Synthesis button under the Synthesis heading of the Flow Navigator.
     * Press OK when the synthesis prompt comes up.
@@ -83,7 +89,7 @@ This design leverages the project from Lab 3 which targets a VCK190 evaluation b
     * When prompted with No Implementation Results Available press Yes.
     * Press OK at the Launch Runs screen.
 
-# Running in Hardware
+## Running in Hardware
 1. Once prompted at Device Image Generation Complete select the option to Open Hardware Manager.
 1. Connect to the VCK190 Board.
 1. Program the board with the PDI and LTX file from this design.
@@ -111,7 +117,7 @@ This design leverages the project from Lab 3 which targets a VCK190 evaluation b
     * ![Write and Read](images/triggered_between_write_and_read.jpg)
     * ![TG0 and TG1](images/triggered_between_tg0_and_tg1.jpg)
 
-# Export Design Files
+## Export Design Files
 1. Export the Block Design.
     * Go back to the Block Design by selecting the Open Block Design tab under the Flow Navigator columns.
     * Go to File, Export, then Export Block Design.
@@ -134,20 +140,9 @@ This design leverages the project from Lab 3 which targets a VCK190 evaluation b
     * Name the archive Lab_4, check the box for Include configuration settings, and then press OK to generate the archive.
     * It is safe to ignore the Critical Warnings during the archiving process if they appear.
 
-# Revision History
-* November 10, 2021 - First Release
 
-© Copyright 2021 Xilinx, Inc.
+<hr class="sphinxhide"></hr>
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
 
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-<p align="center"><br><sup>XD124</sup></br></p>
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

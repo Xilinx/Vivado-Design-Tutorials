@@ -1,12 +1,14 @@
-<table width="100%">
+﻿<table class="sphinxhide" width="100%">
  <tr width="100%">
-    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal Architecture-Specific Tutorials</h1>
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ Adaptive SoC Architecture Tutorials</h1>
     <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
     </td>
  </tr>
 </table>
 
-### Boot and Configuration
+# Versal Architecture-Specific Tutorials
+
+## Boot and Configuration
 
  <table style="width:100%">
  <tr>
@@ -20,7 +22,7 @@
  </table>
 
 
-### Dynamic Function eXchange (DFX)
+## Dynamic Function eXchange (DFX)
 
  <table style="width:100%">
  <tr>
@@ -61,7 +63,7 @@
  </tr>
  </table>
 
-### Network-on-Chip (NoC) and DDR Memory Design and Optimization
+## Network-on-Chip (NoC) and DDR Memory Design and Optimization
 
  <table style="width:100%">
  <tr>
@@ -87,7 +89,7 @@
  </tr>
  <tr>
  <td align="center"><a href="./NoC_DDRMC/Versal_Performance_AXI_Traffic_Generator/">Versal NoC Performance AXI Traffic Generator</a></td>
- <td>The Performance AXI Traffic Generator is intended for modeling traffic masters in Versal™ ACAP designs for performance evaluation of network on chip (NoC) based solutions.
+ <td>The Performance AXI Traffic Generator is intended for modeling traffic masters in Versal Adaptive SoC designs for performance evaluation of network on chip (NoC) based solutions.
 </td>
  </tr>
   <tr>
@@ -97,7 +99,7 @@
  </tr>
   </table>
 
- ### PCB Design
+## PCB Design
 
  <table style="width:100%">
  <tr>
@@ -114,9 +116,13 @@
  </tr>
  </table>
 
- ### AI Engine
+## AI Engine
 
- AI Engines are supported through the Vitis&trade; Unified Development Environment. Please see the
+AI Engines are supported through the Vitis&trade; Unified Development Environment. Please see the
  [Vitis In-Depth Tutorial](http://github.com/Xilinx/Vitis-In-Depth-Tutorial) for more information.
 
-<p align="center"><sup>Copyright&copy; 2021 Xilinx</sup></p>
+<hr class="sphinxhide"></hr>
+
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
+
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

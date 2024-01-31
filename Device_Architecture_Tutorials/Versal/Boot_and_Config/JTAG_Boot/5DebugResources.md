@@ -1,10 +1,16 @@
- <tr>
-   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>2021.2 Versal JTAG Boot Tutorial</h1>
-   </td>
+﻿<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ Adaptive SoC Boot and Configuration Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    </td>
  </tr>
 </table>
 
-# Table of Contents
+# JTAG Boot Tutorial: Debug Resources
+
+***Version: Vivado 2021.2***
+
+## Table of Contents
 
 1. [Introduction](README.md)
 
@@ -20,20 +26,20 @@
 
 7. [References](7References.md)
 
-# Debug During Board Bring-up
+## Debug During Board Bring-up
 
 The Vivado Hardware Manager and xsct are helpful debug tools if an issue is encountered during boot. Vivado hardware manager provides the following options for debug:
 
 * Reducing the TCK default rate frequency in hardware manager can help to identify any clock edge or signal integrity issues. This option is also helpful to isolate issues on larger JTAG chains where buffering is needed.
 
-* System monitor (SYSMON) voltage and temperature readings can ensure the power rails are on and operating within the expected Versal ACAP data sheet ranges. If a boot issue is encountered the power rails should be confirmed. The tutorial reference design enables monitoring of key power rails. After the reference design PDI is programmed into the Versal ACAP device, the sensor information can be viewed in the hardware manager (shown in the following image).
+* System monitor (SYSMON) voltage and temperature readings can ensure the power rails are on and operating within the expected Versal Adaptive SoC data sheet ranges. If a boot issue is encountered the power rails should be confirmed. The tutorial reference design enables monitoring of key power rails. After the reference design PDI is programmed into the Versal Adaptive SoC device, the sensor information can be viewed in the hardware manager (shown in the following image).
 ![SYSMON supply reading](Images/5_sysmon_volt.png)
 
-## Versal ACAP BIF and PDI Example
+### Versal Adaptive SoC BIF and PDI Example
 
 The PDI can have many different components included depending on the design. Refer to the Bootgen User Guide [(UG1283)](https://www.xilinx.com/content/dam/xilinx/support/documentation/sw_manuals/xilinx2021_2/ug1283-bootgen-user-guide.pdf) for details on the boot image file (BIF) format and the PDI components. The following shows the BIF and PDI components for the example JTAG boot reference design. The BIF file can be helpful ensure the expected partitions are included during debug.
 
-### Tutorial Reference Design BIF
+#### Tutorial Reference Design BIF
 
 ```
 new_bif:
@@ -109,15 +115,15 @@ new_bif:
 
 The following image details the reference design PDI components that follows the BIF file order. Understanding the partition order is helpful when reviewing the example PLM log. The order partitions are loaded in the next sections.
 
-### Tutorial Reference Design PDI Composition
+#### Tutorial Reference Design PDI Composition
 
 ![PDI Composition](Images/5_jtagpdi.png)
 
-## Reading JTAG Registers
+### Reading JTAG Registers
 
 This tutorial includes a script (/Scripts/read_jtag_regs.tcl) with commands to read out the JTAG registers (i.e., IDCODE, EXTENDED_IDCODE, DNA, JTAG_STATUS, USERCODE, ERROR_STATUS) in the Vivado hardware manager if debug is required.  
 
-Versal ACAP has two JTAG status registers (the JTAG_STATUS 36-bit register and the ERROR_STATUS 160-bit register) that provide valuable status information if an issue during boot occurs.
+Versal Adaptive SoC has two JTAG status registers (the JTAG_STATUS 36-bit register and the ERROR_STATUS 160-bit register) that provide valuable status information if an issue during boot occurs.
 
   * Reading the JTAG_STATUS 36-bit register provides:
     * The boot mode pins values register can be checked to ensure the proper boot mode is selected.
@@ -127,25 +133,25 @@ Versal ACAP has two JTAG status registers (the JTAG_STATUS 36-bit register and t
 
 
   * Reading the ERROR_STATUS 160-bit register provides key error information to help isolate the root cause for boot issues.
-    * BootROM first and last errors are captured. Refer to the Versal ACAP Technical Reference Manual [(AM011)](https://www.xilinx.com/support/documentation/architecture-manuals/am011-versal-acap-trm.pdf) for information on the next steps.
-    * PLM Major errors are captured. Refer to the Versal ACAP System Software Developers User Guide [(UG1304)](https://www.xilinx.com/content/dam/xilinx/support/documentation/sw_manuals/xilinx2021_2/ug1304-versal-acap-ssdg.pdf) for the PLM Major Error Codes.
+    * BootROM first and last errors are captured. Refer to the Versal Adaptive SoC Technical Reference Manual [(AM011)](https://www.xilinx.com/support/documentation/architecture-manuals/am011-versal-acap-trm.pdf) for information on the next steps.
+    * PLM Major errors are captured. Refer to the Versal Adaptive SoC System Software Developers User Guide [(UG1304)](https://www.xilinx.com/content/dam/xilinx/support/documentation/sw_manuals/xilinx2021_2/ug1304-versal-acap-ssdg.pdf) for the PLM Major Error Codes.
     * PLM Minor errors are captured. Refer to the associated library/driver or register for minor error detail.
     * Block errors, correctable or non-correctable, are captured. Refer to the specific block user guide for more detail on correctable errors and associated registers.
 
-Versal ACAP devices have specific identification checks that prevent the incorrect device type or device version (ES1 vs. production) from being programmed. The device IDCODE should be confirmed if boot errors are encountered when programming the PDI.
+Versal Adaptive SoC devices have specific identification checks that prevent the incorrect device type or device version (ES1 vs. production) from being programmed. The device IDCODE should be confirmed if boot errors are encountered when programming the PDI.
 
-## Checking the Device Identifiers
+### Checking the Device Identifiers
   * Reading the IDCODE Register- This 32-bit register stores the device identification base family and revision (VCK190 production IDCODE is 0x14CA8093).
 
   * Reading the EXTENDED_IDCODE- This 32-bit register is an extension to the IDCODE. 14 bits in this register define the Versal code extension (VCK190 production EXTENDED_IDCODE is [27:14]=0000 0000 0000 01).
 
   * Reading the DNA- This 128 bit register uniquely identifies the device.
 
-# Boot Status and PLM Error Codes
+## Boot Status and PLM Error Codes
 
 Vivado Hardware Manager or xsct can be used to read registers when a boot failure is identified. This section shows the JTAG_STATUS and ERROR_STATUS successful boot reading along with a few error code examples. Example PLM logs are also provided for error examples and proceeding with debug.
 
-### Example before PDI device program - JTAG_STATUS Read
+#### Example before PDI device program - JTAG_STATUS Read
 ```
 xsct% connect
 xsct% ta 1
@@ -176,7 +182,7 @@ JTAG STATUS: 0x002a810f09
            RSVD READS 0 (Bits [1]): 0
            RSVD READS 1 (Bits [0]): 1
 ```
-### Example Successful Boot- JTAG_STATUS Read (Reference Design Loaded)
+#### Example Successful Boot- JTAG_STATUS Read (Reference Design Loaded)
 
 ```
 xsct% connect
@@ -210,7 +216,7 @@ JTAG STATUS: 0x042e810f09
 ```
 
 
-### Example Successful Boot - ERROR_STATUS Read (with reference design loaded):
+#### Example Successful Boot - ERROR_STATUS Read (with reference design loaded):
 
 On a successful boot, you would not expect any error conditions unless it passed on a fallback or multiboot attempt.
 
@@ -291,7 +297,7 @@ ERROR STATUS: 0x0000000000000000000000000000000700000007
                 SSIT ERROR2 (Bits [0]): 0
 ```
 
-### Example Unsuccessful Boot- Incorrect Device or Version Targeted
+#### Example Unsuccessful Boot- Incorrect Device or Version Targeted
 When the incorrect device PDI (does not match target device) is used or a PDI with the wrong version (ES1 vs. production) is selected, a PLM error code 0x0326 and DONE low is seen during PDI programming.
 
 Unsuccessful boot JTAG_STATUS register read:
@@ -326,7 +332,7 @@ JTAG STATUS: 0x001e810f09
            RSVD READS 1 (Bits [0]): 1
 ```
 
-### Unsuccessful boot ERROR_STATUS register read:
+#### Unsuccessful boot ERROR_STATUS register read:
 
 When targeting the incorrect device the PLM major error code 0x0326 is seen. Refer to the following partial read out.
 ```
@@ -359,7 +365,7 @@ xsct% rrd pmc_jtag_csr version
 ```
 
 
-## Example PLM Log
+### Example PLM Log
 
 In addition to key JTAG registers, the PLM log is an important debug resource. The PLM log is accessible using either the PS UART or the xsct command. The PLM log start indicates that the PLM boot phase execution has initiated. The PLM will provide status as it processes the programmable device image.
 
@@ -367,7 +373,7 @@ Connect to the PS UART to see the PLM boot progress. The log includes timestamps
 
 For more information, see the [Vivado PLM log command line documentation](https://www.xilinx.com/html_docs/xilinx2020_2/vitis_doc/ags1585739038565.html).
 
-### UART Example PLM log setup and output
+#### UART Example PLM log setup and output
 
 There are different methods to connect to the UART. This example shows a setup using PuTTY. The COM port used will be dependent on your system.
 
@@ -375,12 +381,12 @@ To see the UART PLM log, launch PuTTY and setup the COM port with speed 115200 s
 
 ![Alt Text](Images/5_puttycomsetup.png)
 
-#### UART PLM Log Output
+##### UART PLM Log Output
 
 After the serial COM port is setup, follow the [Quick-Start Instructions](3QuickStartInstructions.md) to program the PDI with Vivado Hardware manager. The UART should display the PLM status.
 If the UART is not accessible, the PLM status information can still be accessed after the boot attempt completes. The PLM status information is stored in the PMC RAM and can be accessed with the xsct plm log command. Launch the xsct and connect to the target to use the following PLM log command after loading the JTAG boot reference design. The plm log command has a -log-size option if the default 1024 bytes size is too short and truncates the log.
 
-##### Example xsct PLM Log Output
+###### Example xsct PLM Log Output
 ```
 xsct% connect
 xsct% ta 1
@@ -427,15 +433,15 @@ Notes:
 * Because of the initial UART setup time, the PLM initialization comments can be seen in the stored plm log and accessed from xsct, but not in the UART PLM log display.
 * If the -log-size option used is greater than the PLM log data, junk characters will be printed for the rest of the log size and can be ignored.  
 
-##### Example PLM Log Output with Error
+###### Example PLM Log Output with Error
 
-If the design included DDR4, the following example PLM log could be seen on a boot failure. The example log indicates the failure is a DDR calibration failure. The PLM error codes can be found in the Versal ACAP System Software Developers User Guide [(UG1304)](https://www.xilinx.com/content/dam/xilinx/support/documentation/sw_manuals/xilinx2021_2/ug1304-versal-acap-ssdg.pdf).
+If the design included DDR4, the following example PLM log could be seen on a boot failure. The example log indicates the failure is a DDR calibration failure. The PLM error codes can be found in the Versal Adaptive SoC System Software Developers User Guide [(UG1304)](https://www.xilinx.com/content/dam/xilinx/support/documentation/sw_manuals/xilinx2021_2/ug1304-versal-acap-ssdg.pdf).
 
 PLM Error Status: 0x032B0000 or 0x032B PLM MAJOR ERROR (DDR calibration error).  
 
 The XPlmi_MaskPoll: Addr: 0xF6110008 entry provides additional information on where the failure happened and can isolate the memory controller affected. If this type of failure is seen, it is recommended to use the Vivado hardware manager for additional debug. This will indicate which memory controllers are seen in the design and which has passed or failed.
 
-##### UART PLM Log DDR4 fail Example
+###### UART PLM Log DDR4 fail Example
 
 ```
 7.798309]****************************************
@@ -488,7 +494,7 @@ PMC ERR1: 0xE0000000, PMC ERR2: 0xE0000000
 [3098.868921]====Register Dump============
 ```
 
-##### xsct PLM Log of the DDR4 Fail Example:
+###### xsct PLM Log of the DDR4 Fail Example:
 
 ```
 xsct% plm log -log-size 4000
@@ -548,16 +554,14 @@ PMC ERR1: 0xE0000000, PMC ERR2: 0xE0000000
 [3094.963740]GICPPMC IRQ Status: 0x00000000
 [3098.868921]====Register Dump============
 ```
-## Go To Next Section:  
+### Go To Next Section:  
 [Custom Board Bring-up Resources](6CustomBoardBringupResources.md)
 
-## Go To Table of Contents:  
+### Go To Table of Contents:  
 [README](README.md)
 
+<hr class="sphinxhide"></hr>
 
-© Copyright 2020-2022 Xilinx, Inc.
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
 
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

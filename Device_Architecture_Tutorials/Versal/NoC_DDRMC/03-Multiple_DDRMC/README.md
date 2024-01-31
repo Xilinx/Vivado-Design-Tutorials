@@ -1,18 +1,23 @@
-﻿<table>
- <tr>
-   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>2021.1 Versal™ Network on Chip/Multiple DDR Memory Controllers Tutorial</h1>
-   </td>
+﻿<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ NoC/DDRMC Design Flow Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    </td>
  </tr>
 </table>
 
-# **Introduction to Versal™ NoC/DDRMC**
+# Introduction to Versal NoC/DDRMC
+
+***Version: Vivado 2021.1***
+
+
 
 The Xilinx® Versal™ programmable network on chip (NoC) is an AXI-interconnecting network used for sharing data between IP endpoints in the programmable logic (PL), the processing system (PS), and other hard blocks.
 Each Versal™ device provides dedicated, hardware constructed, DDR memory controllers. These are not part of the NoC architecture, but are supported by the NoC structure. The DDR memory controller interface contains four dedicated NSU controllers. The DDR controllers are implemented using the NoC IP Wizard. To make optimal use of the available NoC features, the NoC structure provides support for interleaving across multiple physical DDR controllers (two or four).
 
 ---
 
-# **Description of the Design**
+## Description of the Design
 
 This example connects many different DDR devices simultaneously in one design to communicate to PS through NoC. It connects one DDR4 device and two interleaved LPDDR4 devices, which requires one NoC instance to configure the DDRMC for the DDR4 device and another NoC instance to configure the two interleaved DDRMCs for the two LPDDR4 devices.
 
@@ -26,7 +31,7 @@ Following this tutorial, brings the following awareness:
 
 ---
 
-# **Required Hardware**
+## Required Hardware
 
 - Platform: Versal
 
@@ -36,14 +41,15 @@ Following this tutorial, brings the following awareness:
 
 ---
 
-# **Block Diagram**
+## Block Diagram
+
 ![block_diagram](./Screenshots/block_diagram.png)
 
 ---
 
-# **Build Instructions - From GitHub**
+## Build Instructions - From GitHub
 
-## **Vivado:**
+## ## Vivado
 
 Enter the `Scripts` directory. From the command line run the following:
 
@@ -51,15 +57,15 @@ Enter the `Scripts` directory. From the command line run the following:
 
 The Vivado project will be built in the `Hardware` directory.
 
-## **Vitis:**
+## Vitis
 Create a HelloWorld project using the XSA file generated from the above Vivado project.
 Replace the content of the helloworld.c with the content of ./Software/ddr4_lpddr4.c from this repo.
 
 ---
 
-# **Build Instructions - Manual Steps**
+## Build Instructions - Manual Steps
 
-## **Vivado:**
+### Vivado
 
   - Create a new Vivado project for VCK190.
   - Create a new Block Design:
@@ -177,7 +183,8 @@ Replace the content of the helloworld.c with the content of ./Software/ddr4_lpdd
 
     This generates the .XSA file to be used later with Vitis to create an application project.
 
-## **Vitis:**
+### Vitis
+
   - Open Vitis and create an application project:
 
     ![application_project](./Screenshots/application_project.png)
@@ -237,22 +244,15 @@ Replace the content of the helloworld.c with the content of ./Software/ddr4_lpdd
   ![xsct](./Screenshots/xsct.png)
 
 ---
-# **Troubleshooting / Assistance**
+## Troubleshooting / Assistance**
+
 If you find you are having difficulty bringing up one of the designs, or need some additional assistance, please reach out on the [Xilinx Community Forums](https://forums.xilinx.com).
 
 Be sure to [search](https://forums.xilinx.com/t5/forums/searchpage/tab/message?advanced=false&allow_punctuation=false&inactive=false) the forums first before posting, as someone may already have the solution!
 
----
-Copyright 2020 Xilinx Inc.
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+<hr class="sphinxhide"></hr>
 
-http://www.apache.org/licenses/LICENSE-2.0
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

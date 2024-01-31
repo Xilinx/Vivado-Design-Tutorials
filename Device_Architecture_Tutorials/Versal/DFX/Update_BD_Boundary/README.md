@@ -1,24 +1,25 @@
-﻿<table>
- <tr>
-   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal DFX Tutorial</h1>
-   </td>
- </tr>
- <tr>
- <td align="center"><h1>Update Reconfigurable Partition Boundaries</h1>
- </td>
+﻿<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ Adaptive SoC DFX Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    </td>
  </tr>
 </table>
-<b><i>Version: Vivado 2023.2</b></i><p>
 
-# Introduction
+# Update Reconfigurable Partition Boundaries
+
+***Version: Vivado 2023.2***
+
+
+## Introduction
 
 In the DFX flow, a fundemental requirement is that all reconfigurable modules associated with a reconfigurable partition must have the same interface ports to static. In IPI, if one reconfigurable module is modified to add or remove ports, all remaining reconfigurable modules associated with that partition must also be updated to match the exact same ports. This can be done using the command <code>update_bd_boundaries</code>. This allows users to easily apply the same modifications on ports to each reconfigurable module. This reduces the chance of making errors, especially while creating interface ports that have multiple data width signals.
 
-# Design Flow
+## Design Flow
 
 Follow the design flow from tutorial "1RP_AXI_GPIO_in_RP_Interface_INI" to become familiar with the IPI based DFX design flow using the block design container feature. This is the similar flow used for this tutorial.
 
-## IP Integrator
+### IP Integrator
 - A simple 1RP based design is used to demonstrate the feature.
 - Observe that there are two AXI interfaces to reconfigurable partition: S_AXI and S_AXI1
 - The GPIO is connected to a simple constant value IP confgured to "0XFACEFEED"
@@ -111,3 +112,10 @@ source run_impl.tcl
 <p align="center">
   <img src="./images/schematic_LUT1.png?raw=true" alt="schematic_LUT1"/>
 </p>
+
+
+<hr class="sphinxhide"></hr>
+
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
+
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

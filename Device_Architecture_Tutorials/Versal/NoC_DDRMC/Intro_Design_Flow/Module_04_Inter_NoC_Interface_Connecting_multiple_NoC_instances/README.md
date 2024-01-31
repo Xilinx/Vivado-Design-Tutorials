@@ -1,15 +1,18 @@
-<table>
- <tr>
-   <td align="center"><img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/corporate/xilinx-logo.png" width="30%"/><h1>2021.1 Versal™ Inter-NoC Interface-Connecting Multiple NoC Instances</h1>
-   </td>
- </tr>
- <tr>
- <td align="center"><h1>Building and Running the Design</h1>
- </td>
+<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ NoC/DDRMC Design Flow Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    </td>
  </tr>
 </table>
 
-# Description of the Design
+# Basic NoC Design: Inter-NoC Interface-Connecting Multiple NoC Instances
+
+***Version: Vivado 2021.1***
+
+
+
+## Description of the Design
 This design uses the Inter-NoC Interface (INI) to connect two AXI4 traffic generators to two
 independent, integrated DDR4 memory controllers (DDRMCs). Each traffic generator is
 connected to a single AXI NoC. Each of those AXI NoCs uses two INI output ports to fan out to
@@ -23,7 +26,7 @@ traffic file provided with this tutorial.
 Note: This lab is provided as an example only. Figures and information depicted here might vary from the
 current version.
 
-# Create the Design
+## Create the Design
 Follow the steps given in Module_01 to open the 2020.2 release of Vivado®, create a new project with
 the **xcvc1902-vsva2197-1LP-e-S** part, and create an empty block design.
 Follow the steps below to construct the IP integrator design:
@@ -124,7 +127,7 @@ generate_target all [get_files  ${myPath}/module_04/module_04.srcs/sources_1/bd/
 ```
 
 
-# Simulate the Design
+## Simulate the Design
 To prepare for simulation, create a top level design wrapper following the procedure from Module_01.
 Click **SIMULATION** → **Run Simulation** → **Run Behavioral Simulation** from the Flow Navigator
 pane. This will generate the simulation netlist and start up the Vivado simulator. With the traffic
@@ -133,17 +136,8 @@ waveform window showing the traffic generator AXI interfaces should appear as fo
 ![Simulation results waveform](images/sim_results.PNG)
 
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+<hr class="sphinxhide"></hr>
 
-    http://www.apache.org/licenses/LICENSE-2.0
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-<p align="center"><sup>Copyright© 2020-2021 Xilinx</sup><br><sup>XD028</sup><br></p>
-
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

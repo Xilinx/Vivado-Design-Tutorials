@@ -1,18 +1,19 @@
-<table>
- <tr>
-   <td align="center"><img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/corporate/xilinx-logo.png" width="30%"/><h1>2021.1 Versal™ Network on Chip/DDR Memory Controller Performance Tuning Tutorial</h1>
-   </td>
- </tr>
- <tr>
- <td align="center"><h1>Building and Running the Final Design </h1>
- </td>
+<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ NoC/DDRMC Design Flow Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    </td>
  </tr>
 </table>
 
-# Introduction
+# Performance Tuning: Building and Running the Final Design
+
+***Version: Vivado 2021.1***
+
+## Introduction
 This design uses seven AXI Performance Traffic Generators, and two AXI NoC instances, each with a 2x32 LPDDR4-3930 memory controller, to model the DDR traffic requirements on VCK190.
 
-# DDR Traffic Model
+## DDR Traffic Model
 One LPDDR4 memory controller handles all the random access memory traffic.  One traffic generator writes to random memory addresses at 2.9 GB/s.  Concurrently, three other traffic generators send read requests to random addresses in three subblocks of same address space to which writes are occurring, each at 3.1 GB/s.
 
 In parallel, a second LPDDR4 memory controller handles eight simultaneous linear traffic threads, four writes and four reads, each accessing a unique bank in memory.  All of these threads are running at 2.78 GB/s.
@@ -33,7 +34,7 @@ The DDR Traffic Model is summarized below:
 | Random Read 1  | 1024         | Random         | 3.1               |
 | Random Read 2  | 1024         | Random         | 3.1               |
 | Random Read 3  | 1024         | Random         | 3.1               |
-# Build the Design
+## Build the Design
 * cd into design directory
 * Follow the instructions in the README in that directory to build the design
 
@@ -41,7 +42,7 @@ The complete design appears as follows:
 ![Block Design](images/final_block_design.PNG)
 The linear traffic generators and NoC instance are highlighted in red.  The random traffic generators and NoC instance are highlighted in blue.  The other blocks are necessary for clock generation and controlling the traffic generators.
 
-# Load Design into Versal
+## Load Design into Versal
 * Launch Vivado
 * Open Hardware Manager
 * Open New Target to connect to the VCK190
@@ -50,7 +51,7 @@ The linear traffic generators and NoC instance are highlighted in red.  The rand
   * LTX: Tutorials/NoC_DDRMC/Performance_Tuning/finished_design/design/myproj/project_1.runs/impl_1/design_1_wrapper.ltx
 * Hardware Manager should show that DDRMC calibration passed
 
-# Launch Traffic Generators and Performance Counters
+## Launch Traffic Generators and Performance Counters
 * In Vivado Tcl Console:
 ```tcl
 cd ./scripts
@@ -66,7 +67,7 @@ This script accomplishes the following:
 7. Writes the results to RESULT.csv
 
 More information about the traffic generators can be found in the *Performance AXI Traffic Generator Product Guide* (PG381).
-# Outputs:
+## Outputs:
 * Results will be captured in ./scripts/RESULT.csv, a sample of which is shown below:
 ![Sample Results](images/sample_results.PNG)
 * Random write BW (GB/s) is in cell F6
@@ -76,22 +77,10 @@ More information about the traffic generators can be found in the *Performance A
 * Linear write BW (GB/s) is in cells F2, F3, F4, and F5
 * Linear read BW (GB/s) is in cells E2, E3, E4, and E5
 
-# Revision History
-* Jul 23, 2020 - Initial revision
-* Jul 24, 2020 - Changed output descriptions
-* Sep 24, 2020 - Updated for 2020.2
-* Aug 26, 2021 - Updated for 2021.1
 
-© Copyright 2020-2021 Xilinx, Inc.
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+<hr class="sphinxhide"></hr>
 
-    http://www.apache.org/licenses/LICENSE-2.0
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>
