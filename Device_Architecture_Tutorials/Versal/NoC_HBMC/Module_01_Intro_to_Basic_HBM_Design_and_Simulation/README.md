@@ -1,25 +1,28 @@
-<table>
- <tr>
-   <td align="center"><img src="https://raw.githubusercontent.com/Xilinx/Image-Collateral/main/xilinx-logo.png" width="30%"/><h1>Versal™ Basic HBM Design with NoC</h1>
-   </td>
- </tr>
- <tr>
- <td align="center"><h1>Building and Running the Design</h1>
- </td>
+<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ Adaptive SoC NoC HBMC Design Flow Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    </td>
  </tr>
 </table>
 
-# HBM Controller
+# Intro to Basic HBM Design and Simulation
+
+***Version: Vivado 2023.1***
+
+## HBM Controller
+
 The HBM Controller (HBMC) is integrated into the AXI NoC IP. This IP allows the user to instantiate the required number of HBMCs along with setting the required data rate, clocking, address mapping, QoS and connectivity. It interfaces with the AXI Memory Map Supported logic and configures the NoC. The Versal HBM family contains up to two HBM2e stacks of 8GB or 16GB each. There's an HBM controller for each of the 8 memory channels in the stack. Each controller is further divided into two pseudo channels. A single controller can be configured for single or dual pseudo channel use. In this module, a single traffic generator (TG) will be configured with a single pseudo channel of the HBMC.
 
-# Description of the Design
+## Description of the Design
+
 This design uses one AXI4 TG to write and read data to/from HBM memory connected to the NoC. AXI performance monitor will be used to report the average bandwidth and latency achieved by each of the AXI connections. This module uses a bottom up design flow in which the logical NoCs are instantiated first and Designer Assistance is used to build the design around it. A TG will be used to simulate the data flow of a real application.
 
 **Note**: This lab is provided as an example only. Figures and information depicted here might vary from the current version. It is highly recommended to follow all the steps below to learn how to build the design with Integrated HBM Controllers. To build the design directly without following all the steps, users can skip all the sections below and jump to [Script to build and Simulate the Design](#script-to-build-and-simulate-the-design)
 
-# Create the Design
+## Create the Design
 
-## Start the Vivado Design Suite
+### Start the Vivado Design Suite
 
 1. Open the Vivado® Design Suite with 2023.1 release or later.
 2. Click **Create Project** from the Quick Start Menu.
@@ -31,18 +34,22 @@ This design uses one AXI4 TG to write and read data to/from HBM memory connected
 8. Click **OK**. An empty block design diagram canvas opens. The Tcl commands to create the project and initial block design are as follows:
 
 In the Vivado Tcl Console:
-``` tcl
+
+```tcl
 create_project hbm_module_1 ./hbm_module_1 -part xcvh1582-vsva3697-2MP-e-S
 create_bd_design "design_1"
 ```
 
-## Instantiate IP and run Designer Assistance
+### Instantiate IP and run Designer Assistance
+
 1. Instantiate one AXI NoC instance from the IP catalog (**IP catalog** → **AXI NoC**) and it drag onto
 the design canvas.
 The corresponding Tcl commands to instantiate the AXI NoCs are:
-``` tcl
+
+```tcl
 create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.0 axi_noc_0
 ```
+
 The default AXI NoC IP will display on the canvas as shown in the following figure.
 ![AXI NoC IP addition](images/noc_ip_instance.PNG)
 
@@ -63,7 +70,8 @@ the page. The Run Block Automation GUI displays.
 
 4. Click **OK**.
 The Tcl commands to run the block automation are as follows:
-``` tcl
+
+```tcl
 apply_bd_automation -rule xilinx.com:bd_rule:axi_noc -config { hbm_density {2} hbm_nmu {1} mc_type {HBM} noc_clk {New/Reuse Simulation Clock And Reset Generator} num_axi_bram {None} num_axi_tg {None} num_aximm_ext {None} num_mc_ddr {None} num_mc_lpddr {None} pl2noc_apm {1} pl2noc_cips {0}}  [get_bd_cells axi_noc_0]
 ```
 
@@ -71,9 +79,11 @@ apply_bd_automation -rule xilinx.com:bd_rule:axi_noc -config { hbm_density {2} h
 looks as follows:
 
 ![Layout after running block automation](images/layout_after_block_automation.PNG)
-    
+
 **Note:** The AXI clock and reset nets are not connected.
-# Configure the NoC IP
+
+## Configure the NoC IP
+
 1. Double click **axi_noc_0** to display the Configuration Wizard.
 2. On the General tab, make the following selections:
    * The Number of AXI Slave Interfaces is set to **0**. Leave this at its default value.
@@ -98,11 +108,13 @@ looks as follows:
 
 6. Click **OK**.
 The Tcl commands to configure the NoC IP are as follows:
-``` tcl
+
+```tcl
 set_property CONFIG.HBM_REF_CLK_SELECTION {Internal} [get_bd_cells axi_noc_0]
 set_property -dict [list CONFIG.CONNECTIONS {HBM0_PORT0 {read_bw {12800} write_bw {12800} read_avg_burst {4} write_avg_burst {4}}}] [get_bd_intf_pins /axi_noc_0/HBM00_AXI]
 delete_bd_objs [get_bd_intf_nets noc_clk_gen_SYS_CLK0]
 ```
+
 The BD canvas should look as shown in the following figure.
 
 ![BD_Layout_after_NoC_Configure](images/BD_Layout_after_NoC_Configure.PNG)
@@ -118,6 +130,7 @@ The BD canvas should look as shown in the following figure.
 ![BD_Layout_after_Run_Connection_Automation_1](images/BD_Layout_after_first_Run_Connection_Automation.PNG)
 
 The Tcl commands to run the connection automation are as follows:
+
 ```tcl
 apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {New Clocking Wizard} Freq {100} Ref_Clk0 {} Ref_Clk1 {} Ref_Clk2 {}}  [get_bd_pins noc_clk_gen/axi_clk_in_0]
 apply_bd_automation -rule xilinx.com:bd_rule:board -config { Manual_Source {Auto}}  [get_bd_intf_pins noc_clk_gen/SYS_CLK0_IN]
@@ -147,7 +160,8 @@ looks as follows:
 ![layout after axi noc 0/1 configuration](images/layout_after_axi_noc_ip_config.PNG)
 
 
-# Configure the Simulation Clock and Reset Generator
+## Configure the Simulation Clock and Reset Generator
+
 1. Double click on **noc_clk_gen** to display the Configuration Wizard. 
 
 2. Change the AXI-0 Clock Frequency (MHz) to **400**.
@@ -160,7 +174,8 @@ set_property CONFIG.USER_AXI_CLK_0_FREQ {400} [get_bd_cells noc_clk_gen]
 ```
 
 
-# Configure the Traffic Generators
+## Configure the Traffic Generators
+
 1. To display the TG configuration screen for a particular instance, double-click the TG instance: **noc_tg**.
 2. In this example design, set the following parameters on the Configuration tab:
    * Set the Performance TG for Simulation to **NON SYNTHESIZABLE**.
@@ -183,18 +198,21 @@ set_property CONFIG.USER_AXI_CLK_0_FREQ {400} [get_bd_cells noc_clk_gen]
 ![NoC_TG_Read_Channel_Config](images/Axi_TG_IP_RD_config.PNG)
 
 The following Tcl command can be used to configure the Traffic Generator:
-``` tcl
+
+```tcl
 set_property -dict [list CONFIG.USER_C_AXI_READ_BANDWIDTH {12800} CONFIG.USER_C_AXI_READ_LEN {127} CONFIG.USER_C_AXI_READ_SIZE {32} CONFIG.USER_C_AXI_TEST_SELECT {writes_followed_by_reads} CONFIG.USER_C_AXI_WRITE_BANDWIDTH {12800} CONFIG.USER_C_AXI_WRITE_LEN {127} CONFIG.USER_C_AXI_WRITE_SIZE {32}] [get_bd_cells noc_tg]
 ```
 
 The address region of the TG will be set through the address editor (described in the next section).
 
-## Set the Addressing
+### Set the Addressing
+
 Open the Address Editor by clicking the tab at the top of the canvas, click the **Expand All** icon from the Address Editor toolbar, and select the **Assign All** icon in the toolbar at the top of the block design canvas. Alternatively, run ```assign_bd_address``` command in the Tcl Console. The address editor tab should look as shown in the figure below:
 
 ![Address map](images/Address_Editor.PNG)
 
-# Validate the Block Design
+## Validate the Block Design
+
 Validation of a NoC design invokes the NoC compiler to find an optimal configuration for the NoC. To validate the design, right-click anywhere in the canvas and, from the context menu, select **Validate Design**. Alternatively, you can also perform validation by clicking the **Validate Design** icon on the toolbar or running ```validate_bd_design``` in the Tcl Console.
 The NoC GUI should show the NoC placement and routing solution as shown in the figure below. There can be minor build-to-build differences in the NoC solution.
 
@@ -212,9 +230,10 @@ between different NoC implementations, not as a representation of the actual tot
 Below figure shows QoS Results:
 ![NoC_QoS](images/NoC_QoS_tab.PNG)
 
-# Simulate the Design
+## Simulate the Design
 
 To simulate the design, follow the steps mentioned below:
+
 1. Open the **Sources** window.
 2. Open the **Hierarchy** tab.
 3. Under the Design Sources tree, select the **design_1** (`design_1.bd`) subtree.
@@ -233,9 +252,10 @@ Settings menu at the Simulation tab.
 
 ![Simulation Run time](images/Simulation_Settings_window.PNG)
 
-9. To start the simulator, click **Simulation** → **Run Simulation**, then select **Run Behavioral Simulation**. 
+9. To start the simulator, click **Simulation** → **Run Simulation**, then select **Run Behavioral Simulation**.
 
 At the end of simulation each TG will report the number of transactions and success or failure in the Tcl console, as shown:
+
 ```
 =========================================================
 >>>>>> SRC ID 0 :: TEST REPORT >>>>>>
@@ -281,9 +301,18 @@ This should list all the show all the AXI signals on the waveform window. All th
 
 ![Simulation Waveforms](images/Simulation_Waveforms.PNG)
 
-# Script to build and Simulate the Design
+## Script to build and Simulate the Design
 
 To build the above design with a script, source **run_hbm_module1.tcl** from the Tcl Console after launching Vivado® Design Suite with 2023.1 release or later.
+
 ```tcl
 source ./run_hbm_module1.tcl
 ```
+
+
+
+<hr class="sphinxhide"></hr>
+
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
+
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

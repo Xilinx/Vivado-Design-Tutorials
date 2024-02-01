@@ -1,11 +1,16 @@
-<table>
- <tr>
-   <td align="center"><img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/corporate/xilinx-logo.png" width="30%"/><h1>2021.2 Versal™ Network on Chip Non-Synthesizable Performance AXI Traffic Generator Tutorial</h1>
-   </td>
+<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ NoC/DDRMC Design Flow Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    </td>
  </tr>
 </table>
 
-# Lab 2 - NoC AXI Performance Monitor
+# Versal NoC Non-Synthesizable Performance AXI Traffic Generator: Lab 2 - NoC AXI Performance Monitor
+
+***Version: Vivado 2021.2***
+
+
 
 This tutorial leverages the design from Lab 1 - Introduction and adds a NoC AXI Performance Monitor to generate more detailed performance information from the Non-Synthesizable Traffic Generator workload.  The CSV will be updated to have the same overall workload but with the addition of traffic flow control which will result in different performance.
 
@@ -112,21 +117,9 @@ This design leverages the project from Lab 1 which targets a VCK190 evaluation b
       * It is safe to ignore the Critical Warnings during the archiving process if they appear.
 
 
-# Revision History
-* November 10, 2021 - First Release
 
-© Copyright 2021 Xilinx, Inc.
+<hr class="sphinxhide"></hr>
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
 
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-<p align="center"><br><sup>XD124</sup></br></p>
-
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

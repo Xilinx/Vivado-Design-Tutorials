@@ -1,11 +1,17 @@
- <tr>
-   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>2021.2 Versal JTAG Boot Tutorial</h1>
-   </td>
+﻿<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ Adaptive SoC Boot and Configuration Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    </td>
  </tr>
 </table>
 
 
-# Table of Contents
+# JTAG Boot Tutorial: Introduction
+
+***Version: Vivado 2021.2***
+
+## Table of Contents
 
 1. Introduction
 
@@ -22,14 +28,14 @@
 7. [References](7References.md)
 
 
-# Introduction
-Versal™ ACAP combines adaptable processing and acceleration engines with programmable logic and configurable connectivity to enable custom, heterogeneous hardware solutions for a wide variety of applications in Data Center, automotive, 5G wireless, wired network, and defense. Versal ACAP supports several primary boot modes for application flexibility. This tutorial highlights the JTAG primary boot mode flow since it is commonly used to bring up a new board.
+## Introduction
+Versal™ Adaptive SoC combines adaptable processing and acceleration engines with programmable logic and configurable connectivity to enable custom, heterogeneous hardware solutions for a wide variety of applications in Data Center, automotive, 5G wireless, wired network, and defense. Versal Adaptive SoC supports several primary boot modes for application flexibility. This tutorial highlights the JTAG primary boot mode flow since it is commonly used to bring up a new board.
 
-See [Quick-Start Instructions](3QuickStartInstructions.md) for the scripts used to generate the example tutorial reference design and instructions on how to program the VCK190 evaluation board with JTAG boot mode. Sample steps to set MIO/clock configurations for the reference design components are also provided. The reference design includes the Versal ACAP System Monitor, triple timer counter, platform management controller (PMC) peripherals, processing system (PS) peripherals, binary counters, and general purpose IO (GPIO). This reference design is created using the parts project type flow since that is the flow users would follow when creating their own custom board designs.
+See [Quick-Start Instructions](3QuickStartInstructions.md) for the scripts used to generate the example tutorial reference design and instructions on how to program the VCK190 evaluation board with JTAG boot mode. Sample steps to set MIO/clock configurations for the reference design components are also provided. The reference design includes the Versal Adaptive SoC System Monitor, triple timer counter, platform management controller (PMC) peripherals, processing system (PS) peripherals, binary counters, and general purpose IO (GPIO). This reference design is created using the parts project type flow since that is the flow users would follow when creating their own custom board designs.
 
-The [Debug Resources](5DebugResources.md) and [Custom Board Bring-up Resources](6CustomBoardBringupResources.md) section assists with custom board bring-up and debug. A script to read the Versal ACAP JTAG registers status and save the contents to a file for debug is provided.
+The [Debug Resources](5DebugResources.md) and [Custom Board Bring-up Resources](6CustomBoardBringupResources.md) section assists with custom board bring-up and debug. A script to read the Versal Adaptive SoC JTAG registers status and save the contents to a file for debug is provided.
 
-## Objectives
+### Objectives
 After completing this tutorial, users should be able to:
 * Understand the steps required for the JTAG boot mode flow.
 * Build the tutorial reference design programmable device image (PDI).
@@ -39,11 +45,11 @@ After completing this tutorial, users should be able to:
 * Decode common BootROM and PLM error codes if encountered on new designs.
 * Use resources for custom board bring-up and boot debug.
 
-## Design Block Diagram
+### Design Block Diagram
 
 The JTAG boot tutorial scripts generate a Vivado reference design, which is detailed in the following diagram.
 
-### Block diagram
+#### Block diagram
 
 ![Block Diagram](Images/blkdiagram.png)
 
@@ -64,7 +70,7 @@ The design block diagram includes the following components:
 |PS GEM1|Gigabit Ethernet MAC (GEM) controller 1.|
 
 
-## Directory Structure Details
+### Directory Structure Details
   
 
 ```
@@ -72,8 +78,8 @@ JTAG_BOOT
 |___Design.................Contains Vivado design input constraints
   |___pl.xdc...........................PL GPIO constraints file
 |___Images.................Contains images that appear in .md files
-  |___blkdiagram.png...................Versal ACAP reference design block usage overview
-  |___2_bootphase_steps.png.............Versal ACAP boot phases
+  |___blkdiagram.png...................Versal Adaptive SoC reference design block usage overview
+  |___2_bootphase_steps.png.............Versal Adaptive SoC boot phases
   |___3_hwmgr_pdisel.png................PDI programming in Hardware Manager
   |___3_vck190_board.png...............VCK190 board view
   |___3_vck190_power_good_leds.jpg.....Power rails power good LEDs on VCK190
@@ -120,12 +126,10 @@ JTAG_BOOT
 ```
 
 
-## [Go To Next Section](2BeforeYouBegin.md)
+### [Go To Next Section](2BeforeYouBegin.md)
 
+<hr class="sphinxhide"></hr>
 
-© Copyright 2020-2022 Xilinx, Inc.
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
 
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

@@ -1,33 +1,32 @@
+<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Vivado™ Design Flow Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado Development Environment on xilinx.com</a>
+    </td>
+ </tr>
+</table>
+
+
+
 # [Table of Contents](#table-of-contents)
-1.  [Designing with IP integrator  ](#designing-with-ip-integrator)
-2.  [Designing with IP integrator   using Block Design
-    Containers](#designing-with-ip-integrator-using-block-design-containers)
+- [Table of Contents](#table-of-contents)
+- [Designing with IP integrator](#designing-with-ip-integrator)
+- [**Designing with IP integrator  using Block Design Containers**](#designing-with-ip-integrator--using-block-design-containers)
+  - [Step 1: Creating a Project](#step-1-creating-a-project)
+  - [Step 2: Creating an IP integrator  Design with MicroBlaze Master](#step-2-creating-an-ip-integrator--design-with-microblaze-master)
+  - [Step 3: Adding New IP's, Interfaces and IP Customization](#step-3-adding-new-ips-interfaces-and-ip-customization)
+  - [Step 4: Creating Connections to all IP's and interfaces](#step-4-creating-connections-to-all-ips-and-interfaces)
+  - [Step 5: Connecting all IP's and Interfaces using both manual and automated connections](#step-5-connecting-all-ips-and-interfaces-using-both-manual-and-automated-connections)
+  - [Step 6: Using the Address Editor](#step-6-using-the-address-editor)
+  - [Step 7: Creating Hierarchies](#step-7-creating-hierarchies)
+  - [Step 8: Block Design Containers](#step-8-block-design-containers)
+  - [Step 9: Block Design Containers (Bottom Up flow)](#step-9-block-design-containers-bottom-up-flow)
 
-    -   [Step 1: Creating a
-        Project](#step-1-creating-a-project)
-    -   [Step 2: Creating an IP integrator  Design with MicroBlaze Master
-        ](#step-2-creating-an-ip-integrator-design-with-microblaze-master)
-    -   [Step 3: Adding New IP's, Interfaces and IP
-        Customization](#step-3-adding-new-ips-interfaces-and-ip-customization)
-    -   [Step 4: Creating Connections to all IP's and
-        interfaces](#step-4-creating-connections-to-all-ips-and-interfaces)
-    -   [Step 5: Connecting all IP's and Interfaces using both manual
-        and automated
-        connections](#step-5-connecting-all-ips-and-interfaces-using-both-manual-and-automated-connections)
-    -   [Step 6: Using the Address
-        Editor](#step-6-using-the-address-editor)
-    -   [Step 7: Creating Hierarchies
-        ](#step-7-creating-hierarchies)
-    -   [Step 8: Block Design Containers
-        ](#step-8-block-design-containers)
-    -   [Step 9: Block Design Containers (Bottom Up
-        flow)](#step-9-block-design-containers-bottom-up-flow)
-
-# Designing with IP integrator 
+# Designing with IP integrator
 
 **Introduction**
 
-***Version : Vivado 2022.1***
+***Version: Vivado 2022.1***
 
 The Xilinx® Vivado® Design Suite IP integrator  lets you create complex
 system designs by instantiating and interconnecting IP cores from the Vivado IP catalog
@@ -926,3 +925,10 @@ auto-update' and click OK.
     can take the design to bitstream generation
 
 This brings us to the end of the tutorial.
+
+
+<hr class="sphinxhide"></hr>
+
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
+
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

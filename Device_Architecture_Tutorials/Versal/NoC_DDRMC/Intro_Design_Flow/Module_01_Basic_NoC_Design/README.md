@@ -1,15 +1,18 @@
-<table>
- <tr>
-   <td align="center"><img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/corporate/xilinx-logo.png" width="30%"/><h1>2021.1 Versal™ Basic NoC Design</h1>
-   </td>
- </tr>
- <tr>
- <td align="center"><h1>Building and Running the Design</h1>
- </td>
+<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ NoC/DDRMC Design Flow Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    </td>
  </tr>
 </table>
 
-# Introduction to Logical NoC
+# Basic NoC Design: Building and Running the Design
+
+***Version: Vivado 2021.1***
+
+
+
+## Introduction to Logical NoC
 The Vivado® Next Generation 2021.1 tool flow introduces a pair of IPs: the AXI NoC and the
 AXIS NoC. These IPs act as logical representations of the Versal™ programmable NoC. The AXI
 NoC supports the AXI memory mapped protocol while the AXIS NoC supports the AXI4-Stream
@@ -24,7 +27,7 @@ two or four instances of the MC are selected, they are configured to form a sing
 memory. In this case, the memory controllers are configured identically and mapped to the same
 address. Interleaving is controlled by the NoC.
 
-# Description of the Design
+## Description of the Design
 This design uses an AXI4 traffic generator to write and read data to/from a block RAM. The
 design will use a simulation clock generator, an AXI4 traffic generator block, an instance of the
 Versal™ NoC, an AXI4 block RAM controller and a memory generator to create a block RAM
@@ -35,9 +38,9 @@ the bandwidth requirements of the design are met.
 Note: This lab is provided as an example only. Figures and information depicted here might vary from the
 current version.
 
-# Create a Project
+## Create a Project
 
-## Start the Vivado Design Suite
+### Start the Vivado Design Suite
 1. Open the Vivado® Design Suite. Ensure the banner at the top of the window identifies the
 **Vivado 2021.1** release.
 2. Click **Create Project** from the Quick Start Menu.
@@ -56,7 +59,7 @@ In the Vivado Tcl Console:
 create_project lab1 ./lab1 -part xcvc1902-vsva2197-1LP-e-S-es1
 create_bd_design "design_1"
 ```
-# Instantiate the IP and Run Designer Assistance
+## Instantiate the IP and Run Designer Assistance
 1. Right-click on the block design canvas and from the context menu select **Add IP....**
 2. The IP catalog pops up. In the Search field type **AXI NoC**, to filter a list of IP. From the filtered
 list, double-click the **AXI NoC** to instantiate the IP on the block design canvas.
@@ -111,7 +114,7 @@ endgroup
 regenerate_bd_layout
 ```
 
-# NoC Configuration
+## NoC Configuration
 Each of the instantiated IP blocks has a set of parameters which can be configured to ensure the
 IP core behaves as intended. Designer Assistance sets default values that in most cases need
 not be changed. This section examines the NoC configuration options.
@@ -151,7 +154,7 @@ port to the block RAM controller. Here the required read and write bandwidth may
 specified. The default values of 1720 MB/s are sufficient.
 6. Click **OK** in the bottom right corner to close the NoC menu.
 ![NoC QOS](images/noc_qos.PNG)
-# Configure the Remaining IP
+## Configure the Remaining IP
 1. Double click the **noc_clk_gen** instance to open the Simulation Clock and Reset Generator
 Configuration Wizard.
 2. Set the following values:
@@ -192,7 +195,7 @@ See the following figure for reference:
 ``` tcl
 set_property -dict [list CONFIG.USER_C_AXI_DATA_INTEGRITY_CHECK {ON}] [get_bd_cells noc_tg]
 ```
-# Address Map
+## Address Map
 To create a default address map:
 1. Open the **Address Editor** tab as shown in the following figure. Expand the tree by clicking the
 down-arrow on **noc_tg**.
@@ -202,7 +205,7 @@ down-arrow on **noc_tg**.
 3. Note that the address of `0x0000_0201_0000_0000` is assigned to `axi_bram_ctrl_0`.
 When **validate_bd_design** is run these values are propagated to the traffic generator.
 
-# Validate the Block Design
+## Validate the Block Design
 The next step is to validate the design. Validation of a NoC design invokes the NoC compiler to
 find an optimal configuration for the NoC. The NoC compiler performs the following functions:
 * Determines the mapping of logical ingress and egress ports to the structural NMU and NSU
@@ -216,7 +219,7 @@ To validate the design, right-click anywhere in the canvas and, from the context
 After validation the NoC viewer window shows the NoC compiler solution and the NoC QoS tab
 shows the quality of service achieved.
 
-# Simulate the Design
+## Simulate the Design
 The Vivado simulator includes a Transaction View feature that provides a higher level waveform
 view of AXI bus transactions. During simulation use the Transaction View to
 observe the interface between the traffic generator and the NoC. On the design canvas select
@@ -265,16 +268,8 @@ Hovering the mouse over an individual transaction will display a pop-up showing 
 details. Clicking on a transaction component (for example, Read Address) will highlight the related transaction components.
 
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+<hr class="sphinxhide"></hr>
 
-    http://www.apache.org/licenses/LICENSE-2.0
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-<p align="center"><sup>Copyright© 2020-2021 Xilinx</sup><br><sup>XD028</sup><br></p>
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

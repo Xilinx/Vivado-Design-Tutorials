@@ -38,9 +38,9 @@ CS_URL = "TCP:cs_server_name:3042"
 HW_URL = "TCP:hw_server_name:3121"
 # set up path to PDI file
 PDI_FILE = f"c:/design_files/versal_ddr.pdi"
-# Which ACAP device in the debug chain
-ACAP_INDEX = 0
-# Which DDRMC target (0..3) for given ACAP
+# Which Adaptive SoC device in the debug chain
+acap_INDEX = 0
+# Which DDRMC target (0..3) for given Adaptive SoC 
 DDR_INDEX = 1
 # Which Rank of the memory interface
 RANK = 0
@@ -67,8 +67,8 @@ report_versions(session)
 if len(session.devices) == 0:
     print('\nNo devices detected')
 else:
-    versal_device = session.devices[ACAP_INDEX]
-    print(f"Versal device found at device index number {ACAP_INDEX}")
+    versal_device = session.devices[acap_INDEX]
+    print(f"Versal device found at device index number {acap_INDEX}")
 	
 ## Program the device
 

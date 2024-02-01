@@ -1,15 +1,19 @@
-<table>
- <tr>
-   <td align="center"><img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/corporate/xilinx-logo.png" width="30%"/><h1>2021.1 Versal™ Isochronous Class with Streaming traffic</h1>
-   </td>
- </tr>
- <tr>
- <td align="center"><h1>Building and Running the Design</h1>
- </td>
+<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ NoC/DDRMC Design Flow Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    </td>
  </tr>
 </table>
 
-# Description of the Design
+# Basic NoC Design: Description of the Design
+
+***Version: Vivado 2021.1***
+
+
+
+
+## Description of the Design
 This module uses one traffic generator to write and read isochronous traffic from DDR4 memory,
 a second traffic generator to write and read data to/from a block RAM, and two traffic
 generators to create AXI4-Stream connections across the device.
@@ -27,8 +31,8 @@ to the AXI4-Stream endpoints, re-validate the design, and simulate using the Viv
 
 Note: This lab is provided as an example only. Figures and information depicted here might vary from the current version.
 
-# Create the Design
-## Project Creation and AXI Memory Mapped Design
+## Create the Design
+### Project Creation and AXI Memory Mapped Design
 1. Follow the steps given in Module_01 to open the 2021.1 release of Vivado®.
 2. Create a new project using part **xcvc1902-vsva2197-1LP-e-S**.
 3. Create an empty block design.
@@ -56,7 +60,7 @@ of the Clocking Wizard IP. Click the link, select **All Automation** and finally
 The canvas should look as follows:
 ![BD after regen layout](images/axi_noc_bd_regen_layout.PNG)
 
-# Configuring NoC Connectivity and QoS
+## Configuring NoC Connectivity and QoS
 1. Double click on the **axi_noc_0** instance. This displays the configuration screen. Change the
 default configuration parameters as follows:
 * General tab:
@@ -132,7 +136,7 @@ set_property -dict [list CONFIG.USER_C_AXI_WDATA_WIDTH {64} CONFIG.USER_C_AXI_RD
 assign_bd_address
 validate_bd_design
 ```
-# AXI4-Stream Design
+## AXI4-Stream Design
 In this section, you return to the Diagram canvas to add two AXI4-Stream connections through
 the NoC.
 1. Add one instance of the AXI4-Stream NoC from the IP catalog (or by right clicking in the
@@ -214,7 +218,7 @@ validate_bd_design
 ```
 
 
-# Assigning Locations to NoC Endpoints
+## Assigning Locations to NoC Endpoints
 The NoC Viewer can be used to add location constraints to the NoC end points. To constrain an
 NMU or NSU:
 1. Select the cell to move by clicking on the cell in the NoC Objects view. This will display the NoC Properties window as shown in the following figure.
@@ -271,23 +275,15 @@ set_property -dict [list CONFIG.PHYSICAL_LOC {NOC_NMU512_X3Y5}] [get_bd_intf_pin
 set_property -dict [list CONFIG.PHYSICAL_LOC {NOC_NSU512_X0Y0}] [get_bd_intf_pins axis_noc_1/M00_AXIS]
 validate_bd_design
 ```
-# Simulate the Design
+## Simulate the Design
 To prepare for simulation, create a top level design wrapper as described in Lab 1.
 Click Simulation → Run Simulation from the Flow Navigator pane. This will generate the
 simulation netlist and start up the Vivado® simulator. With the traffic parameters given above,
 the simulation will complete after approximately 14 μs.
 
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+<hr class="sphinxhide"></hr>
 
-    http://www.apache.org/licenses/LICENSE-2.0
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-<p align="center"><sup>Copyright© 2020-2021 Xilinx</sup><br><sup>XD028</sup><br></p>
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

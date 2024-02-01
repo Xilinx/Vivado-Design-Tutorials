@@ -1,18 +1,18 @@
-<table>
- <tr>
-   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>XPHY I/O Source Synchronous Interfaces in Versal ACAPs</h1>
-   </td>
- </tr>
- <tr>
- <td align="center"><h1>Single-Bank Source Synchronous Tutorial</h1>
- </td>
+﻿<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ Adaptive SoC XPHY I/O Source Synchronous Interfaces Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    </td>
  </tr>
 </table>
 
-<hr style="height:2px;border-width:0;background-color:brown">
+# Single-Bank Source Synchronous Tutorial
 
-<h1>Single-Bank Source Synchronous Design</h1>
-<h2>Summary</h2>
+***Version: Vivado 2020.2***
+
+
+## Summary
+
 <details>
    <summary>Click to expand</summary>
 
@@ -32,7 +32,8 @@ This tutorial uses the FMC XM107 loopback card. The RX core feeds the data to th
 
 
 
-<h2>Pre-Core Generation Setup</h2>
+## Pre-Core Generation Setup
+
 <details>
    <summary>Click to expand</summary>
 
@@ -40,32 +41,33 @@ The following steps describe how to configure and set up the project before buil
 
 1. Clone the tutorial to get all the source files.
 
-3. Create a separate directory named Versal_ssync_rxtx_intrfce_sb to build the new project.
-4. Launch the Vivado tools 2020.2 or later from the newly created directory.
-5. Under Quick Start, select **Create Project**.
-6. Click **Next** for the prompt to Create a New Vivado Project and use
+2. Create a separate directory named Versal_ssync_rxtx_intrfce_sb to build the new project.
+3. Launch the Vivado tools 2020.2 or later from the newly created directory.
+4. Under Quick Start, select **Create Project**.
+5. Click **Next** for the prompt to Create a New Vivado Project and use
 Versal_ssync_rxtx_intrfce_sb for the name of the project. *Deselect* **Create a project subdirectory**.
-7. Click **Next**. For Project Type, select **RTL project**. Deselect **Do not specify sources at this time**.
-8. Add the source files from the Design folder under the Single_bank_source_synchronous_design folder.
-9. Add the files toplevel_sb.sv, Prbs_Any.vhd, and Prbs_RxTx.vhd.
+1. Click **Next**. For Project Type, select **RTL project**. Deselect **Do not specify sources at this time**.
+2. Add the source files from the Design folder under the Single_bank_source_synchronous_design folder.
+3. Add the files toplevel_sb.sv, Prbs_Any.vhd, and Prbs_RxTx.vhd.
 Make sure the Library is set to xil_defaultlib, and the files are used for synthesis and simulation by setting them under the HDL Source For column.
-10. Similarly, add the files toplevel_testbench_sb.sv and toplevel_sim_sb.sv from the Simulation folder under the Single_bank_source_synchronous_design folder. Make sure the Library is set to xil_defaultlib and the file is used only for simulation by setting it under the HDL Source For column.
-11. Select **Scan and add RTL include files into project** and **Copy sources into project**. Set the Target Language to **Verilog** and the Simulator Language to **Mixed**.
-12. Click **Next** to proceed to adding the constraint files.
-13. Add the file toplevel_sb.xdc from the Constraints folder under the
+1.  Similarly, add the files toplevel_testbench_sb.sv and toplevel_sim_sb.sv from the Simulation folder under the Single_bank_source_synchronous_design folder. Make sure the Library is set to xil_defaultlib and the file is used only for simulation by setting it under the HDL Source For column.
+2.  Select **Scan and add RTL include files into project** and **Copy sources into project**. Set the Target Language to **Verilog** and the Simulator Language to **Mixed**.
+3.  Click **Next** to proceed to adding the constraint files.
+4.  Add the file toplevel_sb.xdc from the Constraints folder under the
 single_bank_source_synchronous_design folder. Select **Copy constraints files into project**.
-14. Click **Next** to select the part for the project. Select part **xcvc1902-vsva2197-2MP-e-S** for the reference designs and click **Next**.
-15. On the summary page for the project, make sure all the details match the settings and then click **Finish**.
-16. The Vivado tools should create a project and display the hierarchy of the files under the Sources folder.
+1.  Click **Next** to select the part for the project. Select part **xcvc1902-vsva2197-2MP-e-S** for the reference designs and click **Next**.
+2.  On the summary page for the project, make sure all the details match the settings and then click **Finish**.
+3.  The Vivado tools should create a project and display the hierarchy of the files under the Sources folder.
 </details>
 
-<h2>Clock Source (clock_gen) Setup</h2>
+## Clock Source (clock_gen) Setup
+
 <details>
    <summary>Click to expand</summary>
 
 The VCK190 board has an I2C programmable SI570 low-jitter 3.3V LVDS differential oscillator
 (U3) connected to the GC inputs of U1 LPDDR4_2 interface bank 705. The LPDDR4_CLK2_P
-and LPDDR4_CLK2_N series capacitor coupled clock signals are connected to XCVC1902 ACAP
+and LPDDR4_CLK2_N series capacitor coupled clock signals are connected to XCVC1902 Adaptive SoC 
 U1 pins AW27 and AY27, respectively. At power-up, this clock defaults to an output frequency
 of 200.000 MHz. User applications or the system controller can change the output frequency
 within the range of 10 MHz to 945 MHz through the I2C bus interface. Power cycling the
@@ -143,7 +145,7 @@ design.
 
     j. Phase: 0.000
 
-    Refer to the Versal ACAP Clocking Resources Architectural Manual (<a href="https://www.xilinx.com/support/documentation/architecture-manuals/am003-versal-clocking-resources.pdf">AM003</a>) to understand how Fvco and Fclkout is calculated.
+    Refer to the Versal Adaptive SoC Clocking Resources Architectural Manual (<a href="https://www.xilinx.com/support/documentation/architecture-manuals/am003-versal-clocking-resources.pdf">AM003</a>) to understand how Fvco and Fclkout is calculated.
     Also, refer to the Versal AI Core Series Data Sheet (<a href="https://www.xilinx.com/support/documentation/data_sheets/ds957-versal-ai-core.pdf">DS957</a>) to follow the limits for Fvco.
 
       Fvco = Fclkin × M/D
@@ -168,11 +170,12 @@ Products prompt appears. Set the Synthesis Option to **Out of context per IP** a
 </details>
 
 
-<h2>Introduction to Deserialization and Data Reception</h2>
+## Introduction to Deserialization and Data Reception
+
 <details>
    <summary>Click to expand</summary>
 
-<h3>Data Reception</h3>
+### Data Reception
 
 In this source synchronous design, the capture clock is the same as the transmit clock which is
 looped back externally via a loopback card on the board from the TX to the RX core. The transmit
@@ -192,8 +195,9 @@ programmable logic where it gets checked by the PRBS checker.
 ![Clock Data Relationship](./Images/Center%20DDR.PNG)  
 
 
-<h3>Configure and Generate an RX Advanced I/O Wizard Core</h3>
-<h4>Generating an RX Core</h4>
+### Configure and Generate an RX Advanced I/O Wizard Core
+
+#### Generating an RX Core
 
 After following the previous steps to generate the top-level design and clock source core,
 the next step is to generate TX and RX cores for operation. Follow these steps to generate the
@@ -268,7 +272,7 @@ strobes).
 8. Click **OK** after reviewing the settings. The IP is now customized, and the Generate the Output Products prompt appears. Set the Synthesis Option to **Out of context per IP** and click **Generate to launch the design run** for the newly generated RX core. The default placement might look different but this does not matter because the default placement is adjusted later based on the pin locations in the
 constraints file.
 
-<h3>Receiver Design Considerations</h3>
+### Receiver Design Considerations
 
 This RX core is set up to work for a data rate of 1800 Mb/s. Also, the core is configured for
 LVDS15 in the reference design. This single-bank design is configured for a center-aligned DDR system.
@@ -276,11 +280,12 @@ An XPIO bank has 54 pins, and this design uses 34 pins in the form of 16 pairs o
 takes care of the placement.
 </details>
 
-<h2>Introduction to Serialization and Data Transmission</h2>
+## Introduction to Serialization and Data Transmission
+
 <details>
    <summary>Click to expand</summary>
 
-<h3>Data Transmission</h3>
+### Data Transmission
 
 In the reference design, the TX core sends out the transmit clock via the clock forward pins. The data in
 this design is generated using the PRBS generator. The transmit clock is generated by feeding
@@ -288,7 +293,7 @@ the pattern 01010101 to the clock forwarding pins. The data generated by the PRB
 is fed into the TX core from the programmable logic, which follows the TX datapath through a
 serializer and output delay within the PHY. The serializer supports 8:1, 4:1, and 2:1 serialization.
 In the design, an 8:1 serialization factor is used. The data is transmitted through the TX data pins
-of the core. To understand the data flow operation inside the TX core, see Versal ACAP SelectIO
+of the core. To understand the data flow operation inside the TX core, see Versal Adaptive SoC SelectIO
 Resources Architecture Manual (<a href="https://www.xilinx.com/support/documentation/architecture-manuals/am010-versal-selectio.pdf">AM010</a>).
 
 The PLL input clock to the TX core is fed to the XPLL through a bank0_pll_clkin port. In the design,
@@ -300,8 +305,9 @@ forwarded clock to 90, which aligns the data-to-clock relation to support the ce
 RX core. The transmit clock is transmitted on NIBBLESLICE[0] and NIBBLESLICE[1] to the RX
 core.
 
-<h3>Configure and Generate a TX Advanced I/O Wizard Core</h3>
-<h4>Generating a TX Core</h4>
+### Configure and Generate a TX Advanced I/O Wizard Core
+
+#### Generating a TX Core
 
 Follow these steps to generate the TX core using the AIOW. See the figures in this section for
 reference.
@@ -380,14 +386,15 @@ selected in the Basic tab while configuring the TX core.
 Products prompt appears. Set the Synthesis Option to **Out of context per IP** and click **Generate** to launch the design run for the newly generated TX core. The default placement might look different,
 but this does not matter because the default placement is adjusted later based on the pin locations in the constraints file.
 
-<h3>Transmitter Design Considerations</h3>
+### Transmitter Design Considerations
 
 This TX core is set up for a data rate of 1800 Mb/s. Also, the core is configured and tested for
 LVDS15 in the reference design. This single bank design uses the clock from the CLKOUT1 port of the clock_gen core to feed the XPLL of the TX core. The PLL input clock that feeds the TX core
 is driven through the BUFG and then passed to the bank0_pll_clkin port. An XPIO bank has 54 pins, and the design uses 34 pins in the form of 16 pairs of data pins and one pair of transmit clock/strobe via the clock forwarding pins. The design constrains the ports for the transmit interfaces and the placement is taken care of by the Vivado tools.
 </details>
 
-<h2>Configuring VIO</h2>
+## Configuring VIO
+
 <details>
    <summary>Click to expand</summary>
 
@@ -411,7 +418,8 @@ catalog to open the Customize IP window.
 4. Click **OK** after reviewing the settings. The IP is now customized and the Generate the Output Products prompt appears. Set the Synthesis Option to **Out of context per IP** and click **Generate** to launch the design run for the newly generated VIO core.
 </details>
 
-<h2>Configuring ILA</h2>
+## Configuring ILA
+
 <details>
    <summary>Click to expand</summary>
 
@@ -439,7 +447,8 @@ catalog to open the Customize IP window.
 5. Click **OK** after reviewing the settings. The IP is now customized and the Generate the Output Products prompt appears. Set the Synthesis Option to **Out of context per IP** and then click **Generate** to launch the design run for the newly generated ILA core.
 </details>
 
-<h2>Block Design with Versal CIPS to generate the PDI</h2>
+## Block Design with Versal CIPS to generate the PDI
+
 <details>
    <summary>Click to expand</summary>
 
@@ -447,7 +456,7 @@ In order to generate the PDI for a Versal device, the design needs to be built w
 CIPS is the software interface around
 the Versal processing system. The Versal family consists of a system-on-chip (SoC) style integrated
 processing system (PS) and a programmable logic (PL) unit, NoC, and AI Engine providing an extensible
-and flexible SoC solution on a single die. In the Versal ACAP SOC architecture, the ILA and
+and flexible SoC solution on a single die. In the Versal  Adaptive SoC  architecture, the ILA and
 VIO IPs require a debug hub IP in order to function. This debug hub IP must in turn be connected to
 the CIPS processor. A few additional blocks provide necessary clocking, reset, and NOC connectivity required for the debug IP to operate correctly.
 
@@ -517,7 +526,8 @@ Double click the CIPS IP to customize the IP.
 Products**. Select **Out of context per Block Design** when prompted to select the Synthesis Option.
 </details>
 
-<h2>Top-Level using TX and RX Advanced I/O Wizard Cores</h2>
+## Top-Level using TX and RX Advanced I/O Wizard Cores
+
 <details>
    <summary>Click to expand</summary>
 
@@ -541,7 +551,8 @@ nibbles to the XPHY sites. The Advanced I/O Planner should be used to help with 
 (see Advanced I/O Wizard LogiCORE IP Product Guide (<a href="https://www.xilinx.com/support/documentation/ip_documentation/advanced_io_wizard/v1_0/pg320-advanced-io-wizard.pdf">PG320</a>)) when using the AIOW. This tutorial uses prebuilt hardware in the form of the external loopback card. Thus, the I/O locations are provided in the XDC file.
 </details>
 
-<h2>Hardware Execution of the Design</h2>
+## Hardware Execution of the Design
+
 <details>
    <summary>Click to expand</summary>
 
@@ -626,7 +637,8 @@ This should clear all the pll_locked, intf_rdy, and PRBS gen/chk signals. To set
 This should release all the resets, and the design is operational. In order to inject the error, set int_inject_err to 1. This should set the error flag int_prbs_err_all_sync. Alternatively, use the script reset_sb.tcl on the TCL console.
 </details>
 
-<h2>Simulation</h2>
+## Simulation
+
 <details>
    <summary>Click to expand</summary>
 
@@ -647,7 +659,7 @@ system is double data rate, the interface operates at 1800 Mb/s.
 ![1800Mbps Interface Speed](./Images/1800Mbps.png)      
 
 
-<h3>Simulating the Design</h3>
+### Simulating the Design
 
 The design is tested with the Vivado Simulator 2020.2. This section describes how to launch the
 simulation. Assuming the Vivado project is already created for the design, follow these steps to
@@ -677,7 +689,9 @@ Int_prbs_err_00 denotes the error for any NIBBLESLICEs on NIBBLE[2]. Int_prbs_er
 the error for any NIBBLESLICEs on NIBBLE[1] and NIBBLE[2]. Int_prbs_err_all denotes an error on any NIBBLESLICEs across all the nibbles.
 </details>
 
-<h2>Script</h2>
+
+## Script
+
 <details>
    <summary>Click to expand</summary>
 
@@ -695,9 +709,17 @@ In order to run the script, make sure it is placed beside the Design, Constraint
 It takes a few minutes for the script to build and implement the design.
 </details>
 
-<h2>Conclusion</h2>
+## Conclusion
+
 <details>
    <summary>Click to expand</summary>
 
 This tutorial confirms the use of the Advanced I/O Wizard for a source synchronous application for single-bank RX and TX interfaces.
 </details>
+
+
+<hr class="sphinxhide"></hr>
+
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
+
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

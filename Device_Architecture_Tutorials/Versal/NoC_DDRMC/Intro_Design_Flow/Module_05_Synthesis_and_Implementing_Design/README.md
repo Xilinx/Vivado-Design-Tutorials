@@ -1,15 +1,17 @@
-<table>
- <tr>
-   <td align="center"><img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/corporate/xilinx-logo.png" width="30%"/><h1>2021.1 Versal™ Synthesis and Implementing the Design</h1>
-   </td>
- </tr>
- <tr>
- <td align="center"><h1></h1>
- </td>
+<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ NoC/DDRMC Design Flow Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    </td>
  </tr>
 </table>
 
-# Synthesis and Implementing the Design
+# Basic NoC Design: Synthesis and Implementing the Design
+
+***Version: Vivado 2021.1***
+
+## Introduction
+
 This tutorial design demonstrates using IP integrator to add an AXI-NoC IP with access to an
 integrated DDRMC. You will then add and configure the AXI Traffic Generator (TG) to generate traffic
 to the DDRMC via the NoC.
@@ -34,15 +36,15 @@ Servive (QoS) parameters.
 
 **Note**: Synthesis and Implementing Design/`run.tcl` contains the Tcl script that will setup the project per the basic flow outlined
 above - all the way from creating the IP integrator design to implementing the design in Vivado.
-# Description of the Design
+## Description of the Design
 This design uses one AXI4 TG to write and read data to/from DDR4 memory
 connected to the NoC through an integrated DDR4 Memory Controller (MC) block. The TG will read and write from a single DDR memory through the `axi_noc` instance. The TG is used to simulate the data flow of a real application.
 
 **Note**: This design is provided as an example only. Figures and information depicted here might vary from the
 current version.
 
-# Create a Project
-## Start Vivado
+## Create a Project
+### Start Vivado
 1. Open the Vivado® GUI. Make sure the banner at the top of the window identifies the Vivado
 2020.2 release.
 2. From the Quick Start buttons, click **Create Project**.
@@ -61,7 +63,7 @@ The Tcl commands to create the project and initial block design are as follows:
 create_project project_1 ./project_1 -part xcvc1902-vsva2197-1LP-e-S-es1
 create_bd_design "design_1"
 ```
-# NoC IP Configuration
+## NoC IP Configuration
 The NoC IPs act as logical representations of the Versal™ network on chip. The `axi_noc`
 supports the AXI memory mapped protocol. Each instance specifies a set of connections to be
 mapped onto the physical NoC, along with the QoS requirements for each connection. A given
@@ -95,7 +97,7 @@ of QoS properties for each output connection from the selected ingress port.
 6. Open the DDR Basic tab and select the checkbox for **Enable Internal Responder**.
 7. Click **OK** in the bottom right corner to close the NoC menu.
 
-# Add and Configure the Traffic Generator
+## Add and Configure the Traffic Generator
 Add one instance of AXI Traffic Generator IP. Double-click it and configure as follows (see the
 following figures for reference):
 * Set Profile Selection to **High Level Traffic**.
@@ -168,14 +170,14 @@ of `axi_traffic_gen_0`
 See the following figure for reference.
 ![layout after above connection](images/layout_after_all_connection.PNG)
 
-# Address Editor
+## Address Editor
 1. Click the **IPI Address Editor** tab.
 2. Click the **Assign All** icon at the top. This will auto assign the base and range addresses
 associated with the AXI slaves in the block design.
-# Validate the Block Design
+## Validate the Block Design
 Validate the design in the IP integrator by clicking the **Validate Block Design** icon at the top of
 the canvas.
-# Create the HDL Wrapper and Generate Output Products
+## Create the HDL Wrapper and Generate Output Products
 1. In the Sources window to the left, right-click on the block design, and select **Create HDL
 Wrapper**.
 2. Go with the default selection in the Create HDL Wrapper dialog box and click **OK**.
@@ -185,7 +187,7 @@ Wrapper**.
 Products dialog that follows, click **Generate**. The out-of-context module runs take a few
 minutes to complete.
 
-# Set up the Memory Bank using the Nibble Planner
+## Set up the Memory Bank using the Nibble Planner
 1. Run **Synthesis**.
 2. When synthesis finishes, the Synthesis Completed dialog box opens. Select **Open
 Synthesized Design** and click **OK**.
@@ -216,17 +218,8 @@ Navigator. The Launch Runs dialog box opens.
 
 
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+<hr class="sphinxhide"></hr>
 
-    http://www.apache.org/licenses/LICENSE-2.0
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-<p align="center"><sup>Copyright© 2020-2021 Xilinx</sup><br><sup>XD028</sup><br></p>
-
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

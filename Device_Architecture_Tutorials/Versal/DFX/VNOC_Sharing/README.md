@@ -1,30 +1,30 @@
-﻿<table>
- <tr>
-   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal DFX Tutorial</h1>
-   </td>
- </tr>
- <tr>
- <td align="center"><h1>VNOC tile Sharing between 2 Reconfigurable Partitions</h1>
- </td>
+﻿<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ Adaptive SoC DFX Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    </td>
  </tr>
 </table>
-<b><i>Version: Vivado 2023.2</b></i><p>
 
-# Introduction
+# VNOC tile Sharing between 2 Reconfigurable Partitions
+
+***Version: Vivado 2023.2***
+
+## Introduction
 
 This design demonstrates that VNOC clock tiles can be shared by two reconfigurable partitions. VNOC clock tiles are automatically included in the clock routing footprint of the reconfigurable partition by the tool. 
 
-# Design Flow
+## Design Flow
 
 Become familiar with the IPI BDC based DFX flow in Vivado using example design "2RP_GPIO_BRAM_in_RP_Interface_INI." The same design flow is used here.
 
-## IPI 
+### IPI 
 
 - There are 2 RPs in the design.
 - Both RPs have internal clocking resources.
 - This tutorial uses the same design used in tutorial "2RPs_Sharing_ClockRegion"
 
-## Implementation 
+### Implementation 
 
 - These are the pblocks used in the implementation. To include clocking sites from the bottom clock region in the pblock, notice that both pblocks has an island in the bottom clock region. 
 
@@ -49,3 +49,10 @@ Become familiar with the IPI BDC based DFX flow in Vivado using example design "
 <p align="center">
   <img src="./images/voc_shared_tile.png?raw=true" alt="voc_shared_tile"/>
 </p>
+
+
+<hr class="sphinxhide"></hr>
+
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
+
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

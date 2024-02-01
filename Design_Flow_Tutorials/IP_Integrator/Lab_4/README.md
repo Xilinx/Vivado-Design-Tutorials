@@ -1,29 +1,28 @@
-# Table of Contents
+<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Vivado™ Design Flow Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado Development Environment on xilinx.com</a>
+    </td>
+ </tr>
+</table>
 
-1.  [**Introduction**](#Introduction)
-2.  [**Basic Versal Design using Vivado IP integrator **](#basic-versal-design-using-vivado-ip-integrator)
+## Table of Contents
 
-    -   [**Step 1: Project
-    Creation**](#step-1-project-creation)
-    -   [**Step 2: Initial CIPS, NoC & DDR-MC Instantiation with Block
-    Automation**](#step-2-initial-cips-noc-ddr-mc-instantiation-with-block-automation)
-     -   [**Step 3: CIPS Customization**
-    ](#step-3-cips-customization)
-    -   [**Step 4: Referencing RTL
-    Modules**](#step-4-referencing-rtl-modules)
-    -   [**Step 5: Adding RTL as Packaged IP**
-    ](#step-5-adding-rtl-as-packaged-ip)
-    -   [**Step 6: Design
-    Validation**](#step-6-design-validation)
-    -   [**Step 7: Generate HDL Wrapper, Constraints,
-    Synthesis**](#step-7-generate-hdl-wrapper-constraints-synthesis)
-      -   [**Step 8: Advanced I/O
-    Planner**](#step-8-advanced-io-planner)
-    -   [**Step 9: Implementation, Generating Device
-    Image**](#step-9-implementation-generating-device-image)
+- [Table of Contents](## table-of-contents)
+- [Introduction](## introduction)
+- [Basic Versal Design using Vivado IP integrator](## basic-versal-design-using-vivado-ip-integrator)
+  - [**Step 1: Project Creation**](## step-1-project-creation)
+  - [**Step 2: Initial CIPS, NoC \& DDR-MC Instantiation with Block Automation**](## step-2-initial-cips-noc--ddr-mc-instantiation-with-block-automation)
+  - [**Step 3: CIPS Customization**](## step-3-cips-customization)
+  - [**Step 4: Referencing RTL Modules**](## step-4-referencing-rtl-modules)
+  - [**Step 5: Adding RTL as Packaged IP**](## step-5-adding-rtl-as-packaged-ip)
+  - [**Step 6: Design Validation**](## step-6-design-validation)
+  - [**Step 7: Generate HDL Wrapper, Constraints, Synthesis**](## step-7-generate-hdl-wrapper-constraints-synthesis)
+  - [**Step 8: Advanced I/O Planner**](## step-8-advanced-io-planner)
+  - [**Step 9: Implementation, Generating Device Image**](## step-9-implementation-generating-device-image)
 
 
-# Introduction
+## Introduction
 
 ***Version: Vivado 2022.1***
 
@@ -72,9 +71,9 @@ Highlighted steps include:
 -   Generate Device Image
 
 
-# Basic Versal Design using Vivado IP integrator 
+## Basic Versal Design using Vivado IP integrator 
 
-## **Step 1: Project Creation**
+## ## **Step 1: Project Creation**
 
 1.  Unzip the tutorial .zip file. It should create the following
     sub-directories in a working area:
@@ -117,7 +116,7 @@ Highlighted steps include:
 
     <img src="./media/image3.png" style="width:3.76667in;height:1.86667in" />
 
-## **Step 2: Initial CIPS, NoC & DDR-MC Instantiation with Block Automation**
+## ## **Step 2: Initial CIPS, NoC & DDR-MC Instantiation with Block Automation**
 
 The CIPS block will be instantiated on the Block Design IP integrator   canvas and
 with the use of IP integrator   “Block Automation”, the NoC and DDR-MC modules will
@@ -166,7 +165,7 @@ style="width:5.24306in;height:2.31389in" />
     <img src="./media/image7.png"
     style="width:5.77251in;height:2.54829in" />
 
-## **Step 3: CIPS Customization** 
+## ## **Step 3: CIPS Customization** 
 
 Next, the CIPS will be customized for QSPI and SD Card Boot Modes. We
 will also configure the PL clock for 200 MHz.
@@ -241,7 +240,7 @@ Under **Boot Mode** make the following changes-
  alt="Graphical user interface, table Description automatically generated" />  |
 
 
-## **Step 4: Referencing RTL Modules**
+## ## **Step 4: Referencing RTL Modules**
 
 The Module Reference feature of the Vivado® IP integrator lets you
 quickly add a module or entity definition from a Verilog or VHDL source
@@ -361,7 +360,7 @@ style="width:2.50187in;height:2.68826in" />
  style="width:6.13024in;height:2.70228in" />  |
 
 
-## **Step 5: Adding RTL as Packaged IP** 
+## ## **Step 5: Adding RTL as Packaged IP** 
 
 In this section of the tutorial, a non-AXI RTL IP called “wave_gen_v1_0”
 that has previously been packaged with IP Packager will be added to the
@@ -412,7 +411,7 @@ packaging flow for this IP can be found in ***UG1119 Lab 4***.
 
 
 
-## **Step 6: Design Validation**
+## ## **Step 6: Design Validation**
 
 1.  On the “Diagram” tab, validate the design to ensure there are no DRC
     violations. By right clicking on the IP integrator  Canvas and selecting
@@ -439,7 +438,7 @@ packaging flow for this IP can be found in ***UG1119 Lab 4***.
  style="width:5.72166in;height:1.54142in" />  |
 
 
-## **Step 7: Generate HDL Wrapper, Constraints, Synthesis**
+## ## **Step 7: Generate HDL Wrapper, Constraints, Synthesis**
 
 In this section, an HDL wrapper will be generated for the IP integrator  Block
 Design, constraints will then be added to the project and the design
@@ -474,7 +473,7 @@ invoked to assign pins for the DDR-MC.
     -   The generation of IP output products and synthesis process can take
     \~1 hour to complete.
 
-## **Step 8: Advanced I/O Planner**
+## ## **Step 8: Advanced I/O Planner**
 
 In this section, the “Advanced I/O Planner” will be used to assign a
 pin-out for the DDR-MC.
@@ -541,7 +540,7 @@ pin-out for the DDR-MC.
  style="width:3.42379in;height:3.04877in" />  |
 
 
-## **Step 9: Implementation, Generating Device Image**
+## ## **Step 9: Implementation, Generating Device Image**
 
 1.  In the Vivado **Flow Navigator** pane, click **Program and Debug**
     --\> **Generate Device Image** and click-through the following
@@ -557,3 +556,9 @@ pin-out for the DDR-MC.
 
 > Note: *The device image file (.pdi) is now generated and can be found
 > in the project runs sub-directory called “/impl_1”.*
+
+<hr class="sphinxhide"></hr>
+
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
+
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>
