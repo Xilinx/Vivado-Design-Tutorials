@@ -1,13 +1,14 @@
-<table>
- <tr>
-   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal ACAP Hardware Debug Tutorial</h1>
-   </td>
- </tr>
- <tr>
- <td align="center"><h1>Versal IBERT GTY Tutorial</h1>
- </td>
+﻿<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ Adaptive SoC Hardware Debug Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    </td>
  </tr>
 </table>
+
+# Versal IBERT GTY Tutorial
+
+***Version: Vivado 2023.2***
 
 ## Introduction
 
@@ -133,8 +134,11 @@ ChipScoPy is an open-source project from AMD that enables high-level control of 
 
 ## Conclusion
 
-This tutorial has covered generating an IBERT capable design using the Versal IBERT CED, connecting to a VCK190 board, programming the programmable device image (PDI), setting up IBERT links, and running an eye-scan.  To learn more about the Versal GTY transceivers, see [Versal ACAP GTY and GTYP Transceivers Architecture Manual (AM002)](https://docs.xilinx.com/r/en-US/am002-versal-gty-transceivers). To learn more about the programming and debug features in Vivado for Versal, see [Vivado Design Suite User Guide: Programming and Debugging (UG908)](https://docs.xilinx.com/r/en-US/ug908-vivado-programming-debugging).
+This tutorial has covered generating an IBERT capable design using the Versal IBERT CED, connecting to a VCK190 board, programming the programmable device image (PDI), setting up IBERT links, and running an eye-scan.  To learn more about the Versal GTY transceivers, see [Versal Adaptive SoC GTY and GTYP Transceivers Architecture Manual (AM002)](https://docs.xilinx.com/r/en-US/am002-versal-gty-transceivers). To learn more about the programming and debug features in Vivado for Versal, see [Vivado Design Suite User Guide: Programming and Debugging (UG908)](https://docs.xilinx.com/r/en-US/ug908-vivado-programming-debugging).
 
-<p class="sphinxhide" align="center"><sub>Copyright © 2020–2023 Advanced Micro Devices, Inc</sub></p>
+
+<hr class="sphinxhide"></hr>
+
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
 
 <p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

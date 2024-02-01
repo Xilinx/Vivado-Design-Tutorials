@@ -1,21 +1,23 @@
-<table>
- <tr>
-   <td align="center"><img src="https://www.xilinx.com/content/dam/xilinx/imgs/press/media-kits/corporate/xilinx-logo.png" width="30%"/><h1>2021.1 Versal™ Using_Integrated_Memory_Controller_with_NoC</h1>
-   </td>
- </tr>
- <tr>
- <td align="center"><h1>Building and Running the Design</h1>
- </td>
+<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ NoC/DDRMC Design Flow Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    </td>
  </tr>
 </table>
 
-# Integrated Memory Controller
+# Basic NoC Design: Using Integrated Memory Controller with NoC
+
+***Version: Vivado 2021.1***
+
+
+## Integrated Memory Controller
 The integrated memory controllers (MCs) are integrated into the AXI NoC core. A single instance
 of the AXI NoC IP can be configured to include one, two, or four instances of the integrated MC.
 If two or four instances of the MC are selected, they are configured to form a single interleaved
 memory. The memory controllers in an interleaved group are configured identically and mapped
 to the same address. Transaction interleaving is controlled by the NoC.
-# Description of the Design
+## Description of the Design
 This design uses two AXI4 traffic generators to write and read data to/from DDR4 memory
 connected to the NoC through three integrated DDR4 memory controller (MC) blocks. The first
 traffic generator will read and write from a single DDR memory through one AXI NoC instance
@@ -25,9 +27,9 @@ average bandwidth and latency achieved by each of the AXI connections.
 This lesson uses a bottom up design flow in which the logical NoCs are instantiated first and
 Designer Assistance is used to build the design around it. As in Module_01, traffic generators will be used to simulate the data flow of a real application.
 Note: This lab is provided as an example only. Figures and information depicted here might vary from the current version.
-# Create the Design
+## Create the Design
 Follow the steps given in Module_01 to open the 2020.2 release of Vivado®, create a new project with the **xcvc1902-vsva2197-1LP-e-S** part, and create a new block design.
-## Instantiate IP and run Designer Assistance
+### Instantiate IP and run Designer Assistance
 1. Instantiate two AXI NoC instances from the IP catalog (**IP catalog** → **AXI NoC**) and drag onto
 the design canvas.
 The corresponding Tcl commands to instantiate the AXI NoCs are:
@@ -95,7 +97,7 @@ I/O.
 13. The Run Connection Automation link becomes active again as there are clocks and reset
 connectivity required for the Clocking Wizard. Click the link, select **All Automation** and click **OK**.
 
-# Configure the NoC IPs
+## Configure the NoC IPs
 1. Double click **axi_noc_0** to display the Configuration Wizard.
 2. On the QoS tab, set both the **Bandwidth Read** and **Bandwidth Write** values to **12,500**.
 3. Click **OK**.
@@ -109,13 +111,13 @@ memory, set the required bandwidth on the QoS tab to **B/N**.
 7. Click **OK**.
 After Regenerate Layout, the canvas should look as follows:
 ![layout after axi noc 0/1 configuration](images/layout_after_axi_noc_config.PNG)
-# Configure the Traffic Generators
+## Configure the Traffic Generators
 Configure each of the traffic generators (TGs) in turn. To display the TG configuration screen for a particular instance, double-click on the TG instance: **noc_tg** and **noc_tg_1**. The Source ID
 parameter is in the Configuration tab, whereas the rest of the parameters are under the
 Simulation TG Options tab. See the following figure for reference:
 ![AXI Perf TG configuration](images/perf_axi_tg_config.PNG)
 
-## Table: Traffic Generator Settings
+### Table: Traffic Generator Settings
 | Component   | Tab    | Parameters     | Value    |
 | ----------- |:------:|:--------------:|:--------:|
 | noc_tg      | configuration  | Performance TG for Simulation   | NON SYNTHESIZABLE   |
@@ -138,12 +140,12 @@ set_property -dict [list CONFIG.USER_C_AXI_WRITE_BANDWIDTH {12500} CONFIG.USER_C
 
 set_property -dict [list CONFIG.USER_C_AXI_WRITE_BANDWIDTH {12500} CONFIG.USER_C_AXI_DATA_INTEGRITY_CHECK {ON}] [get_bd_cells noc_tg_1]
 ```
-## Set the Addressing
+### Set the Addressing
 Open the Address Editor by clicking on the tab at the top of the canvas, click the **Expand All** icon from the Address Editor toolbar, and select the **Assign All** icon in the toolbar at the top of
 the block design canvas. The default address mapping is shown in the following figure.
 ![Address map](images/address_map.PNG)
 
-# Validate the Block Design
+## Validate the Block Design
 As in Module_01, validating the design will run the NoC Compiler to map the design onto the NoC
 physical resources. The NoC GUI should show the NoC placement and routing solution as shown
 in the following figure NoC Placement and Routing Solution:
@@ -160,7 +162,7 @@ between different NoC implementations, not as a representation of the actual tot
 Below figure shows QoS Results:
 ![NoC QoS](images/noc_qos_results.PNG)
 
-# Simulate the Design
+## Simulate the Design
 The simulation flow proceeds as in Module_01. That is:
 1. As in Module_01, select both of the **M_AXI** ports of the traffic generators, right click and select
 **Mark Simulation**.
@@ -243,16 +245,8 @@ monitor output, you can see that the non-interleaved memory achieved an aggregat
 MB/sec (10,496 + 7,036) while the interleaved memory achieved 7865 MB/sec.
 
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+<hr class="sphinxhide"></hr>
 
-    http://www.apache.org/licenses/LICENSE-2.0
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-<p align="center"><sup>Copyright© 2020-2021 Xilinx</sup><br><sup>XD028</sup><br></p>
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

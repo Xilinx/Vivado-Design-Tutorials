@@ -1,13 +1,14 @@
-﻿<table>
- <tr>
-   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>DFX Tutorial</h1>
-   </td>
- </tr>
- <tr>
- <td align="center"><h1>Using the DFX Decoupler and DFX AXI Shutdown Manager IP</h1>
- </td>
+﻿<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Vivado™ Device Architecture Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado Development Environment on xilinx.com</a>
+    </td>
  </tr>
 </table>
+
+# Using the DFX Decoupler and DFX AXI Shutdown Manager IP
+
+***Version: Vivado 2022.1***
 
 ## Table of Contents
 
@@ -25,7 +26,7 @@
 
 [Addendum: Hardware Flow](#addendum---hardware-flow)
 
-# Overview
+## Overview
 
 Dynamic Function eXchange (DFX) in Xilinx silicon imposes new design
 requirements. This document addresses the handling of interface signals
@@ -38,7 +39,7 @@ example design addresses these unique requirements using two DFX IP
 cores, the DFX AXI Shutdown Manager and the DFX Decoupler, in an IP
 Integrator flow.
 
-## Flow Summary
+### Flow Summary
 
 You will start with an existing Vivado design, enable the DFX flow, add
 in the DFX IP blocks and then walk through building and running a
@@ -75,7 +76,7 @@ during the dynamic reconfiguration time.
 
 -   Control will be signal-based
 
-## DFX project within IP Integrator
+### DFX project within IP Integrator
 
 The example design uses Vivado and Vitis 2021.2, and details the flow
 for a Zynq UltraScale+ processor-based design along with Block Design Containers and
@@ -103,7 +104,7 @@ build the project and block designs, but there are steps in between that are exp
 run interactively in the IP Integrator GUI.
 
 
-# Section 1: Hardware Flow
+## Section 1: Hardware Flow
 
 The base design is shown in the figure below. There is a Zynq
 UltraScale+ MPSoC processing block, a reset controller, and then two
@@ -123,7 +124,7 @@ DFX-enabled Block Design Container that can be reconfigured by the user.
 Figure 1: Base block design
 </p>
 
-## Create a Block Design Container
+### Create a Block Design Container
 
 1.  **Clone** this repository to a writable location, referred to in this document as \<path_to_design>/dfx_shdn_dcplr. 
 All path references in this document are relative to this root location.  
@@ -170,7 +171,7 @@ Vivado.
 Figure 3: gpio_rm1 in the Sources window as a new block design
 </p>
 
-## Enable Dynamic Function eXchange
+### Enable Dynamic Function eXchange
 
 In this section you will enable DFX capabilities within IPI and add new
 Reconfigurable Modules for the gpio_rm1 Block Design Container.
@@ -227,7 +228,7 @@ The hier_1 block container instance will now have a DFX label.
 Figure 6: Base design with a BDC enabled for DFX
 </p>
 
-## Add DFX AXI Shutdown Manager and DFX Decoupler IP cores
+### Add DFX AXI Shutdown Manager and DFX Decoupler IP cores
 
 Because you are reconfiguring logic that includes an AXI interface, you
 will add a DFX AXI Shutdown Manager IP instance. This will allow the
@@ -308,7 +309,7 @@ the DFX Shutdown Manager's in_shutdown output.
  Figure 9: DFX IP in the complete block design
 </p>
 
-## Add a new Reconfigurable Module
+### Add a new Reconfigurable Module
 
 You will now create a second Reconfigurable Module. This RM will have a
 different constant value that can be read by the processor.
@@ -343,7 +344,7 @@ steps 15 to 22.
 Figure 11: The second Reconfigurable Module
 </p>
 
-## Generate targets for the top block design
+### Generate targets for the top block design
 
 13. In the Sources window, right-click on the dfx_shdn_mgr block design,
     select **Generate Output Products**, then in the Generate Output
@@ -367,7 +368,7 @@ happen later.
 In the subsequent dialog box, keep **Let Vivado manage wrapper and auto-update** selected
 then click OK.
 
-## Run the DFX Wizard to define the configurations
+### Run the DFX Wizard to define the configurations
 
 The Dynamic Function eXchange (DFX) Wizard is used to the define
 relationships between the different parts of the DFX design. Using Block
@@ -462,7 +463,7 @@ In the Design Runs window (tab on the bottom of the Vivado GUI), a new
 child_0\_impl_1 implementation run has been created, and the indentation
 shows its dependency on the impl_1 run above it.
 
-## Add design constraints for the Reconfigurable Partition
+### Add design constraints for the Reconfigurable Partition
 
 All DFX designs require a floorplan, with each RM requiring a pblock
 containing enough resources to implement any RM that may be used in that
@@ -506,7 +507,7 @@ The flow is as follows.
 -   The child run containing gpio_rm2 is started last, using the locked
     static-only checkpoint from the parent run.
 
-## Export the XSA for Vitis application development
+### Export the XSA for Vitis application development
 
 22. **Open** the implemented parent design run.
 
@@ -522,9 +523,9 @@ The flow is as follows.
 Figure 16: Export hardware platform information from the parent configuration
 </p>
 
-# Section 2: Vitis Application Flow
+## Section 2: Vitis Application Flow
 
-## Launch Vitis
+### Launch Vitis
 
 1.  From the Vivado GUI, select **Tools > Launch Vitis IDE**. This will
     launch Vitis.
@@ -622,7 +623,7 @@ Figure 23: Source C program copied from the sources directory
 This will configure the Zynq MPSoC with the full bitstream, and run the
 application. A connection to the ZCU106 target board is, of course, required at this point.
 
-# Section 3: Software Application Description
+## Section 3: Software Application Description
 
 The software application has a small menu that allows users to do some
 basic tasks. The menu is shown in Figure 24. Refer to
@@ -636,7 +637,7 @@ for details on the AXI GPIO IP for all the actions below.
 Figure 24: Application menu
 </p>
 
-### 1 -- Read RM's constant value
+#### 1 -- Read RM's constant value
 
 This will read the constant value connected to the GPIO interface in the
 RM. The function reads the GPIO_DATA register, address offset 0x0, of
@@ -649,7 +650,7 @@ the AXI GPIO core in the RM.
 Figure 25: Value read with initial (gpio_rm1) configuration
 </p>
 
-### 2 -- Write RM's output data (sets it to 0x12)
+#### 2 -- Write RM's output data (sets it to 0x12)
 
 This will write 0x12 to the GPIO 2 interface in the RM. The function
 writes to the GPIO2_DATA register of the GPIO core, offset 0xC. The
@@ -662,7 +663,7 @@ output from GPIO 2 in the RM defaults to 0x0.
 Figure 26: UART output when option 2 is selected
 </p>
 
-### 3 -- Read Output data from RM
+#### 3 -- Read Output data from RM
 
 This will read the output data from the RM by reading the output of GPIO
 2. The function reads the GPIO2_DATA register, offset 0xC, of the GPIO
@@ -683,7 +684,7 @@ menu option 2)
 Figure 28: Output data read after running option 2 to set to 0x12
 </p>
 
-### 4 -- Read DFX Shutdown Manager status register
+#### 4 -- Read DFX Shutdown Manager status register
 
 This will read the status register of the Shutdown Manager. The status
 register is a read-only register, offset 0x0, of the Shutdown Manager.
@@ -710,7 +711,7 @@ Figure 29: Status register when shutdown manager disabled
 Figure 30: Status register when Shutdown Manager enabled
 </p>
 
-### 5 -- Enable the DFX Shutdown Manager
+#### 5 -- Enable the DFX Shutdown Manager
 
 This will write 0x1 to the Shutdown Manager control register, enabling
 it. The Control Register is a write-only register at offset 0x0 of the
@@ -731,7 +732,7 @@ dynamic reconfiguration.
 Figure 31: Enabling the Shutdown Manager
 </p>
 
-### 6 -- Disable the DFX Shutdown Manager
+#### 6 -- Disable the DFX Shutdown Manager
 
 This will write a 0x0 to the Shutdown Manager control register,
 disabling it. The control register is a write-only register at offset
@@ -748,7 +749,7 @@ read.
 Figure 32: Disabling the Shutdown Manager
 </p>
 
-### 7 -- Increment LED output
+#### 7 -- Increment LED output
 
 This will use the GPIO 2 interface in the static portion of the design
 to write to the LEDs and increment the value displayed by 1.
@@ -760,7 +761,7 @@ to write to the LEDs and increment the value displayed by 1.
 Figure 33: Incrementing the LED output
 </p>
 
-### 8 -- Increment LED output and read the RM constant and RM data output for 10 seconds
+#### 8 -- Increment LED output and read the RM constant and RM data output for 10 seconds
 
 Every 0.5 seconds this will write to the LEDs in the static portion of
 the design with an incrementing value, and read the RM's constant value
@@ -804,7 +805,7 @@ enabled. Note the constant value read is 0x0 and the data output read is
 Figure 35: Selecting option 8 with the Shutdown Manager enabled
 </p>
 
-# Section 4: Performing Partial Reconfiguration from the Vivado Hardware Manager
+## Section 4: Performing Partial Reconfiguration from the Vivado Hardware Manager
 
 This section shows you how to perform partial reconfiguration of the
 device with and without the DFX IP cores to see how the device behaves.
@@ -933,7 +934,7 @@ of the full bitstreams then restart the application.
 Figure 42: The software application hangs if the decoupling is disabled
 </p>
 
-# Conclusion
+## Conclusion
 
 This design shows how the use of the DFX Shutdown Manager and DFX
 Decoupler IP cores to create a stable system. Through the use of these
@@ -947,12 +948,12 @@ reconfiguration with and without the cores enabled and see how the
 system reacts.
 
 
-# Addendum - Hardware Flow
+## Addendum - Hardware Flow
 
 This section describes the steps automated by the three enclosed Tcl
 scripts.
 
-## Create a Block Design Container
+### Create a Block Design Container
 
 1.  In the block design canvas, ctrl-click to select both axi_gpio_1 and
     xlconsant_0, then right-click and select **Create Hierarchy**. Name
@@ -1024,7 +1025,7 @@ sharing submodule block designs with team members.
 
 Return to [Enable Dynamic Function eXchange](#Enable-Dynamic-Function-eXchange) to continue the tutorial.
 
-## Add DFX AXI Shutdown Manager and DFX Decoupler
+### Add DFX AXI Shutdown Manager and DFX Decoupler
 
 5. From the canvas click the **+** icon and using the search field add
     a **DFX Decoupler IP** instance.
@@ -1149,7 +1150,7 @@ Figure 53: Address Editor with all peripherals assigned
 
 Return to [Add a new Reconfigurable Module](#Add-a-new-Reconfigurable-Module) to continue the tutorial.
 
-## Complete the New Reconfigurable Module
+### Complete the New Reconfigurable Module
 
 15. From the canvas click to + icon and using the search field add an
     **AXI GPIO** IP core to the design.
@@ -1213,3 +1214,10 @@ Figure 56: Final gpio_rm2 block design
 22. **Validate** then **save** the dfx_shdn_mgr block design.
 
 Return to [Generate targets for the top block design](#Generate-targets-for-the-top-block-design) to continue the tutorial.
+
+
+<hr class="sphinxhide"></hr>
+
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
+
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

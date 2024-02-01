@@ -1,10 +1,16 @@
-impages <tr>
-   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>2021.2 Versal JTAG Boot Tutorial</h1>
-   </td>
+﻿<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ Adaptive SoC Boot and Configuration Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    </td>
  </tr>
 </table>
 
-# Table of Contents
+# JTAG Boot Tutorial: Quick-Start Instructions
+
+***Version: Vivado 2021.2***
+
+## Table of Contents
 
 1. [Introduction](README.md)
 
@@ -20,7 +26,7 @@ impages <tr>
 
 7. [References](7References.md)
 
-# Quick-Start Instructions
+## Quick-Start Instructions
 
 The following instructions detail how to build the JTAG Boot tutorial reference design and create the PDI.
 
@@ -57,15 +63,15 @@ jtag_boot
       * Runs placement and routing.
       * Creates a programmable device image (PDI).
 
-## Setup VCK190 Board
+### Setup VCK190 Board
 
-The Xilinx VCK190 evaluation board is used to demonstrate loading the tutorial reference design PDI into the Versal ACAP using the JTAG boot mode. This section describes VCK190 hardware basic setup.
+The Xilinx VCK190 evaluation board is used to demonstrate loading the tutorial reference design PDI into the Versal Adaptive SoC using the JTAG boot mode. This section describes VCK190 hardware basic setup.
 
-## VCK190 Board
+### VCK190 Board
 
 ![VCK190](Images/3_vck190_board.png)
 
-## VCK190 Connections
+### VCK190 Connections
 
 Before you begin, ensure the SW13 power switch is off.
 
@@ -77,9 +83,9 @@ Before you begin, ensure the SW13 power switch is off.
 
   ![Boot Mode Switch](Images/3_vck190sw1.png)
 
-## VCK190 System Controller Settings
+### VCK190 System Controller Settings
 
-The VCK190 includes an on-board system controller that assists with the Versal ACAP power sequencing management. Ensure the following are set for the Zynq UltraScale+ system controller:
+The VCK190 includes an on-board system controller that assists with the Versal Adaptive SoC power sequencing management. Ensure the following are set for the Zynq UltraScale+ system controller:
 
 * Set the SW11[1:4] = (ON, OFF, OFF, OFF) to set the Zynq Ultrascale+ System Controller to the SD1 LS (3.0) boot mode PS_MODE[0:3]=0111.
 
@@ -91,7 +97,7 @@ The VCK190 includes an on-board system controller that assists with the Versal A
   * [BEAM Tool for VCK190 Evaluation Kit](https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/973078551/BEAM+Tool+for+VCK190+Evaluation+Kit) > Board Setup and Connection section includes the Micro SD image download link.   
 
 
-## Program Tutorial Design
+### Program Tutorial Design
 
 1. Set SW13 to the ON position.
 
@@ -105,7 +111,7 @@ The VCK190 includes an on-board system controller that assists with the Versal A
 
 6. Select the tutorial reference design PDI: \jtag_boot\runs\project_1.runs\impl_1\design_1_wrapper.pdi
 
-### Vivado Hardware Manager Program
+#### Vivado Hardware Manager Program
 
 ![Vivado Hardware Manager](Images/3_hwmgr_pdisel.png)
 
@@ -119,7 +125,7 @@ xsct% device program {C:\jtag_boot\runs\project_1.runs\impl_1\design_1_wrapper.p
 
 The user drive location may differ, so ensure the correct path is used.
 
-## Tutorial Design Load Check  
+### Tutorial Design Load Check  
 
 When the tutorial design is loaded successfully, the following is seen:
 
@@ -128,15 +134,14 @@ When the tutorial design is loaded successfully, the following is seen:
 * DS1 DONE LED on.
 * DS3-DS5 PL GPIO LEDs are toggling (connected to binary counters in design).
 
-## Go To Next Section:
+### Go To Next Section:
 [Building Hardware Design](4BuildingHardwareDesign.md)
 
-## Go To Table of Contents:  
+### Go To Table of Contents:  
 [README](README.md)
 
-© Copyright 2020-2022 Xilinx, Inc.
+<hr class="sphinxhide"></hr>
 
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
 
-http://www.apache.org/licenses/LICENSE-2.0
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

@@ -1,16 +1,18 @@
-﻿<table>
- <tr>
-   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal DFX Tutorial</h1>
-   </td>
- </tr>
- <tr>
- <td align="center"><h1>Clock Region Sharing between 2 reconfigurable partitions</h1>
- </td>
+﻿<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ Adaptive SoC DFX Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    </td>
  </tr>
 </table>
-<b><i>Version: Vivado 2023.2</b></i><p>
 
-# Introduction
+# Clock Region Sharing between 2 reconfigurable partitions
+
+***Version: Vivado 2023.2***
+
+
+
+## Introduction
 
 - This design demonstrates that a clock region in Versal can be shared among multiple reconfigurable partitions (RP). 
 - Reconfigurable partition pblocks both having internal clocking resources can share one clock region. 
@@ -18,11 +20,11 @@
 - Users can range pblocks one above RCLK row and one below RCLK row of the clock region.
 - RCLK sharing is automatically taken care by the DFX flow in Vivado. Users cannot range RCLK sites in their pblock.
 
-# Design Flow
+## Design Flow
 
 Become familiar with the IPI BDC based DFX flow in Vivado using example design "2RP_GPIO_BRAM_in_RP_Interface_INI." The same design flow is used in this tutorial.
 
-## IPI 
+### IPI 
 
 - There are 2 RPs in the design.
 - Both RPs have internal clocking resources.
@@ -32,7 +34,7 @@ Become familiar with the IPI BDC based DFX flow in Vivado using example design "
   <img src="./images/ipi.png?raw=true" alt="ipi"/>
 </p>
 
-## Implementation 
+### Implementation 
 
 - These are the pblocks used for implementation. As you can see, Pblocks for the two reconfigurable partitions share one clock region: above and below the RCLK row, which is the boundary between the two.
 
@@ -57,3 +59,10 @@ Become familiar with the IPI BDC based DFX flow in Vivado using example design "
 <p align="center">
   <img src="./images/rclk_close_up.PNG?raw=true" alt="rclk_close_up"/>
 </p>
+
+
+<hr class="sphinxhide"></hr>
+
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
+
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

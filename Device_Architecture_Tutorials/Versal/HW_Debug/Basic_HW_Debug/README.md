@@ -1,13 +1,14 @@
-<table>
- <tr>
-   <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal ACAP Hardware Debug Tutorial</h1>
-   </td>
- </tr>
- <tr>
- <td align="center"><h1>Basic PL Hardware Debugging Using ChipScope AXIS-ILA and AXIS-VIO</h1>
- </td>
+﻿<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ Adaptive SoC Hardware Debug Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    </td>
  </tr>
 </table>
+
+# Basic PL Hardware Debugging Using ChipScope AXIS-ILA and AXIS-VIO
+
+***Version: Vivado 2023.2***
 
 ## Introduction
 This tutorial  describes the steps required to insert the Integrated Logic Analyzer (AXIS-ILA) and Virtual Input Output Core (AXIS-VIO) into a basic design to aid in debugging in the programmable logic (PL) domain.
@@ -259,6 +260,8 @@ This tutorial has covered adding an AXIS-ILA to an IP Integrator Design, adding 
 
 
 
-<p class="sphinxhide" align="center"><sub>Copyright © 2020–2023 Advanced Micro Devices, Inc</sub></p>
+<hr class="sphinxhide"></hr>
+
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
 
 <p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>
