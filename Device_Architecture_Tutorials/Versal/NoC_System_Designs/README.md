@@ -807,14 +807,20 @@ Cons:
 - Missed beat on one lane has the potential to create indeterminate number of packet errors unless additional monitoring & reset circuitry added
 - Padding may be required on unused lanes for last transfer of packet
 
-Each far-end 256-bit AXI-S interface would need to pass through an elasticity FIFO to accommodate differential latency between NoC lanes. This could potentially be instantiated using the [AXI4-Stream Broadcaster](https://docs.xilinx.com/r/en-US/pg085-axi4stream-infrastructure/AXI4-Stream-Broadcaster) & [AXI4-Stream Combiner](https://docs.xilinx.com/r/en-US/pg085-axi4stream-infrastructure/AXI4-Stream-Combiner) IPs. The Broadcaster would need to use the [stream-splitting](https://docs.xilinx.com/r/en-US/pg085-axi4stream-infrastructure/Global-Parameters?tocId=czvmqZzo5EX2iW_8bUepwA) option. 
+Each far-end 256-bit AXI-S interface would need to pass through an elasticity FIFO to accommodate differential latency between NoC lanes. This could potentially be instantiated using the [AXI4-Stream Broadcaster](https://docs.xilinx.com/r/en-US/pg085-axi4stream-infrastructure/AXI4-Stream-Broadcaster) & [AXI4-Stream Combiner](https://docs.xilinx.com/r/en-US/pg085-axi4stream-infrastructure/AXI4-Stream-Combiner) IPs. The Broadcaster would need to use the [stream-splitting](https://docs.xilinx.com/r/en-US/pg085-axi4stream-infrastructure/Global-Parameters?tocId=czvmqZzo5EX2iW_8bUepwA) option.
 
 Each output of the Broadcaster would connect directly to an NMU; the corresponding NSU output would pass through an elasticity FIFO on to one input of a 4:1 Combiner IP – the Combiner output would reproduce the original aggregate stream.
 
 Alternatively, a custom striping solution could be implemented with the following functions:
+
 - Broadcaster/Splitter: Assert TVALID synchronously across all outputs; if not all lanes show asserted TREADY, deassert TVALID on lanes whose data has been transferred
 - Combiner: Assert TREADY synchronously across all inputs; if not all lanes shows asserted TVALID, deassert TREADY on lanes whose data has been transferred
 
 Lanes should remain in sync even if FIFO overflow on a single lane occurs – the resulting backpressure should halt the entire unsegmented AXI-S flow. Lanes would get out-of-sync in the case of a lost NoC AXI-S beat or incomplete reset condition.
 
 
+<hr class="sphinxhide"></hr>
+
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
+
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>
