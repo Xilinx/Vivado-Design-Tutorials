@@ -6,156 +6,125 @@
  </tr>
 </table>
 
-# 1 RP Design with NoC INI in the static-RM interface
+# 1 RP Design with NoC INI in the Static-RM Interface
 
-***Version: Vivado 2023.2***
+***Version: AMD Vivado&trade; 2023.2***
 
 ## Introduction
 
-This  design demonstrates a simple DFX design in Versal. Content of the design is as follows:
-- Static Region has CIPS IP, AXI NoC Interface to DDRs and DDR Controller.
-- Reconfigurable Partition has AXI GPIO IP connected to Constant Values that differ in different reconfigurable modules.
-- Static - RM interface is NoC Inter NoC Interconnect (INI).
-- Since the Static-RM interface is using NoC INI, No PL based decoupler is used.
+This design demonstrates a simple DFX design in AMD Versal&trade; adaptive SoCs. The content of the design is as follows:
+
+- Static Region has CIPS IP, AXI NoC Interface to double-data rates (DDRs), and DDR Controller.
+- Reconfigurable Partition has an AXI general purpose I/O (GPIO) IP connected to Constant Values that differ in different reconfigurable modules.
+- Static-RM interface is NoC Inter NoC Interconnect (INI).
+- Because the Static-RM interface is using NoC INI, no PL based decoupler is used.
 
 ## Design Flow
----
-1. Create flat Top BD
-2. Group the design to hierarchies: Static Region and Reconfigurable Partitions
-3. Create a block design container for the reconfigurable partition
-4. Enable the DFX and Freeze the Static - RM interface
-5. Set the Aperture for all interfaces of reconfigurable partition
-6. Add the Pblock constraints
-7. Generate the targets for all BDs : Top BD and reconfigurable modules BDCs
-8. Use DFX Wizard to configure parent and child implementation
-9. Launch Synthesis, Implementation and WDI generation
+
+1. Create the flat Top BD.
+2. Group the design to hierarchies: Static Region and Reconfigurable Partitions.
+3. Create a block design container for the reconfigurable partition.
+4. Enable the DFX and Freeze the Static-RM interface.
+5. Set the aperture for all interfaces of the reconfigurable partition.
+6. Add the Pblock constraints.
+7. Generate the targets for all BDs: Top BD and reconfigurable modules BDCs.
+8. Use the DFX Wizard to configure the parent and child implementation.
+9. Launch Synthesis, Implementation, and WDI generation.
 
 ### Create Flat Top BD
----
-Source the create_top_bd.tcl to create the flat BD. This BD contains static region IPs and the IPs that eventually go to reconfigurable partition.<p>
+
+Source the `create_top_bd.tcl` to create the flat BD. This BD contains static region IPs and the IPs that eventually go to a reconfigurable partition.
 `source create_top_bd.tcl`
 
-<p align="center">
-  <img src="./images/flat_bd.png?raw=true" alt="flat bd"/>
-</p>
+![Flat BD](./images/flat_bd.png)
 
-### Create hierarchies for reconfigruable partition and static region
-In the DFX flow, a separate hierarchy for each reconfigurable partition is required. It is recommended to keep a hierarchy for static region whenever possible for easier floorplanning down the flow if needed.
+### Create Hierarchies for the Reconfigurable partition and Static Region
 
-<p align="center">
-  <img src="./images/static_rp_hierarchies.png?raw=true" alt="static_rp_hierarchy"/>
-</p>
+In the DFX flow, a separate hierarchy for each reconfigurable partition is required. It is recommended to keep a hierarchy for the static region whenever possible for easier floorplanning down the flow if needed.
 
-### Create a block design container for reconfigurable partition RP1
-We need to create a new BD for reconfigurable module that contains all its sources. This is achieved using the block design container feature in IPI. For each reconfigurable module, a block design is created using BDC.
+![static_rp_hierarchy](./images/static_rp_hierarchies.png)
 
-`source create_rp1_bdc.tcl` rearranges the design into right hierarchies and creates a block design container "rp1rm1.bd" for the RP1 partition. rp1rm1.bd will be the first reconfigurable module for this partition.
+### Create a Block Design Container for Reconfigurable Partition RP1
 
-<p align="center">
-  <img src="./images/rp1_bdc.png?raw=true" alt="rp1 bdc"/>
-</p>
+You need to create a new BD for the reconfigurable module that contains all its sources. This is achieved using the block design container feature in the IP Integrator. For each reconfigurable module, a block design is created using BDC.
 
-### Enable DFX and define the aperture for Static-RM interfaces
----
+`source create_rp1_bdc.tcl` rearranges the design into the right hierarchies and creates a block design container, `rp1rm1.bd`, for the RP1 partition. `rp1rm1.bd` will be the first reconfigurable module for this partition.
+
+![rp1 bdc](./images/rp1_bdc.png)
+
+### Enable DFX and Define the Aperture for Static-RM Interfaces
+
 `source enable_dfx_bdc.tcl`
 
-DFX must be enabled on a block design container. Double click the BDC, in the "General" tab , select "Enable Dynamic Function eXchange on this container" . You can also "freeze the boundary of this container" if the Static-RP interface definition is complete. This will stop further parameter propogration across static-RP boundary.
-In the "Addressing" tab, the aperture will be automatically defined for each interface based on  address assignment at the top. You can switch the aperture inference to "Manual" if desired.
+DFX must be enabled on a block design container. Double-click the BDC, in the "General" tab, and select **Enable Dynamic Function eXchange on this container**. You can also "freeze the boundary of this container" if the Static-RP interface definition is complete. This will stop further parameter propogration across the static-RP boundary.
 
+In the "Addressing" tab, the aperture will be automatically defined for each interface based on  the address assignment at the top. You can switch the aperture inference to "Manual" if desired.
 
-<p align="center">
-  <img src="./images/enable_DFX_BDC.png?raw=true" alt="enable_dfx_bdc"/>
-</p>
+![rp1 bdcenable_dfx_bdc](./images/enable_DFX_BDC.png)
 
-<p align="center">
-  <img src="./images/addressing_BDC_DFX.png?raw=true" alt="addressing_BDC"/>
-</p>
+![addressing_BDC](./images/addressing_BDC_DFX.png)
 
-### Create a new reconfigurable module for the partition RP1
----
+### Create a New Reconfigurable Module for the Partition RP1
 
 `source create_rp1rm2.tcl`
 
-1. Create the second reconfigurable module rp1rm2.bd for the same reconfigurable partition rp1. You can right click the rp1 BDC and select "Create Reconfirurable Module"
+1. Create the second reconfigurable module, `rp1rm2.bd`, for the same reconfigurable partition rp1. You can right-click the rp1 BDC, and select **Create Reconfirurable Module**.
 
-<p align="center">
-  <img src="./images/create_rp1rm2.png?raw=true" alt="create_rp1rm2"/>
-</p>
+    ![create_rp1rm2](./images/create_rp1rm2.png)
 
-2. Provide a name for the new reconfigurable module
+2. Provide a name for the new reconfigurable module.
 
-<p align="center">
-  <img src="./images/rp1rm2_name.png?raw=true" alt="rp1rm2_name"/>
-</p>
+    ![rp1rm2_name](./images/rp1rm2_name.png)
 
-3. This will create a new BD: rp1rm2.bd with exact same ports as rp1rm2.bd. Populate the new BD.
+3. This will create a new BD, `rp1rm2.bd`, with the exact same ports as `rp1rm2.bd`. Populate the new BD.
 
-<p align="center">
-  <img src="./images/rp1rm2_bd.png?raw=true" alt="rp1rm2_bd"/>
-</p>
+    ![rp1rm2_bd](./images/rp1rm2_bd.png)
 
-### Create RTL wrapper, Generate Targets and define the pblocks
----
+### Create RTL Wrapper, Generate Targets, and Define the Pblocks
 
-Once the BD sources are defined and validated, create the RTL wrapper for the top, followed by generate targets for BD. You may also add the constraints (timing and physical constraints) to the project at this stage.
+Once the BD sources are defined and validated, create the RTL wrapper for the top, followed by generate targets for BD. You can also add the constraints (timing and physical constraints) to the project at this stage.
 
-1. Create the RTL wrapper for the top BD
+1. Create the RTL wrapper for the top BD.
 
-<p align="center">
-  <img src="./images/create_rtl_wrapper.png?raw=true" alt="create_rtl_wrapper"/>
-</p>
+    ![create_rtl_wrapper](./images/create_rtl_wrapper.png)
 
-2. Generate Targets for the Top BD also generates the targets for its child BDs : rp1rm1.bd and rp1rm2.bd
+2. Generate the Targets for the Top BD which also generates the targets for its child BDs, `rp1rm1.bd` and `rp1rm2.bd`.
 
-<p align="center">
-  <img src="./images/generate_targets.png?raw=true" alt="generate_targets"/>
-</p>
+    ![generate targets](./images/generate_targets.png)
 
-### Use DFX Wizard to define the parent and child configurations
----
+### Use the DFX Wizard to Define the Parent and Child Configurations
 
-1. Once the targets are generated, click the DFX wizard in the "Flow Navigator" of Vivado. The associated RMs of the RP will be automatically associated with the partition in the DFX wizard.
+1. Once the targets are generated, click the DFX wizard in the "Flow Navigator" of the Vivado IDE. The associated RMs of the RP will be automatically associated with the partition in the DFX wizard.
 
+    ![dfx_wizard_edit_rms](./images/dfx_wizard_edit_rms.png)
 
-<p align="center">
-  <img src="./images/dfx_wizard_edit_rms.png?raw=true" alt="dfx_wizard_edit_rms"/>
-</p>
+2. Define the configuration for each reconfigurable module for each partition.
 
-2. Define configuration for each reconfigurable module for each partition
+    ![dfx_wizard_edit_configurations](./images/dfx_wizard_edit_configurations.png)
 
+3. Associate each configuration with implementation runs. In the DFX flow, the parent implementation does both the static and associated reconfigurable module implementation. Child implementations place and route the associated reconfigurable module in the context of locked static from the parent implementation.
 
-<p align="center">
-  <img src="./images/dfx_wizard_edit_configurations.png?raw=true" alt="dfx_wizard_edit_configurations"/>
-</p>
+    ![dfx_wizard_edit_conf_runs](./images/dfx_wizard_edit_conf_runs.png)
 
-3. Associate each configuration with implementation runs. in DFX flow, parent implementation does both static and associated reconfigurable module implementation. Child implementations place and route associated reconfigurable module in the context of locked static from parent implementation.
+4. Once the configuration and runs are defined in the DFX wizard, the corresponding implementations will appear in the "Design Runs" tab of the Vivado IDE.
 
-<p align="center">
-  <img src="./images/dfx_wizard_edit_conf_runs.png?raw=true" alt="dfx_wizard_edit_conf_runs"/>
-</p>
+    ![design_runs_window](./images/design_runs_window.png)
 
-4. Once configuration and runs are defined in DFX wizard, corresponding implementations will appear in "Design Runs" tab of Vivado.
+### Launch Synthesis, Implementation, and PDI Generation
 
-<p align="center">
-  <img src="./images/design_runs_window.png?raw=true" alt="design_runs_window"/>
-</p>
-
-### Launch Synthesis, Implementation and PDI generation
----
-`source run_impl.tcl` generates the targets, add constraints, define configurations using DFX wizard, launch synthesis, implementation and export XSA after device image generation.
+`source run_impl.tcl` generates the targets, add constraints, defines the configurations using- the DFX wizard, launches synthesis, implementation, and exports the XSA after device image generation.
 
 Selecting "write_device_image" in the flow navigator automatically starts the synthesis and implementation in the following order.
 
-- Parallel OOC synthesis of RMs: rp1rm1 and rp1rm2
+- Parallel OOC synthesis of RMs: rp1rm1 and rp1rm2.
 - Top level Synthesis once OOC synthesis of RMs are complete.
-- Parent Implementation ( impl_1) where static and intial reconfigurable module (rp1rm1) is placed and routed.
-- Child Implememtation (child_0_impl_1) where corresponding reconfigurable module (rp1rm2) is implemented in the context of locked static region from impl_1
-- Device Image is generated for both parent and child implementations.
+- Parent Implementation (impl_1) where the static and initial reconfigurable module (rp1rm1) is placed and routed.
+- Child Implememtation (child_0_impl_1) where the corresponding reconfigurable module (rp1rm2) is implemented in the context of the locked static region from impl_1.
+- Device Image is generated for both the parent and child implementations.
 
-### Generate the Hardware Hand-off file XSA for software application
----
+### Generate the Hardware Hand-off File XSA for Software Application
 
-For DFX designs, XSA hand-off is not officially supported in project mode. However, users can write out flat fixed XSAs and extract the reconfigurable module's contents using XSCT.
+For DFX designs, XSA hand-off is not officially supported in project mode. However, you can write out flat fixed XSAs and extract the reconfigurable module's contents using XSCT.
 
 ```
 open_run impl_1
@@ -164,7 +133,6 @@ write_hw_platform -fixed -force  xsa/design_1_wrapper_impl_1.xsa
 open_run child_0_impl_1
 write_hw_platform -fixed -force  xsa/design_1_wrapper_child_0_impl_1.xsa
 ```
-
 
 <hr class="sphinxhide"></hr>
 
