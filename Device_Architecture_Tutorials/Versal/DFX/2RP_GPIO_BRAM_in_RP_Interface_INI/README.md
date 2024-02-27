@@ -6,15 +6,17 @@
  </tr>
 </table>
 
-# 2 RP Design with NoC INI in the static-RM interface
+# 2 RP Design with NoC INI in the Static-RM Interface
 
-***Version: Vivado 2023.2***
+***Version: AMD Vivado&trade; 2023.2***
 
-This Versal DFX design has 2 RPs:
-- AXI GPIO in 1st RP
-- AXI BRAM in 2nd RP
+This AMD Versal&trade; adaptive SoC DFX design has two RPs:
 
-Each RP has 2 RMs: 
+- AXI general purpose I/0 (GPIO) in the first RP.
+- AXI block RAM in second RP.
+
+Each RP has two RMs:
+
 - RP1: RP1RM1, RP1RM2
 - RP2: RP2RM1, RP2RM2
 
@@ -22,10 +24,9 @@ Each RP has 2 RMs:
 - GPIO in RP1RM1 connected to Constant: 0XFACEFEED
 - GPIO in RP1RM2 connected to Constant: 0XFEEDC0DE
 
-- Static-RP interface is using NoC INI (Inter NoC Interconnect).
-  Hence there is no need of additional DFX Decoupler in the static region.
+- The Static-RP interface is using the NoC Inter NoC Interconnect (INI). Hence, there is no need for an additional DFX Decoupler in the static region.
 
-Currently BRAMs are not initialized to any memory initialization value in the design.
+Currently, block RAMs are not initialized to any memory initialization value in the design.
 
 <hr class="sphinxhide"></hr>
 
