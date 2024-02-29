@@ -17,7 +17,7 @@
   </tr>
   <tr>
     <td align="center">
-      <a href="./DCMAC_NoC/">Introduction to Versal NoC and DCMAC</a>
+      <a href="./DCMAC_NoC/">DCMAC to NoC Connectivity</a>
     </td>
     <td>This tutorial demonstrates the utility of the NoC to transport high-bandwidth interfaces which are not standard AXI-stream.</td>
   </tr>
