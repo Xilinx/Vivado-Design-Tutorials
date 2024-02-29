@@ -1,8 +1,15 @@
 <table class="sphinxhide" width="100%">
  <tr width="100%">
     <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ Adaptive SoC Architecture Tutorials</h1>
-    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
     </td>
+ </tr>
+ <tr>
+   <td align="center"><h1>DCMAC to NoC Connectivity</h1>
+   </td>
+ </tr>
+ <tr>
+   <td align="center"><a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+   </td>
  </tr>
 </table>
 
