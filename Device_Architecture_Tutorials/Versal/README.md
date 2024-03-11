@@ -99,22 +99,43 @@
  </tr>
   </table>
 
+
+## NoC System Designs
+
+<table style="width:100%">
+  <tr>
+    <td width="35%" align="center"><b>Tutorial</b></td>
+    <td width="65%" align="center"><b>Description</b></td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="./NoC_System_Designs/DCMAC_NoC/">Introduction to Versal NoC and DCMAC</a>
+    </td>
+    <td>This tutorial demonstrates the utility of the NoC to transport high-bandwidth interfaces which are not standard AXI-stream.</td>
+  </tr>
+</table>
+
+
 ## PCB Design
 
- <table style="width:100%">
- <tr>
- <td width="35%" align="center"><b>Tutorial</b>
- <td width="65%" align="center"><b>Description</b>
- </tr>
- <tr>
- <td align="center"><a href="./PCB_Design/Memory_Pinouts/">Memory Pinouts</a></td>
- <td>This tutorial introduces best pracices for working with DDR memory pinouts in Versal.</td>
- </tr>
- <tr>
- <td align="center"><a href="./PCB_Design/Hyperlynx_DDRx_Timing_Models/">Hyperlynx DDRx Timing Models</a></td>
- <td>How to perform DDRx signal integrity simulations with the Mentor Graphics DDRx Wizard.</td>
- </tr>
- </table>
+<table style="width:100%">
+  <tr>
+    <td width="35%" align="center"><b>Tutorial</b></td>
+    <td width="65%" align="center"><b>Description</b></td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="./PCB_Design/Memory_Pinouts/">Memory Pinouts</a>
+    </td>
+    <td>This tutorial introduces best pracices for working with DDR memory pinouts in Versal.</td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="./PCB_Design/Hyperlynx_DDRx_Timing_Models/">Hyperlynx DDRx Timing Models</a>
+    </td>
+    <td>How to perform DDRx signal integrity simulations with the Mentor Graphics DDRx Wizard.</td>
+  </tr>
+</table>
 
 ## AI Engine
 
