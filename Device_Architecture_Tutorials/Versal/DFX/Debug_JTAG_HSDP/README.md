@@ -13,13 +13,13 @@
 
 ## Introduction
 
-Versal® devices provide more capability for users to debug their designs in hardware. This includes JTAG based debug as well as High Speed Debug Protocol (HSDP) using GT transceivers or PCI™-Express. For debugging DFX designs in Versal, the user must take additional steps to ensure proper connectivity to debug cores like ILA, VIO that are contained within both the static region and the reconfigurable partition. For all DFX designs, the user should instantiate an instance of the AXI Debug Hub IP with connectivity to the Versal CIPS IP inside each design partition, both static and reconfigurable, that may contain debug cores. The AXI Debug Hub IP instantiated in each design partition will be used by the debug flow for the connectivity infrastructure to all debug cores (ILA, VIO, etc) contained within that design partition. 
+AMD Versal&trade; devices provide more capability for users to debug their designs in hardware. This includes JTAG based debug as well as High Speed Debug Protocol (HSDP) using GT transceivers or PCI™-Express. For debugging DFX designs in Versal, you must take additional steps to ensure proper connectivity to debug cores like ILA and VIO that are contained within both the static region and the reconfigurable partition. For all DFX designs, instantiate an instance of the AXI Debug Hub IP with connectivity to the Versal CIPS IP inside each design partition, both static and reconfigurable, that might contain debug cores. The AXI Debug Hub IP instantiated in each design partition is used by the debug flow for the connectivity infrastructure to all debug cores (ILA, VIO, and so on) contained within that design partition. 
 
-Xilinx recommends using NoC INI (Inter-NoC-Interconnect) interface across static-RM boundary to communicate to an AXI Debug Hub in reconfigurable partition. This is preferred because isolation is built into the NoC Architecture.
+AMD recommends using NoC INI (Inter-NoC-Interconnect) interface across static-RM boundary to communicate to an AXI Debug Hub in reconfigurable partition. This is preferred because isolation is built into the NoC Architecture.
 
-`Note: Accessing the AXI Debug Hub in an RP across a PL based DFX decoupler requires manual intervention. Please contact Xilinx for more information.`
+***Note***: Accessing the AXI Debug Hub in an RP across a PL based DFX decoupler requires manual intervention. Contact AMD for more information.
 
-Interacting with the debug cores for a DFX design, regardless of design flow, matches a standard debug solution. For more information on debug capabilities in Versal devices, please consult chapter 10 of UG908. 
+Interacting with the debug cores for a DFX design, regardless of design flow, matches a standard debug solution. For more information on debug capabilities in Versal devices, refer to chapter 10 of UG908. 
 
 ### Project Structure
 -	**rp1rm1:** Shows example of MARK_DEBUG on the IP counter through Diagram right-click
@@ -30,18 +30,20 @@ Interacting with the debug cores for a DFX design, regardless of design flow, ma
 
 ### Adding Debug Cores
 
-There are two supported methodologies for adding debug cores to Versal DFX designs. Debug cores can be <b>instantiated</b> or <b>inserted</b>. In either case, an AXI Debug Hub IP must be added to the design in the target partition where debug is desired. The debug hub must exist in each reconfigurable module to accommodate any debug cores in that RM. Each RM in the parent configuration must include a debug hub to establish the debug infrastructure that will be used in any child configurations.
+There are two supported methodologies for adding debug cores to Versal DFX designs. Debug cores can be <b>instantiated</b> or <b>inserted</b>. In either case, an AXI Debug Hub IP must be added to the design in the target partition where debug is desired. The debug hub must exist in each reconfigurable module to accommodate any debug cores in that RM. Each RM in the parent configuration must include a debug hub to establish the debug infrastructure that is used in any child configurations.
 
 #### Instantiation
 
-For the instantiation approach, manually add debug cores and connect them to signals you wish to probe. In the following block design, a Debug Hub (green) has been added and connect to the NoC, then multiple ILA (red) and VIO (purple) cores have been added to monitor two counter IP. Note that green bug icons have been added to the signals to be probed by the ILA cores. By explicitly adding the ILA cores and adding probe points, you can define all the debug details early in the design flow. 
+For the instantiation approach, manually add debug cores and connect them to signals you wish to probe. In the following block design, a Debug Hub (green) has been added and connect to the NoC, then multiple ILA (red) and VIO (purple) cores have been added to monitor two counter IP. 
+
+***Note***: Green bug icons have been added to the signals to be probed by the ILA cores. By explicitly adding the ILA cores and adding probe points, you can define all the debug details early in the design flow. 
 
 <p align="center"> <img src="./images/debug_instantiated.png?raw=true" alt="Instantiation Example"/> </p>
 
 
 #### Insertion
 
-For the insertion case, signals are identified in the block design or RTL source and insertion of the ILA debug core is done later in the flow. To add a debug tag to a signal on a block design canvas, right-click and select **Debug**. When this has been done, the green bug icon is added to the signal as shown here.
+For the insertion case, signals are identified in the block design or RTL source and insertion of the ILA debug core is done later in the flow. To add a debug tag to a signal on a block design canvas, right-click and select **Debug**. Once this is done, the green bug icon is added to the signal as shown below.
 
 <p align="center"> <img src="./images/mark_debug_bd_before.png?raw=true" alt="Mark Debug Before"/> </p>
 <p align="center"> <img src="./images/mark_debug_bd_after_anno.png?raw=true" alt="Mark Debug After"/> </p>
@@ -54,17 +56,17 @@ The equivalent process within RTL is done using the **MARK_DEBUG** attribute. Wh
 
 ```(* mark_debug = "true" *) reg [31:0] count_out;```
 
-Note that in each of these cases, the Debug Hub IP (green) has been explicitly added to the BD canvas and connected to the NoC.
+***Note***: In each of these cases, the Debug Hub IP (green) has been explicitly added to the BD canvas and connected to the NoC.
 
 ### Setting Up Inserted Debug Cores
 
-After synthesis, details about the debug features can be identified. This step is necessary for the insertion flow but not the instantiation flow. The insertion flow allows users to defer selection of which signals to probe and the customization of the ILA core itself.
+After synthesis, details about the debug features can be identified. This step is necessary for the insertion flow but not the instantiation flow. The insertion flow allows you to defer selection of which signals to probe and the customization of the ILA core itself.
 
-After synthesis completes, open the synthesized design. This post-synthesis view of the parent run can be used for managing the DFX floorplan as it shows the full design hierarchy for the primary configuration. With this view open, select the Set Up Debug menu selection from the Flow Navigator, then click Next.
+After synthesis completes, open the synthesized design. This post-synthesis view of the parent run can be used for managing the DFX floorplan as it shows the full design hierarchy for the primary configuration. With this view open, select the Set Up Debug menu selection from the Flow Navigator, then click **Next**.
 
 <p align="center"> <img src="./images/set_up_debug_flow_anno.png?raw=true" alt="Set Up Debug Menu"/> </p>
 
-Shown in the dialog box are a list of signals that have been tagged with the **Debug (BD)** or **MARK_DEBUG (RTL)** property. Adjust settings as needed, or add more if desired, then click Next.
+Shown in the dialog box are a list of signals that have been tagged with the **Debug (BD)** or **MARK_DEBUG (RTL)** property. Adjust settings as needed, or add more if desired, then click **Next**.
 
 <p align="center"> <img src="./images/set_up_debug_gui.png?raw=true" alt="Set Up Debug GUI"/> </p>
 
