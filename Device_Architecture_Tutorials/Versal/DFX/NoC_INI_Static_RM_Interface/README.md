@@ -16,11 +16,11 @@ This design demonstrates different NoC connections allowed in DFX designs. Broad
 - NoC Master (NMU) in the static region drives NoC Slave (NSU) in a reconfigurable partition (RP1).
 - NoC Master (NMU) in a reconfigruable partition (RP2) drives NoC Slave (NSU) in the static region.
 - NoC Master in one reconfigurable partition (RP3) drives NoC Slave in another reconfigurable partition (RP4) through a static logical NoC instance.
-- RM-Static data transfer is done using NoC INI ports. Hence no PL based DFX decoupler is needed.
+- RM-Static data transfer is done using NoC INI ports. Hence, no PL based DFX decoupler is needed.
 
 ## Design Flow
 
-Follow the design flow steps from tutorials "1RP design 1RP_AXI_GPIO_in_RP_Interface_INI" and "2RP_GPIO_BRAM_in_RP_Interface_INI" to become familiar with IPI based DFX design flows in Vivado.
+Follow the design flow steps from tutorials "1RP design 1RP_AXI_GPIO_in_RP_Interface_INI" and "2RP_GPIO_BRAM_in_RP_Interface_INI" to become familiar with IPI based DFX design flows in AMD Vivado&trade;.
 
 ### Bottom-Up IPI Design Creation Approach
 
@@ -28,7 +28,7 @@ Unlike the top-down approach, this tutorial uses a bottom-up approach for IPI de
 
 `source create_ipi.tcl`
 
-- Once IPI design creation is complete, you will observe the design is categorized into 5 hierarchies: 1 static region and 4 reconfigurable partitions.
+- Once the IPI design creation is completed, the design is categorized into five hierarchies: One static region and four reconfigurable partitions.
 
 <p align="center">
   <img src="./images/top_bd_with_all_bdcs.png?raw=true" alt="top_bd_with_all_bdcs"/>
@@ -59,11 +59,11 @@ This interface demonstrates the communication between multiple reconfigurable pa
 </p>
 
 ## Hardware Validation
-1. AXI Traffic Generator in Static Region configured in "Static" Mode. Enable this and observe the data in BRAM of RP1 (rp1rm1)
+1. AXI Traffic Generator in Static Region configured in the Static Mode. Enable this and observe the data in BRAM of RP1 (rp1rm1)
 2. Download the rp1rm2 partial PDI. After successful download, you should observe BRAM values back to its initialization value (0x0).
-3. AXI Traffic Generator in RP2 is configured in "Static" Mode without "Address Sweep" in rp2rm1. Enable this and observe the data in BRAM of Static Region.
-4. Download the rp2rm2 partial PDI. In rp2rm2, AXI TG is configured in "Static" mode with "Address Sweep" enabled. Enable the AXI TG and observe the data in BRAM of static region across specific address range.
-5. In RP3, AXI TG is configured again in "Static mode" with AXIS interface to static. In the RP4, AXI Stream FIFO is the slave that recieves the data from RP3 through static LNOC.
+3. AXI Traffic Generator in RP2 is configured in the Static Mode without Address Sweep in rp2rm1. Enable this and observe the data in BRAM of Static Region.
+4. Download the rp2rm2 partial PDI. In rp2rm2, AXI TG is configured in the Static mode with Address Sweep enabled. Enable the AXI TG and observe the data in BRAM of static region across specific address range.
+5. In RP3, AXI TG is configured again in the Static mode with AXIS interface to static. In the RP4, AXI Stream FIFO is the slave that recieves the data from RP3 through static LNOC.
 
 
 
