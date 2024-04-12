@@ -380,10 +380,9 @@ so far.
 14. You can assign a new name to the hierarchy or keep the default name
     in the dialog box, then click **OK**.
 
- Note that you can expand the hierarchy to see the content inside by
- clicking on the + button on the top left of the block.  
- <img src="./media/image33.png" />  
- <img src="./media/image34.jpg" alt="Graphical user interface, application Description automatically generated" />
+You can expand the hierarchy to see the content inside by clicking on the + button on the top left of the block. <img src="./media/image33.png" />  
+
+<img src="./media/image34.jpg" alt="Graphical user interface, application Description automatically generated" />
 
 1.  Hierarchy levels can help with organizing the blocks on the canvas
     as well as replicating different sections of a block design. At this
