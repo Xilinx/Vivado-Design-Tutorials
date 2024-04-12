@@ -1,4 +1,4 @@
-set_param project.enableVersalIPIPRFlow 1
+
 ################################################################
 # This is a generated script based on design: top
 #
@@ -18,6 +18,18 @@ variable script_folder
 set script_folder [_tcl::get_script_folder]
 
 ################################################################
+# Check if script is running in correct Vivado version.
+################################################################
+set scripts_vivado_version 2021.1
+set current_vivado_version [version -short]
+
+if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
+   puts ""
+   common::send_gid_msg -ssname BD::TCL -id 2040 -severity "WARNING" "This script was generated using Vivado <$scripts_vivado_version> without IP versions in the create_bd_cell commands, but is now being run in <$current_vivado_version> of Vivado. There may have been major IP version changes between Vivado <$scripts_vivado_version> and <$current_vivado_version>, which could impact the parameter settings of the IPs."
+
+}
+
+################################################################
 # START
 ################################################################
 
@@ -34,7 +46,7 @@ if { $list_projs eq "" } {
    set_property BOARD_PART xilinx.com:kcu105:part0:1.6 [current_project]
 }
 
-add_files -fileset constrs_1 ./top.xdc
+
 # CHANGE DESIGN NAME HERE
 variable design_name
 set design_name top

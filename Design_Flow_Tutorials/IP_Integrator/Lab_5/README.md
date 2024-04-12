@@ -1,76 +1,60 @@
-  [Table of Contents](#table-of-contents)
+# Contents
 
--   [Designing with IP Integrator Design with RTL
-    top](#designing-with-ip-integrator-design-with-rtl-top)
-    -   
-    -   [**Step 1: Creating an IPI design with RTL as
-        top**](#step-1-creating-an-ipi-design-with-rtl-as-top)
-    -   [**Step 2: Running implementation and generating
-        xsa**](#step-2-running-implementation-and-generating-xsa)
-    -   [**Step 3: Exporting Hardware Platform(xsa) to PetaLinux
-        Project**](#step-3-exporting-hardware-platformxsa-to-petalinux-project)
-    -   [**Step4: Analysing the device
-        tree**](#step4-analysing-the-device-tree)
-    -   [**Step5: Booting PetaLinux Image on Hardware**
-        ](#step5-booting-petalinux-image-on-hardware)
+ Designing with IP Integrator Design with RTL top
 
+ Introduction
 
+ Tutorial Design Description
 
-# 
+ Step 1: Creating an IPI design with RTL as top
 
-# 
+ Step 2: Running implementation and generating xsa
+
+ Step 3: Exporting Hardware Platform(xsa) to PetaLinux Project
+
+ Step 4: Analysing the device tree
+
+ Step 5: Booting PetaLinux Image on Hardware
 
 # Designing with IP Integrator Design with RTL top
 
-**Introduction**
+## Introduction
 
-The Xilinx® Vivado® Design Suite IP Integrator lets you create complex
-system designs by
+The AMD Vivado™ Design Suite IP Integrator lets you create complex
+system designs by instantiating and interconnecting IP cores from the
+Vivado IP catalog onto a design canvas. You can create designs
+interactively through the IP Integrator design canvas GUI, or
+programmatically using a Tcl programming interface.
 
-instantiating and interconnecting IP cores from the Vivado IP catalog
-onto a design canvas. You can create designs interactively through the
-IP Integrator design canvas GUI, or programmatically using a Tcl
-programming interface.
-
-**Tutorial Design Description**
+## Tutorial Design Description
 
 This tutorial walks you through the steps of building an IPI design with
 RTL as top. You will generate the post implementation xsa and run it on
-the petalinux. While working through the tutorial you will learn how the
+the PetaLinux. While working through the tutorial you will learn how the
 BD addressing of an RTL top design gets mapped to device tree generated
-in the petaliux through Xilinx shell archive (xsa).
+in the PetaLinux through Xilinx shell archive (xsa).
 
-## 
+## Step 1: Creating an IPI design with RTL as top
 
-## **Step 1: Creating an IPI design with RTL as top**
+1.  Open the AMD Vivado™ Integrated Design Environment (IDE).
 
-1.  Open the Vivado® Integrated Design Environment (IDE).
+- On Linux, change to the directory where the Vivado tutorial design
+  file is stored: cd
 
--   On Linux, change to the directory where the Vivado tutorial design
-    file is stored: cd
-
-\<Extract_Dir\>/Vivado_Tutorial. Then launch the Vivado Design Suite:
+    \<Extract_Dir\>/Vivado_Tutorial. Then launch the Vivado Design Suite:
 Vivado.
 
--   On Windows, launch the Vivado Design Suite: **Start → All Programs →
-    Xilinx Design Tools→ Vivado 2021.x**.
+- On Windows, launch the Vivado Design Suite: **Start → All Programs →
+  Xilinx Design Tools→ Vivado 2023.1**.
 
-As an alternative, click the **Vivado 2021.x** Desktop icon to start the
-Vivado IDE.
+    As an alternative, click the **Vivado 2023.1** Desktop icon to start the
+    Vivado IDE. The Vivado IDE Getting Started page contains links to open or create
+    projects and to view documentation, as shown in the following figure:
 
-The Vivado IDE Getting Started page contains links to open or create
-projects and to view
+    <img src="./media/image1.png" alt="A screenshot of a computer Description automatically generated" />
 
-documentation, as shown in the following figure:
-
-![Graphical user interface Description automatically
-generated](media/image1.jpg){width="5.795248250218723in"
-height="4.216418416447944in"}
-
-***Note*:** Your Vivado Design Suite installation may be called
-something different from Xilinx Design Tools
-
-on the Start menu.
+    ***Note*:** Your Vivado Design Suite installation may be called
+    something different from Xilinx Design Tools on the Start menu.
 
 2.  Under the Quick Start section, select **Create Project**.
 
@@ -80,33 +64,28 @@ on the Start menu.
 4.  In the Project Name page, shown in the following figure, set the
     following options:
 
-```{=html}
 <!-- -->
-```
-a.  In the Project name field, enter Lab1 and specify a location where
-    the project must be created
 
-![](media/image2.png){width="6.268055555555556in"
-height="2.8666666666666667in"}
+1.  In the Project name field, enter Lab1 and specify a location where
+    the project must be created.
+
+    <img src="./media/image2.png" alt="A screenshot of a computer Description automatically generated" />
 
 5.  Ensure that Create project subdirectory is checked and click
     **Next.**
 
-6.  In the Project Type page, select **RTL Project**, ![Graphical user
+6.  In the Project Type page, select **RTL Project**, Graphical user
     interface, text, application, email Description automatically
-    generated](media/image3.jpg){width="5.552238626421698in"
-    height="4.174328521434821in"}
+    generated.
 
 7.  Click on **Add Files** and select the files from src_files/RTL_files
-    folder
+    folder.
 
-![](media/image4.png){width="6.268055555555556in"
-height="3.154861111111111in"}
+    <img src="./media/image3.png" alt="A screenshot of a computer Description automatically generated" />
 
 8.  Click **OK** and click **Next**.
 
-![](media/image5.png){width="6.268055555555556in"
-height="4.378472222222222in"}
+    <img src="./media/image4.png" alt="A screenshot of a computer Description automatically generated" />
 
 9.  In the Add constraints box, click **Add Files** and add the top.xdc
     from the src_files/xdc folder.
@@ -114,73 +93,66 @@ height="4.378472222222222in"}
 10. Click next, and then you will land on the Default Part page. Click
     on the Boards tab to select the Versal VCK190 Evaluation Platform.
 
-![](media/image6.png){width="6.268055555555556in"
-height="3.9819444444444443in"}
+<!-- -->
 
 11. Review the project summary in the New Project Summary page.
 
-![](media/image7.png){width="6.268055555555556in" height="3.60625in"}
+    <img src="./media/image5.png" alt="A screenshot of a project Description automatically generated" />
 
-12. Click Finish to create the Lab1 project
+12. Click **Finish** to create the Lab1 project.
 
 13. The new project opens in the Vivado IDE.
 
 14. Now the design looks as below, the gaps shown must be filled with
-    the Block designs
+    the Block designs.
 
-![](media/image8.png){width="5.489583333333333in"
-height="3.5520833333333335in"}
+    <img src="./media/image6.png" alt="A screenshot of a computer Description automatically generated" />
 
 15. Source the GT_bd.tcl and cips_ddr_pl_bd.tcl from src_files/tcl_files
-    in the TCL Console.
+    in the Tcl Console.
 
-16. Once the BD (Block Designs) tcl files are sourced, you will see the
-    hierarchy as below
+16. Once the BD (Block Designs) Tcl files are sourced, you will see the
+    hierarchy as below.
 
-![](media/image9.png){width="6.260416666666667in"
-height="3.351466535433071in"}
+    <img src="./media/image7.png" alt="A screenshot of a computer Description automatically generated" />
 
-17. Note that the design has block diagram under the 3 levels of RTL.
+17. Note that the design has block diagram under the three levels of RTL.
 
-## **Step 2: Running implementation and generating xsa**
+## Step 2: Running implementation and generating xsa
 
-1.  Open the BD cips_ddr_pl_debug,the block design connects the
-    processing system to the DDR memory and BRAM through NOC (Network On
+1.  Open the BD cips_ddr_pl_debug, the block design connects the
+    processing system to the DDR memory and Block RAM through NOC (Network On
     Chip). AXI Bus is probed with ILA and counter is controlled with a
     VIO core.
 
-![](media/image10.png){width="6.268055555555556in"
-height="2.8569444444444443in"}
+    <img src="./media/image8.png" alt="A diagram of a computer Description automatically generated" />
 
-2.  Open the Address Editor and see the slave segment BRAM is at
-    0x20140000000 master CIPS base address
+2.  Open the Address Editor and see the slave segment Block RAM is at
+    0x20140000000 master CIPS base address.
 
-![](media/image11.png){width="6.268055555555556in"
-height="3.067361111111111in"}
+    <img src="./media/image9.png" alt="A screenshot of a computer Description automatically generated" />
 
-3.  Click on 'Generate Device Image' in the Flow navigator. Click Yes
+3.  Click on ‘Generate Device Image’ in the Flow navigator. Click Yes
     when prompted to launch Implementation and click OK to launch runs.
 
-![](media/image12.png){width="6.268055555555556in"
-height="1.5590277777777777in"}
+    <img src="./media/image10.png" alt="A screenshot of a computer Description automatically generated" />
 
 4.  The Design Runs tab looks as shown below. Full design synthesis and
     implementation will be launched after the block design are
     synthesized in Out of context.
 
-![](media/image13.png){width="6.135416666666667in"
-height="2.2708333333333335in"}
+    <img src="./media/image11.png" alt="A screenshot of a computer Description automatically generated" />
 
 5.  Once the device Image is generated, Export the Hardware i:e
     generates the xsa from File \> Export \> Export Hardware. The XSA
     extension stands for Xilinx Shell Archive and these files are
     generated by Vivado to contain the required hardware information.
 
-6.  In the Output, choose 'Include device Image' and click
-    Ok.![](media/image14.png){width="3.341666666666667in"
-    height="1.1069269466316711in"}
+6.  In the Output, choose ‘Include device Image’ and click Ok.
 
-## **Step 3: Exporting Hardware Platform(xsa) to PetaLinux Project**
+    <img src="./media/image12.png" alt="A screenshot of a computer Description automatically generated" />
+
+## Step 3: Exporting Hardware Platform(xsa) to PetaLinux Project
 
 PetaLinux tools enable developers to synchronize the software platform
 with the hardware design. PetaLinux is an embedded
@@ -190,146 +162,128 @@ system-on-a-chip (SoC) design.
 This section assumes that the following prerequisites have been
 satisfied:
 
--   Peta Linux BSP is downloaded. You can download PetaLinux [VCK190
-    BSP](https://www.xilinx.com/member/forms/download/xef.html?filename=xilinx-vck190-v2022.1-04191534.bsp)
-    (BSP - 2.06 GB) from [[PetaLinux
-    Downloads](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-design-tools.html).]{.underline}
-    For more information visit
-    [Project-Creation-Using-PetaLinux-BSP](https://docs.xilinx.com/r/en-US/ug1144-petalinux-tools-reference-guide/Project-Creation-Using-PetaLinux-BSP)
+- PetaLinux BSP is downloaded. You can download PetaLinux  VCK190
+  BSP (https://www.xilinx.com/member/forms/download/xef.html?filename=xilinx-vck190-v2022.1-04191534.bsp)
+  (BSP - 2.06 GB) from <u> PetaLinux
+  Downloads (https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-design-tools.html).</u>
+  For more information visit
+   Project-Creation-Using-PetaLinux-BSP (https://docs.xilinx.com/r/en-US/ug1144-petalinux-tools-reference-guide/Project-Creation-Using-PetaLinux-BSP)
 
--   The Peta Linux tools installation is complete. For more information,
-    see[ [Installation
-    Steps](https://docs.xilinx.com/r/e3GNC2xfjh_jKWGBR7Rtsw/Uj3ckTGNVF35m3PB3RlY3A)]{.underline}.
+- The PetaLinux tools installation is complete. For more information,
+  see<u>  Installation
+  Steps (https://docs.xilinx.com/r/e3GNC2xfjh_jKWGBR7Rtsw/Uj3ckTGNVF35m3PB3RlY3A)</u>.
 
--   Peta Linux Working Environment Setup is completed. For more details,
-    see [[PetaLinux Working Environment
-    Setup](https://docs.xilinx.com/r/e3GNC2xfjh_jKWGBR7Rtsw/lxJsFk4CzY8pU~_dUtC5MQ).]{.underline}
+- PetaLinux Working Environment Setup is completed. For more details,
+  see <u> PetaLinux Working Environment
+  Setup (https://docs.xilinx.com/r/e3GNC2xfjh_jKWGBR7Rtsw/lxJsFk4CzY8pU~_dUtC5MQ).</u>
 
 1.  Create a PetaLinux project
 
-    -   Change to the directory under which you want PetaLinux projects
-        to be created. For example, if you want to create projects
-        under /home/user
+    - Change to the directory under which you want PetaLinux projects to
+      be created. For example, if you want to create projects
+      under /home/user
 
-> **\$cd /home/user**
+        **\$cd /home/user**
 
--   Run petalinux-create command on the command console
+        - Run petalinux-create command on the command console
 
-> **\$petalinux-create -t project -n vck190 -s \<path-to-bsp\>**
+        **\$petalinux-create -t project -n vck190 -s \<path-to-bsp\>**
 
-![](/media/image15.png){width="10.413081802274716in"
-height="1.001881014873141in"}
+        When the above command runs, it tells you the projects that are
+        extracted and installed from the BSP. If the specified location is on
+        the Network File System (NFS), it changes the TMPDIR
+        to /tmp/\<projname-timestamp-id\>; otherwise, it is set
+        to \$PROOT/build/tmp
 
-When the above command runs, it tells you the projects that are
-extracted and installed from the BSP. If the specified location is on
-the Network File System (NFS), it changes the TMPDIR
-to /tmp/\<projname-timestamp-id\>; otherwise, it is set
-to \$PROOT/build/tmp
-
-> *Note: PetaLinux requires a minimum of 50 GB and a maximum of 100 GB
-> /tmp space to build the project successfully when you create the
-> project on NFS. Please refer to UG1144 for more details*.
+        >**Note**: PetaLinux requires a minimum of 50 GB and a maximum of 100 GB
+        /tmp space to build the project successfully when you create the
+        project on NFS. Please refer to UG1144 for more details.
 
 2.  Importing Hardware Configuration
 
-> This section explains the process of updating an existing PetaLinux
-> project with a hardware configuration. This enables you to make the
-> PetaLinux tools software platform ready for building a Linux system,
-> customized to your new hardware platform
+    This section explains the process of updating an existing PetaLinux
+    project with a hardware configuration. This enables you to make the
+    PetaLinux tools software platform ready for building a Linux system,
+    customized to your new hardware platform
 
--   Change into the directory of your PetaLinux project.
+    - Change into the directory of your PetaLinux project.
 
-> **\$cd vck190**
+         **\$cd vck190**
 
--   Copy the xsa generated in Step2 to the vck190 folder created in your
+    - Copy the xsa generated in Step2 to the vck190 folder created in your
     location
 
--   Import the hardware description with petalinux-config command using
+    - Import the hardware description with petalinux-config command using
     the following step
 
-> **\$petalinux-config \--get-hw-description=. --silentconfig**
+        **\$petalinux-config --get-hw-description=. –silentconfig**
 
-![](media/image16.png){width="6.268055555555556in"
-height="2.4229166666666666in"}
+        <img src="./media/image13.png" alt="A screenshot of a computer program Description automatically generated" />
 
-> *Note:When the petalinux-config \--get-hw-description command runs for
-> the PetaLinux project, the tool detects changes in the system primary
-> hardware candidates. Please refer to UG1144 for more details.*
+    > **Note:** When the petalinux-config --get-hw-description command runs for
+    the PetaLinux project, the tool detects changes in the system primary hardware candidates. Please refer to UG1144 for more details.
 
 3.  Build System Image
 
-This step generates a device tree DTB file, PLM (for Versal® ACAP), PSM
-(for Versal ACAP) and TF-A (for Zynq UltraScale+ MPSoC and Versal ACAP),
-U-Boot, the Linux kernel, a root file system image, and the U-Boot boot
-script (boot.scr). Finally, it generates the necessary boot images.
+    This step generates a device tree DTB file, PLM (for AMD Versal™ Adaptive SoC), PSM
+    (for Versal Adaptive SoC) and TF-A (for AMD Zynq™ UltraScale+™ MPSoC and Versal Adaptive SoC),
+    U-Boot, the Linux kernel, a root file system image, and the U-Boot boot
+    script (boot.scr). Finally, it generates the necessary boot images.
 
--   Run petalinux-build to build the system image:
+    - Run petalinux-build to build the system image:
 
-> **\$petalinux-build**
+    **\$petalinux-build**
 
-![](/media/image16.png){width="9.17705927384077in"
-height="2.587592957130359in"}
+    > **Note:** The compilation progress shows on the console. Wait until the
+    compilation finishes.A detailed compilation log is
+    in \<plnx-proj-root\>/build/build.log.When the build finishes, the
+    generated images are stored in the \< plnx-proj-root
+    \>/images/linux or /tftpboot directories. For more info refer to
+    UG1144.
 
-> *Note:The compilation progress shows on the console. Wait until the
-> compilation finishes.A detailed compilation log is
-> in \<plnx-proj-root\>/build/build.log.When the build finishes, the
-> generated images are stored in the \< plnx-proj-root
-> \>/images/linux or /tftpboot directories. For more info refer to
-> UG1144*
+4.  Generate Boot Image for Versal Adaptive SoC
 
-4.  Generate Boot Image for Versal ACAP
+    This section is for Versal Adaptive SoC only and desribes how to generate
+    boot image BOOT.BIN for vck190.A boot image usually contains a PDI
+    file (imported from hardware design), PLM, PSM firmware, Arm® trusted
+    firmware, U-Boot, and DTB.
 
-> This section is for Versal® ACAP only and describes how to generate
-> boot image BOOT.BIN for vck190.A boot image usually contains a PDI
-> file (imported from hardware design), PLM, PSM firmware, Arm® trusted
-> firmware, U-Boot, and DTB.
-
--   Execute the following command to generate the boot image in .bin
+    - Execute the following command to generate the boot image in .bin
     format:
 
-> **\$petalinux-package \--boot \--u-boot --force**
+     **\$petalinux-package --boot --u-boot –force**
 
-![](/media/image17.png){width="7.584346019247594in"
-height="3.146840551181102in"}
+    > **Note:** Specifying --u-boot adds all the required images to boot up to U-Boot into BOOT.BIN. Please refer to UG1144 for details.
 
-> *Note: Specifying \--u-boot adds all the required images to boot up to
-> U-Boot into BOOT.BIN. Please refer to UG1144 for details*
+## Step 4: Analysing the device tree
 
-## **Step4: Analysing the device tree**
-
-1.  The device tree generated(system.dtb) can be found inside
+1.  The device tree generated (system.dtb) can be found inside
     vck190/images/linux folder.
 
-> ![](/media/image18.png){width="7.584346019247594in"
-> height="0.9999311023622047in"}
->
-> The system.dtb is a compiled binary device tree. This will be copied
-> to your image. So, now we are going to check the if the BRAM address
-> 0x20140000000 (mentioned in Setp2, point2) is correctly mapped in the
-> device tree. For this the dtb file must be converted to dts.
+    The system.dtb is a compiled binary device tree. This will be copied
+    to your image. So, now we are going to check the if the Block RAM address
+    0x20140000000 (mentioned in Setp2, point2) is correctly mapped in the
+    device tree. For this the dtb file must be converted to dts.
 
-2.  We will be using dtc -- device tree compiler which takes an input a
+2.  We will be using dtc – device tree compiler which takes an input a
     device-tree in a given format and output in another format. In the
     below command dtc takes the system.dtb(binary format) and outputs
     dts (human readable source format)
 
-> ![](media/image20.png){width="5.0in" height="0.4166666666666667in"}
->
-> ![](media/image21.png){width="4.479166666666667in" height="0.375in"}
+    <img src="./media/image14.png"/>
+    
+    <img src="./media/image15.png"/>
 
 3.  In the device tree you can see axi_bram_ctrl is assigned at
-    0x20140000000. So, ideally this address should be same as the BRAM
+    0x20140000000. So, ideally this address should be same as the Block RAM
     base address in the design IPI address editor (refer to Setp2,
     point2)
 
-> ![](media/image22.png){width="5.0in" height="4.3125in"}
->
-> Open the design and observe the axi_bram_ctl Master base address.
->
-> ![](/media/image19.png){width="6.886456692913386in"
-> height="3.3699846894138235in"}
+    <img src="./media/image16.png" alt="A screenshot of a computer program Description automatically generated"/>
 
-## **Step5: Booting PetaLinux Image on Hardware** 
+    Open the design and observe the axi_bram_ctl Master base address.
+
+## Step 5: Booting PetaLinux Image on Hardware
 
 This section describes how to boot a PetaLinux image on hardware with an
 SD Card.
@@ -341,11 +295,11 @@ SD Card.
 2.  Copy the following files from /linux/images/ into the root directory
     of the first partition, which is in FAT32 format in the SD card:
 
-    a.  BOOT.BIN
+    1.  BOOT.BIN
 
-    b.  image.ub
+    2.  image.ub
 
-    c.  boot.scr
+    3.  boot.scr
 
 3.  Extract the rootfs.tar.gz folder into the ext4 partition of the SD
     card.
@@ -371,10 +325,10 @@ SD Card.
 
 12. Use devmem again to verify the write was successful.
 
-Refer to below link for more detail\'s other methods of booting:
+Refer to below link for more detail's other methods of booting:
 
-[Boot-a-PetaLinux-Image-on-Hardware-with-SD-Card]{.underline}
+<u>Boot-a-PetaLinux-Image-on-Hardware-with-SD-Card</u>
 
-[Boot-a-PetaLinux-Image-on-Hardware-with-TFTP]{.underline}
+<u>Boot-a-PetaLinux-Image-on-Hardware-with-TFTP</u>
 
-[Boot-a-PetaLinux-Image-on-Hardware-with-JTAG]{.underline}
+<u>Boot-a-PetaLinux-Image-on-Hardware-with-JTAG</u>
