@@ -13,15 +13,15 @@
 ## Introduction
 
 This tutorial design demonstrates using IP integrator to add an AXI-NoC IP with access to an
-integrated DDRMC. You will then add and configure the AXI Traffic Generator (TG) to generate traffic
+integrated DDRMC. Then add and configure the AXI Traffic Generator (TG) to generate traffic
 to the DDRMC via the NoC.
-Post synthesis you will use the Nibble Planner in the IO Ports window to assign the appropriate
-DDR Memory Bank. You will then implement the design.
+Post synthesis, use the Nibble Planner in the IO Ports window to assign the appropriate
+DDR Memory Bank. Then implement the design.
 Behavioral simulation can also be run on the design. To do this, you need to force inputs on the
 external clock and reset pins of the design to ensure the proper initialization and functioning of
 the TG and the design.
 The basic flow of the tutorial is as follows:
-1. Start Vivado®.
+1. Start AMD Vivado&trade;.
 2. Create a new project.
 3. Open a new block design.
 4. Add an AXI_NoC IP to the block design.
@@ -34,18 +34,18 @@ Servive (QoS) parameters.
 10. Implement the design.
 
 
-**Note**: Synthesis and Implementing Design/`run.tcl` contains the Tcl script that will setup the project per the basic flow outlined
+***Note***: Synthesis and Implementing Design/`run.tcl` contains the Tcl script that sets up the project per the basic flow outlined
 above - all the way from creating the IP integrator design to implementing the design in Vivado.
 ## Description of the Design
 This design uses one AXI4 TG to write and read data to/from DDR4 memory
-connected to the NoC through an integrated DDR4 Memory Controller (MC) block. The TG will read and write from a single DDR memory through the `axi_noc` instance. The TG is used to simulate the data flow of a real application.
+connected to the NoC through an integrated DDR4 Memory Controller (MC) block. The TG reads and writes from a single DDR memory through the `axi_noc` instance. The TG is used to simulate the data flow of a real application.
 
-**Note**: This design is provided as an example only. Figures and information depicted here might vary from the
+***Note***: This design is provided as an example only. Figures and information depicted here might vary from the
 current version.
 
 ## Create a Project
 ### Start Vivado
-1. Open the Vivado® GUI. Make sure the banner at the top of the window identifies the Vivado
+1. Open the Vivado GUI. Make sure the banner at the top of the window identifies the Vivado
 2020.2 release.
 2. From the Quick Start buttons, click **Create Project**.
 3. Step through the pop-up menus to the **Default Part** menu.
@@ -64,10 +64,10 @@ create_project project_1 ./project_1 -part xcvc1902-vsva2197-1LP-e-S-es1
 create_bd_design "design_1"
 ```
 ## NoC IP Configuration
-The NoC IPs act as logical representations of the Versal™ network on chip. The `axi_noc`
+The NoC IPs act as logical representations of the AMD Versal&trade; network on chip. The `axi_noc`
 supports the AXI memory mapped protocol. Each instance specifies a set of connections to be
 mapped onto the physical NoC, along with the QoS requirements for each connection. A given
-HDL design may have any number of instances of the NoC IP. Vivado® automatically aggregates
+HDL design might have any number of instances of the NoC IP. Vivado automatically aggregates
 the connectivity and QoS information from all of the logical NoC instances to form a unified
 traffic specification for the NoC compiler.
 
@@ -75,8 +75,8 @@ The integrated Memory Controllers (MCs) are integrated into the `axi_noc` core. 
 the `axi_noc` IP can be configured to include one, two, or four instances of the integrated MC. If
 two or four instances of the MC are selected, they are configured to form a single interleaved
 memory. In this case, the memory controllers are configured identically and mapped to the same
-address. Interleaving is controlled by the NoC.
-1. Add an instance of the Versal™ AXI NoC IP by right-clicking anywhere on the block design
+address. The NoC controls interleaving.
+1. Add an instance of the Versal AXI NoC IP by right-clicking anywhere on the block design
 canvas and selecting **Add IP** from the context menu.
 2. Open the AXI NoC IP customization GUI by double-clicking it. The General tab shows the set
 of NoC interfaces to configure. Configure the number of master and slave interfaces as
@@ -87,11 +87,13 @@ follows:
 * Set the Memory Controllers to **Single Memory Controller**.
 * Set the Number of Memory Controller Ports to **1**.
 3. Open the Connectivity tab. This menu presents a patch panel style connection matrix to
-show which NoC ingress interfaces (for example `S00_AXI`) will be routed to which egress
+show which NoC ingress interfaces (for example `S00_AXI`) are routed to which egress
 interfaces (for example `MC_0`). Check the checkbox under the MC Port 0 column.
 4. Open the QoS tab. This menu allows you to select the Quality of Service (QoS) settings for
 each NoC connection. The first line shows the QoS settings for the ingress port (`S00_AXI`).
-**Note**: The default read and write traffic classes are BEST_EFFORT.
+
+***Note***: The default read and write traffic classes are BEST_EFFORT.
+
 5. Open the tree by clicking on the button on the far left of the ingress port. This shows the set
 of QoS properties for each output connection from the selected ingress port.
 6. Open the DDR Basic tab and select the checkbox for **Enable Internal Responder**.
@@ -141,13 +143,13 @@ See the following figure for reference.
 ![clock wizard config optional tab](images/clk_wizard_optional_port_tab.PNG)
 
 12. Double click **Control, Interfaces & Processing System**.
-13. click Next and then PS PMC block follow below figures
+13. Click **Next** and then **PS PMC block**, as shown in the following figures:
 ![Versal Cips](images/cips_config.PNG)
 ![Versal Cips](images/cips_PS_PMC.PNG)
 
 
 14. Select **PS PL Interfaces**.
-15. On the right-side window in PL resets set the number of PL resets to **1**. Click Finish.
+15. On the right-side window in PL resets set the number of PL resets to **1**. Click **Finish**.
 
 See the following figure for reference.
 ![Versal Cips](images/cips_PS_PL.PNG)
@@ -172,7 +174,7 @@ See the following figure for reference.
 
 ## Address Editor
 1. Click the **IPI Address Editor** tab.
-2. Click the **Assign All** icon at the top. This will auto assign the base and range addresses
+2. Click the **Assign All** icon at the top. This auto assigns the base and range addresses
 associated with the AXI slaves in the block design.
 ## Validate the Block Design
 Validate the design in the IP integrator by clicking the **Validate Block Design** icon at the top of
@@ -199,7 +201,7 @@ The Advanced I/O Planner window displays.
 5. Click the **IO Bank** browse button … as shown in the following figure.
 ![Advanced IO planner](images/adv_io_planner.PNG)
 6. Select IO Banks **706**, **707**, **708** to be associated with **DDRMC2** (see the following figure for
-reference). This triplet bank will now be associated with the DDRMC in the design.
+reference). This triplet bank is now associated with the DDRMC in the design.
 ![IO bank selection GUI](images/iobank_selection.PNG)
 7. Click **OK** to dismiss the IO Banks dialog box.
 8. Click **OK** to dismiss the Advanced I/O Planner dialog box.

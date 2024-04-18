@@ -30,13 +30,13 @@
 
 ## Introduction
 
-Fallback boot allows Versal Adaptive SoC to automatically boot a different PDI than the initial PDI on the same primary boot device if the first PDI fails to boot.
+Fallback boot allows an AMD Versal&trade; Adaptive SoC to automatically boot a different PDI than the initial PDI on the same primary boot device if the first PDI fails to boot.
 
 An error during boot PDI load can occur due to various reasons. Some examples for PLM errors include:
 
-* PDI header fields are not valid
+* PDI header fields are not valid.
 * Copy from boot device has failed.
-* Unavailability of power while loading corresponding power domain CDOs (LPD, FPD, NPD, PL, etc.).
+* Unavailability of power while loading corresponding power domain CDOs (LPD, FPD, NPD, PL, and so on).
 * Checksum or decryption or authentication failure while loading partitions, if enabled.
 * Command failures (such as DDR memory calibration mask_poll command time out) during CDO processing.
 
@@ -45,13 +45,13 @@ An error during boot PDI load can occur due to various reasons. Some examples fo
 
 The BootROM executable accesses the PDI at the location specified when PMC_MULTI_BOOT is 0 (the POR value). The BootROM executable performs integrity and security checks on the boot header (valid ID, checksum), and the associated PLM, ensures that the PDI is not corrupted, decrypts the PDI, and checks that authentication is successful.
 
-If the integrity and security checks fail, then the fallback boot is used to try to boot Versal Adaptive SoC from an alternate PDI on the same primary boot device.
+If the integrity and security checks fail, the fallback boot is used to try to boot Versal Adaptive SoC from an alternate PDI on the same primary boot device.
 
 To begin the fallback boot, the BootROM executable increments PMC_MULTI_BOOT within search offset limit and executes a system-level reset (SRST), which then uses the PMC_MULTI_BOOT register to read the PDI from the newly specified location within the primary boot device.
 
 From this point, there are two paths:
 
-• **Success**: If the BootROM executable finds a boot header at the new location, BootROM performs boot integrity and security checks on the boot header/PLM. If the integrity and security checks pass, then boot continues.
+• **Success**: If the BootROM executable finds a boot header at the new location, BootROM performs boot integrity and security checks on the boot header/PLM. If the integrity and security checks pass, boot continues.
 
 • **Failure**: In this case, either the BootROM executable does not find a boot header at the new location, or the boot header/PLM integrity and security checks fail. The BootROM executable again increments PMC_MULTI_BOOT, issues an SRST, and continues searching, while incrementing PMC_MULTI_BOOT as needed until either a valid boot header/PLM is found, or the search limit is reached.
 
@@ -67,7 +67,7 @@ PMC_MULTI_BOOT : 0xF0000001 -> System boot from 2st binary file
 PMC_MULTI_BOOT : 0xF0000002 -> System boot from 3st binary file
 etc
 ```
->Note: Here the 'F' in F0000001 value indicates ```User partition (File system mode)``` which is a partition type, only valid for SD/eMMC boot modes. 
+>***Note***: Here the 'F' in F0000001 value indicates ```User partition (File system mode)```, which is a partition type, only valid for SD/eMMC boot modes. 
 
 Below are the partition types:
 * 1: eMMC Boot Partition 1 (Raw mode)
@@ -90,10 +90,10 @@ SD1 (3.0)------------------------------------------------search offset limit **8
 ```
 
 ### Objectives
-After completing this tutorial, users should be able to:
+After completing this tutorial, you should be able to:
 
 * Understand the concept and the steps required to run the fallback tutorial.
-* Build the fallback reference design in vivado and generate boot images to boot the system via SD card and QSPI booting techniques.
+* Build the fallback reference design in AMD Vivado&trade; and generate boot images to boot the system via SD card and QSPI booting techniques.
 	
 
 ### Design Block Diagram
@@ -133,8 +133,8 @@ Recommended general knowledge of:
 * Versal Embedded Design Tutorial
 * Versal QSPI and SD Boot process
 * Versal PMC
-* Xilinx Vivado Design Suite
-* Xilinx Vitis IDE
+* AMD Vivado&trade; Design Suite
+* AMD Vitis&trade; IDE
 
 <details>
 
@@ -158,7 +158,7 @@ Recommended general knowledge of:
 |Term|Description|
 |  ---  |  ---  |
 |Platform management controller (PMC)|Manages Versal Adaptive SoC boot and the life cycle management of the device. The PMC ROM Code Unit (RCU) and platform processing unit (PPU) are responsible for booting the device.|
-|ROM code unit (RCU)| Includes a microblaze processor that executes the BootROM to initiate the boot phase2: boot setup.|
+|ROM code unit (RCU)| Includes an AMD Microblaze&trade; processor that executes the BootROM to initiate the boot phase2: boot setup.|
 |Platform processing unit (PPU)|Includes a microblaze processor that executes the platform loader and manager (PLM) to initiate the boot phase3: load platform.|
 |Scalar engines|Includes the processing system (PS) Dual-Core ARM Cortex R5F and A72.|
 |Adaptable engines|Includes Versal adaptable hardware also referred to in this tutorial as programmable logic (PL).|
@@ -173,13 +173,13 @@ Recommended general knowledge of:
 
 ### Tutorial Requirements
 
-This tutorial is demonstrated on the VCK190 production evaluation board. To run this tutorial download the necessary files from the lounge and ensure you have the correct licenses installed. If you do not have a board and Vivado license contact your Xilinx sales representative. See https://www.xilinx.com/products/boards-and-kits/vck190.html for more information.
+This tutorial is demonstrated on the VCK190 production evaluation board. To run this tutorial, download the necessary files from the lounge and ensure you have the correct licenses installed. If you do not have a board and Vivado license, contact your AMD sales representative. See https://www.xilinx.com/products/boards-and-kits/vck190.html for more information.
 
->Note: This tutorial targets the VCK190 evaluation board, but the methodology flow also applies to the VMK180 evaluation board.
+>***Note***: This tutorial targets the VCK190 evaluation board, but the methodology flow also applies to the VMK180 evaluation board.
 
 #### Hardware Requirements:
 
-* Host machine with an operating system supported by Vivado Design Suite and Vitis 2022.1
+* Host machine with an operating system supported by the Vivado Design Suite and Vitis 2022.1
 * VCK190 Evaluation board, which includes:
   * Versal Adaptive SoC XCVC1902-2VSVA2197
   * AC power adapter (100-240VAC input, 12VDC 15.0A output).
@@ -188,7 +188,7 @@ This tutorial is demonstrated on the VCK190 production evaluation board. To run 
   * Boot Module X-EBM-01 (Dual Parallel QSPI) Rev_A02
 
 #### Software Requirements:
-In order to build and run the tutorial reference design, the following must be available or installed:
+To build and run the tutorial reference design, the following must be available or installed:
   * Vivado Design Suite and Vitis 2022.1:
   	- Visit https://www.xilinx.com/support/download.html for the latest tool version.
   	- For more information on installing the Vivado Design Suite and Vitis, refer to [UG1400 Vitis Unified Software Platform Embedded Software Development](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2020_2/ug1400-vitis-embedded.pdf).
@@ -210,11 +210,11 @@ To set up the Vivado environment:
 * Linux 32-bit: Run the settings32.sh from the Vivado/2022.1 directory
 * Linux 64-bit: Run the settings64.sh from the Vivado/2022.1 directory
 
-To build Vivado fallback reference design one can use two methods, either use GUI interface of Vivado or use tcl scripts to generate hardware design files. By using the GUI interface, we can learn the design flow process of generating hardware files.
+To build a Vivado fallback reference design, you can use two methods, either use GUI interface of Vivado or use Tcl scripts to generate hardware design files. By using the GUI interface, you can learn the design flow process of generating hardware files.
 
 **Method 1**:
 
-Follow Versal Embedded Design Tutorial [(UG1305)](https://xilinx.github.io/Embedded-Design-Tutorials/docs/2021.2/build/html/docs/Introduction/Versal-EDT/docs/2-cips-noc-ip-config.html#creating-a-new-embedded-project-with-the-versal-acap) Chapter 2: Versal Adaptive SoC CIPS and NoC (DDR) IP Core Configuration till *Exporting Hardware* to generate XSA design file.
+Follow Versal Embedded Design Tutorial [(UG1305)](https://xilinx.github.io/Embedded-Design-Tutorials/docs/2021.2/build/html/docs/Introduction/Versal-EDT/docs/2-cips-noc-ip-config.html#creating-a-new-embedded-project-with-the-versal-acap) Chapter 2: Versal Adaptive SoC CIPS and NoC (DDR) IP Core Configuration till *Exporting Hardware* to generate an XSA design file.
 
 **Method 2**:
 
@@ -222,14 +222,14 @@ From Command line enter the `Scripts` directory and run the following:
 
 ```vivado -source vivado.tcl```
 
-The project will run the Synthesis, Implementation and will Generate Device Image using the tcl script commands. 
-The Vivado project will be built in the `Design/Hardware` directory.
+The project runs Synthesis, Implementation and generates Device Image using the Tcl script commands. 
+The Vivado project is built in the `Design/Hardware` directory.
 
 
-Wait until "Device Image Generation successfully completed" then "Open Implemented Design". 
+Wait until the device image generation is successfully completed then **Open Implemented Design**. 
 
-XSA File would be generated into the Scripts-> versal_fallback_final directory.
-XSA can be exported into to the Hardware folder with the following TCL command:
+XSA File is generated into the Scripts-> versal_fallback_final directory.
+XSA can be exported into the Hardware folder with the following Tcl command:
 
 ```
 write_hw_platform -fixed -include_bit -force -file ../Design/Hardware/vck190_wrapper.xsa
@@ -249,9 +249,9 @@ To set up the Vitis environment:
 * Linux 32-bit: Run the settings32.sh from the Vitis/2022.1 directory
 * Linux 64-bit: Run the settings64.sh from the Vitis/2022.1 directory
 
-In Vitis, we will generate boot files to run an application using the hardware (.xsa) file generated from Vivado. 
+In Vitis, generate boot files to run an application using the hardware (.xsa) file generated from Vivado. 
 
-Refer Versal Embedded Design Tutorial [(UG1305)](https://xilinx.github.io/Embedded-Design-Tutorials/docs/2021.2/build/html/docs/Introduction/Versal-EDT/docs/2-cips-noc-ip-config.html#creating-a-hello-world-application-for-the-arm-cortex-a72-on-ocm) and follow steps 1,2 and 3 from *Creating a Hello World Application for the Arm Cortex-A72.* Choose the ```../Design/Software/Vitis/workspace``` folder as workspace, select the .xsa file generated in the previous step and "Create application Project" for "Hello World" (for A72-0 linked to DDR) whithin the same System project called vck190_system. 
+Refer to Versal Embedded Design Tutorial [(UG1305)](https://xilinx.github.io/Embedded-Design-Tutorials/docs/2021.2/build/html/docs/Introduction/Versal-EDT/docs/2-cips-noc-ip-config.html#creating-a-hello-world-application-for-the-arm-cortex-a72-on-ocm) and follow steps 1,2, and 3 from *Creating a Hello World Application for the Arm Cortex-A72.* Choose the ```../Design/Software/Vitis/workspace``` folder as workspace, select the .xsa file generated in the previous step and "Create application Project" for "Hello World" (for A72-0 linked to DDR) whithin the same System project called vck190_system. 
 
 
 image.bif : Used for generating a boot image file using bootgen utility. Available in the `/BootImages` directory. Edit this file as per the input images while creating a boot image.
@@ -309,13 +309,13 @@ exec bootgen -image image.bif -arch versal -o boot0001.bin
 
 ## Running the Design
 
-For Fallback, we will be corrupting the first binary file and boot the system automatically using the next valid binary file.
+For Fallback, corrupt the first binary file and boot the system automatically using the next valid binary file.
 
 Without corrupting the first binary file, the system gets booted from boot.bin as follows:
 
 ![Good Image](Figures/qspi_good_image.PNG)
 
-To corrupt the boot.bin file, we will use a hex editor and edit the SYNC word as follows:
+To corrupt the boot.bin file, use a hex editor and edit the SYNC word as follows:
 ```
 Original: 665599aa
 Corrupted: 6655aaaa
@@ -324,22 +324,22 @@ Corrupted: 6655aaaa
 
 1. **SD card boot**
 
-The SD card or eMMC flash must be partitioned so that the first partition is a FAT 16/32 file system. Bootgen is used to create PDI files with the names: boot.bin, boot0001.bin, boot0002.bin, etc. Except for the PMC_MULTI_BOOT value ‘0,’ the PMC_MULTI_BOOT value is concatenated with first the string boot, then PMC_MULTI_BOOT, then .bin to create the specified PDI file name.
+The SD card or eMMC flash must be partitioned so that the first partition is a FAT 16/32 file system. Bootgen is used to create PDI files with the names: boot.bin, boot0001.bin, boot0002.bin, and so on. Except for the PMC_MULTI_BOOT value ‘0,’ the PMC_MULTI_BOOT value is concatenated with first the string boot, then PMC_MULTI_BOOT, then .bin to create the specified PDI file name.
 
-Load the SD card with multiple images with the file name as `boot.bin, boot0001.bin` etc. On power up device will boot from the first good image. 
+Load the SD card with multiple images with the file name as `boot.bin, boot0001.bin`, and so on. On power up, the device boots from the first good image. 
 The SD card image format is as follows:
 
 ![SD card format](Figures/sd_card.PNG)
 
-For reading the PMC_MULTI_BOOT register, use the below memory read command from xsbd/xsct console:-
+To read the PMC_MULTI_BOOT register, use the below memory read command from xsbd/xsct console:-
 ```
 mrd 0xF1110004 
 ```
 
 ![Multiboot register](Figures/sd_boot_multiboot_register_read.PNG)
 
-As we corrupted the first image, the PMC_MULTI_BOOT register value is F0000001.
-Hence the system booted from the boot0001.bin file.
+As you corrupted the first image, the PMC_MULTI_BOOT register value is F0000001.
+Hence, the system booted from the boot0001.bin file.
 ![SD Card boot](Figures/fallback_sd.PNG)
 
 
@@ -352,7 +352,7 @@ Run the below program_flash commands in xsct/xsdb console from the BootImages Di
 program_flash -f boot.bin -pdi versal_fallback_wrapper.pdi -offset 0x0 -flash_type qspi-x8-dual_parallel
 program_flash -f boot0001.bin -pdi versal_fallback_wrapper.pdi -offset 0x0020000 -flash_type qspi-x8-dual_parallel
 ```
-After flashing, do a POR and the system will boot from first good image, i.e. boot0001.bin
+After flashing, do a POR and the system boots from first good image, that is, boot0001.bin.
 
 The PMC_MULTI_BOOT register can be read using the following command:
 ```
@@ -361,9 +361,9 @@ mrd 0xF1110004
 
 ![QSPI Boot](Figures/fallback_qspi.PNG)
 
->Note: Make sure to change the SW1 on the vck190 evaluation board for the respective boot modes. For SD boot: ON OFF OFF OFF and for QSPI boot: ON OFF ON ON.
+>***Note***: Make sure to change the SW1 on the vck190 evaluation board for the respective boot modes. For SD boot: ON OFF OFF OFF and for QSPI boot: ON OFF ON ON.
 
-> Note: Test results for Fallback are captured in the `Figures/` Directory
+> ***Note***: Test results for Fallback are captured in the `Figures/` Directory.
 
 
 <hr class="sphinxhide"></hr>

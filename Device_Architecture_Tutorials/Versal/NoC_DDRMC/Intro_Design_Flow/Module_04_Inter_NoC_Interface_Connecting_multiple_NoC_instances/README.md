@@ -19,15 +19,15 @@ connected to a single AXI NoC. Each of those AXI NoCs uses two INI output ports 
 two AXI NoCs. Those two AXI NoCs each contain two INI input ports and one integrated
 DDRMC. The result is a full crossbar between the two traffic generatrors and two DDRMCs. The
 Quality of Service (QoS) requirements are set on the memory controller side of the crossbar.
-The traffic generators will be configured to form a double buffer structure with one acting as the
-data producer and the other as the consumer. The traffic patterns will be controlled with a userdefined
+The traffic generators are configured to form a double buffer structure with one acting as the
+data producer and the other as the consumer. The traffic patterns are controlled with a userdefined
 traffic file provided with this tutorial.
 
-Note: This lab is provided as an example only. Figures and information depicted here might vary from the
+***Note***: This lab is provided as an example only. Figures and information depicted here might vary from the
 current version.
 
 ## Create the Design
-Follow the steps given in Module_01 to open the 2020.2 release of Vivado®, create a new project with
+Follow the steps given in Module_01 to open the 2020.2 release of an AMD Vivado&trade;, create a new project with
 the **xcvc1902-vsva2197-1LP-e-S** part, and create an empty block design.
 Follow the steps below to construct the IP integrator design:
 1. Copy the file `lesson04.csv` to the working directory. This file defines the simulated data
@@ -72,12 +72,12 @@ After regenerating the layout, the canvas should look as follows.
 
 5. Click on **axi_noc_0/1/2/3** and uncheck Control, Interface and Processing System under Sourcres. 
   
-    Click on **axi_noc_1**  and **axi_noc_3**
+    Click on **axi_noc_1**  and **axi_noc_3**.
 
     a. Set Memory Controller Type to **DDR** under Destinations.
 
   
-    Click on **axi_noc_0** and **axi_noc_2**
+    Click on **axi_noc_0** and **axi_noc_2**.
       
       a. Set AXI Traffic Generator to 1 under Sources. 
       
@@ -117,10 +117,10 @@ SEG_axi_noc_3_C0_DDR_CH1}]
 ```
 17. On the Diagram canvas, select the two AXI traffic generator output nets, M_AXI, and right
 click to display the context menu.
-18. Select **Mark Simulation**. This will mark the two AXI nets to appear as transactions in the
+18. Select **Mark Simulation**. This marks the two AXI nets to appear as transactions in the
 simulation waveform viewer.
 19. Click **Run Validate Design** (**F6**) to validate.
-20. Run generate_target all command
+20. Run `generate_target` all command.
 
 ``` tcl
 generate_target all [get_files  ${myPath}/module_04/module_04.srcs/sources_1/bd/design_1/design_1.bd]
@@ -130,8 +130,8 @@ generate_target all [get_files  ${myPath}/module_04/module_04.srcs/sources_1/bd/
 ## Simulate the Design
 To prepare for simulation, create a top level design wrapper following the procedure from Module_01.
 Click **SIMULATION** → **Run Simulation** → **Run Behavioral Simulation** from the Flow Navigator
-pane. This will generate the simulation netlist and start up the Vivado simulator. With the traffic
-parameters given above, the simulation will complete after approximately 46 μs. The resulting
+pane. This generates the simulation netlist and start up the Vivado simulator. With the traffic
+parameters given above, the simulation completes after approximately 46 μs. The resulting
 waveform window showing the traffic generator AXI interfaces should appear as follows:
 ![Simulation results waveform](images/sim_results.PNG)
 
