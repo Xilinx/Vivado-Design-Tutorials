@@ -14,7 +14,7 @@
 ## Introduction
 
 ### Tutorial Overview
-This tutorial introduce different design aspects for the NoC DDRMC by providing step-by-step instructions to create different designs and running simulations.
+This tutorial introduces different design aspects for the NoC DDRMC by providing step-by-step instructions to create different designs and running simulations.
 
 
 

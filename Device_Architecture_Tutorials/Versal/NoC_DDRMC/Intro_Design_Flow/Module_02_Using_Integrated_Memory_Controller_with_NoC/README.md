@@ -20,15 +20,16 @@ to the same address. Transaction interleaving is controlled by the NoC.
 ## Description of the Design
 This design uses two AXI4 traffic generators to write and read data to/from DDR4 memory
 connected to the NoC through three integrated DDR4 memory controller (MC) blocks. The first
-traffic generator will read and write from a single DDR memory through one AXI NoC instance
-while the second traffic generator will read and write from a pair of interleaved DDR memories
-through a second AXI NoC instance. AXI performance monitors will be used to report the
+traffic generator reads and writes from a single DDR memory through one AXI NoC instance
+while the second traffic generator reads and writes from a pair of interleaved DDR memories
+through a second AXI NoC instance. AXI performance monitors are used to report the
 average bandwidth and latency achieved by each of the AXI connections.
 This lesson uses a bottom up design flow in which the logical NoCs are instantiated first and
-Designer Assistance is used to build the design around it. As in Module_01, traffic generators will be used to simulate the data flow of a real application.
-Note: This lab is provided as an example only. Figures and information depicted here might vary from the current version.
+Designer Assistance is used to build the design around it. As in Module_01, traffic generators are used to simulate the data flow of a real application.
+
+***Note***: This lab is provided as an example only. Figures and information depicted here might vary from the current version.
 ## Create the Design
-Follow the steps given in Module_01 to open the 2020.2 release of Vivado®, create a new project with the **xcvc1902-vsva2197-1LP-e-S** part, and create a new block design.
+Follow the steps given in Module_01 to open the 2020.2 release of an AMD Vivado&trade;, create a new project with the **xcvc1902-vsva2197-1LP-e-S** part, and create a new block design.
 ### Instantiate IP and run Designer Assistance
 1. Instantiate two AXI NoC instances from the IP catalog (**IP catalog** → **AXI NoC**) and drag onto
 the design canvas.
@@ -37,7 +38,7 @@ The corresponding Tcl commands to instantiate the AXI NoCs are:
 create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.0 axi_noc_0
 create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.0 axi_noc_1
 ```
-The default AXI NoC IPs will display on the canvas as shown in the following figure.
+The default AXI NoC IPs display on the canvas as shown in the following figure.
 ![AXI NoC IP addition](images/axi_noc_ip_instances.PNG)
 
 2. Click the **Run Block Automation Designer Assistance** link in the green banner at the top of
@@ -79,10 +80,10 @@ apply_bd_automation -rule xilinx.com:bd_rule:axi_noc -config { mc_type {DDR} noc
 looks as follows:
 ![Layout after running block automation](images/layout_after_block_automation.PNG)
     
-    Note: The AXI clock and reset nets are not connected.
+    ***Note***: The AXI clock and reset nets are not connected.
 
 9. Click the **Run Connection Automation** link in the green banner.
-10. Click through the clock pins on the left side of the popup and note that the Clock Source is
+10. Click through the clock pins on the left side of the popup. The Clock Source is
 set to:
 * `/noc_clk_gen for /noc_clk_gen/axi_clk_in_0` select Auto option from drop down list
 and
@@ -92,7 +93,7 @@ of the clocks.
 12. Click **OK**.
 Now all of the clock and reset nets are connected. Additionally, the `CH0_DDR4_0` interface of the
 `axi_noc_0`, `CH0_DDR4_0` and `CH1_DDR4_1` interfaces of the `axi_noc_1` are
-connected to external interface ports. These ports will provide the connections to the DDR
+connected to external interface ports. These ports provide the connections to the DDR
 I/O.
 13. The Run Connection Automation link becomes active again as there are clocks and reset
 connectivity required for the Clocking Wizard. Click the link, select **All Automation** and click **OK**.
@@ -102,11 +103,14 @@ connectivity required for the Clocking Wizard. Click the link, select **All Auto
 2. On the QoS tab, set both the **Bandwidth Read** and **Bandwidth Write** values to **12,500**.
 3. Click **OK**.
 4. Double click **axi_noc_1**.
-**Note**: The number of memory controllers is set to two by block automation.
+
+***Note***: The number of memory controllers is set to two by block automation.
+
 5. On the General tab, set the DDR Address Region 0 value to **DDR CH1**. DDR Address Region
-1 may be left at the default value: **None**.
+1 might be left at the default value: **None**.
 6. On the QoS tab, set both the **Bandwidth Read** and **Bandwidth Write** values to **6000**.
-**Note**: Known issue. In this release, to specify a bandwidth of **B** to an N-way interleaved
+
+***Note***: Known issue. In this release, to specify a bandwidth of **B** to an N-way interleaved
 memory, set the required bandwidth on the QoS tab to **B/N**.
 7. Click **OK**.
 After Regenerate Layout, the canvas should look as follows:
@@ -132,7 +136,7 @@ Simulation TG Options tab. See the following figure for reference:
 |              |                                | AXI Write Bandwidth   |  12500   |
 
 
-The address region of each TG will be set through the address editor (described in the next
+The address region of each TG is set through the address editor (described in the next
 section). The Tcl commands to set these properties on the TGs are:
 ``` tcl
 
@@ -146,20 +150,20 @@ the block design canvas. The default address mapping is shown in the following f
 ![Address map](images/address_map.PNG)
 
 ## Validate the Block Design
-As in Module_01, validating the design will run the NoC Compiler to map the design onto the NoC
+As in Module_01, validating the design runs the NoC Compiler to map the design onto the NoC
 physical resources. The NoC GUI should show the NoC placement and routing solution as shown
 in the following figure NoC Placement and Routing Solution:
 ![NoC routing](images/noc_routing.PNG)
 The NoC QoS table shows the required and estimated QoS for each of the paths through the
 NoC.
 
-**Note**: The Read Latency Estimate and Write Latency Estimate represent only the round-trip structural
+***Note***: The Read Latency Estimate and Write Latency Estimate represent only the round-trip structural
 latency through a portion of the NoC in the NoC clock domain. These numbers do not include latency in
-the DRAM, memory controller, PCB routing, etc. The actual total latency will be greater than these
+the DRAM, memory controller, PCB routing, etc. The actual total latency is greater than these
 numbers. These latencies are reported in NoC clock cycles. They are intended for relative comparison
 between different NoC implementations, not as a representation of the actual total latency
 
-Below figure shows QoS Results:
+The following figure shows QoS results:
 ![NoC QoS](images/noc_qos_results.PNG)
 
 ## Simulate the Design
@@ -170,10 +174,10 @@ The simulation flow proceeds as in Module_01. That is:
 3. Run the Vivado Simulator by selecting **Run Simulation** → **Run Behavioral Simulation** or by
 typing the command `launch_simulation` in the Tcl Console.
 4. Click the **Run All** button in the toolbar or type **run all** in the Tcl Console.
-The simulation should complete in about 6.8 μs of simulated time. The output will be reported in
+The simulation should complete in about 6.8 μs of simulated time. The output is reported in
 the Tcl Console.
-At the end of simulation each traffic generator will report the number of transactions and the
-success or failure, as shown:
+At the end of simulation, each traffic generator reports the number of transactions and the
+success or failure, as shown below:
 ```
 =========================================================
 >>>>>> SRC ID 0 :: TEST REPORT >>>>>>
@@ -234,7 +238,7 @@ Actual Achieved Read Bandwidth = 3880.340015 MBps
 ```
 The waveform window shows the transaction view of all the AXI interfaces in the design. To
 avoid clutter, delete all but the two waveforms labeled **M_AXI**. These are the input ports to the
-NoC. Note that the waveforms start at around 3.3 μs. This is when the memory controller
+NoC. The waveforms start at around 3.3 μs. This is when the memory controller
 completes its internal calibration and comes out of reset. Traffic on `axi_noc_1` completes at
 about 5.1 μs and `axi_noc_0` completes at about 4.3 μs. Zoom in on the time region
 encompassing all of the traffic and expand both waveforms, as shown in the following figure.
