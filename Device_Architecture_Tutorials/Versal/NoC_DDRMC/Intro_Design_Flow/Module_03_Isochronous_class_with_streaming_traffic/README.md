@@ -6,12 +6,9 @@
  </tr>
 </table>
 
-# Basic NoC Design: Description of the Design
+# Isochronous Class with Streaming Traffic
 
-***Version: Vivado 2021.1***
-
-
-
+***Version: Vivado 2023.2***
 
 ## Description of the Design
 This module uses one traffic generator to write and read isochronous traffic from DDR4 memory,
@@ -22,18 +19,18 @@ The design process consists of three phases:
 integrated DDR4 memory controller.
 2. Add to that base design two AXI4-Stream paths.
 3. Use the NoC Viewer to assign physical locations to the NMU and NSU NoC endpoints.
-IP integrator Block Automation is used to build the memory mapped portion of the design
+IP integrator Block Automation will be used to build the memory mapped portion of the design
 around one instance of the AXI NoC IP. Then AXI4-Stream connections are added incrementally
 by instantiating the AXIS NoC.
 
-After the initial validation of the design, the NoC Viewer is used to assign physical locations
-to the AXI4-Stream endpoints, re-validate the design, and simulate using the AMD Vivado&trade; Simulator.
+After the initial validation of the design, the NoC Viewer will be used to assign physical locations
+to the AXI4-Stream endpoints, re-validate the design, and simulate using the Vivado® Simulator.
 
-***Note***: This lab is provided as an example only. Figures and information depicted here might vary from the current version.
+Note: This lab is provided as an example only. Figures and information depicted here might vary from the current version.
 
 ## Create the Design
 ### Project Creation and AXI Memory Mapped Design
-1. Follow the steps given in Module_01 to open the 2021.1 release of Vivado.
+1. Follow the steps given in Module_01 to open the 2023.2 release of Vivado®.
 2. Create a new project using part **xcvc1902-vsva2197-1LP-e-S**.
 3. Create an empty block design.
 4. Create one instance of the AXI NoC IP on the block design canvas.
@@ -56,9 +53,22 @@ Table: Block Automation Options
 **OK**.
 9. The Run Connection Automation link becomes active again to connect the reset and clock ports
 of the Clocking Wizard IP. Click the link, select **All Automation** and finally click **OK**.
+10. Right-click on the block design canvas and from the context menu select Add IP....
+11. The IP catalog pops up. In the Search field type constant, to filter a list of IP. From the filtered list, double-click the constant IP to instantiate the IP on the block design canvas.
+12. On the block design **delete** the following connections: 
+
+* `noc_tg` pin `axi_tg_start` to `noc_sim_trig` pin `trig_00`
+* `noc_tg_1` pin `axi_tg_start` to `noc_sim_trig` pin `trig_01`
+* `noc_sim_trig` pin `ph_trig_out` to `noc_tg` pin `trigger_in` and `noc_tg_1` pin `trigger_in`
+13. Make the following connections:
+
+* `xlconstant_0` pin `dout` to `noc_tg` pin `axi_tg_start` and `noc_tg_1` pin `axi_tg_start`
+* `noc_tg` pin `trigger_in` to `noc_sim_trig` pin `trig_00`
+* `noc_tg_1` pin `trigger_in` to `noc_sim_trig` pin `trig_01`
+
 10. Click the **Regenerate Layout** button at the top of the canvas.
 The canvas should look as follows:
-![BD after regen layout](images/axi_noc_bd_regen_layout.PNG)
+![BD after regen layout](images/Module_3_regenerated_Layout.PNG)
 
 ## Configuring NoC Connectivity and QoS
 1. Double click on the **axi_noc_0** instance. This displays the configuration screen. Change the
@@ -85,7 +95,7 @@ the DDR4.
     + AXI Write Bandwidth (MBp/s): **5000**
     + Number of Write Transactions: **50**
 4. Click **OK** to dismiss the Configuration dialog box.
-This generates the required rate of traffic to and from the integrated memory controller.
+This will generate the required rate of traffic to and from the integrated memory controller.
 5. Double click the **noc_tg_1** instance to configure the traffic to the block RAM.
 * On the Configuration tab set the AXI Data Width to **64**.
 * On the Non-synthesizable TG Options tab, set the following values:
@@ -140,7 +150,7 @@ validate_bd_design
 In this section, you return to the Diagram canvas to add two AXI4-Stream connections through
 the NoC.
 1. Add one instance of the AXI4-Stream NoC from the IP catalog (or by right clicking in the
-canvas), and selecting paths to the design. First, create one path from a traffic
+canvas), and selecting paths to the design. First, you will create one path from a traffic
 generator source through an AXIS NoC to a stream sink, then use copy and paste to create a
 duplicate path. The final step is to ensure both paths are properly connected.
 2. Using the same method, create one instance of the Performance AXI Performance Traffic Generator and
@@ -155,7 +165,7 @@ click the **perf_axi_tg_0** instance and on the Configuration tab select:
 * AXIS Bandwidth: **4800**
 * AXIS No. of Packets: **25**
 5. Click **OK** to dismiss the configuration dialog box.
-6. The `axis_data_fifo` instance serves as the stream receiver. To configure this, double
+6. The `axis_data_fifo` instance will serve as the stream receiver. To configure this, double
 click the instance and make the following selection:
 * FIFO depth: **8192**
 7. Click **OK** to dismiss the configuration dialog box.
@@ -221,7 +231,7 @@ validate_bd_design
 ## Assigning Locations to NoC Endpoints
 The NoC Viewer can be used to add location constraints to the NoC end points. To constrain an
 NMU or NSU:
-1. Select the cell to move by clicking on the cell in the NoC Objects view. This displays the NoC Properties window, as shown in the following figure.
+1. Select the cell to move by clicking on the cell in the NoC Objects view. This will display the NoC Properties window as shown in the following figure.
 
 ![NoC Cell Properties](images/NoC_Cell_properties.PNG)
 
@@ -234,15 +244,15 @@ NMU or NSU:
 
 
 2. Mouse over the target site and note the site name.
-For this lab, move the NMU connected to the MC to the NMU site in the bottom of
+For this lab, you will move the NMU connected to the MC to the NMU site in the bottom of
 the left most VNOC of the bottom SLR (`SLR_0_VNOC_0_NMU_0`).
 3. Click on the ellipsis box next to the NoC Site Constraint. This displays the Choose NoC Sites
 window.
-4. Click on the new site and make the selection, as shown in the following figure.
+4. Click on the new site and make the selection as shown in the following figure.
 
 ![NoC Sites](images/noc_site_selection.PNG)
 
-***Note***: Clicking multiple sites allow the NoC compiler to make an optimal choice from among those
+**Note**: Clicking multiple sites will allow the NoC compiler to make an optimal choice from among those
 selected.
 
 5. Click **OK** to dismiss the Choose Sites dialog box.
@@ -277,9 +287,9 @@ validate_bd_design
 ```
 ## Simulate the Design
 To prepare for simulation, create a top level design wrapper as described in Lab 1.
-Click Simulation → Run Simulation from the Flow Navigator pane. This generates the
-simulation netlist and start up the Vivado simulator. With the traffic parameters given above,
-the simulation completes after approximately 14 μs.
+Click Simulation → Run Simulation from the Flow Navigator pane. This will generate the
+simulation netlist and start up the Vivado® simulator. With the traffic parameters given above,
+the simulation will complete after approximately 14 μs.
 
 
 <hr class="sphinxhide"></hr>
