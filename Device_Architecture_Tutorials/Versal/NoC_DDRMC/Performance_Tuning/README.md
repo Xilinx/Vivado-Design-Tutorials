@@ -9,7 +9,7 @@
 
 # Introduction to NoC/DDRMC Performance Tuning
 
-***Version: Vivado 2023.1***
+***Version: Vivado 2024.1***
 
 This tutorial presents a more complex design example, and it demonstrates the process of refining the design to achieve performance goals.  You will start with a system DDR traffic spec and learn how to model this with the NoC, DDR memory controllers, and AXI traffic generators (TGs).  You will simulate the design to measure performance, and then work through several design iterations to tune performance.  Once the desired traffic spec has been achieved, you will modify the simulated design to work in hardware, then build the design and run it on hardware.  
 
@@ -91,7 +91,6 @@ Rows 25-28 in the CSV are used to configure the random write and read traffic.  
         1. Performance TG for Simulation: SYNTHESIZABLE
         2. AXI Data Width: 512
         3. Enable Traffic Shaping: unchecked
-        4. Enable NOC user Destination ID Ports: NONE
     *	Synthesizable TG Options:
         1. Path to User Defined Pattern File (CSV) for Synthesizable TG: all_in_one.csv
         2. Insert VIO for debug status signals: unchecked
