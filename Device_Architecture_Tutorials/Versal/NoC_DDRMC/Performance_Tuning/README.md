@@ -56,7 +56,7 @@ For now, an important difference is that the Synthesizable TG requires a CSV fil
 ## Linear Read and Write Commands
 Rows 17-24 in the CSV are used to configure the linear write and read traffic.  AxSIZE is set to 0x6 in column O, representing a burst size of 64.  AxLEN is set to 0x3 in column N, representing a burst length of 4, so each linear write or read burst is 256 bytes, matching the traffic spec.  Column D, start_delay, is used to regulate the bandwidth of traffic being driven by the TG.  For a burst length of 4, each write command requires four AXI clock cycles, and each read requires one cycle.  For each write or read, start_delay AXI cycles are introduced after each command before the next write or read is issued.  So a start delay of 19 for writes and 22 for reads means one write or read command will be issued every 23 cycles.  At an AXI clock rate of 250 MHz, with 256 bytes per burst, that means linear traffic is driven at 250 MHz * 256 bytes / 23 = 2.78 GB/s.  Each write or read stream is directed to a unique address range, as shown by the address in columns J and K.  Within each address range, the addresses are incremented in a linear fashion.  Transaction count, in column C, is chosen such that the simulation should complete in about 100 μs, assuming the system is able to handle the traffic demand.
 
-**Note**: It is important not to set the transaction count too low.  The memory controller must periodically interrupt traffic to execute refresh commands in the DDR memory.  Xilinx recommends to run the simulation long enough to cover at least 10 refresh cycles.
+**Note**: It is important not to set the transaction count too low.  The memory controller must periodically interrupt traffic to execute refresh commands in the DDR memory.  AMD recommends to run the simulation long enough to cover at least 10 refresh cycles.
 
 ## Random Read and Write Commands
 Rows 25-28 in the CSV are used to configure the random write and read traffic.  AxSIZE is set to 0x6 in column O, representing a burst size of 64.  AxLEN is set to 0x1 in column N, representing a burst length of 2, so each random write burst is 128 bytes, matching the traffic spec.  Just like the linear traffic lines, start_delay, is used to regulate the bandwidth of traffic being driven by the TG.  For a burst length of 2, each write command requires two AXI clock cycles, and each read requires one cycle.  The calculation of bandwidth vs. start_delay follows the same methodology explained for linear traffic.  The write traffic is directed to a range of addresses, separate from that used for the linear traffic.  The three random read traffic streams are directed to random addresses in three separate ranges within the range to which data is being written.
@@ -155,7 +155,7 @@ After the design finishes building, run a behavioral simulation.  The results ar
 | Traffic Generator  | Write Bandwidth (GB/s) | Write Bandwidth Target (GB/s) | Read Bandwidth (GB/s) | Read Bandwidth Target (GB/s) |
 | :---: | ---- | ---- | ---- | ---- |
 |  0  | 2.19 | 2.77 | 2.24 | 2.77 |
-|  1  | 2.10 | 2.77 | 2.19 | 2.77 |
+|  1  | 2.19 | 2.77 | 2.19 | 2.77 |
 |  2  | 2.19 | 2.77 | 2.18 | 2.77 |
 |  3  | 2.19 | 2.77 | 2.15 | 2.77 |
 |  4  | 2.26 | 2.27 | 2.14 | 2.8  |
