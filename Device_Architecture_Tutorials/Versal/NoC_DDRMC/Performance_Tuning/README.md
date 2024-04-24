@@ -116,7 +116,7 @@ When the simulation completes, you can make several observations.
 The Tcl Console shows messages from the simulator and the AXI Performance Monitor.
 ![First Simulation Tcl](first_design/images/first_simulation_tcl.PNG)
 
-From this, you can see the Achieved Write Bandwidth ~ 2.7 GB/s, Achieved Read Bandwidth ~ 3.0 GB/s, and the simulation duration was 679 μs.  This falls far short of our intended targets of ~13.4 GB/s write and ~19.8 GB/s read bandwidth.  Also, as discussed in the description of the CSV file, the simulation is intended to complete in about 100 μs.
+From this, you can see the Achieved Write Bandwidth ~ 2.7 GB/s, Achieved Read Bandwidth ~ 2.8 GB/s, and the simulation duration was 707 μs.  This falls far short of our intended targets of ~13.4 GB/s write and ~19.8 GB/s read bandwidth.  Also, as discussed in the description of the CSV file, the simulation is intended to complete in about 100 μs.
 
 By looking at the waveform display, you can see other problems.
 ![First Simulation Waveform](first_design/images/first_simulation_overall_waveform.PNG)
