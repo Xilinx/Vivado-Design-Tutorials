@@ -189,13 +189,13 @@ The new simulation results are summarized in the following table.
 
 | Traffic Generator  | Write Bandwidth (GB/s) | Write Bandwidth Target (GB/s) | Read Bandwidth (GB/s) | Read Bandwidth Target (GB/s) |
 | ------------------ | ---------------------- | ----------------------------- | --------------------- | ------------------------ |
-|  0  | 1.62 | 2.77 | 1.71 | 2.77 |
-|  1  | 1.62 | 2.77 | 1.72 | 2.77 |
-|  2  | 1.62 | 2.77 | 1.71 | 2.77 |
-|  3  | 1.62 | 2.77 | 1.71 | 2.77 |
-|  4  | 2.29 | 2.27 | 2.92 | 2.8  |
-|  5  | 0    | 0    | 2.95 | 2.8  |
-|  6  | 0    | 0    | 2.94 | 2.8  |
+|  0  | 1.60 | 2.77 | 1.68 | 2.77 |
+|  1  | 1.60 | 2.77 | 1.68 | 2.77 |
+|  2  | 1.60 | 2.77 | 1.68 | 2.77 |
+|  3  | 1.60 | 2.77 | 1.68 | 2.77 |
+|  4  | 2.28 | 2.27 | 2.74 | 2.8  |
+|  5  | 0    | 0    | 2.76 | 2.8  |
+|  6  | 0    | 0    | 2.77 | 2.8  |
 
 From the waveform display, you can see that the random traffic is now distributed across both channels of the memory controller in axi_noc_1.
 ![Second Design Interleaved Channels Waveform](second_design_multiple_tgs/images/second_design_interleaved_channels_waveform.PNG)
