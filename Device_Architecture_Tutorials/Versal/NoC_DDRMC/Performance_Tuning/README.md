@@ -153,13 +153,13 @@ After the design finishes building, run a behavioral simulation.  The results ar
 
 | Traffic Generator  | Write Bandwidth (GB/s) | Write Bandwidth Target (GB/s) | Read Bandwidth (GB/s) | Read Bandwidth Target (GB/s) |
 | :---: | ---- | ---- | ---- | ---- |
-|  0  | 2.19 | 2.77 | 2.24 | 2.77 |
-|  1  | 2.19 | 2.77 | 2.19 | 2.77 |
-|  2  | 2.19 | 2.77 | 2.18 | 2.77 |
-|  3  | 2.19 | 2.77 | 2.15 | 2.77 |
-|  4  | 2.26 | 2.27 | 2.14 | 2.8  |
-|  5  | 0    | 0    | 2.14 | 2.8  |
-|  6  | 0    | 0    | 2.14 | 2.8  |
+|  0  | 2.29 | 2.77 | 2.28 | 2.77 |
+|  1  | 2.28 | 2.77 | 2.25 | 2.77 |
+|  2  | 2.29 | 2.77 | 2.28 | 2.77 |
+|  3  | 2.28 | 2.77 | 2.27 | 2.77 |
+|  4  | 2.26 | 2.27 | 2.09 | 2.8  |
+|  5  | 0    | 0    | 2.09 | 2.8  |
+|  6  | 0    | 0    | 2.09 | 2.8  |
 
 The waveform display is as follows.
 ![Second Simulation Overall Waveform](second_design_multiple_tgs/images/second_simulation_overall_waveform.PNG)
