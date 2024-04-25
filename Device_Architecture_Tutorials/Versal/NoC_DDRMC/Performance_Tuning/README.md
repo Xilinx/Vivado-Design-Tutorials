@@ -200,7 +200,7 @@ The new simulation results are summarized in the following table.
 From the waveform display, you can see that the random traffic is now distributed across both channels of the memory controller in axi_noc_1.
 ![Second Design Interleaved Channels Waveform](second_design_multiple_tgs/images/second_design_interleaved_channels_waveform.PNG)
 
-The random traffic now meets the bandwidth targets.
+The random traffic now nearly meets the bandwidth targets.
 
 However, the linear traffic is a bit worse, so now try tuning it.
 
