@@ -12,9 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#create_clock -period 5.000 -name sys_clk0_0_clk_p [get_ports SYS_CLK2_IN_0_clk_p]
-set_clock_uncertainty -hold 0.200 [get_clocks clkout1_primitive]
-
 
 set_property PACKAGE_PIN AK8 [get_ports SYS_CLK2_IN_0_clk_p]
 set_property PACKAGE_PIN AK7 [get_ports SYS_CLK2_IN_0_clk_n]
@@ -168,9 +165,6 @@ set_property	PACKAGE_PIN	BA1	[get_ports "CH1_LPDDR4_3_dqs_t_b[1]"]
 	
 set_property	PACKAGE_PIN	AL7	[get_ports "CH1_LPDDR4_3_reset_n[0]"] 	
 	
-
-#set_false_path -from [get_clocks clk_pl_0] -to [get_clocks clkout1_primitive] 
-#set_false_path -from [get_clocks clkout1_primitive] -to [get_clocks clk_pl_0]
 set_property PACKAGE_PIN AW27 [get_ports SYS_CLK0_IN_0_clk_p]
 set_property PACKAGE_PIN AY27 [get_ports SYS_CLK0_IN_0_clk_n]
 set_property IOSTANDARD DIFF_LVSTL_11 [get_ports SYS_CLK0_IN_0_clk_p]
