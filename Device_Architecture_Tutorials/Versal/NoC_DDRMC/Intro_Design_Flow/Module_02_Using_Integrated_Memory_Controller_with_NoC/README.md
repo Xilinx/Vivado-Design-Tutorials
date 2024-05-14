@@ -6,12 +6,10 @@
  </tr>
 </table>
 
-# Basic NoC Design: Using Integrated Memory Controller with NoC
+# Using Integrated Memory Controller with NoC
 
-***Version: Vivado 2021.1***
+***Version: Vivado 2023.2***
 
-
-## Integrated Memory Controller
 The integrated memory controllers (MCs) are integrated into the AXI NoC core. A single instance
 of the AXI NoC IP can be configured to include one, two, or four instances of the integrated MC.
 If two or four instances of the MC are selected, they are configured to form a single interleaved
@@ -77,24 +75,35 @@ apply_bd_automation -rule xilinx.com:bd_rule:axi_noc -config { mc_type {DDR} noc
 
 8. Regenerate layout by selecting the **Regenerate Layout** button in the BD canvas, the canvas
 looks as follows:
-![Layout after running block automation](images/layout_after_block_automation.PNG)
+![Layout after running block automation](images/Layout_after_block_automation.PNG)
     
     Note: The AXI clock and reset nets are not connected.
 
-9. Click the **Run Connection Automation** link in the green banner.
-10. Click through the clock pins on the left side of the popup and note that the Clock Source is
+9. Right-click on the block design canvas and from the context menu select Add IP....
+10. The IP catalog pops up. In the Search field type Constant, to filter a list of IP. From the filtered list, double-click the Constant to instantiate the IP on the block design canvas.
+11. Add a second Constant IP to block Diagram.
+12. Delete Signals:
+* `/ph_trig_out` for `/noc_sim_trig`
+* `/axi_tg_start` for `/noc_tg` and `/noc_tg_1`
+13. Connect Signals:
+* `/dout` for `/xlconstant_0` to `/axi_tg_start` for `/noc_tg`.
+* `/dout` for `/xlconstant_1` to `/axi_tg_start` for `/noc_tg_1`.
+* `/trig_00` for `/noc_sim_trig` to `/trigger_in` for `/noc_tg`.
+* `/trig_01` for `/noc_sim_trig` to `/trigger_in` for `/noc_tg_1`.
+14. Click the **Run Connection Automation** link in the green banner.
+15. Click through the clock pins on the left side of the popup and note that the Clock Source is
 set to:
 * `/noc_clk_gen for /noc_clk_gen/axi_clk_in_0` select Auto option from drop down list
 and
 * `noc_tg_pmon and noc_tg_pmon_1` for `/noc_clk_gen/axi_clk_0` for the rest
 of the clocks.
-11. Click to enable **All Automation**.
-12. Click **OK**.
+16. Click to enable **All Automation**.
+17. Click **OK**.
 Now all of the clock and reset nets are connected. Additionally, the `CH0_DDR4_0` interface of the
 `axi_noc_0`, `CH0_DDR4_0` and `CH1_DDR4_1` interfaces of the `axi_noc_1` are
 connected to external interface ports. These ports will provide the connections to the DDR
 I/O.
-13. The Run Connection Automation link becomes active again as there are clocks and reset
+18. The Run Connection Automation link becomes active again as there are clocks and reset
 connectivity required for the Clocking Wizard. Click the link, select **All Automation** and click **OK**.
 
 ## Configure the NoC IPs
@@ -243,6 +252,7 @@ encompassing all of the traffic and expand both waveforms, as shown in the follo
 Both TGs are programmed to deliver 12,500 MBps in each direction. From the performance
 monitor output, you can see that the non-interleaved memory achieved an aggregate of 17,532
 MB/sec (10,496 + 7,036) while the interleaved memory achieved 7865 MB/sec.
+
 
 
 <hr class="sphinxhide"></hr>

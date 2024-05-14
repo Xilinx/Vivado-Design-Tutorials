@@ -6,14 +6,13 @@
  </tr>
 </table>
 
-# Basic NoC Design: Building and Running the Design
+# Basic NoC Design
 
-***Version: Vivado 2021.1***
-
-
+***Version: Vivado 2023.2***
 
 ## Introduction to Logical NoC
-The Vivado® Next Generation 2021.1 tool flow introduces a pair of IPs: the AXI NoC and the
+
+The Vivado® Next Generation 2023.2 tool flow introduces a pair of IPs: the AXI NoC and the
 AXIS NoC. These IPs act as logical representations of the Versal™ programmable NoC. The AXI
 NoC supports the AXI memory mapped protocol while the AXIS NoC supports the AXI4-Stream
 protocol. Each instance specifies a set of connections to be mapped onto the physical NoC, along
@@ -28,6 +27,7 @@ memory. In this case, the memory controllers are configured identically and mapp
 address. Interleaving is controlled by the NoC.
 
 ## Description of the Design
+
 This design uses an AXI4 traffic generator to write and read data to/from a block RAM. The
 design will use a simulation clock generator, an AXI4 traffic generator block, an instance of the
 Versal™ NoC, an AXI4 block RAM controller and a memory generator to create a block RAM
@@ -41,25 +41,25 @@ current version.
 ## Create a Project
 
 ### Start the Vivado Design Suite
-1. Open the Vivado® Design Suite. Ensure the banner at the top of the window identifies the
-**Vivado 2021.1** release.
+
+1. Open the Vivado® Design Suite. Ensure the banner at the top of the window identifies the **Vivado 2023.2** release.
 2. Click **Create Project** from the Quick Start Menu.
 3. In the Project Name page specify a name of the project such as **lab1**.
 4. Step through the popup menus to access the Default Part page.
 5. In the Default Part page, search for and select: **xcvc1902-vsva2197-1LP-e-S**.
 6. Continue to the Finish stage to create the new project and open Vivado.
-7. In the Vivado Flow Navigator, click **IP Integrator** → **Create Block Design**. A popup dialog box
-displays to create the block design. Type a name for the block design in the **Design name:**
-field.
-8. Click **OK**. An empty block design diagram canvas opens.
-The Tcl commands to create the project and initial block design are as follows:
+7. In the Vivado Flow Navigator, click **IP Integrator** → **Create Block Design**. A popup dialog box displays to create the block design. Type a name for the block design in the **Design name:** field.
+8. Click **OK**. An empty block design diagram canvas opens. The Tcl commands to create the project and initial block design are as follows:
 
 In the Vivado Tcl Console:
+
 ```tcl
-create_project lab1 ./lab1 -part xcvc1902-vsva2197-1LP-e-S-es1
+create_project lab1 ./lab1 -part xcvc1902-vsva2197-1LP-e-S
 create_bd_design "design_1"
 ```
+
 ## Instantiate the IP and Run Designer Assistance
+
 1. Right-click on the block design canvas and from the context menu select **Add IP....**
 2. The IP catalog pops up. In the Search field type **AXI NoC**, to filter a list of IP. From the filtered
 list, double-click the **AXI NoC** to instantiate the IP on the block design canvas.
@@ -98,7 +98,10 @@ generate an optimal layout of the design.
     The canvas now shows the complete design as shown in the following figure.
     ![Block design regenerated layout](images/bd_regenerated_layout.PNG)
 
-``` tcl
+```tcl
+startgroup
+create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.0 axi_noc_0
+endgroup
 apply_bd_automation -rule xilinx.com:bd_rule:axi_noc -config { mc_type {None} noc_clk {New/Reuse Simulation Clock And Reset Generator} num_axi_bram {1} num_axi_tg {1} num_aximm_ext {None} num_mc {None} pl2noc_apm {0} pl2noc_cips {0}}  [get_bd_cells axi_noc_0]
 startgroup
 apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {/noc_clk_gen/axi_clk_0 (300 MHz)} Freq {100} Ref_Clk0 {} Ref_Clk1 {} Ref_Clk2 {}}  [get_bd_pins noc_bc/s_axi_aclk]
@@ -154,7 +157,9 @@ port to the block RAM controller. Here the required read and write bandwidth may
 specified. The default values of 1720 MB/s are sufficient.
 6. Click **OK** in the bottom right corner to close the NoC menu.
 ![NoC QOS](images/noc_qos.PNG)
+
 ## Configure the Remaining IP
+
 1. Double click the **noc_clk_gen** instance to open the Simulation Clock and Reset Generator
 Configuration Wizard.
 2. Set the following values:
@@ -195,13 +200,15 @@ See the following figure for reference:
 ``` tcl
 set_property -dict [list CONFIG.USER_C_AXI_DATA_INTEGRITY_CHECK {ON}] [get_bd_cells noc_tg]
 ```
+
 ## Address Map
+
 To create a default address map:
 1. Open the **Address Editor** tab as shown in the following figure. Expand the tree by clicking the
 down-arrow on **noc_tg**.
-![Address Editor](images/address_editor.PNG)
+![Address Editor](images/address_editor.png)
 2. Right-click in the Address Editor window and select **Assign All** from the context menu.
-![Assign All](images/address_editor_assignal.PNG)
+![Assign All](images/address_editor_assignall.png)
 3. Note that the address of `0x0000_0201_0000_0000` is assigned to `axi_bram_ctrl_0`.
 When **validate_bd_design** is run these values are propagated to the traffic generator.
 
@@ -220,6 +227,7 @@ After validation the NoC viewer window shows the NoC compiler solution and the N
 shows the quality of service achieved.
 
 ## Simulate the Design
+
 The Vivado simulator includes a Transaction View feature that provides a higher level waveform
 view of AXI bus transactions. During simulation use the Transaction View to
 observe the interface between the traffic generator and the NoC. On the design canvas select
@@ -235,7 +243,7 @@ To create the wrapper, follow these steps:
 ![HDL Wrapper](images/hdl_Wrapper.PNG)
 5. Click **OK** to let Vivado manage the wrapper.
 The corresponding Tcl commands are:
-``` tcl
+```tcl
 make_wrapper -files [get_files ./lab1/lab1.srcs/sources_1/bd/design_1/
 design_1.bd] -top
 add_files -norecurse ./lab1/lab1.srcs/sources_1/bd/design_1/hdl/
@@ -251,7 +259,7 @@ Note: Ensure that Simulator language is set to Mixed.
 Note: The wrapper created above is now the Simulation top module name.
 8. To generate the behavioral RTL models and start the simulator, click Simulation → Run
 Simulation, and select Run Behavioral Simulation.
-9. Click on the Run All icon ![icon](images/sim_run_button.PNG) in the Simulation toolbar. Simulation will complete in about 25 μs
+9. Click on the Run All icon ![icon](images/sim_run_button.png) in the Simulation toolbar. Simulation will complete in about 25 μs
 of simulated time.
 ```tcl
 launch_simulation
@@ -266,6 +274,7 @@ You can use the Zoom control to show transaction details, as shown in the follow
 
 Hovering the mouse over an individual transaction will display a pop-up showing transaction
 details. Clicking on a transaction component (for example, Read Address) will highlight the related transaction components.
+
 
 
 <hr class="sphinxhide"></hr>

@@ -26,6 +26,10 @@ This tutorial introduces different design aspects for the NoC High Bandwidth Mem
 [Read more...](Module_02_Synthesis_and_Implementing_HBM_Design)
 
 
+## Module 03 - Connectivity and QoS
+
+[Read more...](Module_03_Connectivity_and_QoS)
+
 
 <hr class="sphinxhide"></hr>
 
