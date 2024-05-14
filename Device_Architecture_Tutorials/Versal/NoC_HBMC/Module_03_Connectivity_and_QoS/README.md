@@ -1,16 +1,20 @@
 <table class="sphinxhide" width="100%">
  <tr width="100%">
-    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ Adaptive SoC NoC HBMC Design Flow Tutorials</h1>
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ Adaptive SoC Architecture Tutorials</h1>
     <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
     </td>
  </tr>
 </table>
 
-Please refer to [Module 1](../Module_01_Intro_to_Basic_HBM_Design_and_Simulation) and [Module 2](../Module_02_Synthesis_and_Implementing_HBM_Design) to understand how to build a design.
+# Module 3: Connectivity and QoS
 
-# Introduction
+***Version: Vivado 2023.1***
 
-This module will focus on the effect of NoC routing in Versal HBM designs. The tutorial will hightlight the relationship between connectivity and QoS in the NoC, with particular focus on bandwidth, routing, and latency.
+Refer to [Module 1](../Module_01_Intro_to_Basic_HBM_Design_and_Simulation) and [Module 2](../Module_02_Synthesis_and_Implementing_HBM_Design) to understand how to build a design.
+
+## Introduction
+
+This module will focus on the effect of NoC routing in Versal HBM designs. The tutorial will highlight the relationship between connectivity and QoS in the NoC, with particular focus on bandwidth, routing, and latency.
 
 ## Architecture of the NoC
 
@@ -82,7 +86,7 @@ A progressive design approach will be employed, starting with a simple configura
    - QoS:
       - Read Bandwidth: 500 MB/s
       - Write Bandwidth: 500 MB/s
-   - HBM Configutration:
+   - HBM Configuration:
       - HBM Clock: Internal
       - HBM Memory Frequency for Stack 0 (MHz): 1600
       - HBM Reference Frequency for Stack 0 (MHz): 100
@@ -118,7 +122,7 @@ Click **OK** to close the customization GUI without making any changes. Validate
 
 ![Record_of_the_NoC_Diagram_QoS_500_Connectivity_1_1_for_1_NMU](images/Figure_7_Record_of_the_NoC_Diagram_QoS_500_Connectivity_1_1_for_1_NMU.png)
 
-Validating the design invokes the NoC compiler. With no other routes in the network, the NoC compiler cho0ses from the shortest available paths in order to minimize structural latency through the network. Alternatively, design 1 can be created as follows:
+Validating the design invokes the NoC compiler. With no other routes in the network, the NoC compiler chooses from the shortest available paths in order to minimize structural latency through the network. Alternatively, design 1 can be created as follows:
 
 ```tcl
 source ./Design_TCL/Design_1/Design1.tcl
@@ -132,7 +136,7 @@ Validate the design again to invoke the NoC compiler with the updated QoS settin
 
 ![Record_of_the_NoC_Diagram_QoS_12800_Connectivity_1_1_for_1_NMU](images/Figure_9_Record_of_the_NoC_Diagram_QoS_12800_Connectivity_1_1_for_1_NMU.png)
 
-Note the NoC QoS tab at the bottom of the Vivado window. All QoS requirements are met, indicating that the NoC compiler successfully generated a solution satisfying the increased bandwidth requirement. Again, with only a single route in the network, the NoC compiler choses one of the shortest available paths from NMU to HBM0 PC0.
+Note the NoC QoS tab at the bottom of the Vivado window. All QoS requirements are met, indicating that the NoC compiler successfully generated a solution satisfying the increased bandwidth requirement. Again, with only a single route in the network, the NoC compiler chooses one of the shortest available paths from NMU to HBM0 PC0.
 
 Reconfigure the NoC IP. In the connectivity tab, select "Connect All HBM". An additional NoC route is enabled, allowing the traffic generator connected to the NMU at HBM00_AXI to access both pseudo channels of the memory controller. This enables access to the entire 2 GB of the enabled memory space.
 
@@ -145,7 +149,7 @@ Under Quality of Service, update the bandwidth requirement to 6400 MB/s for each
 Validate the design to again invoke the NoC compiler. **Note** You might be asked to assign a missing address; please press "OK" when prompted.
 
 
-![Record_of_the_NoC_Diagram_QoS_6400_Connectivity_Connect_All_for_1_NMU](images/Figure_12_Record_of_the_NoC_Diagram_QoS_6400_Connectivity_Connect_All_for_1_NMU)
+![Record_of_the_NoC_Diagram_QoS_6400_Connectivity_Connect_All_for_1_NMU](images/Figure_12_Record_of_the_NoC_Diagram_QoS_6400_Connectivity_Connect_All_for_1_NMU.png)
 
 The resulting path is similar to the previous result, with a single route from the NMU to the input of the 8x8 switch. At the egress of the switch, two routes are enabled to access two independent ports of the enabled memory controller.
 
@@ -183,7 +187,7 @@ Reconfigure the NoC IP. In the connectivity tab, select **Connect All HBM**. Add
 
 ![Connect_All_HBM_connectivity_option](images/Figure_27_Connect_All_HBM_connectivity_option.png)
 
-Additional endpoints were added for each traffic generator. As the maximum total throughput that the master can provide is unchanged, the QoS requirements should be reduced to account for the additional datapaths. The following Tcl commands are provided for convenience:
+Additional endpoints were added for each traffic generator. As the maximum total throughput that the master can provide is unchanged, the QoS requirements should be reduced to account for the additional data paths. The following Tcl commands are provided for convenience:
 
 ```tcl
 set_property -dict [list CONFIG.CONNECTIONS {HBM0_PORT2 {read_bw {500} write_bw {500} read_avg_burst {4} write_avg_burst {4}} HBM0_PORT0 {read_bw {6400} write_bw {6400} read_avg_burst {4} write_avg_burst {4}}}] [get_bd_intf_pins /axi_noc_0/HBM00_AXI]
