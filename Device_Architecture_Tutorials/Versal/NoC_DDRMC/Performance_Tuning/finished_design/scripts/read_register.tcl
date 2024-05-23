@@ -33,7 +33,7 @@ puts $frg "set_property OUTPUT_VALUE 0 \[get_hw_probes $path/vio_rden -of_object
 puts $frg "commit_hw_vio \[get_hw_probes {$path/vio_rden} -of_objects \[get_hw_vios -of_objects \[get_hw_devices $device\] -filter {CELL_NAME=~\"$path/u_vio_tg_load\"\}\]\]"
 
 puts $frg "refresh_hw_vio -update_output_values \[get_hw_vios -of_objects \[get_hw_devices $device\] -filter {CELL_NAME=~\"$path/u_vio_tg_load\"\}\]"
-puts $frg "return \[format %x \[get_property INPUT_VALUE \[get_hw_probes  $path/vio_rdata -of_objects \[get_hw_vios -of_objects \[get_hw_devices $device\] -filter {CELL_NAME=~\"$path/u_vio_tg_load\"\}\]\]\]\]"
+puts $frg "return \[get_property INPUT_VALUE \[get_hw_probes  $path/vio_rdata -of_objects \[get_hw_vios -of_objects \[get_hw_devices $device\] -filter {CELL_NAME=~\"$path/u_vio_tg_load\"\}\]\]\]\]"
 puts $frg "}"
 
 close $frg
