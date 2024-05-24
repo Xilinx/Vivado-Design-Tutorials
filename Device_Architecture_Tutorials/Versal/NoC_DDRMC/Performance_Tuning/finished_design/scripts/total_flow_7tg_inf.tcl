@@ -60,7 +60,7 @@ source ./load_bram_hw_tg5.tcl
 source ./load_bram_hw_tg6.tcl
 
 set window_start 4000000 ; # Start bandwidth counters in TG after 4,000,000 TG clock cycles
-set window_size 4000000 ; # Run bandwidth counters in TG for 2,000,000 TG clock cycles
+set window_size 4000000 ; # Run bandwidth counters in TG for 4,000,000 TG clock cycles
 set window_stop [expr {$window_start + $window_size}]
 
 set window_start_hex [format %08X $window_start]
