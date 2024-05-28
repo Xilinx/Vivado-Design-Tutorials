@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: X11
 #
 
-export VER      	= 2022.2
+export VER      	= 2023.1
 export CWD             	= $(shell readlink -f .)
 
 VIVADO = $(XILINX_VIVADO)/bin/vivado
@@ -55,7 +55,6 @@ clean_vivado_prj:
 
 
 clean_versal_dfx:
-	cd $(CWD)/versal-dfx;\petalinux-build -x mrproper
 	rm -rf $(CWD)/versal-dfx
 	rm -rf $(CWD)/sdcard
 	echo "versal_dfx cleaned!"

@@ -4,7 +4,7 @@ APP = libdfx-app
 APP_OBJS = libdfx-app.o
 
 # Adding library
-LDLIBS += -L/group/bcapps/janb/Linux-based-partial-image-delivery/versal-dfx/project-spec/meta-user/recipes-apps/libdfx-app/files -Bstatic -ldfx
+LDLIBS += -L<INSTALL_DIR>/Linux-based-partial-image-delivery/versal-dfx/project-spec/meta-user/recipes-apps/libdfx-app/files -Bstatic -ldfx
 
 all: build
 
