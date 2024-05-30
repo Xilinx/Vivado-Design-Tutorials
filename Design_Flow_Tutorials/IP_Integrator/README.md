@@ -1,7 +1,7 @@
 ﻿<table class="sphinxhide" width="100%">
  <tr width="100%">
-    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>2022.1 Vivado™ Design Flow Specific Tutorials</h1>
-    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>2023.2 AMD Vivado™ Design Flow Specific Tutorials</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado Development Environment on xilinx.com</a>
     </td>
  </tr>
 </table>
@@ -31,7 +31,7 @@
  </tr>
  <tr>
  <td align="center"><a href="./Lab_5/">Designing with IP Integrator Design with RTL top</a></td>
- <td>This tutorial walks you through the steps of building an IPI design with RTL as top. You will generate the post implementation xsa and run it on the petalinux, and learn how the BD addressing of an RTL top design gets mapped to device tree generated in the petaliux through Xilinx shell archive (xsa).</td>
+ <td>This tutorial walks you through the steps of building an IPI design with RTL as top. You will generate the post implementation xsa and run it on the PetaLinux, and learn how the BD addressing of an RTL top design gets mapped to device tree generated in the petaliux through Xilinx shell archive (xsa).</td>
  </tr>
  </table>
 
