@@ -25,7 +25,7 @@
 5. [Running the Design](#running-the-design)
 
 ## Introduction
-Versal™ Adaptive SoC combines adaptable processing and acceleration engines with programmable logic and configurable connectivity to enable custom, heterogeneous hardware solutions for a wide variety of applications in Data Center, automotive, 5G wireless, wired network, and defense. Versal Adaptive SoC supports several primary boot modes for application flexibility. This tutorial highlights the way to measure the boot time from dual parallel qspi.
+AMD Versal™ Adaptive SoC combines adaptable processing and acceleration engines with programmable logic and configurable connectivity to enable custom, heterogeneous hardware solutions for a wide variety of applications in Data Center, automotive, 5G wireless, wired network, and defense. Versal Adaptive SoC supports several primary boot modes for application flexibility. This tutorial highlights the way to measure the boot time from dual parallel qspi.
 	
 ### Objectives
 The goal is to be able to build a VCK190 design (QSPI dual Parallel) to reproduce the boot times outlined in the boot time estimator spreadsheet. What optimizations can provide the best Boot Time improvement for boot time critical designs?
@@ -65,8 +65,8 @@ Recommended general knowledge of:
 * VCK190 evaluation board
 * Versal QSPI boot mode 
 * Versal PMC
-* Xilinx Vivado Design Suite 
-* Xilinx Vites IDE
+* AMD Vivado&trade; Design Suite 
+* AMD Vitis&trade; IDE
 
 <details>
 
@@ -86,13 +86,13 @@ Recommended general knowledge of:
 |Term|Description|
 |  ---  |  ---  |
 |Platform management controller (PMC)|Manages Versal Adaptive SoC boot and the life cycle management of the device. The PMC ROM Code Unit (RCU) and platform processing unit (PPU) are responsible for booting the device.|
-|ROM code unit (RCU)| Includes a microblaze processor that executes the BootROM to initiate the boot phase2: boot setup.|
+|ROM code unit (RCU)| Includes an AMD Microblaze&trade; processor that executes the BootROM to initiate the boot phase2: boot setup.|
 |Platform processing unit (PPU)|Includes a microblaze processor that executes the platform loader and manager (PLM) to initiate the boot phase3: load platform.|
 |Scalar engines|Includes the processing system (PS) Dual-Core ARM Cortex R5F and A72.|
 |Adaptable engines|Includes Versal adaptable hardware also referred to in this tutorial as programmable logic (PL).|
 |Control Interfaces and Processing System (CIPS)|CIPS LogiCORE IP sets the configuration of PMC/PS peripherals, clocks, and MIO.|
-|BootROM|Responsible for initial security and boot mode interface checks. Reads and processes the PDI boot header. Releases the PMC PPU to complete the boot phases. See the Versal Technical Reference Manual [(AM011)](https://www.xilinx.com/support/documentation/architecture-manuals/am011-versal-acap-trm.pdf) for more detail on BootROM.|
-|Platform loader and manager (PLM)|Responsible for the final boot phases to load the PDI. Executes supported platform management libraries and application user code. See the Versal System Software Developers User Guide [(UG1304)](https://www.xilinx.com/cgi-bin/docs/rdoc?v=latest;d=ug1304-versal-acap-ssdg.pdf) for more detail on the PLM.|
+|BootROM|Responsible for initial security and boot mode interface checks. Reads and processes the PDI boot header. Releases the PMC PPU to complete the boot phases. See the Versal Technical Reference Manual [(AM011)](https://www.xilinx.com/support/documentation/architecture-manuals/am011-versal-acap-trm.pdf) for more details on BootROM.|
+|Platform loader and manager (PLM)|Responsible for the final boot phases to load the PDI. Executes supported platform management libraries and application user code. See the Versal System Software Developers User Guide [(UG1304)](https://www.xilinx.com/cgi-bin/docs/rdoc?v=latest;d=ug1304-versal-acap-ssdg.pdf) for more details on the PLM.|
 |Programmable device image (PDI)|Boot image for programming and configuring the Versal Adaptive SoC device. See the BootGen UG1283 for details on the format. See system software developers user guide for details on how PLM manages the images and partitions.|
 |MIO| Multiplexed IO pins that can be configured for different peripherals and functions.|
 |DIO| Dedicated IO pins dedicated for specific functions, such as JTAG (TCK, TMS, TDI, TDO) or power-on reset (POR_B).|
@@ -100,7 +100,7 @@ Recommended general knowledge of:
 </details>
 
 ### Tutorial Requirements
-Note: This tutorial targets the VCK190 evaluation board, but the methodology flow also applies to the VMK180 evaluation board.
+***Note***: This tutorial targets the VCK190 evaluation board, but the methodology flow also applies to the VMK180 evaluation board.
 
 
 ##### Hardware Requirements:
@@ -114,46 +114,44 @@ Note: This tutorial targets the VCK190 evaluation board, but the methodology flo
   * Boot Module X-EBM-01 (Dual Parallel QSPI) Rev_A02
 
 ##### Software Requirements:
-In order to build and run the tutorial reference design, the following must be available or installed:
+To build and run the tutorial reference design, the following must be available or installed:
   * Vivado Design Suite and Vitis 2021.1:
   	- Visit https://www.xilinx.com/support/download.html for the latest tool version.
   	- For more information on installing the Vivado Design Suite and Vitis, refer to [UG1400 Vitis Unified Software Platform Embedded Software Development](https://www.xilinx.com/support/documentation/sw_manuals/xilinx2020_2/ug1400-vitis-embedded.pdf).
   * Scripts to generate the reference design are provided in the `Scripts` directory 
   * UART serial terminal recommended:
-	- Vitis serial Terminal or a terminal emulator program for UART (i.e. Putty or Tera Term) can be used to display valuable PLM log boot status.  
+	- Vitis serial Terminal or a terminal emulator program for UART (that is Putty or Tera Term) can be used to display valuable PLM log boot status.  
     - When UART is not available, Vivado Design Suite and Vitis xsct/xsdb command line tools can be used to read the plm log after a boot attempt.
     
 ## Building Hardware Design  
 
 ### Vivado
 
-To set up the Vivado environment:
+To set up the AMD Vivado&trade; environment:
 * Windows 32-bit: Run the settings32.bat from the Vivado/2021.1 directory
 * Windows 34-bit: Run the settings64.bat from the Vivado/2021.1 directory
 * Linux 32-bit: Run the settings32.sh from the Vivado/2021.1 directory
 * Linux 64-bit: Run the settings64.sh from the Vivado/2021.1 directory
 
-Enter the `Scripts` directory. From the command line run the following to create the project:
+Enter the `Scripts` directory. From the command line, run the following to create the project:
 
 `vivado -source project_top.tcl`
 
-The Vivado project will be built in the `Design/Hardware` directory.
+The Vivado project is built in the `Design/Hardware` directory.
 
-Once Vivado opens and the project is created, click on "Generate Device Image".
+Once Vivado opens and the project is created, **click on Generate Device Image**.
 
-Wait until "Device Image Generation successfully completed" then "Open Implemented Design".
-Exporting the XSA to the Software folder with the following TCL command:
+Wait until the device image generation is successfully completed, and then click on **Open Implemented Design**.
+Export the XSA into the Software folder with the following Tcl command:
 ```
 write_hw_platform -fixed -include_bit -force -file ../Design/Software/vck190_wrapper.xsa
 ```
 
-##### **NOTE**:
-
-In order to better estimate the bandwidth while loading the CFI, the CFI compression has been removed using the following constraint:
+***Note***: To better estimate the bandwidth while loading the CFI, the CFI compression has been removed using the following constraint:
 ```
 set_property BITSTREAM.GENERAL.COMPRESS FALSE [current_design]
 ```
-Doing so the PDI from Vivado is ~85.9 MB (Mainly CFI data).
+Doing so, the PDI from Vivado is ~85.9 MB (Mainly CFI data).
 
 ## Building Software Design 
 
@@ -165,11 +163,11 @@ To set up the Vitis environment:
 * Linux 32-bit: Run the settings32.sh from the Vitis/2021.1 directory
 * Linux 64-bit: Run the settings64.sh from the Vitis/2021.1 directory
 
-Enter the `Scripts` directory. From the command line run the following:
+Enter the `Scripts` directory. From the command line, run the following:
 
 `xsct -eval source vck190_vitis.tcl`
 
-The Vitis project will be built in the `Design/Software/Vitis` directory.
+The Vitis project is built in the `Design/Software/Vitis` directory.
 
 Launch the Vitis software platform and set the workspace path to `Design/Software/Vitis`.
 
@@ -191,14 +189,14 @@ In xplmi_config.h (Design\Software\Vitis\vck190_wrapper\psv_pmc_0\psv_pmc_0\bsp\
 #define PLM_PRINT_PERF
 #define PLM_PRINT_PERF_PL
 ```
-in order to get the time break-down of the PL components.
+to get the time breakdown of the PL components.
 ```
 [534.596184]PL supply status good
 [574.426137]PL POR B status good
 [574.550687]PL House Clean completed
 ```
-Be sure to re-build the platform and all the applications after the changes are applied. 
-If the changes doesn't seem to apply to the build, I recommend to delete the .o files from folders like the xilloader_v1_4\src, xilplmi_v1_4\src and xilpm_v3_4\src.
+Be sure to rebuild the platform and all the applications after the changes are applied. 
+If the changes do not seem to apply to the build, delete the .o files from folders like xilloader_v1_4\src, xilplmi_v1_4\src and xilpm_v3_4\src.
 
 ##### **Generate a Boot Image (PDI)**:
 Generate a Boot Image (PDI) using the following bootgen command and the output.bif already present in the `Design/Software/bootimage` folder:
@@ -226,12 +224,12 @@ the_ROM_image:
 ```
 
 ### **Boot Time Estimation - Coming Soon.**
-The Boot Time Estimator is a tool that Xilinx provides in order to estimate the time will take to boot a design on Versal from a specific boot device. It takes some input parameters from the user (like peripheral clocks and partition sizes) to closely match the specific design. As of now, there's an internally available 2020.2 version. 
+The Boot Time Estimator is a tool that AMD provides to estimate the timeit takes to boot a design on Versal from a specific boot device. It takes some input parameters from the user (like peripheral clocks and partition sizes) to closely match the specific design. As of now, there is an internally available 2020.2 version. 
 
 ![Block Diagram](./Figures/VCK190_Boot_Time.PNG)
 
-The table below shows how the 2020.2 estimator compares with the measurement takes by running the Design and looking at the 2021.1 plm log. 
-For more information contact your Xilinx sales representative or file a support case with Xilinx.
+The following table shows how the 2020.2 estimator compares with the measurement takes by running the Design and looking at the 2021.1 plm log. 
+For more information, contact your AMD sales representative or file a support case with AMD.
 
 | --- | Time (ms) from 2020.2 estimator | Time (ms)  from 2021.1 plm log	|comments|
 |  ---  |  ---  | ---  | ---  |
@@ -246,19 +244,16 @@ For more information contact your Xilinx sales representative or file a support 
 
 ### **Running the Design**
 
-##### **NOTE**:
-We recommend to build a .pdi with compression,  name it `vck190_qspi_prog.pdi` and use it in the flash programming steps below to make it faster. 
+***Note***: It is recommended to build a .pdi with compression,  name it `vck190_qspi_prog.pdi` and use it in the flash programming steps below to make it faster. 
 
-Execute the following command on XSCT in order to program the BOOT.PDI file into QSPI flash. Xilinx strongly recommend to boot the Versal Device in JTAG boot mode (SW1 = 0000 (all ON)) to reliably program the QSPI.
+Execute the following command on XSCT to program the BOOT.PDI file into QSPI flash. AMD strongly recommends to boot the Versal Device in JTAG boot mode (SW1 = 0000 (all ON)) to reliably program the QSPI.
 ```
 xsct% program_flash -f BOOT.PDI -pdi vck190_qspi_prog.pdi -offset 0x0 -flash_type qspi-x8-dual_parallel
 ```
 An alternative to program the QSPI flash is to use Vivado HW Manager.
 
-##### **NOTE**: 
-
-Xilinx strongly recommend to boot the Versal Device in JTAG boot mode (SW1 = 0000 (all ON)) to reliably program the QSPI.
-Here two screen shots to help adding and programming a configuration memory device using Vivado HW Manager.
+***Note***: AMD strongly recommends to boot the Versal Device in JTAG boot mode (SW1 = 0000 (all ON)) to reliably program the QSPI.
+The following screenshots show how to add and program a configuration memory device using Vivado HW Manager.
 
 ###### **Add a Configuration Memory Device in Vivado HW Manager**:
 
@@ -292,10 +287,10 @@ mwr -force 0xF1260320 0x77
 tar -set -filter {name =~ "PMC"}
 rst
 ```
-This script change the boot mode from JTAG to QSPI without the need of power cycle the board.
+This script changes the boot mode from JTAG to QSPI without the need of power cycle the board.
 
 ##### **The PLM Log**:
-To see the PLM Log the user can use the XSDB command "plm log" from target 1 (`tar -set -filter {name =~ "Versal *"}`):
+To see the PLM Log, you can use the XSDB command "plm log" from target 1 (`tar -set -filter {name =~ "Versal *"}`):
 Here a sample of the PLM Log:
 
 ```
@@ -344,9 +339,8 @@ Here a sample of the PLM Log:
 ```
 
 #### **Analyze the Boot Times**
-This section helps the user understanding the break-down of the PDI loading process.
-How to interpret the timestamps and calculate the bandwidth of the various sub-images.
-Not always the QSPI bandwidth is the bottle-neck of the operation.
+This section helps you understand the breakdown of the PDI loading process, how to interpret the timestamps and calculate the bandwidth of the various sub-images.
+The QSPI bandwidth is not always the bottleneck of the operation.
 
 ##### **PMC ROM Time**
 23.528 ms is the time the PMC ROM code takes to load the PLM into PPU RAM.
@@ -358,7 +352,7 @@ It does depend on the PLM size (in this case ~260KB).
 
 ##### **PLM Initialization Time**
 0.286 ms is the time the PLM takes to initialize the system.
-For example clocking and MIO settings.
+For example, clocking and MIO settings.
 ```
 [4.590]0.286 ms: PDI initialization time
 ```
@@ -399,14 +393,14 @@ This bandwidth is lower than the Dual Parallel QSPI theoretical bandwidth of 150
 ```
 
 ##### **cfi Loading Time**
-602.460 ms is the time it takes to power, initialize and program the Programmable Logic.
-The size of the data in this case is 89410960 bytes which gives an overall bandwidth of 145 MB/s.
-The overall process can be break down in few phases:
+602.460 ms is the time it takes to power, initialize, and program the Programmable Logic.
+The size of the data in this case is 89410960 bytes, which gives an overall bandwidth of 145 MB/s.
+The overall process can be broken down in a few phases:
 PL Supply Time = 121.097 - 113.443 = 7.654 ms (which depends on board design)
 PL POR Time = 124.499 - 121.097 = 3.402 ms
 PL House Clean = 128.411 - 124.499 = 3.912 ms
 Loading from Dual Parallel QSPI time only =  719.809 - 128.411 = 591.398 ms
-This shows the Dual PArallel QSPI bandwidht is 139 MB/s which is very close to the theoretical bandwidth of 147 MB/s.
+This shows the Dual PArallel QSPI bandwidht is 139 MB/s, which is close to the theoretical bandwidth of 147 MB/s.
 
 ```
 [108.159]+++Loading Image#: 0x2, Name: pl_cfi, Id: 0x18700000
@@ -420,7 +414,7 @@ This shows the Dual PArallel QSPI bandwidht is 139 MB/s which is very close to t
 ##### **npi Loading and Configuration Time**
 Most of the 26.755 ms are used by the PLM to configure the NPI.
 The overall bandwidth of 15.6 MB/s is much lower than the Dual Parallel QSPI bandwidth.
-In this case the size of the data is 427312 bytes.
+In this case, the size of the data is 427312 bytes.
 See AM011 for max and/or typical NPI data sizes.
 
 ```
@@ -440,7 +434,7 @@ See AM011 for max and/or typical PS data sizes.
 ```
 
 ##### **SW application Loading Time**
-The software application is loaded in DDR and in this case the bottle-neck is the Dual Parallel QSPI.
+The software application is loaded in DDR and in this case the bottleneck is the Dual Parallel QSPI.
 The 163920 bytes are loaded in 1.089 ms for a bandwidth of 147 MB/s (very close to the Dual Parallel QSPI theoretical bandwidth of 150 MB/s).
 
 ```

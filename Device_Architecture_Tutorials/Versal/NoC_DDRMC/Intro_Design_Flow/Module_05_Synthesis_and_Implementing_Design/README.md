@@ -1,69 +1,53 @@
-<table class="sphinxhide" width="100%">
- <tr width="100%">
-    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ NoC/DDRMC Design Flow Tutorials</h1>
-    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
-    </td>
+<table>
+ <tr>
+   <td align="center"><img src="https://d3cy9zhslanhfa.cloudfront.net/media/6D972F55-8581-42E9-B19004B4B9C6882E/3DD2D00D-F761-4236-83D03E37BE7F68B2/webimage-82094271-A5DD-425A-A6F4B96AEEECFDC5.jpg" width="30%"/><h1>2023.2 Versal™ Synthesis and Implementing the Design</h1>
+   </td>
+ </tr>
+ <tr>
+ <td align="center"><h1></h1>
+ </td>
  </tr>
 </table>
 
-# Basic NoC Design: Synthesis and Implementing the Design
-
-***Version: Vivado 2021.1***
-
-## Introduction
-
-This tutorial design demonstrates using IP integrator to add an AXI-NoC IP with access to an
-integrated DDRMC. You will then add and configure the AXI Traffic Generator (TG) to generate traffic
-to the DDRMC via the NoC.
-Post synthesis you will use the Nibble Planner in the IO Ports window to assign the appropriate
-DDR Memory Bank. You will then implement the design.
-Behavioral simulation can also be run on the design. To do this, you need to force inputs on the
-external clock and reset pins of the design to ensure the proper initialization and functioning of
-the TG and the design.
+# Synthesis and Implementing the Design
+This tutorial outlines the utilization of IP Integrator to incorporate an AXI-NoC IP, granting access to an integrated DDRMC. 
+The subsequent steps involve the addition and configuration of the Controls Interface and Processing system to link with the DDRMC via the NoC.
+The target DDR4 memory bank on the VCK190 board file will be utilized. Lastly, the design will be implemented and the PDI uploaded onto the board.
 The basic flow of the tutorial is as follows:
 1. Start Vivado®.
 2. Create a new project.
 3. Open a new block design.
 4. Add an AXI_NoC IP to the block design.
-5. Enable one Memory Controller with one port, and specify its connectivity and Quality of
-Servive (QoS) parameters.
-6. Add an AXI Traffic Generator and connect it as a master AXI connection to the NoC.
+5. Enable one Memory Controller with four ports, and specify its Address Regions.
+6. Use board file to connect the NoC to DDR4 memory on the VCK190.
 7. Validate the design.
 8. Synthesize the design.
-9. Assign a DDR Memory Bank using the Nibble Planner.
-10. Implement the design.
+9. Implement the design.
+10. Target VCK190 on Hardware Manager and program device.
 
 
-**Note**: Synthesis and Implementing Design/`run.tcl` contains the Tcl script that will setup the project per the basic flow outlined
-above - all the way from creating the IP integrator design to implementing the design in Vivado.
-## Description of the Design
-This design uses one AXI4 TG to write and read data to/from DDR4 memory
-connected to the NoC through an integrated DDR4 Memory Controller (MC) block. The TG will read and write from a single DDR memory through the `axi_noc` instance. The TG is used to simulate the data flow of a real application.
+# Description of the Design
+This design uses a Control, Interface & Processing System connected directly to the NoC through an integrated DDR4 Memory Controller (MC) block. The CIPS is capable of reading and writing data through the NoC instance. This will show a simple way to get from design to implementation and to creating a PDI file using hardware manager to flash onto a VCK190.
 
 **Note**: This design is provided as an example only. Figures and information depicted here might vary from the
 current version.
 
-## Create a Project
-### Start Vivado
+# Create a Project
+## Start Vivado
 1. Open the Vivado® GUI. Make sure the banner at the top of the window identifies the Vivado
-2020.2 release.
+2023.2 release.
 2. From the Quick Start buttons, click **Create Project**.
 3. Step through the pop-up menus to the **Default Part** menu.
-4. On the Default Part pop-up menu, search for and select part **xcvc1902-vsva2197-1LP-e-S**.
+4. On the Default Part pop-up menu, search for and select board **VCK190**.
 5. Step through to the Finish stage to create the new project and open **Vivado**.
-The Tcl command to create the project is as follows:
 
-`create_project lab6 ./lab6 -part xcvc1902-vsva2197-1LP-e-S`
 
 6. In the Vivado Flow Navigator, click IP Integrator → Create Block Design. A popup dialog
 displays to create the block design
 7. Click OK. An empty block design diagram canvas opens.
 The Tcl commands to create the project and initial block design are as follows:
-``` tcl
-create_project project_1 ./project_1 -part xcvc1902-vsva2197-1LP-e-S-es1
-create_bd_design "design_1"
-```
-## NoC IP Configuration
+
+# NoC IP Configuration
 The NoC IPs act as logical representations of the Versal™ network on chip. The `axi_noc`
 supports the AXI memory mapped protocol. Each instance specifies a set of connections to be
 mapped onto the physical NoC, along with the QoS requirements for each connection. A given
@@ -76,150 +60,47 @@ the `axi_noc` IP can be configured to include one, two, or four instances of the
 two or four instances of the MC are selected, they are configured to form a single interleaved
 memory. In this case, the memory controllers are configured identically and mapped to the same
 address. Interleaving is controlled by the NoC.
+
 1. Add an instance of the Versal™ AXI NoC IP by right-clicking anywhere on the block design
 canvas and selecting **Add IP** from the context menu.
-2. Open the AXI NoC IP customization GUI by double-clicking it. The General tab shows the set
-of NoC interfaces to configure. Configure the number of master and slave interfaces as
-follows:
-* Set the Number of AXI Slave Interfaces to **1**.
-* Set the Number of AXI Master Interfaces to **0**.
-* Set the Number of AXI Clocks to **1**.
-* Set the Memory Controllers to **Single Memory Controller**.
-* Set the Number of Memory Controller Ports to **1**.
-3. Open the Connectivity tab. This menu presents a patch panel style connection matrix to
-show which NoC ingress interfaces (for example `S00_AXI`) will be routed to which egress
-interfaces (for example `MC_0`). Check the checkbox under the MC Port 0 column.
-4. Open the QoS tab. This menu allows you to select the Quality of Service (QoS) settings for
-each NoC connection. The first line shows the QoS settings for the ingress port (`S00_AXI`).
-**Note**: The default read and write traffic classes are BEST_EFFORT.
-5. Open the tree by clicking on the button on the far left of the ingress port. This shows the set
-of QoS properties for each output connection from the selected ingress port.
-6. Open the DDR Basic tab and select the checkbox for **Enable Internal Responder**.
-7. Click **OK** in the bottom right corner to close the NoC menu.
+2. Click on the Run Block Automation where you need to configure the NoC as shown. Then Click **OK**.
+![image](https://github.com/HunterRDavis/Vivado-Design-Tutorials/blob/2023.1/Device_Architecture_Tutorials/Versal/NoC_DDRMC/Intro_Design_Flow/Module_05_Synthesis_and_Implementing_Design/images/Block_automation_NoC.png?raw=true)
+3. Double Click on the Axi NoC where the Gui will pop up. Click on the General tab and change the DDR Address Region 1 to DDR CH1 and hit OK.
+4. Your Block Design should be looking similar to this:
+![image](https://github.com/HunterRDavis/Vivado-Design-Tutorials/blob/2023.1/Device_Architecture_Tutorials/Versal/NoC_DDRMC/Intro_Design_Flow/Module_05_Synthesis_and_Implementing_Design/images/Block_Design_NoC.png?raw=true)
+5. Click on Address Editor and hit **Assign all**, then validate design.
+6. Once Validation is complete go to the source tab and right click on your design and Ceate HDL Wrapper.
+7. After the wrapper had been generated hit **Run Implementation**. The Launch Runs menus should appear and hit **OK**.
+8. Click **OK** when implementation is complete to open the Implemented Design.
+![image](https://github.com/HunterRDavis/Vivado-Design-Tutorials/blob/2023.1/Device_Architecture_Tutorials/Versal/NoC_DDRMC/Intro_Design_Flow/Module_05_Synthesis_and_Implementing_Design/images/Implmentation_Design.png?raw=true)
+Now since you finished your design you can open Device Viewer and see the CIPS block directly connected to the NoC. This simple setup avoids fabric resources by utilizing the hardened IP components.
+# Generate Device Image and Open Hardware Manager
 
-## Add and Configure the Traffic Generator
-Add one instance of AXI Traffic Generator IP. Double-click it and configure as follows (see the
-following figures for reference):
-* Set Profile Selection to **High Level Traffic**.
-* Set Traffic Profile to **Data**.
-* Set Address Width to **64**.
-* Set AXI Master Width to **128**.
-* Click **OK** to dismiss the dialog box.
+In this tutorial section, we'll generate a Device Image (PDI) and use the Hardware Manager for device programming. Transitioning from Vivado to the Hardware Manager GUI provides precise device targeting and programming capabilities. The Hardware Manager also offers essential insights, including device status, calibration, and properties, streamlining the programming process.
+1. Click on **Generate Device Image**. Once the Launch Runs Menu pops up click **OK**.
+2. After the PDI file is generated click on **Open Hardware manager**. You will be directed out of Vivado and into a new GUI.
+3. In the Hardware Manager GUI go to the green banner at the top and click on **Open target** and hit Auto Connect.
+![image](https://github.com/HunterRDavis/Vivado-Design-Tutorials/blob/2023.1/Device_Architecture_Tutorials/Versal/NoC_DDRMC/Intro_Design_Flow/Module_05_Synthesis_and_Implementing_Design/images/Target_Device_HW_Mngr.png?raw=true)
+You can see from the image above, the red highlighted area shows the device you're connected to and the status of whether the device is programmed or not.
+4. Once you're connected to your device click on **Program device**. The Program Device menu will pop up where you can choose the PDI file that you generated and then click **Program**.
+4. Once programmed Hardware Manager should show something similar to this:
+![image](https://github.com/HunterRDavis/Vivado-Design-Tutorials/blob/2023.1/Device_Architecture_Tutorials/Versal/NoC_DDRMC/Intro_Design_Flow/Module_05_Synthesis_and_Implementing_Design/images/Programed_Device.png?raw=true)
 
-AXI Traffic Generator (Profile Selection)
-![AXI TG](images/AXI_TG.PNG)
-1. Right-click on the block design and add one instance of Constant IP.
-2. Connect the `core_ext_start` pin of the `axi_traffic_gen_0` instance to the `dout`
-output of the Constant IP.
-3. Right-click the block design and add one instance of each of the following IPs:
-* clocking wizard: **clk_wizard_0**
-* Simulation Clock and Reset Generator: **clk_gen_sim_0**
-* Processor System Reset: **proc_sys_reset_0**
-* Control, Interfaces & Processing System: **versal_cips_0**
-4. Double click Simulation Clock and Reset Generator and configure as follows:
-* Number of System Clocks: **2**
-* Frequency of first system clock: **400 MHz**
-* Frequency of second system clock: **200 MHz**
-* Number of AXI Clocks: **0**
-5. Click **OK**.
+# Design Conclusion
 
-See the following figure for reference.
-![Sim clk and reset generator](images/simulation_clk_reset_generator.PNG)
+This tutorial provided a comprehensive walkthrough of FPGA system design using Vivado 2023.2, emphasizing the integration of an AXI-NoC IP for DDR4 memory access on the VCK190 board. From project initialization to programming the board, users learned the sequential steps of creating a block design, configuring IPs, validating the design, and implementing it onto the FPGA. This tutorial highlighted the significance of understanding hardware design workflows, IP integration, validation processes, and FPGA programming for engineers learning to use the NoC IP for memory contoller applications. 
+# 
+MIT License
 
-6. Double click **Clocking Wizard** under Input Clock information in Clocking Features tab.
-7. Change the Input Frequency for the Primary Clock to Manual and set it to **200 MHz**.
-8. Change the Source of the Primary Clock to Differential Capable Pin.
+Copyright (c) 2020-2023 Advanced Micro Devices, Inc.
 
-See the following figure for reference.
-![clock wizard config](images/clk_wizard.PNG)
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-9. Click the **Optional Ports** tab.
-10. Select the **Locked** check box in the Enable Port column.
-11. Click **OK**.
+The above copyright notice and this permission notice (including the next paragraph) shall be included in all copies or substantial portions of the Software.
 
-See the following figure for reference.
-![clock wizard config optional tab](images/clk_wizard_optional_port_tab.PNG)
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-12. Double click **Control, Interfaces & Processing System**.
-13. click Next and then PS PMC block follow below figures
-![Versal Cips](images/cips_config.PNG)
-![Versal Cips](images/cips_PS_PMC.PNG)
-
-
-14. Select **PS PL Interfaces**.
-15. On the right-side window in PL resets set the number of PL resets to **1**. Click Finish.
-
-See the following figure for reference.
-![Versal Cips](images/cips_PS_PL.PNG)
-
-16. Make following connections:
-* Connect locked pin of `clk_wizard_0` to `dcm_locked` pin of `proc_sys_reset_0`
-* Connect dout pin of `Constant` to core_ext_start pin of `axi_traffic_gen_0`
-* Connect `clk_out1` pin of `clk_wizard_0` to `aclk0` pin of `axi_noc_0`
-* Connect `slowest_sync_clk` pin of `proc_sys_reset_0` to `clk_out1` pin of
-`clk_wizard_0`
-* Connect `pl0_resetn` pin of `versal_cips_0` to `ext_reset_in` pin of
-`proc_sys_reset_0`
-* Connect `peripheral_aresetn` pin of `proc_sys_reset_0` to `s_axi_aresetn` pin
-of `axi_traffic_gen_0`
-* Connect `SYS_CLK1` pin of `clk_gen_sim_0` to `CLK_IN1_D` pin of `clk_wizard_0`
-* Connect `SYS_CLK0` pin of `clk_gen_sim_0` to `sys_clk0` pin of `axi_noc_0`
-17. Click **Run Connection Automation** to make the rest of the connections.
-18. After completion of all connections click **Regenerate Layout**. 
-
-See the following figure for reference.
-![layout after above connection](images/layout_after_all_connection.PNG)
-
-## Address Editor
-1. Click the **IPI Address Editor** tab.
-2. Click the **Assign All** icon at the top. This will auto assign the base and range addresses
-associated with the AXI slaves in the block design.
-## Validate the Block Design
-Validate the design in the IP integrator by clicking the **Validate Block Design** icon at the top of
-the canvas.
-## Create the HDL Wrapper and Generate Output Products
-1. In the Sources window to the left, right-click on the block design, and select **Create HDL
-Wrapper**.
-2. Go with the default selection in the Create HDL Wrapper dialog box and click **OK**.
-3. Right-click the block design again and select **Generate Output Products**.
-![Generate Output prodcut](images/generate_output_products.PNG)
-4. The Out-of-Context Per IP synthesis option is selected by default in the Generate Output
-Products dialog that follows, click **Generate**. The out-of-context module runs take a few
-minutes to complete.
-
-## Set up the Memory Bank using the Nibble Planner
-1. Run **Synthesis**.
-2. When synthesis finishes, the Synthesis Completed dialog box opens. Select **Open
-Synthesized Design** and click **OK**.
-3. From the menu, select **Window** → **IO Ports**.
-4. On the I/O Ports window, click the Open Advanced I/O Planner link at the top.               
-See the following figure for reference.
-![IO planner in IO tab](images/ioports_tab.PNG)
-The Advanced I/O Planner window displays.
-5. Click the **IO Bank** browse button … as shown in the following figure.
-![Advanced IO planner](images/adv_io_planner.PNG)
-6. Select IO Banks **706**, **707**, **708** to be associated with **DDRMC2** (see the following figure for
-reference). This triplet bank will now be associated with the DDRMC in the design.
-![IO bank selection GUI](images/iobank_selection.PNG)
-7. Click **OK** to dismiss the IO Banks dialog box.
-8. Click **OK** to dismiss the Advanced I/O Planner dialog box.
-9. Save the design by clicking the **Save** icon on the toolbar.
-10. The Out of Date Design window pops up. Click **OK** to accept the changes.
-11. The Save Constraints dialog box opens. **Create a new file** is selected by default. Give a name
-to the file by typing **memory_constraints** in the file name field and click **OK**.
-12. A Synthesis Out-of-date message shows up in the top right corner. Click the **details** link to
-open the Synthesis Out-of-date Due to dialog box, and at the top of the dialog box click
-**Force up-to-date**.
-13. Implement the design by clicking **Run Implementation** under Implementation in the Flow
-Navigator. The Launch Runs dialog box opens.
-14. Click **OK**.
-15. After implementation completes, the Implementation Completed dialog box opens. Click
-**Cancel** to dismiss the dialog box and ok to open implemented design.
-
-
-
-<hr class="sphinxhide"></hr>
-
-<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
-
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2023 Advanced Micro Devices, Inc</sub></p>
+<p class="sphinxhide" align="center"><sub>XD028</sub></p>
 <p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>
+

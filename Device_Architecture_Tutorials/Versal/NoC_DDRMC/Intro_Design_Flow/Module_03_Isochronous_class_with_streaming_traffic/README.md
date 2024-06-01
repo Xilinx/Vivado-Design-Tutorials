@@ -6,12 +6,9 @@
  </tr>
 </table>
 
-# Basic NoC Design: Description of the Design
+# Isochronous Class with Streaming Traffic
 
-***Version: Vivado 2021.1***
-
-
-
+***Version: Vivado 2023.2***
 
 ## Description of the Design
 This module uses one traffic generator to write and read isochronous traffic from DDR4 memory,
@@ -33,7 +30,7 @@ Note: This lab is provided as an example only. Figures and information depicted 
 
 ## Create the Design
 ### Project Creation and AXI Memory Mapped Design
-1. Follow the steps given in Module_01 to open the 2021.1 release of Vivado®.
+1. Follow the steps given in Module_01 to open the 2023.2 release of Vivado®.
 2. Create a new project using part **xcvc1902-vsva2197-1LP-e-S**.
 3. Create an empty block design.
 4. Create one instance of the AXI NoC IP on the block design canvas.
@@ -56,9 +53,22 @@ Table: Block Automation Options
 **OK**.
 9. The Run Connection Automation link becomes active again to connect the reset and clock ports
 of the Clocking Wizard IP. Click the link, select **All Automation** and finally click **OK**.
+10. Right-click on the block design canvas and from the context menu select Add IP....
+11. The IP catalog pops up. In the Search field type constant, to filter a list of IP. From the filtered list, double-click the constant IP to instantiate the IP on the block design canvas.
+12. On the block design **delete** the following connections: 
+
+* `noc_tg` pin `axi_tg_start` to `noc_sim_trig` pin `trig_00`
+* `noc_tg_1` pin `axi_tg_start` to `noc_sim_trig` pin `trig_01`
+* `noc_sim_trig` pin `ph_trig_out` to `noc_tg` pin `trigger_in` and `noc_tg_1` pin `trigger_in`
+13. Make the following connections:
+
+* `xlconstant_0` pin `dout` to `noc_tg` pin `axi_tg_start` and `noc_tg_1` pin `axi_tg_start`
+* `noc_tg` pin `trigger_in` to `noc_sim_trig` pin `trig_00`
+* `noc_tg_1` pin `trigger_in` to `noc_sim_trig` pin `trig_01`
+
 10. Click the **Regenerate Layout** button at the top of the canvas.
 The canvas should look as follows:
-![BD after regen layout](images/axi_noc_bd_regen_layout.PNG)
+![BD after regen layout](images/Module_3_regenerated_Layout.PNG)
 
 ## Configuring NoC Connectivity and QoS
 1. Double click on the **axi_noc_0** instance. This displays the configuration screen. Change the
