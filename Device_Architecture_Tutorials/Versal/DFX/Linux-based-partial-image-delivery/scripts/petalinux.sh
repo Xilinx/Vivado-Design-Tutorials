@@ -19,6 +19,9 @@ cp $WORKING_DIR/code/petalinux/config $WORKING_DIR/versal-dfx/project-spec/confi
 
 cd $WORKING_DIR/versal-dfx
 
+# We use -x mrproper to make sure we don't have any stale build artifacts or sstate cache
+petalinux-build -x mrproper
+
 #Using the switch --silentconfig will avoid bringing up the GUI
 petalinux-config --get-hw-description $DESIGN_XSA --silentconfig
 
