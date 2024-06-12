@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: X11
 #
 
-export VER      	= 2022.2
+export VER      	= 2023.2
 export CWD             	= $(shell readlink -f .)
 
 VIVADO = $(XILINX_VIVADO)/bin/vivado
