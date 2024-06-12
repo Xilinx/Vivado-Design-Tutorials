@@ -1,18 +1,3 @@
-# #########################################################################
-#© Copyright 2021 Xilinx, Inc.
-
-#Licensed under the Apache License, Version 2.0 (the "License");
-#you may not use this file except in compliance with the License.
-#You may obtain a copy of the License at
-
-#    http://www.apache.org/licenses/LICENSE-2.0
-
-#Unless required by applicable law or agreed to in writing, software
-#distributed under the License is distributed on an "AS IS" BASIS,
-#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#See the License for the specific language governing permissions and
-#limitations under the License.
-# ###########################################################################
 
 ################################################################
 # This is a generated script based on design: design_GT
@@ -35,14 +20,13 @@ set script_folder [_tcl::get_script_folder]
 ################################################################
 # Check if script is running in correct Vivado version.
 ################################################################
-set scripts_vivado_version [version -short]
+set scripts_vivado_version 2022.1
 set current_vivado_version [version -short]
 
 if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
    puts ""
-   catch {common::send_gid_msg -ssname BD::TCL -id 2041 -severity "ERROR" "This script was generated using Vivado <$scripts_vivado_version> and is being run in <$current_vivado_version> of Vivado. Please run the script in Vivado <$scripts_vivado_version> then open the design in Vivado <$current_vivado_version>. Upgrade the design by running \"Tools => Report => Report IP Status...\", then run write_bd_tcl to create an updated script."}
+   common::send_gid_msg -ssname BD::TCL -id 2040 -severity "WARNING" "This script was generated using Vivado <$scripts_vivado_version> without IP versions in the create_bd_cell commands, but is now being run in <$current_vivado_version> of Vivado. There may have been major IP version changes between Vivado <$scripts_vivado_version> and <$current_vivado_version>, which could impact the parameter settings of the IPs."
 
-   return 1
 }
 
 ################################################################
@@ -139,12 +123,12 @@ set bCheckIPsPassed 1
 set bCheckIPs 1
 if { $bCheckIPs == 1 } {
    set list_check_ips "\ 
-xilinx.com:ip:bufg_gt:1.0\
-xilinx.com:ip:gt_bridge_ip:1.1\
-xilinx.com:ip:gt_quad_base:1.1\
-xilinx.com:ip:util_reduced_logic:2.0\
-xilinx.com:ip:util_ds_buf:2.2\
-xilinx.com:ip:xlconcat:2.1\
+xilinx.com:ip:bufg_gt:*\
+xilinx.com:ip:gt_bridge_ip:*\
+xilinx.com:ip:gt_quad_base:*\
+xilinx.com:ip:util_reduced_logic:*\
+xilinx.com:ip:util_ds_buf:*\
+xilinx.com:ip:xlconcat:*\
 "
 
    set list_ips_missing ""
@@ -230,16 +214,16 @@ proc create_root_design { parentCell } {
   set txusrclk_gt_bridge_ip_0 [ create_bd_port -dir O txusrclk_gt_bridge_ip_0 ]
 
   # Create instance: bufg_gt, and set properties
-  set bufg_gt [ create_bd_cell -type ip -vlnv xilinx.com:ip:bufg_gt:1.0 bufg_gt ]
+  set bufg_gt [ create_bd_cell -type ip -vlnv xilinx.com:ip:bufg_gt bufg_gt ]
 
   # Create instance: bufg_gt_1, and set properties
-  set bufg_gt_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:bufg_gt:1.0 bufg_gt_1 ]
+  set bufg_gt_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:bufg_gt bufg_gt_1 ]
 
   # Create instance: gt_bridge_ip_0, and set properties
-  set gt_bridge_ip_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:gt_bridge_ip:1.1 gt_bridge_ip_0 ]
+  set gt_bridge_ip_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:gt_bridge_ip gt_bridge_ip_0 ]
 
   # Create instance: gt_quad_base, and set properties
-  set gt_quad_base [ create_bd_cell -type ip -vlnv xilinx.com:ip:gt_quad_base:1.1 gt_quad_base ]
+  set gt_quad_base [ create_bd_cell -type ip -vlnv xilinx.com:ip:gt_quad_base gt_quad_base ]
   set_property -dict [ list \
    CONFIG.PORTS_INFO_DICT {\
      LANE_SEL_DICT {PROT0 {RX0 RX1 RX2 RX3 TX0 TX1 TX2 TX3}}\
@@ -261,19 +245,19 @@ refclk_PROT0_R0_156.25_MHz_unique1} \
  ] $gt_quad_base
 
   # Create instance: urlp, and set properties
-  set urlp [ create_bd_cell -type ip -vlnv xilinx.com:ip:util_reduced_logic:2.0 urlp ]
+  set urlp [ create_bd_cell -type ip -vlnv xilinx.com:ip:util_reduced_logic urlp ]
   set_property -dict [ list \
    CONFIG.C_SIZE {1} \
  ] $urlp
 
   # Create instance: util_ds_buf, and set properties
-  set util_ds_buf [ create_bd_cell -type ip -vlnv xilinx.com:ip:util_ds_buf:2.2 util_ds_buf ]
+  set util_ds_buf [ create_bd_cell -type ip -vlnv xilinx.com:ip:util_ds_buf util_ds_buf ]
   set_property -dict [ list \
    CONFIG.C_BUF_TYPE {IBUFDSGTE} \
  ] $util_ds_buf
 
   # Create instance: xlcp, and set properties
-  set xlcp [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconcat:2.1 xlcp ]
+  set xlcp [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconcat xlcp ]
   set_property -dict [ list \
    CONFIG.NUM_PORTS {1} \
  ] $xlcp
@@ -328,6 +312,5 @@ refclk_PROT0_R0_156.25_MHz_unique1} \
 ##################################################################
 
 create_root_design ""
-
 
 

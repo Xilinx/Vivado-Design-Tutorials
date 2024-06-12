@@ -1,3 +1,11 @@
+//Copyright 1986-2023 Xilinx, Inc. All Rights Reserved.
+//--------------------------------------------------------------------------------
+//Tool Version: Vivado v.2022.1 (lin64) Build 3517680 Tue Apr  5 19:35:50 MDT 2022
+//Date        : Sun Apr 10 16:13:16 2022
+//Host        : xsjl24012 running 64-bit Red Hat Enterprise Linux Workstation release 7.7 (Maipo)
+//Command     : generate_target cips_ddr_pl_debug_wrapper.bd
+//Design      : cips_ddr_pl_debug_wrapper
+//Purpose     : IP block netlist
 //--------------------------------------------------------------------------------
 `timescale 1 ps / 1 ps
 
@@ -70,4 +78,3 @@ module cips_ddr_pl_debug_wrapper
         .ddr4_dimm1_sma_clk_clk_n(ddr4_dimm1_sma_clk_clk_n),
         .ddr4_dimm1_sma_clk_clk_p(ddr4_dimm1_sma_clk_clk_p));
 endmodule
-
