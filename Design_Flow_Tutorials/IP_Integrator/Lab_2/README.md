@@ -9,62 +9,59 @@
 
 
 # [Table of Contents](#table-of-contents)
-- [Table of Contents](#table-of-contents)
-- [Designing with IP integrator](#designing-with-ip-integrator)
-- [**Designing with IP integrator  using Block Design Containers**](#designing-with-ip-integrator--using-block-design-containers)
-  - [Step 1: Creating a Project](#step-1-creating-a-project)
-  - [Step 2: Creating an IP integrator  Design with MicroBlaze Master](#step-2-creating-an-ip-integrator--design-with-microblaze-master)
-  - [Step 3: Adding New IP's, Interfaces and IP Customization](#step-3-adding-new-ips-interfaces-and-ip-customization)
-  - [Step 4: Creating Connections to all IP's and interfaces](#step-4-creating-connections-to-all-ips-and-interfaces)
-  - [Step 5: Connecting all IP's and Interfaces using both manual and automated connections](#step-5-connecting-all-ips-and-interfaces-using-both-manual-and-automated-connections)
-  - [Step 6: Using the Address Editor](#step-6-using-the-address-editor)
-  - [Step 7: Creating Hierarchies](#step-7-creating-hierarchies)
-  - [Step 8: Block Design Containers](#step-8-block-design-containers)
-  - [Step 9: Block Design Containers (Bottom Up flow)](#step-9-block-design-containers-bottom-up-flow)
+- Table of Contents
+- Designing with IP integrator
+- **Designing with IP integrator  using Block Design Containers**
+  - Step 1: Creating a Project
+  - Step 2: Creating an IP integrator  Design with MicroBlaze Master
+  - Step 3: Adding New IP's, Interfaces and IP Customization
+  - Step 4: Creating Connections to all IP's and interfaces
+  - Step 5: Connecting all IP's and Interfaces using both manual and automated connections
+  - Step 6: Using the Address Editor
+  - Step 7: Creating Hierarchies
+  - Step 8: Block Design Containers
+  - Step 9: Block Design Containers (Bottom Up flow)
 
 # Designing with IP integrator 
 
-**Introduction**
+## Introduction
 
-***Version : Vivado 2022.1***
+***Version: Vivado 2022.2***
 
-The Xilinx® Vivado® Design Suite IP integrator  lets you create complex
+The AMD Vivado™ Design Suite IP integrator lets you create complex
 system designs by instantiating and interconnecting IP cores from the Vivado IP catalog
 onto a design canvas. You can create designs interactively through the
 IP integrator  design canvas GUI, or programmatically using a Tcl
 programming interface.
 
 This tutorial walks you through the steps for building a basic IP
-subsystem design using the IP integrator . You will instantiate a few IPs in the IP integrator  and then stitch them up to create an IP sub-system design. While working through this tutorial, you will be introduced to the IP integrator  GUI, run design rule checks (DRC) on
-your design, and then integrate the design into a top-level design in the Vivado Design Suite. Finally, you will run synthesis and implementation and generate a bitstream on the design.
+subsystem design using the IP integrator. You instantiate a few IPs in the IP integrator and then stitch them up to create an IP sub-system design. While working through this tutorial, you are introduced to the IP integrator GUI, run design rule checks (DRC) on
+your design, and then integrate the design into a top-level design in the Vivado Design Suite. Finally, you run synthesis and implementation and generate a bitstream on the design.
 
-**Tutorial Design Description**
+### Tutorial Design Description
 
-This tutorial is based on a simple processor-based IP integrator  design.
+This tutorial is based on a simple processor-based IP integrator design.
 It contains peripheral IP cores, AXI Interconnect core, SmartConnect
 core and DDR4 SDRAM. The major focus of this tutorial is to get familiar
-with Vivado IP integrator  and to explore enhanced features like Block
+with Vivado IP integrator and to explore enhanced features like Block
 Design Containers (BDC).
 
-For the purpose of learning the different IP integrator  (IPI)
-capabilities, we will manually do some of the steps described in this
+For the purpose of learning the different IP integrator (IPI)
+capabilities, you are instructed to manually do some of the steps described in this
 tutorial, instead of using an automated option all the time. The major
-flow in this lab will be Graphical User Interface (GUI) flow of the IPI
-but the last section will use the TCL flow.
+flow in this lab is the Graphical User Interface (GUI) flow of the IPI
+but the last section uses the Tcl flow.
 
-The design targets a Kintex UltraScale KCU105 Evaluation Platform.
+The design targets an AMD Kintex™ UltraScale™ KCU105 Evaluation Platform.
 
-# **Designing with IP integrator  using Block Design Containers**
+# Designing with IP Integrator using Block Design Containers
 
 ## Step 1: Creating a Project
 
 1.  Open the Vivado Integrated Design Environment (IDE).
 
-    -   On Linux, change to the directory where the Vivado tutorial design
-      file is stored: cd
-
-        <Extract_Dir\>/Vivado_Tutorial. Then launch the Vivado Design Suite:
-Vivado.
+    -   On Linux, change to the directory to where the Vivado tutorial design
+      file is stored: `cd <Extract_Dir\>/Vivado_Tutorial`. Then launch the Vivado Design Suite: Vivado.
 
     -   On Windows, launch the Vivado Design Suite: **Start → All Programs →
    Xilinx Design Tools→ Vivado 2022.x**.
@@ -73,11 +70,11 @@ Vivado.
 Vivado IDE.
 
       The Vivado IDE Getting Started page contains links to open or create
-projects and to view documentation, as shown in the following figure:
+projects and to view documentation, as shown in the following figure.
 
 ![](./media/image1.jpg)
 
->**Note:** *Your Vivado Design Suite installation may be called something different from Xilinx > Design Tools on the Start menu.*
+**Note:** *Your Vivado Design Suite installation may be called something different from Xilinx > Design Tools on the Start menu.*
 
 2.  Under the Quick Start section, select **Create Project**.
 
@@ -95,17 +92,14 @@ projects and to view documentation, as shown in the following figure:
   ![](./media/image2.png)
 
 5.  Ensure that Create project subdirectory is checked and click
-    **Next.**
+    **Next**.
 
-6.  In the Project Type page, select **RTL Project**, and select **Do
-    not specify sources at this time**, then click **Next**, as shown in
-    the following figure:
+6.  In the Project Type page, select **RTL Project**, and select **Do not specify sources at this time**, then click **Next**, as shown in
+    the following figure.
 
-![Graphical user interface, text, application, email Description
-automatically
-generated](./media/image3.jpeg)
+	![Graphical user interface, text, application, email Description automatically generated](./media/image3.jpeg)
 
-7.  Click next, and then you will land on the Default Part page, as
+7.  Click **Next**. You land on the Default Part page, as
     shown in the following figure. Select the Kintex Ultrascale KCU105
     Evaluation Platform under **Boards** tab.
 
@@ -115,132 +109,122 @@ generated](./media/image3.jpeg)
 
   ![](./media/image5.png)
   
-
-9.  Click Finish to create the project.
+9.  Click **Finish** to create the project.
 
 10. The new project opens in the Vivado IDE.
 
 ## Step 2: Creating an IP integrator  Design with MicroBlaze Master 
 
-1.  This step will show how Vivado is board aware of the connections and
+1.  This step shows how the Vivado board is aware of the connections and
     the interfaces it supports on the selected board. IPI features like
-    block automation, connection automation and IP customization shall
-    also be demonstrated.
+    block automation, connection automation and IP customization are also demonstrated.
 
-2.  Using the Flow Navigator, select Create Block Design.
+2.  Using the Flow Navigator, select **Create Block Design**.
+	Notice how you can set Design Name, Directory, and source set in the 
+	**Create Block Design** dialog box. You can change or keep the default 
+	values and proceed. For this lab, choose design name as 'top'.
 
-     Notice how you can set Design Name, Directory, and source set in the
-  **Create Block Design** dialog box. You can change or keep the default
-  values and proceed. For this lab, choose design name as 'top'.
-
-  
   ![](./media/image6.png)
   
-  The Vivado IP integrator  displays a design canvas to let you quickly
-create complex subsystem designs by integrating IP cores.
+	The Vivado IP integrator displays a design canvas to let you quickly 
+	create complex subsystem designs by integrating IP cores.
 
-3.  There are a few different ways to add IPs in the block design-
+3.  There are a few different ways to add IPs in the block design:
 
--   By clicking the **Add IP** button in the block design canvas.
+-   Click **Add IP** in the block design canvas.
     ![](./media/image7.jpg)
 
     ![](./media/image8.jpg)
 
--   You can also right-click on the design canvas to open the context
+-   Right-click on the design canvas to open the context
     menu and select **Add IP**.
 
--   You can also add an IP by dragging and dropping the IP from the IP
+-   Add an IP by dragging and dropping the IP from the IP
     catalog to the block design canvas. In this case, you can search for
     the IP, select it and drag-and-drop it on the block design canvas.
 
-    Let's add **MicroBlaze** processor IP into our block design now.
+    Now, add the **MicroBlaze** processor IP into the block design.
 
-4.  In the search field of the IP catalog, type MICROBLAZE to find the
-    IP.
+4.  In the search field of the IP catalog, type MICROBLAZE to find the IP.
 
   ![](./media/image9.png)
   
 5.  Select **MicroBlaze** and press **Enter** on the keyboard or
     double-click the core in the IP catalog. The MicroBlaze core is
-    instantiated onto the IP integrator  design canvas.
+    instantiated onto the IP integrator design canvas.
 
-    Double click the MicroBlaze IP to re-customize it. In general settings,
+    Double-click the MicroBlaze IP to recustomize it. In general settings,
     make sure to check the following options:
 
 -   Enable MicroBlaze Debug Module Interface
 
 -   Use Instruction and Data Caches
 
--   Leave all the other options to default settings and press OK.
+-   Leave all the other options to default settings and press **OK**.
 
   ![](./media/image10.png)
   
 6.  Click **Run Block Automation** in the banner at the top of the
-    design canvas
+    design canvas.
 
   ![](./media/image11.png)
   
 7.  Select all the default options in the Run Block Automation dialog
-    box and click OK. Make sure that clock connection is set to New
-    Clocking Wizard, for this lab.
+    box and click **OK**. Make sure that clock connection is set to **New
+    Clocking Wizard** for this lab.
 
   ![](./media/image12.jpg)
   
-8.  The IP integrator  adds local memory and debug to the processor block
+8.  The IP Integrator adds local memory and debug to the processor block
     and connects a Clocking Wizard and Processor System Reset to the
     subsystem.
 
 9.  Click the Regenerate Layout button
     ![](./media/image13.png) to redraw the subsystem design. The
     optimized layout of the design should now look like the following
-    figure:
+    figure.
 
   ![](./media/image14.png)
   
-10. In the IP integrator  Flow of the Flow Navigator there are multiple
-    tabs available like Sources, Design, Signals and Board. If you click
-    on the 'Board' interface tab, it shows all the available interfaces
-    on the KCU105 evaluation platform.
+10. In the IP integrator Flow of the Flow Navigator, there are multiple
+    tabs available such as Sources, Design, Signals and Board. Click **Board** interface tab, to view all the available interfaces on the KCU105 evaluation platform.
 
->   An interface is a grouping of signals that share a common function,
->containing both individual signals and multiple buses. By grouping these
->signals and buses into an interface, the Vivado IP integrator  can
->identify common interfaces and automatically make multiple connections
->in a single step. See the *Vivado Design Suite User Guide: Designing IP
->Subsystems Using IP integrator *
->([UG994)](https://www.xilinx.com/cgi-bin/docs/rdoc?v=2020.2;d=ug994-vivado-ip-subsystems.pdf)
->for more information on interface pins and ports.
+	An interface is a grouping of signals that share a common function,
+	containing both individual signals and multiple buses. Grouping these
+	signals and buses into an interface lets the Vivado IP integrator	identify common interfaces and automatically make multiple connections
+	in a single step. See the *Vivado Design Suite User Guide: Designing IP
+	Subsystems Using IP integrator*
+	([UG994)](https://www.xilinx.com/cgi-bin/docs/rdoc?v=2020.2;d=ug994-vivado-ip-subsystems.pdf)
+	for more information on interface pins and ports.
 
   ![](./media/image15.png)
   
 11. You can drag and drop the interfaces required for the design from
-    here directly to the design canvas. For this lab choose DDR4 SDRAM
-    interface. You can choose different auto connect options for
+    here directly to the design canvas. For this lab, select DDR4 SDRAM
+    interface. You can select different auto-connect options for
     Interfaces depending on the design requirement. For this design
-    choose ddr4_sdram_062.
+    select ddr4_sdram_062.
 
   ![](./media/image16.png)
   
->**NOTE**: *Component mode can be changed later as well by using
->re-customization feature of the IP. You can re-customize any IP by
->double clicking on it in the design canvas, and doing modifications as
->needed, for the project. Additionally, we can also add the interface
->IP's to the design canvas by **add ip** feature, described above for
->MicroBlaze IP.*
+**NOTE**: *You can change the component mode later as well using the
+recustomization feature of the IP. Double-click any IP to recustomize it in the design canvas, and make modifications as
+needed for the project. Additionally, you can also add the interface
+IPs to the design canvas using the **Add IP** feature, described above for
+MicroBlaze IP*.
 
-12. The design canvas should now look like shown below:
+12. The design canvas should now look like the following.
 
   ![](./media/image17.png)
   
-13. You can now see that there is an orange circle next to DDR4 SDRAM in
-    the boards tab. This shows that Vivado is board aware and knows what
-    interfaces (external memory in this case) in the design has already
-    been used.
+13. You can see now that there is an orange circle next to DDR4 SDRAM in
+    the boards tab. This shows that Vivado board is aware and knows what
+    interfaces (external memory in this case) in the design is already used.
 
   ![](./media/image18.png)
  
-14. As you can see that Microblaze and DDR4 are not connected to each
-    other yet. IP integrator  offers the Designer Assistance feature to
+14. Microblaze and DDR4 are not connected to each
+    other. IP integrator offers the Designer Assistance feature to
     automate certain kinds of connections. For the current subsystem
     design, you can connect DDR4 SDRAM IP with the MicroBlaze using
     connection automation. Click **Run Connection Automation** in the
@@ -248,19 +232,19 @@ create complex subsystem designs by integrating IP cores.
 
   ![](./media/image19.jpg)
   
-  The Run connection Automation dialog box opens.
+  The Run Connection Automation dialog box opens.
 
-15. Before you run connection automation, make sure that the IP's are
+15. Before you run connection automation, make sure that the IPs are
     customized as per the design requirements. For example, in the
-    current design we want the MicroBlaze clock frequency at 125 MHz and
-    DDR4 frequency at 300 MHz. To do this, double click the CLOCKING
-    WIZARD IP auto generated with the MICROBLAZE board automation and
-    re-customize the CLK_IN1 to sysclk125. Leave all the settings to
-    default and click **OK.**
+    current design you want the MicroBlaze clock frequency at 125 MHz and
+    DDR4 frequency at 300 MHz. To do this, double-click the CLOCKING
+    WIZARD IP auto-generated with the MICROBLAZE board automation and
+    recustomize the CLK_IN1 to sysclk125. Leave all the settings to
+    default and click **OK**.
 
   ![](./media/image20.png)
   
-16. Now click on Run Connection Automation, and the Automation window
+16. Click **Run Connection Automation**, and the Automation window
     opens up. Select all the blocks you need for connection automation.
 
     For this lab, make the following changes:
@@ -279,22 +263,20 @@ reset connections is now ready on the design canvas.
 
   ![](./media/image21.png)
   
-17. You will see that after running connection automation, the 'Run
-    Connection Automation' banner is still active for M_AXI_DP port of
-    Microblaze. This port has not been connected to any slave port so
-    the VIvado design assistance will give an option to connect it
-    automatically, if you run it then you will observe that a new slave
-    port will be automatically created in the SmartConnect and will be
+17. You see that after running connection automation, the 'Run
+    Connection Automation is not connected to any slave port so
+    the Vivado design assistance gives an option to connect it
+    automatically, if you run it then you observe that a new slave
+    port is automatically created in the SmartConnect and is
     connected to Microblaze master. But that is not the current design
-    requirement, and that port has not been connected intentionally. You
-    will see later that an AXI Interconnect IP will be instantiated in
-    the design and that will become a slave for the M_AXI_DP port.
+    requirement, and that port is not connected intentionally. You see later that an AXI Interconnect IP is instantiated in
+    the design and that becomes a slave for the M_AXI_DP port.
 
     You must be mindful of the design connections you are making as per the
-requirements of your design. This will help you debug the design easily
+requirements of your design. This helps you debug the design easily
 if the end design does not behave as expected.
 
-18. Click the Regenerate Layout button if you need to better placement
+18. Click **Regenerate Layout** button if you need a better placement
     of the blocks on the canvas.
     
     ![](./media/image22.png)
@@ -306,11 +288,11 @@ if the end design does not behave as expected.
 20. It can be observed that after running connection automation, an AXI
     SmartConnect is automatically instantiated along with a processor
     system reset IP for DDR4 SDRAM. Since the design uses two different
-    frequencies therefore Vivado is aware of it to minimize Clock Domain
-    Crossing (CDC) issues, it auto instantiates the necessary IP's as
+    frequencies, Vivado is aware of it to minimize Clock Domain
+    Crossing (CDC) issues. It auto-instantiates the necessary IPs as
     required by the design.
 
-> **IMPORTANT!** *IP integrator  treats an external reset coming into the
+> **IMPORTANT!** *IP integrator treats an external reset coming into the
 > block design as asynchronous to the clocks. You should always
 > synchronize the external resets with a clock domain in the IP
 > subsystem to help the design meet timing.*
@@ -324,13 +306,13 @@ if the end design does not behave as expected.
     associate the related clock with the reset. This does not require
     the Processor System Reset block.
 
-## Step 3: Adding New IP's, Interfaces and IP Customization
+## Step 3: Adding New IPs, Interfaces and IP Customization
 
-1.  You can add multiple IP's from the Vivado IP catalogue as per the
+1.  You can add multiple IPs from the Vivado IP catalogue as per the
     specific design requirements. For continuity of this lab, add the
-    following IP's from the IP catalogue, by using add IP feature on the
+    following IPs from the IP catalogue using the add IP feature on the
     design canvas. For a quick reference, check the above-mentioned
-    steps (Step-2), used for adding Microblaze IP.
+    steps (Step-2), used to add the Microblaze IP.
 
 -   AXI UARTLITE
 
@@ -348,36 +330,36 @@ if the end design does not behave as expected.
 
 -   AXI IIC
 
-2.  After adding all the IPs, the IP integrator  should look like the
+1.  After adding all the IPs, the IP integrator should look like the
     snapshot below. The relative positions of the blocks placed on the
-    canvas might be slightly different.
+    canvas can be slightly different.
 
   ![](./media/image24.png)
   
-3.  Double-click the AXI Interconnect core to open the Re-Customize IP
+3.  Double-click the AXI Interconnect core to open the Re-customize IP
     dialog box, as shown in the following figure:
 
   ![](./media/image25.png)
 
-4.  In the Top Level Settings, change Number of Master Interfaces field
+4.  In the Top Level settings, change Number of Master Interfaces field
     to **5** from the drop-down menu.
 
 5.  Leave all the remaining options as is and click **OK**.
 
- The IP integrator  re-customizes the AXI Interconnect, changing the
+ The IP integrator  recustomizes the AXI Interconnect, changing the
  number of master interfaces to five, as shown in the following figure:
   
   ![](./media/image26.png)
 
 Now you can connect the five slave IP cores to the AXI Interconnect.
 
-6.  Double-click Concat IP to open the Re-Customize IP dialog box.
+6.  Double-click **Concat IP** to open the Re-Customize IP dialog box.
     Change number of ports to 4 from 2. Leave all the remaining options
     as is and click **OK.**
 
   ![](./media/image27.png)
   
-7.  Double-click axi_gpio_0 to open the Re-Customize IP dialog box. In
+7.  Double-click **axi_gpio_0** to open the Re-Customize IP dialog box. In
     the Board tab of Re-customize IP window choose the following:
 
    *  GPIO (IP interface) -\> rotary switch (Board Interface)
@@ -388,12 +370,12 @@ Now you can connect the five slave IP cores to the AXI Interconnect.
 
   ![](./media/image28.png)
  
-8.  Double-click axi_gpio_1 to open the Re-Customize IP dialog box. In
+8.  Double-click **axi_gpio_1** to open the Re-Customize IP dialog box. In
     the Board tab of Re-customize IP window choose the following:
 
    * GPIO (IP interface) -\> led 8bits (Board Interface)
 
-   *  GPIO2(IP interface) -\> dip switches 4bits (Board Interface)
+   *  GPIO2(IP interface) -\> dip switches 4-bits (Board Interface)
     
    * Leave all the remaining options as is and click **OK.**
 
@@ -401,7 +383,7 @@ Now you can connect the five slave IP cores to the AXI Interconnect.
 
 
 9.  Double-click AXI SMARTCONNECT IP which was auto-generated earlier to
-    open the Re-Customize IP dialog box and change number of Master
+    open the Re-Customize IP dialog-box and change number of Master
     Interfaces to '2'. Leave all the remaining options as is and click
     **OK.**
 
@@ -412,15 +394,15 @@ Now you can connect the five slave IP cores to the AXI Interconnect.
 
  At this point, you have instantiated several AXI slaves that you can
  access through a master such as a processor. To connect to a master
- controlling these slaves, first let's create connectivity between the
+ controlling these slaves, first create connectivity between the
  AXI Interconnect and the instantiated IPs.
 
 1.  Place the cursor on top of the M00_AXI interface pin of the AXI
     Interconnect. Click and drag the cursor from the M00_AXI interface
     pin to the S_AXI interface port of AXI GPIO block.
 
-> **Note:** *The cursor changes into a pencil indicating that a
-> connection can be made from that interface pin. Clicking the mouse
+> **Note:** *The cursor changes into a pencil indicating that you can make a connection 
+> from that interface pin. Clicking the mouse
 > button here starts a connection on the M00_AXI interface pin. You must
 > press and hold down the mouse button while dragging the connection
 > from the M00_AXI pin to the S_AXI interface port.*
@@ -429,11 +411,11 @@ Now you can connect the five slave IP cores to the AXI Interconnect.
  
  As you drag the connection wire, a green checkmark appears on the
  S_AXI interface pin indicating that you can make a valid connection
- between these points. The Vivado IP integrator  highlights all possible
+ between these points. The Vivado IP integrator highlights all possible
  connection points in the subsystem design as you interactively wire
  the pins and ports.
 
-2.  Release the mouse button and Vivado IP integrator  makes a connection
+1.  Release the mouse button and Vivado IP integrator makes a connection
     between the M00_AXI interface pin and the S_AXI port, as shown in
     the following figure:
 
@@ -454,14 +436,14 @@ Now you can connect the five slave IP cores to the AXI Interconnect.
 
 ## Step 5: Connecting all IP's and Interfaces using both manual and automated connections
 
-1.  On the design canvas you can see that there are few IP's and
+1.  On the design canvas you can see that there are few IPs and
     Interfaces which are not connected, such as, UART interface of the
-    AXI Uartlite, GPIO interface of the AXI GPIO's, Concat, AXI BRAM
+    AXI Uartlite, GPIO interface of the AXI GPIOs, Concat, AXI BRAM
     Controller, and so on.
 
 To connect the remaining interfaces, you can once again use the
 connection automation feature of IPI as used earlier to connect DDR4
-SDRAM IP. The remaining unconnected IP's can be connected manually as
+SDRAM IP. The remaining unconnected IPs can be connected manually as
 per the design requirement.
 
 2.  Run Connection Automation from the designer assistance by selecting
@@ -500,8 +482,8 @@ the port when connection automation is run.
     *interrupt port of INTERRUPT CONTROLLER to Interrupt pin of
  MICROBLAZE*
 
-To automate these manual connections, you can run the following TCL
-commands on the TCL console to make the connections:
+To automate these manual connections, you can run the following Tcl
+commands on the Tcl console to make the connections:
 
 * connect_bd_net \[get_bd_pins xlconstant_0/dout\] \[get_bd_pins        
  xlconcat_0/In3\]                                                      
@@ -556,8 +538,7 @@ slave interface pins, for example S_AXI, though that is not required.
 
 The memory map for each slave interface pin contains address segments,
 or address_segment objects. These address segments correspond to the
-address decode window for that slave. A typical AXI4-Lite slave will
-have only one address segment, representing a range of addresses.
+address decode window for that slave. A typical AXI4-Lite slave has only one address segment, representing a range of addresses.
 However, some slaves, like a bridge, will have multiple address segments
 or a range of addresses for each address decode window.
 
@@ -577,11 +558,11 @@ spaces in the masters.
 
  The IP integrator  has automatically assigned the addresses.
 
- Note that there are multiple address networks shared between
- processors accessing the peripherals (AXI BRAM, GPIO etc.), and
- networks for local memory belonging to each processor subsystem.
- You can change the automatic address assignments by clicking in the
- corresponding column and changing the values.
+ >***Note:*** There are multiple address networks shared between
+ >processors accessing the peripherals (AXI BRAM, GPIO etc.), and
+ >networks for local memory belonging to each processor subsystem.
+ >You can change the automatic address assignments by clicking in the
+ >corresponding column and changing the values.
 
 
   ![](./media/image39.png)
@@ -596,7 +577,7 @@ spaces in the masters.
     better organizing the blocks. One of these capabilities is creating
     hierarchy levels to include one or more blocks.
 
-For this lab you will create 3 hierarchies called peripherals, memory_ss
+For this lab you create 3 hierarchies called peripherals, memory_ss
 and microblaze_ss.
 
 2.  To create the ***peripherals*** hierarchy select the following 4
@@ -631,8 +612,8 @@ and microblaze_ss.
 You might get a critical warning when trying to create a MicroBlaze
 subsystem as shown in figure below, but it can be safely ignored for
 this design. Elf file is the executable. It\'s generated after
-compilation & buid process in Software Development Kit (SDK). Since this
-design won't be using the SDK therefore it is safe to ignore the
+compilation and buid process in Software Development Kit (SDK). Since this
+design will not be using the SDK therefore it is safe to ignore the
 warning.
 
   ![](./media/image43.png)
@@ -661,7 +642,7 @@ instantiated as the **topBD**. The following features are supported:
 
 -   **Full visibility into the contents of the childBD from the topBD**:
     The instantiated childBD looks like a regular hierarchy in the
-    topBD, where clicking on the \'+\' icon on the block will expand the
+    topBD, where clicking on the \'+\' icon on the block expands the
     childBD in-place and allow you to view the contents.
 
 -   **Ability to change addresses from the topBD**: Slaves assigned to
@@ -694,8 +675,8 @@ instantiated as the **topBD**. The following features are supported:
  flow. In Top- Down flow a diagram for the top-level design is created
  first. The user/designer them creates proper hierarchies in the
  top-level block design to push a set of IP blocks into BDC's as
- sub-blocks. In this step, you will implement a Top Down flow where you
- will convert a regular hierarchy in top BD to a BDC cell. In the next
+ sub-blocks. In this step, you implement a Top Down flow where you
+ convert a regular hierarchy in top BD to a BDC cell. In the next
  step you will implement the bottom-up flow.
 
 1.  To create a block design container from the 'peripherals' hierarchy
@@ -725,7 +706,7 @@ instantiated as the **topBD**. The following features are supported:
 
   ![](./media/image49.png)
 
-5.  **Adding a second variant:** We will now add a second variant to
+5.  **Adding a second variant:** We now add a second variant to
     this container. To do this, switch back to \'peripherals.bd\', click
     on File → Save Block Design As \... → Type in a name for the new
     variant. For example \'peripherals_2\' → Click OK.
@@ -748,7 +729,7 @@ instantiated as the **topBD**. The following features are supported:
   ![](./media/image52.png)
 
 
-8.  You will see the following options in the GUI:
+8.  You see the following options in the GUI:
 
     a.  The \'**Enable Dynamic Function eXchange on this module**\'
         checkbox specifies if this container is a PR module or not.
@@ -786,8 +767,9 @@ instantiated as the **topBD**. The following features are supported:
 >for the two variants inside the container, and Synthesis runs have been
 >started for IPs inside the top BD. Since this container is in PR mode,
 >the runs of the variants are deferred until Synthesis starts. At that
->point, the runs for the variants will be launched Out-of-Context and
+>point, the runs for the variants is launched Out-of-Context and
 >stitched at run-time.\
+
 >**NOTE:** The completion of this step might take some time.
 
 13. Create a top-level wrapper for the top.bd: Right-click on \'top\' in
@@ -810,8 +792,8 @@ auto-update' and click OK.
   
 16. This window shows you a list of Partition Definitions in your design
     and RMs inside each of them. You are allowed to modify/add/delete
-    RMs as you\'d like. In this tutorial we will not concentrate on
-    those, Click Next.
+    RMs as you\'d like. In this tutorial we do not concentrate on
+    those. Click Next.
 
   ![](./media/image58.png)
 
@@ -827,16 +809,16 @@ auto-update' and click OK.
 
 19. Click on Next → Finish.
 
-20. Now, you have 3 options to move forward:
+20. Now, you have three options to move forward:
 
 -   Use the Run Synthesis command to run only synthesis.
 
--   Use the Run Implementation command, which will first run synthesis
+-   Use the Run Implementation command, which first runs synthesis
     if it has not been run and then run implementation.
 
--   Use the Generate Bitstream command, which will first run synthesis,
+-   Use the Generate Bitstream command, which first runs synthesis,
     then run implementation if they have not been run, and then write
-    the bitstream for programming the Xilinx device.
+    the bitstream for programming the AMD device.
 
      These options can be selected from the Flow Navigator.
 
@@ -844,7 +826,7 @@ auto-update' and click OK.
 
 22. Before doing this step, you should add the constraint file to the
     design. You can create a constraint file as required by your design.
-    For this lab, we will use the constraint file "top.xdc" already
+    For this lab, we use the constraint file "top.xdc" already
     provided in 'BDC_top_bottom_ref_files' folder. To add the constraint
     file to current working directory, select add sources from flow
     Navigator, choose 'add or create constraints' option in the add
@@ -854,9 +836,7 @@ auto-update' and click OK.
 
   ![](./media/image61.png)
 
-23. From the Flow Navigator, click on **Generate Bitstream,** which will
-    automatically synthesize, implement, and generate the bitstream for
-    the design
+23. From the Flow Navigator, click on **Generate Bitstream,** which automatically synthesizes, implement, and generate the bitstream for the design.
 
 24. You now have a fully generated PR design using Block Design
     Containers using Top -\
@@ -865,7 +845,7 @@ auto-update' and click OK.
 ## Step 9: Block Design Containers (Bottom Up flow)
 
 1.  In this lab you will get familiar with Bottom UP design flow of IP
-    Integrator using TCL flow, instead of creating the design completely
+    Integrator using Tcl flow, instead of creating the design completely
     using the GUI mode from IPI.
 
 2.  In this flow, sub-block designs have been created separately and the
@@ -873,15 +853,15 @@ auto-update' and click OK.
     top-level block design.
 
 3.  Vivado offers the flexibility to populate and connect the IP's and
-    Interfaces on design canvas using either the GUI flow, TCL flow or a
+    Interfaces on design canvas using either the GUI flow, Tcl flow or a
     hybrid flow, where few steps can be completed using either flow. In
     step 8 of this tutorial, it could be observed that for every
     activity performed on the Design Canvas, be it adding IP, making
-    connections, validation et al, there was a corresponding TCL command
-    generated by Vivado which could be seen on the TCL console.
+    connections, validation et al, there was a corresponding Tcl command
+    generated by Vivado which could be seen on the Tcl console.
 
- The entire design can be recreated using this TCL flow if you generate
- a corresponding TCL script of the design using either the
+ The entire design can be recreated using this Tcl flow if you generate
+ a corresponding Tcl script of the design using either the
  "write_bd_tcl" command or by using the Vivado GUI as shown in snapshot
  below:
 
@@ -890,8 +870,8 @@ auto-update' and click OK.
  Additionally, Vivado also saves journal files automatically, which can
  be used to regenerate few steps of the already created design.
 
-4.  You will create the bottoms up BDC in this step using the TCL flow.
-    The TCL script for top block design, peripheral block design and the
+4.  You will create the bottoms up BDC in this step using the Tcl flow.
+    The Tcl script for top block design, peripheral block design and the
     constraints files are already generated for this section of the
     tutorial to demonstrate the specific feature of the BDC using same
     process as mentioned in point 2. Put the top_bd.tcl and
