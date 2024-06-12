@@ -9,7 +9,7 @@
 
 # Introduction to NoC/DDRMC Performance Tuning
 
-***Version: Vivado 2023.1***
+***Version: Vivado 2024.1***
 
 This tutorial presents a more complex design example, and it demonstrates the process of refining the design to achieve performance goals.  You will start with a system DDR traffic spec and learn how to model this with the NoC, DDR memory controllers, and AXI traffic generators (TGs).  You will simulate the design to measure performance, and then work through several design iterations to tune performance.  Once the desired traffic spec has been achieved, you will modify the simulated design to work in hardware, then build the design and run it on hardware.  
 
@@ -56,7 +56,7 @@ For now, an important difference is that the Synthesizable TG requires a CSV fil
 ## Linear Read and Write Commands
 Rows 17-24 in the CSV are used to configure the linear write and read traffic.  AxSIZE is set to 0x6 in column O, representing a burst size of 64.  AxLEN is set to 0x3 in column N, representing a burst length of 4, so each linear write or read burst is 256 bytes, matching the traffic spec.  Column D, start_delay, is used to regulate the bandwidth of traffic being driven by the TG.  For a burst length of 4, each write command requires four AXI clock cycles, and each read requires one cycle.  For each write or read, start_delay AXI cycles are introduced after each command before the next write or read is issued.  So a start delay of 19 for writes and 22 for reads means one write or read command will be issued every 23 cycles.  At an AXI clock rate of 250 MHz, with 256 bytes per burst, that means linear traffic is driven at 250 MHz * 256 bytes / 23 = 2.78 GB/s.  Each write or read stream is directed to a unique address range, as shown by the address in columns J and K.  Within each address range, the addresses are incremented in a linear fashion.  Transaction count, in column C, is chosen such that the simulation should complete in about 100 μs, assuming the system is able to handle the traffic demand.
 
-**Note**: It is important not to set the transaction count too low.  The memory controller must periodically interrupt traffic to execute refresh commands in the DDR memory.  Xilinx recommends to run the simulation long enough to cover at least 10 refresh cycles.
+**Note**: It is important not to set the transaction count too low.  The memory controller must periodically interrupt traffic to execute refresh commands in the DDR memory.  AMD recommends to run the simulation long enough to cover at least 10 refresh cycles.
 
 ## Random Read and Write Commands
 Rows 25-28 in the CSV are used to configure the random write and read traffic.  AxSIZE is set to 0x6 in column O, representing a burst size of 64.  AxLEN is set to 0x1 in column N, representing a burst length of 2, so each random write burst is 128 bytes, matching the traffic spec.  Just like the linear traffic lines, start_delay, is used to regulate the bandwidth of traffic being driven by the TG.  For a burst length of 2, each write command requires two AXI clock cycles, and each read requires one cycle.  The calculation of bandwidth vs. start_delay follows the same methodology explained for linear traffic.  The write traffic is directed to a range of addresses, separate from that used for the linear traffic.  The three random read traffic streams are directed to random addresses in three separate ranges within the range to which data is being written.
@@ -91,7 +91,6 @@ Rows 25-28 in the CSV are used to configure the random write and read traffic.  
         1. Performance TG for Simulation: SYNTHESIZABLE
         2. AXI Data Width: 512
         3. Enable Traffic Shaping: unchecked
-        4. Enable NOC user Destination ID Ports: NONE
     *	Synthesizable TG Options:
         1. Path to User Defined Pattern File (CSV) for Synthesizable TG: all_in_one.csv
         2. Insert VIO for debug status signals: unchecked
@@ -117,7 +116,7 @@ When the simulation completes, you can make several observations.
 The Tcl Console shows messages from the simulator and the AXI Performance Monitor.
 ![First Simulation Tcl](first_design/images/first_simulation_tcl.PNG)
 
-From this, you can see the Achieved Write Bandwidth ~ 2.7 GB/s, Achieved Read Bandwidth ~ 3.0 GB/s, and the simulation duration was 679 μs.  This falls far short of our intended targets of ~13.4 GB/s write and ~19.8 GB/s read bandwidth.  Also, as discussed in the description of the CSV file, the simulation is intended to complete in about 100 μs.
+From this, you can see the Achieved Write Bandwidth ~ 2.7 GB/s, Achieved Read Bandwidth ~ 2.8 GB/s, and the simulation duration was 707 μs.  This falls far short of our intended targets of ~13.4 GB/s write and ~19.8 GB/s read bandwidth.  Also, as discussed in the description of the CSV file, the simulation is intended to complete in about 100 μs.
 
 By looking at the waveform display, you can see other problems.
 ![First Simulation Waveform](first_design/images/first_simulation_overall_waveform.PNG)
@@ -154,13 +153,13 @@ After the design finishes building, run a behavioral simulation.  The results ar
 
 | Traffic Generator  | Write Bandwidth (GB/s) | Write Bandwidth Target (GB/s) | Read Bandwidth (GB/s) | Read Bandwidth Target (GB/s) |
 | :---: | ---- | ---- | ---- | ---- |
-|  0  | 2.19 | 2.77 | 2.24 | 2.77 |
-|  1  | 2.10 | 2.77 | 2.19 | 2.77 |
-|  2  | 2.19 | 2.77 | 2.18 | 2.77 |
-|  3  | 2.19 | 2.77 | 2.15 | 2.77 |
-|  4  | 2.26 | 2.27 | 2.14 | 2.8  |
-|  5  | 0    | 0    | 2.14 | 2.8  |
-|  6  | 0    | 0    | 2.14 | 2.8  |
+|  0  | 2.29 | 2.77 | 2.28 | 2.77 |
+|  1  | 2.28 | 2.77 | 2.25 | 2.77 |
+|  2  | 2.29 | 2.77 | 2.28 | 2.77 |
+|  3  | 2.28 | 2.77 | 2.27 | 2.77 |
+|  4  | 2.26 | 2.27 | 2.09 | 2.8  |
+|  5  | 0    | 0    | 2.09 | 2.8  |
+|  6  | 0    | 0    | 2.09 | 2.8  |
 
 The waveform display is as follows.
 ![Second Simulation Overall Waveform](second_design_multiple_tgs/images/second_simulation_overall_waveform.PNG)
@@ -190,18 +189,18 @@ The new simulation results are summarized in the following table.
 
 | Traffic Generator  | Write Bandwidth (GB/s) | Write Bandwidth Target (GB/s) | Read Bandwidth (GB/s) | Read Bandwidth Target (GB/s) |
 | ------------------ | ---------------------- | ----------------------------- | --------------------- | ------------------------ |
-|  0  | 1.62 | 2.77 | 1.71 | 2.77 |
-|  1  | 1.62 | 2.77 | 1.72 | 2.77 |
-|  2  | 1.62 | 2.77 | 1.71 | 2.77 |
-|  3  | 1.62 | 2.77 | 1.71 | 2.77 |
-|  4  | 2.29 | 2.27 | 2.92 | 2.8  |
-|  5  | 0    | 0    | 2.95 | 2.8  |
-|  6  | 0    | 0    | 2.94 | 2.8  |
+|  0  | 1.60 | 2.77 | 1.68 | 2.77 |
+|  1  | 1.60 | 2.77 | 1.68 | 2.77 |
+|  2  | 1.60 | 2.77 | 1.68 | 2.77 |
+|  3  | 1.60 | 2.77 | 1.68 | 2.77 |
+|  4  | 2.28 | 2.27 | 2.74 | 2.8  |
+|  5  | 0    | 0    | 2.76 | 2.8  |
+|  6  | 0    | 0    | 2.77 | 2.8  |
 
 From the waveform display, you can see that the random traffic is now distributed across both channels of the memory controller in axi_noc_1.
 ![Second Design Interleaved Channels Waveform](second_design_multiple_tgs/images/second_design_interleaved_channels_waveform.PNG)
 
-The random traffic now meets the bandwidth targets.
+The random traffic now nearly meets the bandwidth targets.
 
 However, the linear traffic is a bit worse, so now try tuning it.
 

@@ -16,6 +16,6 @@
 TG_NUM,cmd,txn_count,start_delay,inter_beat_delay,wdata_pattern,wdata_pat_value,data_integrity,dest_id,base_addr,high_addr,addr_incr_by,axi_addr_offset,axi_len,axi_size,axi_id,axi_burst,axi_lock,axi_cache,axi_prot,axi_qos,axi_region,axi_user,exp_resp
 0,START_LOOP,INF,,,,,,,,,,,,,,,,,,,,,
 0,READ,50000,22,,same_as_addr,0x0,disabled,0x0,0x0500_0000_0000,0x0500_1FFF_FFFF,auto_incr,0x0,0x3,0x6,auto_incr,INCR,NORMAL,0x0,0x0,0x0,0x0,0x1,0x0
-0,WRITE,25000,19,,same_as_addr,0x0,disabled,0x0,0x0500_8000_0000,0x0500_9FFF_FFFF,auto_incr,0x0,0x3,0x6,auto_incr,INCR,NORMAL,0x0,0x0,0x0,0x0,0x1,0x0
+0,WRITE,50000,19,,same_as_addr,0x0,disabled,0x0,0x0500_8000_0000,0x0500_9FFF_FFFF,auto_incr,0x0,0x3,0x6,auto_incr,INCR,NORMAL,0x0,0x0,0x0,0x0,0x1,0x0
 0,END_LOOP,,,,,,,,,,,,,,,,,,,,,,
 ,PHASE_DONE,,,,,,,,,,,,,,,,,,,,,,

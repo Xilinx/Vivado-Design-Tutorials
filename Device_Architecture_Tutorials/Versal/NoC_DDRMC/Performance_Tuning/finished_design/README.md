@@ -8,32 +8,32 @@
 
 # Performance Tuning: Building and Running the Final Design
 
-***Version: Vivado 2021.1***
+***Version: Vivado 2024.1***
 
 ## Introduction
 This design uses seven AXI Performance Traffic Generators, and two AXI NoC instances, each with a 2x32 LPDDR4-3930 memory controller, to model the DDR traffic requirements on VCK190.
 
 ## DDR Traffic Model
-One LPDDR4 memory controller handles all the random access memory traffic.  One traffic generator writes to random memory addresses at 2.9 GB/s.  Concurrently, three other traffic generators send read requests to random addresses in three subblocks of same address space to which writes are occurring, each at 3.1 GB/s.
+One LPDDR4 memory controller handles all the random access memory traffic.  One traffic generator writes to random memory addresses at 2.77 GB/s.  Concurrently, three other traffic generators send read requests to random addresses in three subblocks of same address space to which 2.27GB/s writes are occurring, each at 2.8 GB/s.
 
-In parallel, a second LPDDR4 memory controller handles eight simultaneous linear traffic threads, four writes and four reads, each accessing a unique bank in memory.  All of these threads are running at 2.78 GB/s.
+In parallel, a second LPDDR4 memory controller handles eight simultaneous linear traffic threads, four writes and four reads, each accessing a unique bank in memory.  All of these threads are running at 2.77 GB/s.
 
 The DDR Traffic Model is summarized below:
 
 | DDR Operation  | Burst Length | Access Pattern | Throughput (GB/s) |
 | -------------- | ------------ | -------------- | ----------------- |
-| Linear Write 1 | 2048         | Sequential     | 2.78              |
-| Linear Write 2 | 2048         | Sequential     | 2.78              |
-| Linear Write 3 | 2048         | Sequential     | 2.78              |
-| Linear Write 4 | 2048         | Sequential     | 2.78              |
-| Linear Read 1  | 2048         | Sequential     | 2.78              |
-| Linear Read 2  | 2048         | Sequential     | 2.78              |
-| Linear Read 3  | 2048         | Sequential     | 2.78              |
-| Linear Read 4  | 2048         | Sequential     | 2.78              |
-| Random Write   | 1024         | Random         | 2.9               |
-| Random Read 1  | 1024         | Random         | 3.1               |
-| Random Read 2  | 1024         | Random         | 3.1               |
-| Random Read 3  | 1024         | Random         | 3.1               |
+| Linear Write 1 | 256          | Sequential     | 2.77              |
+| Linear Write 2 | 256          | Sequential     | 2.77              |
+| Linear Write 3 | 256          | Sequential     | 2.77              |
+| Linear Write 4 | 245          | Sequential     | 2.77              |
+| Linear Read 1  | 256          | Sequential     | 2.77              |
+| Linear Read 2  | 256          | Sequential     | 2.77              |
+| Linear Read 3  | 256          | Sequential     | 2.77              |
+| Linear Read 4  | 256          | Sequential     | 2.77              |
+| Random Write   | 128          | Random         | 2.27              |
+| Random Read 1  | 128          | Random         | 2.8               |
+| Random Read 2  | 128          | Random         | 2.8               |
+| Random Read 3  | 128          | Random         | 2.8               |
 ## Build the Design
 * cd into design directory
 * Follow the instructions in the README in that directory to build the design
