@@ -1,3 +1,8 @@
+//Copyright 1986-2023 Xilinx, Inc. All Rights Reserved.
+//--------------------------------------------------------------------------------
+//Tool Version: Vivado v.2022.1 (lin64) Build 3521166 Sun Apr 10 13:00:11 MDT 2022
+//Date        : Mon Apr 11 17:26:31 2022
+//Host        : xsjlc190409 running 64-bit Red Hat Enterprise Linux Workstation release 7.7 (Maipo)
 //Command     : generate_target design_GT_wrapper.bd
 //Design      : design_GT_wrapper
 //Purpose     : IP block netlist
@@ -77,4 +82,3 @@ module design_GT_wrapper
         .tx_resetdone_out_gt_bridge_ip_0(tx_resetdone_out_gt_bridge_ip_0),
         .txusrclk_gt_bridge_ip_0(txusrclk_gt_bridge_ip_0));
 endmodule
-
