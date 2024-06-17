@@ -8,7 +8,7 @@
 
 # VNOC tile Sharing between 2 Reconfigurable Partitions
 
-***Version: Vivado 2023.2***
+***Version: Vivado 2024.1***
 
 ## Introduction
 

@@ -8,7 +8,7 @@
 
 # 1 RP Design with NoC INI in the Static-RM Interface
 
-***Version: AMD Vivado&trade; 2023.2***
+***Version: AMD Vivado&trade; 2024.1***
 
 ## Introduction
 

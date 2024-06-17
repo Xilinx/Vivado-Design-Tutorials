@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2023, Advanced Micro Devices, Inc. All rights reserved.
+# Copyright (C) 2024, Advanced Micro Devices, Inc. All rights reserved.
 # SPDX-License-Identifier: X11
 #
 
@@ -24,7 +24,7 @@ set script_folder [_tcl::get_script_folder]
 ################################################################
 # Check if script is running in correct Vivado version.
 ################################################################
-set scripts_vivado_version 2023.2
+set scripts_vivado_version 2024.1
 set current_vivado_version [version -short]
 
 if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
@@ -131,7 +131,7 @@ if { $bCheckIPs == 1 } {
 xilinx.com:ip:axi_bram_ctrl:4.1\
 xilinx.com:ip:emb_mem_gen:1.0\
 xilinx.com:ip:axi_gpio:2.0\
-xilinx.com:ip:axi_noc:1.0\
+xilinx.com:ip:axi_noc:1.1\
 xilinx.com:ip:clk_wizard:1.0\
 xilinx.com:ip:proc_sys_reset:5.0\
 xilinx.com:ip:smartconnect:1.0\
@@ -249,7 +249,7 @@ proc create_root_design { parentCell } {
  ] $axi_gpio_1
 
   # Create instance: axi_noc_0, and set properties
-  set axi_noc_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.0 axi_noc_0 ]
+  set axi_noc_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.1 axi_noc_0 ]
   set_property -dict [ list \
    CONFIG.CH0_DDR4_0_BOARD_INTERFACE {ddr4_dimm1} \
    CONFIG.CONTROLLERTYPE {DDR4_SDRAM} \
@@ -379,7 +379,7 @@ HBM_PC1_USER_DEFINED_ADDRESS_MAP NONE} \
  ] [get_bd_pins /axi_noc_0/aclk6]
 
   # Create instance: axi_noc_1, and set properties
-  set axi_noc_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.0 axi_noc_1 ]
+  set axi_noc_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.1 axi_noc_1 ]
   set_property -dict [ list \
    CONFIG.HBM_CHNL0_CONFIG {\
 HBM_PC0_PRE_DEFINED_ADDRESS_MAP ROW_BANK_COLUMN HBM_PC1_PRE_DEFINED_ADDRESS_MAP\
@@ -406,7 +406,7 @@ HBM_PC1_USER_DEFINED_ADDRESS_MAP NONE} \
  ] [get_bd_pins /axi_noc_1/aclk0]
 
   # Create instance: axi_noc_2, and set properties
-  set axi_noc_2 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.0 axi_noc_2 ]
+  set axi_noc_2 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.1 axi_noc_2 ]
   set_property -dict [ list \
    CONFIG.HBM_CHNL0_CONFIG {\
 HBM_PC0_PRE_DEFINED_ADDRESS_MAP ROW_BANK_COLUMN HBM_PC1_PRE_DEFINED_ADDRESS_MAP\

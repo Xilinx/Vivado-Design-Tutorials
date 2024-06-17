@@ -8,7 +8,7 @@
 
 # Clock Region Sharing Between Two Reconfigurable Partitions
 
-***Version: AMD Vivado&trade; 2023.2***
+***Version: AMD Vivado&trade; 2024.1***
 
 ## Introduction
 

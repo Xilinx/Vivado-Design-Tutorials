@@ -1,9 +1,7 @@
 #
-# Copyright (C) 2023, Advanced Micro Devices, Inc. All rights reserved.
+# Copyright (C) 2024, Advanced Micro Devices, Inc. All rights reserved.
 # SPDX-License-Identifier: X11
 #
-
-
 
 #Source this script to compile the full Versal DFX tutorial design in Vivado 2023.2
 #Source individual steps to work more interactively with the tools / flow

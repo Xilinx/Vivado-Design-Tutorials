@@ -8,7 +8,7 @@
 
 # Debugging Versal DFX Designs
 
-***Version: Vivado 2023.2***
+***Version: Vivado 2024.1***
 
 
 ## Introduction
