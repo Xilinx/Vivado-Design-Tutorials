@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2023, Advanced Micro Devices, Inc. All rights reserved.
+# Copyright (C) 2024, Advanced Micro Devices, Inc. All rights reserved.
 # SPDX-License-Identifier: X11
 #
 
@@ -9,7 +9,7 @@ current_bd_design $curdesign
 set_property -dict [list CONFIG.LIST_SYNTH_BD {rp1rm1.bd:rp1rm2.bd} CONFIG.LIST_SIM_BD {rp1rm1.bd:rp1rm2.bd}] [get_bd_cells /rp1]
 current_bd_design [get_bd_designs rp1rm2]
 #Populate the new RM
-create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.0 axi_noc_0
+create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.1 axi_noc_0
 create_bd_cell -type ip -vlnv xilinx.com:ip:axi_gpio:2.0 axi_gpio_0
 create_bd_cell -type ip -vlnv xilinx.com:ip:smartconnect:1.0 smartconnect_0
 create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 xlconstant_0

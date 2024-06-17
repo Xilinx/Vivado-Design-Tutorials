@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2023, Advanced Micro Devices, Inc. All rights reserved.
+# Copyright (C) 2024, Advanced Micro Devices, Inc. All rights reserved.
 # SPDX-License-Identifier: X11
 #
 
@@ -24,7 +24,7 @@ set script_folder [_tcl::get_script_folder]
 ################################################################
 # Check if script is running in correct Vivado version.
 ################################################################
-set scripts_vivado_version 2023.2
+set scripts_vivado_version 2024.1
 set current_vivado_version [version -short]
 
 if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
@@ -142,7 +142,7 @@ xilinx.com:ip:c_counter_binary:12.0\
 xilinx.com:ip:clk_wizard:1.0\
 xilinx.com:ip:dfx_decoupler:1.0\
 xilinx.com:ip:smartconnect:1.0\
-xilinx.com:ip:axi_noc:1.0\
+xilinx.com:ip:axi_noc:1.1\
 xilinx.com:ip:axis_ila:1.2\
 xilinx.com:ip:versal_cips:3.4\
 "
@@ -351,7 +351,7 @@ WIDTH 0} ARID {PRESENT 0 WIDTH 0} ARREGION {PRESENT 0 WIDTH 4} ARQOS {PRESENT 0 
 
 
   # Create instance: axi_noc_0, and set properties
-  set axi_noc_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.0 axi_noc_0 ]
+  set axi_noc_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.1 axi_noc_0 ]
   set_property -dict [list \
     CONFIG.CH0_DDR4_0_BOARD_INTERFACE {ddr4_dimm1} \
     CONFIG.HBM_CHNL0_CONFIG {HBM_WRITE_BACK_CORRECTED_DATA TRUE} \

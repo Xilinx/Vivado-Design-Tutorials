@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2023, Advanced Micro Devices, Inc. All rights reserved.
+# Copyright (C) 2024, Advanced Micro Devices, Inc. All rights reserved.
 # SPDX-License-Identifier: X11
 #
 
@@ -12,7 +12,7 @@ current_bd_design [get_bd_designs rp1rm2]
 update_compile_order -fileset sources_1
 
 #Populate the rp1rm2.bd
-create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.0 axi_noc_0
+create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.1 axi_noc_0
 set_property -dict [list CONFIG.NUM_SI {0} CONFIG.NUM_NSI {1}] [get_bd_cells axi_noc_0]
 set_property -dict [list CONFIG.CONNECTIONS {M00_AXI { read_bw {1720} write_bw {1720} read_avg_burst {4} write_avg_burst {4}} } CONFIG.INI_STRATEGY {load}] [get_bd_intf_pins /axi_noc_0/S00_INI]
 set_property -dict [list CONFIG.ASSOCIATED_BUSIF {M00_AXI}] [get_bd_pins /axi_noc_0/aclk0]

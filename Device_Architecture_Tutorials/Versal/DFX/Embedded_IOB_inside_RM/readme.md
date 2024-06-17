@@ -8,7 +8,7 @@
 
 # Embedded IO Buffers inside Reconfigurable Partition
 
-***Version: Vivado 2023.2***
+***Version: Vivado 2024.1***
 
 ## Introduction
 
