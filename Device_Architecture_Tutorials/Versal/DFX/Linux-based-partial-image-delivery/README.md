@@ -7,7 +7,7 @@
 </table>
 
 # Linux-based partial image delivery
-<b><i>Version: Vivado 2023.2</b></i><p>
+***Version: AMD Vivado&trade; 2023.2***
 
 ## Introduction
 This tutorial covers creating a simple Vivado design with one reconfigurable partition and three reconfigurable modules. This design is then used to create a PetaLinux project which will make use of fpgautil and libdfx to program the PL and load the device tree overlays with the relevant driver information.

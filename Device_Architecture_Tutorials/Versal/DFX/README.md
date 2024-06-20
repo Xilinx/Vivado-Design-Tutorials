@@ -20,7 +20,7 @@
  <td align="center"><a href="./1RP_AXI_GPIO_in_RP_Interface_INI/"> Single Reconfigurable Partition Design using Block Design Container </a></td>
  <td>This tutorial introduces the block design container feature in Vivado and how it can be leveraged to create DFX designs for Versal.</td>
  </tr>
-  <tr>
+ <tr>
  <td align="center"><a href="./2RP_GPIO_BRAM_in_RP_Interface_INI/">Multiple Reconfigurable Partitions Design using Block Design Container</a></td>
  <td>This tutorial demonstrates how to create design with multiple reconfigurable partitions using the block design container feature.</td>
  </tr>
@@ -28,13 +28,21 @@
  <td align="center"><a href="./2RPs_Sharing_ClockRegion/"> Clock Region Shared by two Reconfigurable Partitions</a></td>
  <td>This tutorial demonstrates a floorplan in Versal that allows sharing a clock region between two reconfigurable partitions.</td>
  </tr>
-  <tr>
+ <tr>
  <td align="center"><a href="./Debug_JTAG_HSDP/"> JTAG and HSDP based debugging for Versal DFX Designs</a></td>
  <td>This tutorial demonstrates debug methodologies for DFX designs in Versal using JTAG and HSDP.</td>
  </tr>
  <tr>
+ <td align="center"><a href="./Disjoint_pblock/"> Disjoint pblock solutions for remote clocking resources</a></td>
+ <td>This tutorial demonstrates solutions for resolving resource overlap errors and creating disjoint pblocks for including remote clocking in dynamic regions.</td>
+ </tr>
+ <tr>
  <td align="center"><a href="./Embedded_IOB_inside_RM/"> Embedded IOBs inside the Reconfigurable Partition</a></td>
  <td>This tutorial demonstrates a methodology to insert embedded IOBs inside reconfigurable partition using the utility buffer IP in Vivado.</td>
+ </tr>
+ <tr>
+ <td align="center"><a href="./Linux-based-partial-image-delivery/"> Linux-based partial image delivery</a></td>
+ <td>This tutorial demonstrates a methodology for managing DFX via PetaLinux, taking advantage of fpgautil and libdfx to program partial images and update the device tree.</td>
  </tr>
  <tr>
  <td align="center"><a href="./NoC_INI_Static_RM_Interface/"> NoC connections in DFX designs</a></td>

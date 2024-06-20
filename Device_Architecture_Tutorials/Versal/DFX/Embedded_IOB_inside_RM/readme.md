@@ -8,7 +8,7 @@
 
 # Embedded IO Buffers inside Reconfigurable Partition
 
-***Version: Vivado 2023.2***
+***Version: AMD Vivado&trade; 2023.2***
 
 ## Introduction
 
