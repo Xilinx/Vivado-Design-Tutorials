@@ -8,7 +8,7 @@
 
 # Debugging Versal DFX Designs
 
-***Version: Vivado 2023.2***
+***Version: AMD Vivado&trade; 2023.2***
 
 
 ## Introduction
