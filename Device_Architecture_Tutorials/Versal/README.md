@@ -60,12 +60,12 @@
    <tr>
  <td align="center"><a href="./DFX/VNOC_Sharing/"> VNOC column sharing b/w multiple RPs</a></td>
  <td>This design desmonstrates that VNOC clock tiles can be shared by two reconfigurable partitions. VNOC clock tiles are automatically included in the clock routing footprint of the reconfigurable partition by the tool.</td>
- </tr>
- </table>
+</tr>
+</table>
 
 ### Network-on-Chip (NoC) and DDR Memory Design and Optimization
 
- <table style="width:100%">
+<table style="width:100%">
  <tr>
  <td width="35%" align="center"><b>Tutorial</b>
  <td width="65%" align="center"><b>Description</b>
@@ -91,33 +91,53 @@
  <td align="center"><a href="./NoC_DDRMC/Versal_Performance_AXI_Traffic_Generator/">Versal NoC Performance AXI Traffic Generator</a></td>
  <td>The Performance AXI Traffic Generator is intended for modeling traffic masters in Versal™ ACAP designs for performance evaluation of network on chip (NoC) based solutions.
 </td>
- </tr>
-  </table>
+</tr>
+</table>
 
- ### PCB Design
+### PCB Design
 
- <table style="width:100%">
- <tr>
- <td width="35%" align="center"><b>Tutorial</b>
- <td width="65%" align="center"><b>Description</b>
- </tr>
- <tr>
- <td align="center"><a href="./PCB_Design/Memory_Pinouts/">Memory Pinouts</a></td>
- <td>This tutorial introduces best pracices for working with DDR memory pinouts in Versal.</td>
- </tr>
- <tr>
- <td align="center"><a href="./PCB_Design/Hyperlynx_DDRx_Timing_Models/">Hyperlynx DDRx Timing Models</a></td>
- <td>How to perform DDRx signal integrity simulations with the Mentor Graphics DDRx Wizard.</td>
- </tr>
- </table>
+<table style="width:100%">
+<tr>
+<td width="35%" align="center"><b>Tutorial</b>
+<td width="65%" align="center"><b>Description</b>
+</tr>
+<tr>
+<td align="center"><a href="./PCB_Design/Memory_Pinouts/">Memory Pinouts</a></td>
+<td>This tutorial introduces best pracices for working with DDR memory pinouts in Versal.</td>
+</tr>
+<tr>
+<td align="center"><a href="./PCB_Design/Hyperlynx_DDRx_Timing_Models/">Hyperlynx DDRx Timing Models</a></td>
+<td>How to perform DDRx signal integrity simulations with the Mentor Graphics DDRx Wizard.</td>
+</tr>
+</table>
 
- ### AI Engine
+
+
+
+
+### Hardware Debugging Tutorials
+
+<table style="width:100%">
+<tr>
+<td width="35%" align="center"><b>Tutorial</b>
+<td width="65%" align="center"><b>Description</b>
+</tr>
+<tr>
+<td align="center"><a href="./HW_Debug/">Basic PL Hardware Debugging Using ChipScope AXIS-ILA and AXIS-VIO</a></td>
+<td>This tutorial introduces the basic hardware debugging techniques using ChipScope.  Covers the adding the Integrated Logic Analyzer (AXIS-ILA) to an IP Integrator (IPI) design, an RTL Module, and after synthesis using post-synthesis insertion.</td>
+</tr>
+</table>
+
+
+
+### AI Engine
 
  AI Engines are supported through the Vitis&trade; Unified Development Environment. Please see the
  [Vitis In-Depth Tutorial](http://github.com/Xilinx/Vitis-In-Depth-Tutorial) for more information.
 
 
 
-<p class="sphinxhide" align="center"><sub>Copyright © 2020–2023 Advanced Micro Devices, Inc</sub></p>
+
+<p class="sphinxhide" align="center"><sub>Copyright © 2021–2023 Advanced Micro Devices, Inc</sub></p>
 
 <p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>
