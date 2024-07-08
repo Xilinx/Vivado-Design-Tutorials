@@ -47,15 +47,16 @@ in the petaliux through Xilinx® shell archive (xsa).
 -   On Linux, change to the directory where the Vivado tutorial design
     file is stored: cd
 
-\<Extract_Dir\>/Vivado_Tutorial. Then launch the Vivado Design Suite:
+    \<Extract_Dir\>/Vivado_Tutorial. Then launch the Vivado Design Suite:
 Vivado.
 
 -   On Windows, launch the Vivado Design Suite: **Start → All Programs →
     Xilinx Design Tools→ Vivado 2021.x**.
 
-As an alternative, click the **Vivado 2021.x** Desktop icon to start the
+    As an alternative, click the **Vivado 2021.x** Desktop icon to start the
 Vivado IDE.
 
+<<<<<<< Updated upstream
 The Vivado IDE Getting Started page contains links to open or create
 projects and to view documentation, as shown in the following figure:
 
@@ -63,6 +64,15 @@ projects and to view documentation, as shown in the following figure:
 generated](media/image1.jpg)
 
 ***Note*:** Your Vivado Design Suite installation may be called
+=======
+    The Vivado IDE Getting Started page contains links to open or create
+projects and to view documentation, as shown in the following figure:
+
+    ![Graphical user interface Description automatically
+generated](media/image1.jpg)
+
+    ***Note*:** Your Vivado Design Suite installation may be called
+>>>>>>> Stashed changes
 something different from Xilinx Design Tools on the Start menu.
 
 2.  Under the Quick Start section, select **Create Project**.
@@ -77,53 +87,62 @@ something different from Xilinx Design Tools on the Start menu.
     the project must be created
 
     ![](media/image2.png)
+<<<<<<< Updated upstream
 
 5.  Ensure that Create project subdirectory is checked and click
+=======
+    
+    b. Ensure that Create project subdirectory is checked and click
+>>>>>>> Stashed changes
     **Next.**
 
-6.  In the Project Type page, select **RTL Project**, ![Graphical user
+5.  In the Project Type page, select **RTL Project**, ![Graphical user
     interface, text, application, email Description automatically
     generated](media/image3.jpg)
 
-7.  Click on **Add Files** and select the files from src_files/RTL_files
+6.  Click on **Add Files** and select the files from src_files/RTL_files
     folder
 
     ![](media/image4.png)
 
-8.  Click **OK** and click **Next**.
+7.  Click **OK** and click **Next**.
 
     ![](media/image5.png)
 
-9.  In the Add constraints box, click **Add Files** and add the top.xdc
+8.  In the Add constraints box, click **Add Files** and add the top.xdc
     from the src_files/xdc folder.
 
-10. Click next, and then you will land on the Default Part page. Click
+9. Click next, and then you will land on the Default Part page. Click
     on the Boards tab to select the Versal VCK190 Evaluation Platform.
 
     ![](media/image6.png)
 
-11. Review the project summary in the New Project Summary page.
+10. Review the project summary in the New Project Summary page.
 
     ![](media/image7.png)
 
-12. Click Finish to create the Lab1 project
+11. Click Finish to create the Lab1 project
 
-13. The new project opens in the Vivado IDE.
+12. The new project opens in the Vivado IDE.
 
-14. Now the design looks as below, the gaps shown must be filled with
+13. Now the design looks as below, the gaps shown must be filled with
     the Block designs
 
     ![](media/image8.png)
 
-15. Source the GT_bd.tcl and cips_ddr_pl_bd.tcl from src_files/tcl_files
+14. Source the GT_bd.tcl and cips_ddr_pl_bd.tcl from src_files/tcl_files
     in the TCL Console.
 
-16. Once the BD (Block Designs) tcl files are sourced, you will see the
+15. Once the BD (Block Designs) tcl files are sourced, you will see the
     hierarchy as below
 
     ![](media/image9.png)
 
+<<<<<<< Updated upstream
     >*** Note:*** The design has block diagram under the 3 levels of RTL.
+=======
+    >**Note:** The design has block diagram under the 3 levels of RTL.
+>>>>>>> Stashed changes
 
 ## **Step 2: Running implementation and generating xsa**
 
@@ -195,7 +214,11 @@ satisfied:
 
 > **\$petalinux-create -t project -n vck190 -s \<path-to-bsp\>**
 
+<<<<<<< Updated upstream
     ![](/media/image15.png)
+=======
+![](/media/image15.png)
+>>>>>>> Stashed changes
 
 When the above command runs, it tells you the projects that are
 extracted and installed from the BSP. If the specified location is on
@@ -203,20 +226,20 @@ the Network File System (NFS), it changes the TMPDIR
 to /tmp/\<projname-timestamp-id\>; otherwise, it is set
 to \$PROOT/build/tmp
 
-> *Note: PetaLinux requires a minimum of 50 GB and a maximum of 100 GB
+> **Note: PetaLinux requires a minimum of 50 GB and a maximum of 100 GB
 > /tmp space to build the project successfully when you create the
-> project on NFS. Please refer to UG1144 for more details*.
+> project on NFS. Please refer to UG1144 for more details**.
 
 2.  Importing Hardware Configuration
 
-> This section explains the process of updating an existing PetaLinux
-> project with a hardware configuration. This enables you to make the
-> PetaLinux tools software platform ready for building a Linux system,
-> customized to your new hardware platform
+     This section explains the process of updating an existing PetaLinux
+ project with a hardware configuration. This enables you to make the
+ PetaLinux tools software platform ready for building a Linux system,
+ customized to your new hardware platform
 
 -   Change into the directory of your PetaLinux project.
 
-> **\$cd vck190**
+    > **\$cd vck190**
 
 -   Copy the xsa generated in Step2 to the vck190 folder created in your
     location
@@ -224,9 +247,13 @@ to \$PROOT/build/tmp
 -   Import the hardware description with petalinux-config command using
     the following step
 
-> **\$petalinux-config \--get-hw-description=. --silentconfig**
+    > **\$petalinux-config \--get-hw-description=. --silentconfig**
 
+<<<<<<< Updated upstream
 ![](media/image16.png)
+=======
+    ![](media/image16.png)
+>>>>>>> Stashed changes
 
 > ***Note:*** When the petalinux-config \--get-hw-description command runs for
 > the PetaLinux project, the tool detects changes in the system primary
@@ -234,25 +261,25 @@ to \$PROOT/build/tmp
 
 3.  Build System Image
 
-This step generates a device tree DTB file, PLM (for Versal® ACAP), PSM
-(for Versal ACAP) and TF-A (for Zynq UltraScale+ MPSoC and Versal ACAP),
+    This step generates a device tree DTB file, PLM (for AMD Versal™ Adaptive SoC), PSM
+(for Versal Adaptive SoC) and TF-A (for AMD Zynq™ UltraScale+™ MPSoC and Versal Adaptive SoC),
 U-Boot, the Linux kernel, a root file system image, and the U-Boot boot
 script (boot.scr). Finally, it generates the necessary boot images.
 
 -   Run petalinux-build to build the system image:
 
-> **\$petalinux-build**
+    **\$petalinux-build**
 
 ![](/media/image16.png)
 
-> *Note:The compilation progress shows on the console. Wait until the
+> **Note**: The compilation progress shows on the console. Wait until the
 > compilation finishes.A detailed compilation log is
 > in \<plnx-proj-root\>/build/build.log.When the build finishes, the
 > generated images are stored in the \< plnx-proj-root
 > \>/images/linux or /tftpboot directories. For more info refer to
-> UG1144*
+> UG1144
 
-4.  Generate Boot Image for Versal ACAP
+4.  Generate Boot Image for Versal Adaptive SoC
 
 > This section is for AMD Versal™ Adaptive SoC only and describes how to generate
 > boot image BOOT.BIN for vck190.A boot image usually contains a PDI
@@ -262,13 +289,12 @@ script (boot.scr). Finally, it generates the necessary boot images.
 -   Execute the following command to generate the boot image in .bin
     format:
 
-> **\$petalinux-package \--boot \--u-boot --force**
+ **\$petalinux-package \--boot \--u-boot --force**
 
-![](/media/image17.png){width="7.584346019247594in"
-height="3.146840551181102in"}
+![](/media/image17.png)
 
-> *Note: Specifying \--u-boot adds all the required images to boot up to
-> U-Boot into BOOT.BIN. Please refer to UG1144 for details*
+> **Note**: Specifying \--u-boot adds all the required images to boot up to
+> U-Boot into BOOT.BIN. Please refer to UG1144 for details
 
 ## **Step4: Analysing the device tree**
 

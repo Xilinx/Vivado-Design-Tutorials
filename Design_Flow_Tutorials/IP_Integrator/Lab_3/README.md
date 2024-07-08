@@ -224,36 +224,48 @@ specific guidelines mentioned below.
 
     ![](./media/image20.png)
   
-When the axi_slave module is instantiated into the block design, the module is added with port widths defined by the value of the parameter.
+    When the axi_slave module is instantiated into the block design, the module is added with port widths defined by the value of the parameter.
 You can double-click the module to open the Re-customize Module
 Reference dialog box. You can also right-click the module and select
 **Customize Block** from the context menu.
 
+<<<<<<< Updated upstream
 Any generics or parameters defined in the RTL source are available to edit and configure as needed for an instance of the module. As the parameter is changed, the module symbol and
+=======
+    Any generics or parameters defined in the RTL source are available to edit and configure as needed for an instance of the module. As the parameter is changed, the module symbol and
+>>>>>>> Stashed changes
 ports defined by the parameter are changed accordingly. In the following snapshot, you can see that you can change the value of the parameters defined in the code in the re-customize window.
  
     ![](./media/image21.png)
 
-For this Lab, keep the values to preassigned values and click **OK**.
+    For this Lab, keep the values to preassigned values and click **OK**.
 
 2.  Inferring Control Signals in a RTL Module: You must insert attributes into the HDL code so that clocks, resets, interrupts, and clock enable are correctly inferred. The AMD Vivado™ Design Suite provides language templates for these attributes. To access these templates, click **Language Templates** under the Project Manager.
 
     ![](./media/image22.png)
 
-This opens the Language Template dialog box, as shown in the following figure
+    This opens the Language Template dialog box, as shown in the following figure
 
     ![](./media/image23.png)
   
+<<<<<<< Updated upstream
 You can expand the required HDL language **Verilog/VHDL → IP integrator HDL** and select the appropriate Signal Interface to see the attributes in the Preview pane. You can copy and paste the required X_INTERFACE attributes from the preview pane and add it your RTL code to infer the required control signals.
+=======
+    You can expand the required HDL language **Verilog/VHDL → IP integrator HDL** and select the appropriate Signal Interface to see the attributes in the Preview pane. You can copy and paste the required X_INTERFACE attributes from the preview pane and add it your RTL code to infer the required control signals.
+>>>>>>> Stashed changes
 
 3.  Inferring AXI Interfaces: When you use the standard naming
     convention for an AXI interface (*recommended*), the Vivado IP integrator automatically infers the interface. If you open the RTL code for axi_slave.v, you can see that standard AXI names have been used as shown in the code snippet below:
 
     ![](./media/image24.png)
 
-When this RTL module is added to the block design the AXI interface is automatically inferred as shown below and all the ports from the RTL are inferred.
+    When this RTL module is added to the block design the AXI interface is automatically inferred as shown below and all the ports from the RTL are inferred.
   
+<<<<<<< Updated upstream
    ![](./media/image25.png)
+=======
+    ![](./media/image25.png)
+>>>>>>> Stashed changes
   
 Vivado IP integrator automatically puts together all the AXI signals as a bus interface S_AXI that can be collapsed or expanded on the canvas as needed.
 
@@ -275,7 +287,7 @@ X_INTERFACE_MODE), the attribute applies to the entire interface, and any consti
 
     ![](./media/image27.png)
 
-This opens the module source file for editing, shown in the following
+    This opens the module source file for editing, shown in the following
 figure
 
     ![](./media/image28.png)
@@ -287,9 +299,13 @@ Now you can change parameter C_S\_AXI_DATA_WIDTH to 32 and save it, notice that 
 
 Click **Refresh Changed Modules** to reread the module from the source file. Depending on the changes made to the module definition, for example, changing parameter value, you might see a message such as shown in the following figure.
 
+<<<<<<< Updated upstream
     ![](./media/image30.png)
+=======
+![](./media/image30.png)
+>>>>>>> Stashed changes
 
-You can see the TCL commands for all the points mentioned above, in the TCL console of Vivado. For more information on using RTL Inference in your design, please refer to *Designing IP Subsystems Using IP Integrator (UG995)* documentation.
+You can see the Tcl commands for all the points mentioned above, in the TCL console of Vivado. For more information on using RTL Inference in your design, please refer to *Designing IP Subsystems Using IP Integrator (UG995)* documentation.
 
 ## **Part 4- The X_MODULE_SPEC Attribute**
 
@@ -441,7 +457,7 @@ Keep the configuration as default, click **OK** and generate the output products
 
     ![](./media/image52.png)
 
-7.  Now you can use this shim.v to create a module reference. To do that, first use the **ipx::package_module_spec** command in the Tcl Console to create a json file of the shift register module as below-
+7.  Now you can use this shim.v to create a module reference. To do that, first use the ipx::package_module_spec command in the Tcl Console to create a json file of the shift register module as below-
 
     **ipx::package_module_spec -create -module_name c_shift_ram_0 -output_file \"module_spec.json\"**
     The resulting module_spec.json file is created in the working directory and should look like the snapshot below:
@@ -453,9 +469,10 @@ Keep the configuration as default, click **OK** and generate the output products
 
 9.  Convert the module_spec.json file into a verilog file using the following command:
 
-    **ipx::package_module_spec -convert -module_name \"shim\"
-    -input_file \"module_spec.json\" -language \"verilog\" -output_file \"module_spec.v\"**
-    The module_spec.v file should look as follows-
+    ipx::package_module_spec -create -module_name c_shift_ram_0 -output_file "module_spec.json"
+    
+    The resulting module_spec.json file will be created in the working directory and should look like the snapshot below:
+    - 
 
     ![](./media/image54.png)
 

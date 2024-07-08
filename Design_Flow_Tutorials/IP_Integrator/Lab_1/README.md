@@ -136,11 +136,21 @@ create complex subsystem designs by integrating IP cores.
   catalog to the block design canvas. In this case, you can search for
   the IP, select it and drag-and-drop it on the block design canvas.
 
+<<<<<<< Updated upstream
 > **TIP:** *To open the IP Details window beside the IP catalog, as
 > shown in the following figure, type* Ctrl-Q* as described at the
 > bottom of the IP catalog window. This window lets you see details of
 > the currently selected IP in the catalog.*  
 
+=======
+> **TIP:** To open the IP Details window beside the IP catalog, as
+> shown in the following figure, type* Ctrl-Q* as described at the
+> bottom of the IP catalog window. This window lets you see details of
+> the currently selected IP in the catalog.
+
+<img src="./media/Lab-1-step-2.png" />
+
+>>>>>>> Stashed changes
 Now, you must add the IPs to the block design.
 
 3.  In the search field of the IP catalog, type gpio to find the AXI
@@ -170,7 +180,11 @@ Select **AXI GPIO** core and press **Enter** on the keyboard or double-click the
 2.  In the Settings, change **Number of Master Interfaces** field to **3**
     from the drop-down menu.
 
+<<<<<<< Updated upstream
 3.  Leave all the remaining options as is and click **OK**.
+=======
+3.  Leave all the remaining options as it is and click **OK**.
+>>>>>>> Stashed changes
 	The IP integrator recustomizes the AXI SmartConnect, changing the
 	number of master interfaces to three, as shown in the following figure.
 
@@ -247,7 +261,7 @@ Select **AXI GPIO** core and press **Enter** on the keyboard or double-click the
 
 4.  Click the **File → Save Block Design** command from the main menu.
 
-**Step 5: Running Connection Automation**
+## **Step 5: Running Connection Automation**
 
  At this point, there are still some output interface pins that you
  must connect external to the subsystem design, such as the following:
@@ -282,8 +296,11 @@ Select **AXI GPIO** core and press **Enter** on the keyboard or double-click the
     figure, to see a description of the automation that the tool offers
     as well as any options needed to connect these interfaces.
 
+<<<<<<< Updated upstream
 	<img src="./media/image19.png" />
 
+=======
+>>>>>>> Stashed changes
 4.  Click **OK**.
 
 5.  All the external interfaces connect to I/O ports, and the BRAM
@@ -516,10 +533,16 @@ there is a need to monitor interfaces and signals in the design. We demonstrate 
 
     >***Note:*** The nets and interface marked for debug show a small bug icon placed on top of the net or interface in the block design.
 
+<<<<<<< Updated upstream
     <img src="./media/image44.jpg alt="Diagram Description automatically generated" />
+=======
+    <img src="./media/image44.jpg/>
+>>>>>>> Stashed changes
 
 2.  Now, use Designer Assistance to connect the interface to the System
     ILA core.
+
+    <img src="./media/Lab-1-step-9.png"/>
 
 3.  You can select the desired options for the System ILA core for
     debugging or accept the default values.  

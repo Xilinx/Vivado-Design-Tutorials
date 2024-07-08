@@ -441,29 +441,36 @@ Now you can connect the five slave IP cores to the AXI Interconnect.
     AXI Uartlite, GPIO interface of the AXI GPIOs, Concat, AXI BRAM
     Controller, and so on.
 
+<<<<<<< Updated upstream
 To connect the remaining interfaces, you can once again use the
 connection automation feature of IPI as used earlier to connect DDR4
 SDRAM IP. The remaining unconnected IPs can be connected manually as
 per the design requirement.
+=======
+    To connect the remaining interfaces, you can once again use the
+    connection automation feature of IPI as used earlier to connect DDR4
+    SDRAM IP. The remaining unconnected IPs can be connected manually as
+    per the design requirement.
+>>>>>>> Stashed changes
 
 2.  Run Connection Automation from the designer assistance by selecting
     all interfaces.
 
-  ![](./media/image34.png)
+    ![](./media/image34.png)
  
 3.  After running the connection Automation, and regenerating layout,
     the design canvas should look like the figure below:
 
-  ![](./media/image35.png)
+    ![](./media/image35.png)
 
 4.  All the external interfaces connect to I/O ports, and the BRAM
     Controller connects to the Block Memory Generator. You can
     right-click on the external ports (dip_switches_4bits and rs232_uart
     etc.) and select the External Interface Properties command.
 
-In the External Interface Properties window, you can change the name of
-the port if needed. The IP integrator  automatically assigns the name of
-the port when connection automation is run.
+  In the External Interface Properties window, you can change the name of
+  the port if needed. The IP integrator  automatically assigns the name of
+  the port when connection automation is run.
 
 5.  You can see on the design canvas that some IP's are still not
     connected but apart from that all the interfaces have been connected
@@ -482,8 +489,13 @@ the port when connection automation is run.
     *interrupt port of INTERRUPT CONTROLLER to Interrupt pin of
  MICROBLAZE*
 
+<<<<<<< Updated upstream
 To automate these manual connections, you can run the following Tcl
 commands on the Tcl console to make the connections:
+=======
+  To automate these manual connections, you can run the following Tcl
+  commands on the Tcl console to make the connections:
+>>>>>>> Stashed changes
 
 * connect_bd_net \[get_bd_pins xlconstant_0/dout\] \[get_bd_pins        
  xlconcat_0/In3\]                                                      
@@ -684,7 +696,7 @@ instantiated as the **topBD**. The following features are supported:
     block container\". Ensure that the design is validated before
     creating the BDC.
 
-  ![](./media/image46.png)
+   ![](./media/image46.png)
   
 2.  You will notice that a new block design has been created for the
     selected hierarchy. Also, the hierarchy block in the topBD has been

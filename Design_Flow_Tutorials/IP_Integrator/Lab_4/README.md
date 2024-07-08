@@ -79,7 +79,11 @@ Highlighted steps include:
   > Note: *If using Windows, unzip to C:/ to avoid the 256-character directory limit.*
 
 
+<<<<<<< Updated upstream
     <img src="./media/image1.png" /> |
+=======
+    <img src="./media/image1.png" /> 
+>>>>>>> Stashed changes
 
 
 2.  Invoke Vivado 2022.1 IDE GUI.
@@ -195,8 +199,16 @@ Under **Boot Mode** make the following changes-
   - Check “SD1”
 
 
+  - Check **Slot Type** as **SD 3.0**.
 
+  >Note: *The default pin location for SD1 is set to **PMC MIO 0 ..11** and
+  turns red because it is not available for selection. This is due to some
+  of the pins within the available pin-set getting blocked from use since
+  they were consumed by the prior configured QSPI interface. This can be
+  changed from under the **IO** tab. Select PMC_MI0 26.. 36 instead of
+  **PMC MIO 0 ..11** and the error will be eliminated for this tutorial.*
 
+<<<<<<< Updated upstream
   - Check **Slot Type** as **SD 3.0**.
 
   >Note: *The default pin location for SD1 is set to **PMC MIO 0 ..11** and
@@ -207,6 +219,11 @@ Under **Boot Mode** make the following changes-
   **PMC MIO 0 ..11** and the error will be eliminated for this tutorial.*
 
     <img src="./media/image11.jpg" alt="Graphical user interface, application Description automatically generated" />  |
+=======
+    <img src="./media/image11.jpg" alt="Graphical user interface, application Description automatically generated" />
+
+    <img src="./media/lab-4-notes.png">  
+>>>>>>> Stashed changes
 
 
 3.  The PL fabric clock needs to be configured for 200 MHz. Under
@@ -225,7 +242,11 @@ Under **Boot Mode** make the following changes-
 
   - Click “Finish” to finalize the configuration of the CIPS module.
 
+<<<<<<< Updated upstream
     <img src="./media/image12.jpg" alt="Graphical user interface, table Description automatically generated" />  |
+=======
+    <img src="./media/image12.jpg" alt="Graphical user interface, table Description automatically generated" />  
+>>>>>>> Stashed changes
 
 
 ## **Step 4: Referencing RTL Modules**
