@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 # #########################################################################
 #© Copyright 2021 Xilinx, Inc.
 
@@ -13,6 +14,8 @@
 #See the License for the specific language governing permissions and
 #limitations under the License.
 # ###########################################################################
+=======
+>>>>>>> Stashed changes
 
 ################################################################
 # This is a generated script based on design: design_GT
