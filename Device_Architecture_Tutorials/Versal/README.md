@@ -88,7 +88,7 @@
 </td>
  </tr>
  <tr>
- <td align="center"><a href="./NoC_DDRMC/Versal_Performance_AXI_Traffic_Generator/">Versal NoC Performance AXI Traffic Generator</a></td>
+ <td align="center"><a href="./NoC_DDRMC/Versal_Performance_AXI_Traffic_Generator/">NoC Performance AXI Traffic Generator</a></td>
  <td>The Performance AXI Traffic Generator is intended for modeling traffic masters in Versal Adaptive SoC designs for performance evaluation of network on chip (NoC) based solutions.
 </td>
  </tr>
@@ -109,7 +109,7 @@
   </tr>
   <tr>
     <td align="center">
-      <a href="./NoC_System_Designs/DCMAC_NoC/">Introduction to Versal NoC and DCMAC</a>
+      <a href="./NoC_System_Designs/DCMAC_NoC/">DCMAC to NoC Connectivity</a>
     </td>
     <td>This tutorial demonstrates the utility of the NoC to transport high-bandwidth interfaces which are not standard AXI-stream.</td>
   </tr>
