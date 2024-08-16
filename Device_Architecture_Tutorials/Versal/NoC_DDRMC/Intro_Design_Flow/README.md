@@ -1,18 +1,18 @@
 <table class="sphinxhide" width="100%">
  <tr width="100%">
     <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ NoC/DDRMC Design Flow Tutorials</h1>
-    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment on xilinx.com</a>
+    <a href="https://www.xilinx.com/products/design-tools/vivado.html">See Vivado™ Development Environment</a>
     </td>
  </tr>
 </table>
 
 # Introduction to NoC DDRMC Design Flow
 
-***Version: Vivado 2023.2***
+***Version: Vivado 2024.1***
 
 ## Tutorial Overview
 
-This tutorial introduce different design aspects for the NoC DDRMC by providing step-by-step instructions to create different designs and running simulations.
+This tutorial introduces different design aspects for the NoC DDRMC by providing step-by-step instructions to create different designs and running simulations.
 
 
 
@@ -20,7 +20,7 @@ This tutorial introduce different design aspects for the NoC DDRMC by providing 
 
 To build and run the NoC DDRMC tutorials, download and install the following:
 
-* [Vivado 2023.2](https://www.xilinx.com/support/download.html)
+* [Vivado 2024.1](https://www.xilinx.com/support/download.html)
 
 
 ## Module 01 -Basic NoC Design

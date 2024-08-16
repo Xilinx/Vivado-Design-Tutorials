@@ -22,14 +22,29 @@ open_bd_design {${myPath}/module_2.srcs/sources_1/bd/design_1/design_1.bd}
 update_compile_order -fileset sources_1
 
 startgroup
-create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.0 axi_noc_0
+create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.1 axi_noc_0
 endgroup
 startgroup
-create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.0 axi_noc_1
+create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.1 axi_noc_1
 endgroup
-apply_bd_automation -rule xilinx.com:bd_rule:axi_noc -config {num_axi_tg "1" num_aximm_ext "None" pl2noc_apm "1" num_axi_bram "None" num_mc "1" noc_clk "New/Reuse Simulation Clock And Reset Generator" }  [get_bd_cells axi_noc_0]
-apply_bd_automation -rule xilinx.com:bd_rule:axi_noc -config {num_axi_tg "1" num_aximm_ext "None" pl2noc_apm "1" num_axi_bram "None" num_mc "2" noc_clk "/noc_clk_gen" }  [get_bd_cells axi_noc_1]
+apply_bd_automation -rule xilinx.com:bd_rule:axi_noc -config { hbm_density {None} hbm_internal_clk {0} hbm_nmu {None} mc_type {DDR} noc_clk {New/Reuse Simulation Clock And Reset Generator} num_axi_bram {None} num_axi_tg {1} num_aximm_ext {None} num_mc_ddr {1} num_mc_lpddr {None} pl2noc_apm {1} pl2noc_cips {0}}  [get_bd_cells axi_noc_0]
+apply_bd_automation -rule xilinx.com:bd_rule:axi_noc -config { hbm_density {None} hbm_internal_clk {0} hbm_nmu {None} mc_type {DDR} noc_clk {New/Reuse Simulation Clock And Reset Generator} num_axi_bram {None} num_axi_tg {1} num_aximm_ext {None} num_mc_ddr {2} num_mc_lpddr {None} pl2noc_apm {1} pl2noc_cips {0}}  [get_bd_cells axi_noc_1]
 regenerate_bd_layout
+startgroup
+create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 xlconstant_0
+endgroup
+startgroup
+create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 xlconstant_1
+endgroup
+set_property location {2 296 274} [get_bd_cells xlconstant_1]
+disconnect_bd_net /noc_sim_trig_ph_trig_out [get_bd_pins noc_sim_trig/ph_trig_out]
+delete_bd_objs [get_bd_nets noc_sim_trig_trig_00]
+delete_bd_objs [get_bd_nets noc_sim_trig_trig_01]
+connect_bd_net [get_bd_pins xlconstant_0/dout] [get_bd_pins noc_tg/axi_tg_start]
+connect_bd_net [get_bd_pins xlconstant_1/dout] [get_bd_pins noc_tg_1/axi_tg_start]
+delete_bd_objs [get_bd_nets noc_sim_trig_ph_trig_out]
+connect_bd_net [get_bd_pins noc_sim_trig/trig_00] [get_bd_pins noc_tg/trigger_in]
+connect_bd_net [get_bd_pins noc_sim_trig/trig_01] [get_bd_pins noc_tg_1/trigger_in]
 startgroup
 apply_bd_automation -rule xilinx.com:bd_rule:board -config { Manual_Source {Auto}}  [get_bd_intf_pins axi_noc_0/CH0_DDR4_0]
 apply_bd_automation -rule xilinx.com:bd_rule:board -config { Manual_Source {Auto}}  [get_bd_intf_pins axi_noc_1/CH0_DDR4_0]
@@ -89,4 +104,6 @@ after 5000
 update_compile_order -fileset sources_1
 update_compile_order -fileset sim_1
 set_property -name {xsim.simulate.runtime} -value {10000us} -objects [get_filesets sim_1]
+set_property top design_1_wrapper [current_fileset]
+set_property top design_1_wrapper [get_filesets sim_1]
 launch_simulation

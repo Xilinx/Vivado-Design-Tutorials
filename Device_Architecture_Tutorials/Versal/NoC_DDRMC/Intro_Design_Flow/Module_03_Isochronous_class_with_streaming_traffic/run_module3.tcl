@@ -18,9 +18,9 @@ create_project module_3 ${myPath}/module_3 -part xcvc1902-vsva2197-1LP-e-S
 create_bd_design "design_1"
 update_compile_order -fileset sources_1
 startgroup
-create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.0 axi_noc_0
+create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.1 axi_noc_0
 endgroup
-apply_bd_automation -rule xilinx.com:bd_rule:axi_noc -config {num_axi_tg "2" num_aximm_ext "None" pl2noc_apm "1" num_axi_bram "1" num_mc "1" noc_clk "New/Reuse Simulation Clock And Reset Generator" }  [get_bd_cells axi_noc_0]
+apply_bd_automation -rule xilinx.com:bd_rule:axi_noc -config { hbm_density {None} hbm_internal_clk {0} hbm_nmu {None} mc_type {DDR} noc_clk {New/Reuse Simulation Clock And Reset Generator} num_axi_bram {1} num_axi_tg {2} num_aximm_ext {None} num_mc_ddr {1} num_mc_lpddr {None} pl2noc_apm {1} pl2noc_cips {0}}  [get_bd_cells axi_noc_0]
 startgroup
 apply_bd_automation -rule xilinx.com:bd_rule:board -config { Manual_Source {Auto}}  [get_bd_intf_pins axi_noc_0/CH0_DDR4_0]
 apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {/noc_clk_gen/axi_clk_0 (300 MHz)} Freq {100} Ref_Clk0 {} Ref_Clk1 {} Ref_Clk2 {}}  [get_bd_pins noc_bc/s_axi_aclk]
@@ -32,6 +32,17 @@ apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {/noc_clk_gen/
 apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {/noc_clk_gen/axi_clk_0 (300 MHz)} Freq {100} Ref_Clk0 {} Ref_Clk1 {} Ref_Clk2 {}}  [get_bd_pins noc_tg_pmon/axi_aclk]
 apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {/noc_clk_gen/axi_clk_0 (300 MHz)} Freq {100} Ref_Clk0 {} Ref_Clk1 {} Ref_Clk2 {}}  [get_bd_pins noc_tg_pmon_1/axi_aclk]
 endgroup
+startgroup
+create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 xlconstant_0
+endgroup
+delete_bd_objs [get_bd_nets noc_sim_trig_trig_00]
+delete_bd_objs [get_bd_nets noc_sim_trig_trig_01]
+disconnect_bd_net /noc_sim_trig_ph_trig_out [get_bd_pins noc_sim_trig/ph_trig_out]
+connect_bd_net [get_bd_pins xlconstant_0/dout] [get_bd_pins noc_tg/axi_tg_start]
+connect_bd_net [get_bd_pins xlconstant_0/dout] [get_bd_pins noc_tg_1/axi_tg_start]
+delete_bd_objs [get_bd_nets noc_sim_trig_ph_trig_out]
+connect_bd_net [get_bd_pins noc_tg/trigger_in] [get_bd_pins noc_sim_trig/trig_00]
+connect_bd_net [get_bd_pins noc_tg_1/trigger_in] [get_bd_pins noc_sim_trig/trig_01]
 regenerate_bd_layout
 startgroup
 set_property -dict [list CONFIG.NUM_MCP {1}] [get_bd_cells axi_noc_0]
@@ -69,7 +80,7 @@ endgroup
 connect_bd_intf_net [get_bd_intf_pins perf_axi_tg_0/M_AXIS] [get_bd_intf_pins axis_noc_0/S00_AXIS]
 connect_bd_net [get_bd_pins perf_axi_tg_0/axi_tg_done] [get_bd_pins noc_sim_trig/all_done_02]
 connect_bd_net [get_bd_pins perf_axi_tg_0/trigger_in] [get_bd_pins noc_sim_trig/trig_02]
-connect_bd_net [get_bd_pins perf_axi_tg_0/axi_tg_start] [get_bd_pins noc_const/dout]
+connect_bd_net [get_bd_pins perf_axi_tg_0/axi_tg_start] [get_bd_pins xlconstant_0/dout]
 connect_bd_intf_net [get_bd_intf_pins axis_noc_0/M00_AXIS] [get_bd_intf_pins axis_data_fifo_0/S_AXIS]
 startgroup
 set_property -dict [list CONFIG.CONNECTIONS {M00_AXIS { write_bw {4800}} }] [get_bd_intf_pins /axis_noc_0/S00_AXIS]
@@ -83,7 +94,7 @@ copy_bd_objs /  [get_bd_cells {perf_axi_tg_0 axis_data_fifo_0 axis_noc_0}]
 connect_bd_intf_net [get_bd_intf_pins perf_axi_tg_1/M_AXIS] [get_bd_intf_pins axis_noc_1/S00_AXIS]
 connect_bd_net [get_bd_pins perf_axi_tg_1/axi_tg_done] [get_bd_pins noc_sim_trig/all_done_03]
 connect_bd_net [get_bd_pins perf_axi_tg_1/trigger_in] [get_bd_pins noc_sim_trig/trig_03]
-connect_bd_net [get_bd_pins perf_axi_tg_1/axi_tg_start] [get_bd_pins noc_const/dout]
+connect_bd_net [get_bd_pins perf_axi_tg_1/axi_tg_start] [get_bd_pins xlconstant_0/dout]
 connect_bd_net [get_bd_pins axis_data_fifo_1/s_axis_aresetn] [get_bd_pins noc_clk_gen/axi_rst_0_n]
 connect_bd_net [get_bd_pins axis_data_fifo_1/s_axis_aclk] [get_bd_pins noc_clk_gen/axi_clk_0]
 connect_bd_intf_net [get_bd_intf_pins axis_noc_1/M00_AXIS] [get_bd_intf_pins axis_data_fifo_1/S_AXIS]
@@ -114,6 +125,8 @@ export_simulation -of_objects [get_files ${myPath}/module_3/module_3.srcs/source
 after 5000
 update_compile_order -fileset sources_1
 update_compile_order -fileset sim_1
+set_property top design_1_wrapper [current_fileset]
+set_property top design_1_wrapper [get_filesets sim_1]
 launch_simulation
 run all
 

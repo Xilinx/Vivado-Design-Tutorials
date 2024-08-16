@@ -19,16 +19,16 @@ create_project module_04 ${myPath}/module_04 -part xcvc1902-vsva2197-1LP-e-S
 create_bd_design "design_1"
 update_compile_order -fileset sources_1
 startgroup
-create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.0 axi_noc_0
+create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.1 axi_noc_0
 endgroup
 startgroup
-create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.0 axi_noc_1
+create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.1 axi_noc_1
 endgroup
 startgroup
-create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.0 axi_noc_2
+create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.1 axi_noc_2
 endgroup
 startgroup
-create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.0 axi_noc_3
+create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.1 axi_noc_3
 endgroup
 startgroup
 set_property -dict [list CONFIG.NUM_MI {0} CONFIG.NUM_NMI {2}] [get_bd_cells axi_noc_0]
@@ -70,6 +70,7 @@ endgroup
 startgroup
 set_property -dict [list CONFIG.NUM_SI {0} CONFIG.NUM_CLKS {0}] [get_bd_cells axi_noc_3]
 endgroup
+set_property CONFIG.USER_NUM_OF_SYS_CLK {2} [get_bd_cells noc_clk_gen]
 startgroup
 apply_bd_automation -rule xilinx.com:bd_rule:board -config { Manual_Source {Auto}}  [get_bd_intf_pins axi_noc_1/CH0_DDR4_0]
 apply_bd_automation -rule xilinx.com:bd_rule:board -config { Manual_Source {Auto}}  [get_bd_intf_pins axi_noc_3/CH0_DDR4_0]
@@ -90,6 +91,10 @@ apply_bd_automation -rule xilinx.com:bd_rule:board -config { Clk {New External P
 apply_bd_automation -rule xilinx.com:bd_rule:board -config { Manual_Source {New External Port (ACTIVE_HIGH)}}  [get_bd_pins clk_wiz/reset]
 apply_bd_automation -rule xilinx.com:bd_rule:board -config { Manual_Source {Auto}}  [get_bd_pins rst_clk_wiz_100M/ext_reset_in]
 endgroup
+delete_bd_objs [get_bd_intf_nets sys_clk0_0_1] [get_bd_intf_ports sys_clk0_0]
+delete_bd_objs [get_bd_intf_nets sys_clk0_1_1] [get_bd_intf_ports sys_clk0_1]
+connect_bd_intf_net [get_bd_intf_pins noc_clk_gen/SYS_CLK0] [get_bd_intf_pins axi_noc_1/sys_clk0]
+connect_bd_intf_net [get_bd_intf_pins noc_clk_gen/SYS_CLK1] [get_bd_intf_pins axi_noc_3/sys_clk0]
 regenerate_bd_layout
 startgroup
 set_property -dict [list CONFIG.MC_CHAN_REGION0 {DDR_CH1}] [get_bd_cells axi_noc_3]
@@ -112,5 +117,7 @@ after 5000
 export_simulation -of_objects [get_files ${myPath}/module_04/module_04.srcs/sources_1/bd/design_1/design_1.bd] -directory ${myPath}/module_04/module_04.ip_user_files/sim_scripts -ip_user_files_dir ${myPath}/module_04/module_04.ip_user_files -ipstatic_source_dir ${myPath}/module_04/module_04.ip_user_files/ipstatic -lib_map_path [list {modelsim=${myPath}/module_04/module_04.cache/compile_simlib/modelsim} {questa=${myPath}/module_04/module_04.cache/compile_simlib/questa} {ies=${myPath}/module_04/module_04.cache/compile_simlib/ies} {xcelium=${myPath}/module_04/module_04.cache/compile_simlib/xcelium} {vcs=${myPath}/module_04/module_04.cache/compile_simlib/vcs} {riviera=${myPath}/module_04/module_04.cache/compile_simlib/riviera}] -use_ip_compiled_libs -force -quiet
 update_compile_order -fileset sources_1
 update_compile_order -fileset sim_1
+set_property top design_1_wrapper [current_fileset]
+set_property top design_1_wrapper [get_filesets sim_1]
 launch_simulation
 run all

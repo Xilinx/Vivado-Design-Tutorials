@@ -20,14 +20,14 @@ create_bd_design "design_1"
 open_bd_design {${myPath}/module_1/module_1.srcs/sources_1/bd/design_1/design_1.bd}
 update_compile_order -fileset sources_1
 startgroup
-create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.0 axi_noc_0
+create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc:1.1 axi_noc_0
 endgroup
-apply_bd_automation -rule xilinx.com:bd_rule:axi_noc -config {num_axi_tg "1" num_aximm_ext "None" pl2noc_apm "0" num_axi_bram "1" num_mc "None" noc_clk "New/Reuse Simulation Clock And Reset Generator" }  [get_bd_cells axi_noc_0]
+apply_bd_automation -rule xilinx.com:bd_rule:axi_noc -config { hbm_density {None} hbm_internal_clk {0} hbm_nmu {None} mc_type {None} noc_clk {New/Reuse Simulation Clock And Reset Generator} num_axi_bram {1} num_axi_tg {1} num_aximm_ext {None} num_mc_ddr {None} num_mc_lpddr {None} pl2noc_apm {0} pl2noc_cips {0}}  [get_bd_cells axi_noc_0]
 startgroup
-apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {/noc_clk_gen/axi_clk_0 (300 MHz)} Freq {100} Ref_Clk0 {} Ref_Clk1 {} Ref_Clk2 {}}  [get_bd_pins noc_bc/s_axi_aclk]
+apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {/noc_clk_gen/axi_clk_0 (300 MHz)} Freq {300} Ref_Clk0 {} Ref_Clk1 {} Ref_Clk2 {}}  [get_bd_pins noc_bc/s_axi_aclk]
 apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {New Clocking Wizard} Freq {100} Ref_Clk0 {} Ref_Clk1 {} Ref_Clk2 {}}  [get_bd_pins noc_clk_gen/axi_clk_in_0]
-apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {/noc_clk_gen/axi_clk_0 (300 MHz)} Freq {100} Ref_Clk0 {} Ref_Clk1 {} Ref_Clk2 {}}  [get_bd_pins noc_sim_trig/pclk]
-apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {/noc_clk_gen/axi_clk_0 (300 MHz)} Freq {100} Ref_Clk0 {} Ref_Clk1 {} Ref_Clk2 {}}  [get_bd_pins noc_tg/clk]
+apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {/noc_clk_gen/axi_clk_0 (300 MHz)} Freq {300} Ref_Clk0 {} Ref_Clk1 {} Ref_Clk2 {}}  [get_bd_pins noc_sim_trig/pclk]
+apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {/noc_clk_gen/axi_clk_0 (300 MHz)} Freq {300} Ref_Clk0 {} Ref_Clk1 {} Ref_Clk2 {}}  [get_bd_pins noc_tg/clk]
 endgroup
 startgroup
 apply_bd_automation -rule xilinx.com:bd_rule:board -config { Clk {New External Port} Manual_Source {Auto}}  [get_bd_pins clk_wiz/clk_in1]
@@ -35,6 +35,9 @@ apply_bd_automation -rule xilinx.com:bd_rule:board -config { Manual_Source {New 
 apply_bd_automation -rule xilinx.com:bd_rule:board -config { Manual_Source {Auto}}  [get_bd_pins rst_clk_wiz_100M/ext_reset_in]
 endgroup
 regenerate_bd_layout
+startgroup
+set_property -dict [list CONFIG.CONNECTIONS {M00_AXI {read_bw {1720} write_bw {1720} read_avg_burst {4} write_avg_burst {4}}}] [get_bd_intf_pins /axi_noc_0/S00_AXI]
+endgroup
 startgroup
 set_property -dict [list CONFIG.USER_C_AXI_DATA_INTEGRITY_CHECK {ON}] [get_bd_cells noc_tg]
 endgroup
@@ -46,7 +49,6 @@ startgroup
 set_property -dict [list CONFIG.USER_C_AXI_WDATA_PATTERN {RANDOM_DATA}] [get_bd_cells noc_tg]
 endgroup
 set_property SIM_ATTRIBUTE.MARK_SIM true [get_bd_intf_nets {noc_tg_M_AXI}]
-
 make_wrapper -files [get_files ${myPath}/module_1/module_1.srcs/sources_1/bd/design_1/design_1.bd] -top
 add_files -norecurse ${myPath}/module_1/module_1.srcs/sources_1/bd/design_1/hdl/design_1_wrapper.v
 after 5000
@@ -58,8 +60,11 @@ export_simulation -of_objects [get_files ${myPath}/module_1/module_1.srcs/source
 after 5000
 
 update_compile_order -fileset sources_1
-update_compile_order -fileset sim_1
-set_property -name {xsim.simulate.runtime} -value {10000us} -objects [get_filesets sim_1]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+set_property simulator_language Mixed [current_project]
+generate_target Simulation [get_files ${myPath}/module_1/module_1.srcs/sources_1/bd/design_1/design_1.bd]
+set_property top design_1_wrapper [current_fileset]
+set_property top design_1_wrapper [get_filesets sim_1]
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
 launch_simulation
 
 
