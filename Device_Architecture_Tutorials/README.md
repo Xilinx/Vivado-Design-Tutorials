@@ -11,7 +11,13 @@ Xilinx silicon is famously adaptable, and each new generation brings to the late
 bear on your toughest design challenges. These per-family tutorials explore concepts that are unique
 to each generation of Xilinx devices.
 
+[UltraScale+](./UltrascalePlus/)
+
 [Versal](./Versal/)
 
 
-<p align="center"><sup>Copyright&copy; 2020 Xilinx</sup></p>
+<hr class="sphinxhide"></hr>
+
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
+
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>

@@ -15,6 +15,8 @@
 
 # Introduction to Versal NoC and DCMAC
 
+***Version: AMD Vivado&trade; 2023.2***
+
 The AMD Versal™ programmable network on chip (NoC) is an AXI-interconnecting network used for sharing data between IP endpoints in the programmable logic (PL), the processing system (PS), and other hard blocks.  
 
 Many Versal™ devices contain one or more DCMAC (600G Channelized Multirate Ethernet Subsystem) hard IPs, each supporting one or more Ethernet links up to a combined total bandwidth of 600 Gb/s per IP.  

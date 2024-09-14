@@ -9,6 +9,8 @@
 
 # NoC System Designs
 
+***Version: AMD Vivado&trade; 2023.2***
+
 
 <table style="width:100%">
   <tr>
