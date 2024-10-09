@@ -33,7 +33,7 @@ These tutorials show how to construct source synchronous high-speed I/O interfac
 These tutorials show different design aspects for accessing DDR memory via the NoC. Examples range from a basic introduction to performance tuning and use of different protocols.
 
 
-## <a href="./NoC_HBMC/">Network-on-Chip (NoC) and HBM Memory Design</a>
+## <a href="./NoC_HBM/">Network-on-Chip (NoC) and HBM Memory Design</a>
 
 These tutorials show different design aspects for accessing High Bandwidth Memory via the NoC. Examples range from a basic introduction to exploration of different connectivity and quality of service options.
 
