@@ -1,0 +1,301 @@
+# © Copyright 2021 Xilinx, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+#
+## K-MEANS NOC TOP LEVEL SYSTEST AUTOMATION SCRIPT
+
+# Log files are created and retained for every run
+$logdate := 'date +%Y%m%d_%H%M'
+$logdate1 := 'date +"%D"'
+$RESULTS_DIR = "RESULTS_DIR"
+$LOG = "$RESULTS_DIR/${SYSTEST_HOST}_${logdate}.log"
+
+$elfPath = "${topDir}/build/elf/kmeans_workspace_vck190/kmeans_top_vck190/Release/kmeans_top_vck190.elf"
+$pdiPath = "${topDir}/build/design/kmeans_project_vck190/kmeans_project_vck190.runs/impl_1/design_1_wrapper.pdi"
+
+$testPassed = 0
+
+alias runTest with function
+  print "> Clearing Scratch Registers"
+  sleep 1
+  print myx "mwr -force 0xFFFC0000 0x0 35"
+  sleep 1
+  print "> Running Clustering"
+  $myN = $1
+  $myK = $2
+  $myRandom = $3
+  $myMerge = 1
+  $myNoCopy = 0
+  $myMaxItr = 127
+  $myIntWr = 1
+  print "        N = $myN"
+  print "        K = $myK"
+
+  if run "[ $myN -lt 0 ]" then
+    print "     [Error] Invalid configuration (N must be positive)"
+  endif
+  if run "[ $myK -lt 0 ]" then
+    print "     [Error] Invalid configuration (K must be positive)"
+  endif
+  if run "[ $myN -gt 229376 ]" then
+    print "     [Error] Invalid configuration (N must be less than or equal to 229376)"
+  endif
+  if run "[ $myK -gt 63 ]" then
+    print "     [Error] Invalid configuration (K must be less than or equal to 63)"
+  endif
+  if run "[ $myK -ge $myN ]" then
+    print "     [Error] Invalid configuration (N must be greater than K)"
+  endif
+
+  if run "[ $myRandom -ne 0 ]" then
+    $myRandom = 1
+  else
+    $myRandom = 0
+  endif
+
+  if run "[ $myRandom -eq 1 ]" then
+    print "        R = 1 (Randomized data)"
+  else
+    print "        R = 0 (Preloaded data)"
+  endif
+
+  $goodSeen = 0
+  $badSeen = 0
+  $startedSeen = 0
+  $initSeen = 0
+  $testPassed = 0
+  $runningSeen = 0
+  $referenceSeen = 0
+  $doneSeen = 0
+
+  $cfgN := 'expr $myN \* 4096 || true'
+  $cfgK := 'expr $myK \* 16 || true'
+  $cfgU := 'expr $myMerge \* 2 || true'
+  $cfgR := 'expr $myRandom \* 4 || true'
+  $cfgC := 'expr $myNoCopy \* 8 || true'
+  $myCfg := 'expr $cfgN + $cfgK + $cfgU + $cfgR + $cfgC || true'
+  $myCfgRun := 'expr $myCfg + 1 || true'
+
+  $myMaxItrShift = 127
+  $myIntWrShift = 1
+  $myMaxItrCfg := 'expr $myMaxItrShift + $myIntWrShift || true'
+
+  test
+    print myx "mwr 0xf1110058 $myMaxItrCfg"
+    print myx "mwr 0xf1110054 $myCfg"
+    print myx "after 200"
+    print myx "mwr 0xf1110054 $myCfgRun"
+    print myx "after 200"
+    print myx "mrd 0xf1110050 5"
+    wait
+    when myx matches "900D900D"
+      if run "[ $goodSeen -eq 0 ]" then
+        print "> Test passed!"
+	print "     [Status] Clustering matches SW reference"
+        $goodSeen = 1
+      endif
+      $testPassed = 1
+      continue
+    end
+    when myx matches "BAD00BAD"
+      if run "[ $badSeen -eq 0 ]" then
+        print "> Test failed!"
+	print "     [Status] Clustering does not match SW reference"
+        $badSeen = 1
+      endif
+      continue
+    end
+    when myx matches "57A127ED"
+      if run "[ $startedSeen -eq 0 ]" then
+        print "     [Status] Started new round"
+        $startedSeen = 1
+      endif
+    end
+    when myx matches "11717000"
+      if run "[ $initSeen -eq 0 ]" then
+        print "     [Status] Initializing"
+        $initSeen = 1
+      endif
+      end
+      when myx matches "12171179"
+      if run "[ $runningSeen -eq 0 ]" then
+        print "     [Status] Running HW accelerators"
+        $runningSeen = 1
+      endif
+      end
+    when myx matches "7570C148"
+      if run "[ $referenceSeen -eq 0 ]" then
+        print "     [Status] SW reference check"
+        $referenceSeen = 1
+      endif
+    end
+    when myx matches "757D017E"
+      if run "[ $doneSeen -eq 0 ]" then
+        print "     [Status] Test done"
+        $doneSeen = 1
+      endif
+    end
+    every 1 seconds
+      print myx "mrd 0xf1110050 5"
+    end
+    after 1200 seconds
+      print "> Test failed (timeout)"
+      continue
+    end
+  endtest
+
+  $TIMETAKENVAR = 0
+  $CYCLESTAKENVAR = 0
+  
+  if run "[ $testPassed -eq 1 ]" then
+    print myx "set timeTaken [expr [mrd -force -value 0xF111005C]/1350000.0]"
+    print myx "after 100"
+    test
+      print myx 'puts "TIMETAKEN $timeTaken"'
+      wait
+      when myx matches "TIMETAKEN ([0-9-]\\S+)"
+        $TIMETAKENVAR = $1
+        print "> Accelerator time taken: $TIMETAKENVAR ms"
+        continue
+      end
+      after 2 seconds
+        print "Could not read time taken"
+        continue
+      end
+    endtest
+    sleep 1
+    print myx "set cyclesTaken [expr [mrd -force -value 0xF111005C]]"
+    print myx "after 100"
+    test
+      print myx 'puts "CYCLESTAKEN $cyclesTaken"'
+      wait
+      when myx matches "CYCLESTAKEN ([0-9-]\\S+)"
+        $CYCLESTAKENVAR = $1
+        print "> APU cycles taken by accelerators: $CYCLESTAKENVAR"
+        continue
+      end
+      after 2 seconds
+        print "Could not read cycles taken"
+        continue
+      end
+    endtest
+    sleep 1
+  endif
+  sleep 1
+  print "> Reading DC Monitor"
+  print myx "source ./common/perf_56_vck190.tcl"
+  myx echo = 1
+  sleep 2
+  myx echo = 0
+  print myx 'puts "Scratch registers for ref"'
+  print myx "mrd -force 0xFFFC0000 35"
+  sleep 3
+  $logdate := 'date +%Y%m%d-%H%M%S'
+  print "========================================="
+  print " Test Done [ $logdate ]"
+  print "========================================="
+  sleep 1
+end
+
+alias runBoot with function
+  $logdate := 'date +%Y%m%d-%H%M%S'
+  $bootSuccess = 0
+  print "========================================="
+  print " k-Means Clustering [ $logdate ]"
+  print "========================================="
+  fork "xsdb" as myx
+  myx echo = 0
+  #serial echo = 0
+  com0 echo = 0
+  com1 echo = 0
+  com2 echo = 0
+  if run "[ \"$2\" = \"verbose\" ]" then
+    myx echo = 1
+    #serial echo = 1
+    com0 echo = 1
+    com1 echo = 1
+    com2 echo = 1
+  endif
+  sleep 1
+  print myx "connect"
+  sleep 2
+  print myx "source ${topDir}/tcl/prog_vck190.tcl"
+  print "> Downloading design to VCK190"
+  print myx "prog_ep_target $pdiPath"
+  sleep 1
+  while running myx do
+    run "sleep 1"   #Wait for xsdb to quit
+  endwhile
+  sleep 2
+  fork "xsdb" as myx
+  myx echo = 0
+  #serial echo = 0
+  com0 echo = 0
+  com1 echo = 0
+  com2 echo = 0
+  if run "[ \"$2\" = \"verbose\" ]" then
+    myx echo = 1
+    #serial echo = 1
+    com0 echo = 1
+    com1 echo = 1
+    com2 echo = 1
+  endif
+  sleep 2
+  print myx "connect"
+  sleep 3
+  print myx "after 500"
+  print myx "target -set -filter {name =~ \"*Cortex-A72 #0*\"}"
+  print myx "rst -proc -clear-registers"
+  print myx "after 500"
+  sleep 3
+  $bootSuccess = 1
+  print "      ...success!"
+  if run "[ $bootSuccess -eq 0 ]" then
+    print "Boot unsuccessful - Exiting"
+    exit
+  endif
+end
+
+alias dowElf with function
+  print "> Downloading driver ELF"
+  print myx "dow -force $elfPath"
+  sleep 2
+  print "      ...running!"
+  print myx "con"
+  sleep 10
+  print myx "source ./common/DC_PERF_config_vck190.tcl"
+  print "> Connecting to xsdbserver"
+  print myx "xsdbserver start"
+  sleep 2
+  print "      ...started!"
+end
+
+alias mainFunc with function
+  fork "bash" as mydev
+  print mydev "touch $LOG"
+  print mydev "touch $DEBUG"
+  kill mydev
+  close
+  sleep 2
+  log "$LOG"
+
+  runBoot $1 $2
+  dowElf
+end
+
+mainFunc $1 $2
+runTest 228400 32 1
+print "To run another test: runTest <N> <K> <R>"
+#sleep 1
+
