@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="design_1_wrapper_sim_wrapper_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="\$unit_bd_8be5_M00_AXI_nsu_0_sv_2609904521 " />
+            <top_module name="axi_bram_ctrl_funcs" />
+            <top_module name="axi_vip_pkg" />
+            <top_module name="design_1_wrapper_sim_wrapper" />
+            <top_module name="glbl" />
+            <top_module name="lib_pkg" />
+            <top_module name="noc_mc_ddr4_phy_v1_0_7_ddr4_bfm_macros_pkg" />
+            <top_module name="std" />
+            <top_module name="vcomponents" />
+            <top_module name="xil_common_vip_pkg" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="3,181.474 ns"></ZoomStartTime>
+      <ZoomEndTime time="3,775.459 ns"></ZoomEndTime>
+      <Cursor1Time time="3,530.000 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="377"></NameColumnWidth>
+      <ValueColumnWidth column_width="94"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="6" />
+   <wvobject fp_name="divider215" type="divider">
+      <obj_property name="label">_5_pl_axis_MxN</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="group" fp_name="group64">
+      <obj_property name="label">M00</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk1[0].u_M_AXIS /tx_done">
+         <obj_property name="ElementShortName">tx_done</obj_property>
+         <obj_property name="ObjectShortName">tx_done</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk1[0].u_M_AXIS /M_AXIS_ACLK">
+         <obj_property name="ElementShortName">M_AXIS_ACLK</obj_property>
+         <obj_property name="ObjectShortName">M_AXIS_ACLK</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk1[0].u_M_AXIS /M_AXIS_ARESETN">
+         <obj_property name="ElementShortName">M_AXIS_ARESETN</obj_property>
+         <obj_property name="ObjectShortName">M_AXIS_ARESETN</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk1[0].u_M_AXIS /M_AXIS_TVALID">
+         <obj_property name="ElementShortName">M_AXIS_TVALID</obj_property>
+         <obj_property name="ObjectShortName">M_AXIS_TVALID</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk1[0].u_M_AXIS /M_AXIS_TDATA">
+         <obj_property name="ElementShortName">M_AXIS_TDATA[127:0]</obj_property>
+         <obj_property name="ObjectShortName">M_AXIS_TDATA[127:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk1[0].u_M_AXIS /M_AXIS_TDEST">
+         <obj_property name="ElementShortName">M_AXIS_TDEST[3:0]</obj_property>
+         <obj_property name="ObjectShortName">M_AXIS_TDEST[3:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk1[0].u_M_AXIS /M_AXIS_TKEEP">
+         <obj_property name="ElementShortName">M_AXIS_TKEEP[15:0]</obj_property>
+         <obj_property name="ObjectShortName">M_AXIS_TKEEP[15:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk1[0].u_M_AXIS /M_AXIS_TLAST">
+         <obj_property name="ElementShortName">M_AXIS_TLAST</obj_property>
+         <obj_property name="ObjectShortName">M_AXIS_TLAST</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk1[0].u_M_AXIS /M_AXIS_TREADY">
+         <obj_property name="ElementShortName">M_AXIS_TREADY</obj_property>
+         <obj_property name="ObjectShortName">M_AXIS_TREADY</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk1[0].u_M_AXIS /M_AXIS_TID">
+         <obj_property name="ElementShortName">M_AXIS_TID[3:0]</obj_property>
+         <obj_property name="ObjectShortName">M_AXIS_TID[3:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="group" fp_name="group75">
+      <obj_property name="label">M01</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk1[1].u_M_AXIS /tx_done">
+         <obj_property name="ElementShortName">tx_done</obj_property>
+         <obj_property name="ObjectShortName">tx_done</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk1[1].u_M_AXIS /M_AXIS_ACLK">
+         <obj_property name="ElementShortName">M_AXIS_ACLK</obj_property>
+         <obj_property name="ObjectShortName">M_AXIS_ACLK</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk1[1].u_M_AXIS /M_AXIS_ARESETN">
+         <obj_property name="ElementShortName">M_AXIS_ARESETN</obj_property>
+         <obj_property name="ObjectShortName">M_AXIS_ARESETN</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk1[1].u_M_AXIS /M_AXIS_TVALID">
+         <obj_property name="ElementShortName">M_AXIS_TVALID</obj_property>
+         <obj_property name="ObjectShortName">M_AXIS_TVALID</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk1[1].u_M_AXIS /M_AXIS_TDATA">
+         <obj_property name="ElementShortName">M_AXIS_TDATA[127:0]</obj_property>
+         <obj_property name="ObjectShortName">M_AXIS_TDATA[127:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk1[1].u_M_AXIS /M_AXIS_TDEST">
+         <obj_property name="ElementShortName">M_AXIS_TDEST[3:0]</obj_property>
+         <obj_property name="ObjectShortName">M_AXIS_TDEST[3:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk1[1].u_M_AXIS /M_AXIS_TKEEP">
+         <obj_property name="ElementShortName">M_AXIS_TKEEP[15:0]</obj_property>
+         <obj_property name="ObjectShortName">M_AXIS_TKEEP[15:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk1[1].u_M_AXIS /M_AXIS_TLAST">
+         <obj_property name="ElementShortName">M_AXIS_TLAST</obj_property>
+         <obj_property name="ObjectShortName">M_AXIS_TLAST</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk1[1].u_M_AXIS /M_AXIS_TREADY">
+         <obj_property name="ElementShortName">M_AXIS_TREADY</obj_property>
+         <obj_property name="ObjectShortName">M_AXIS_TREADY</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk1[1].u_M_AXIS /M_AXIS_TID">
+         <obj_property name="ElementShortName">M_AXIS_TID[3:0]</obj_property>
+         <obj_property name="ObjectShortName">M_AXIS_TID[3:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="group" fp_name="group86">
+      <obj_property name="label">S00</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk2[0].u_S_AXIS /error">
+         <obj_property name="ElementShortName">error</obj_property>
+         <obj_property name="ObjectShortName">error</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk2[0].u_S_AXIS /S_AXIS_ACLK">
+         <obj_property name="ElementShortName">S_AXIS_ACLK</obj_property>
+         <obj_property name="ObjectShortName">S_AXIS_ACLK</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk2[0].u_S_AXIS /S_AXIS_ARESETN">
+         <obj_property name="ElementShortName">S_AXIS_ARESETN</obj_property>
+         <obj_property name="ObjectShortName">S_AXIS_ARESETN</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk2[0].u_S_AXIS /S_AXIS_TREADY">
+         <obj_property name="ElementShortName">S_AXIS_TREADY</obj_property>
+         <obj_property name="ObjectShortName">S_AXIS_TREADY</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk2[0].u_S_AXIS /S_AXIS_TDATA">
+         <obj_property name="ElementShortName">S_AXIS_TDATA[127:0]</obj_property>
+         <obj_property name="ObjectShortName">S_AXIS_TDATA[127:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk2[0].u_S_AXIS /S_AXIS_TKEEP">
+         <obj_property name="ElementShortName">S_AXIS_TKEEP[15:0]</obj_property>
+         <obj_property name="ObjectShortName">S_AXIS_TKEEP[15:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk2[0].u_S_AXIS /S_AXIS_TDEST">
+         <obj_property name="ElementShortName">S_AXIS_TDEST[3:0]</obj_property>
+         <obj_property name="ObjectShortName">S_AXIS_TDEST[3:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk2[0].u_S_AXIS /S_AXIS_TLAST">
+         <obj_property name="ElementShortName">S_AXIS_TLAST</obj_property>
+         <obj_property name="ObjectShortName">S_AXIS_TLAST</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk2[0].u_S_AXIS /S_AXIS_TVALID">
+         <obj_property name="ElementShortName">S_AXIS_TVALID</obj_property>
+         <obj_property name="ObjectShortName">S_AXIS_TVALID</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk2[0].u_S_AXIS /S_AXIS_TID">
+         <obj_property name="ElementShortName">S_AXIS_TID[3:0]</obj_property>
+         <obj_property name="ObjectShortName">S_AXIS_TID[3:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="group" fp_name="group97">
+      <obj_property name="label">S01</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk2[1].u_S_AXIS /error">
+         <obj_property name="ElementShortName">error</obj_property>
+         <obj_property name="ObjectShortName">error</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk2[1].u_S_AXIS /S_AXIS_ACLK">
+         <obj_property name="ElementShortName">S_AXIS_ACLK</obj_property>
+         <obj_property name="ObjectShortName">S_AXIS_ACLK</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk2[1].u_S_AXIS /S_AXIS_ARESETN">
+         <obj_property name="ElementShortName">S_AXIS_ARESETN</obj_property>
+         <obj_property name="ObjectShortName">S_AXIS_ARESETN</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk2[1].u_S_AXIS /S_AXIS_TREADY">
+         <obj_property name="ElementShortName">S_AXIS_TREADY</obj_property>
+         <obj_property name="ObjectShortName">S_AXIS_TREADY</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk2[1].u_S_AXIS /S_AXIS_TDATA">
+         <obj_property name="ElementShortName">S_AXIS_TDATA[127:0]</obj_property>
+         <obj_property name="ObjectShortName">S_AXIS_TDATA[127:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk2[1].u_S_AXIS /S_AXIS_TKEEP">
+         <obj_property name="ElementShortName">S_AXIS_TKEEP[15:0]</obj_property>
+         <obj_property name="ObjectShortName">S_AXIS_TKEEP[15:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk2[1].u_S_AXIS /S_AXIS_TDEST">
+         <obj_property name="ElementShortName">S_AXIS_TDEST[3:0]</obj_property>
+         <obj_property name="ObjectShortName">S_AXIS_TDEST[3:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk2[1].u_S_AXIS /S_AXIS_TLAST">
+         <obj_property name="ElementShortName">S_AXIS_TLAST</obj_property>
+         <obj_property name="ObjectShortName">S_AXIS_TLAST</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk2[1].u_S_AXIS /S_AXIS_TVALID">
+         <obj_property name="ElementShortName">S_AXIS_TVALID</obj_property>
+         <obj_property name="ObjectShortName">S_AXIS_TVALID</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_axis_MxN_top_inst/\genblk2[1].u_S_AXIS /S_AXIS_TID">
+         <obj_property name="ElementShortName">S_AXIS_TID[3:0]</obj_property>
+         <obj_property name="ObjectShortName">S_AXIS_TID[3:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="group" fp_name="group62">
+      <obj_property name="label">_3_pl_to_pl_aximm_remap</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject type="group" fp_name="group141">
+         <obj_property name="label">transmit</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_master_to_pl_slave_inst/pl_to_pl_master_inst/axi_traffic_gen_pl_to_pl_inst/s_axi_aclk">
+            <obj_property name="ElementShortName">s_axi_aclk</obj_property>
+            <obj_property name="ObjectShortName">s_axi_aclk</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_master_to_pl_slave_inst/pl_to_pl_master_inst/axi_traffic_gen_pl_to_pl_inst/s_axi_aresetn">
+            <obj_property name="ElementShortName">s_axi_aresetn</obj_property>
+            <obj_property name="ObjectShortName">s_axi_aresetn</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_master_to_pl_slave_inst/pl_to_pl_master_inst/axi_traffic_gen_pl_to_pl_inst/core_ext_start">
+            <obj_property name="ElementShortName">core_ext_start</obj_property>
+            <obj_property name="ObjectShortName">core_ext_start</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_master_to_pl_slave_inst/pl_to_pl_master_inst/pl_to_pl_master_axi_awaddr">
+            <obj_property name="ElementShortName">pl_to_pl_master_axi_awaddr[31:0]</obj_property>
+            <obj_property name="ObjectShortName">pl_to_pl_master_axi_awaddr[31:0]</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_master_to_pl_slave_inst/pl_to_pl_master_inst/pl_to_pl_master_axi_awvalid">
+            <obj_property name="ElementShortName">pl_to_pl_master_axi_awvalid</obj_property>
+            <obj_property name="ObjectShortName">pl_to_pl_master_axi_awvalid</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_master_to_pl_slave_inst/pl_to_pl_master_inst/pl_to_pl_master_axi_awready">
+            <obj_property name="ElementShortName">pl_to_pl_master_axi_awready</obj_property>
+            <obj_property name="ObjectShortName">pl_to_pl_master_axi_awready</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_master_to_pl_slave_inst/pl_to_pl_master_inst/pl_to_pl_master_axi_awlen">
+            <obj_property name="ElementShortName">pl_to_pl_master_axi_awlen[7:0]</obj_property>
+            <obj_property name="ObjectShortName">pl_to_pl_master_axi_awlen[7:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_master_to_pl_slave_inst/pl_to_pl_master_inst/pl_to_pl_master_axi_awsize">
+            <obj_property name="ElementShortName">pl_to_pl_master_axi_awsize[2:0]</obj_property>
+            <obj_property name="ObjectShortName">pl_to_pl_master_axi_awsize[2:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_master_to_pl_slave_inst/pl_to_pl_master_inst/pl_to_pl_master_axi_awburst">
+            <obj_property name="ElementShortName">pl_to_pl_master_axi_awburst[1:0]</obj_property>
+            <obj_property name="ObjectShortName">pl_to_pl_master_axi_awburst[1:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_master_to_pl_slave_inst/pl_to_pl_master_inst/pl_to_pl_master_axi_awcache">
+            <obj_property name="ElementShortName">pl_to_pl_master_axi_awcache[3:0]</obj_property>
+            <obj_property name="ObjectShortName">pl_to_pl_master_axi_awcache[3:0]</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_master_to_pl_slave_inst/pl_to_pl_master_inst/axi_awid">
+         <obj_property name="ElementShortName">axi_awid</obj_property>
+         <obj_property name="ObjectShortName">axi_awid</obj_property>
+      </wvobject>
+      <wvobject type="group" fp_name="group64">
+         <obj_property name="label">Recieve</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_master_to_pl_slave_inst/pl_to_pl_slave_inst/axi_bram_ctrl_pl_slave_from_pl_master_inst/s_axi_aclk">
+            <obj_property name="ElementShortName">s_axi_aclk</obj_property>
+            <obj_property name="ObjectShortName">s_axi_aclk</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_master_to_pl_slave_inst/pl_to_pl_slave_inst/axi_bram_ctrl_pl_slave_from_pl_master_inst/s_axi_aresetn">
+            <obj_property name="ElementShortName">s_axi_aresetn</obj_property>
+            <obj_property name="ObjectShortName">s_axi_aresetn</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_master_to_pl_slave_inst/pl_to_pl_slave_inst/s_axi_awvalid">
+            <obj_property name="ElementShortName">s_axi_awvalid</obj_property>
+            <obj_property name="ObjectShortName">s_axi_awvalid</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_master_to_pl_slave_inst/pl_to_pl_slave_inst/s_axi_awready">
+            <obj_property name="ElementShortName">s_axi_awready</obj_property>
+            <obj_property name="ObjectShortName">s_axi_awready</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_master_to_pl_slave_inst/pl_to_pl_slave_inst/s_axi_awaddr">
+            <obj_property name="ElementShortName">s_axi_awaddr[47:0]</obj_property>
+            <obj_property name="ObjectShortName">s_axi_awaddr[47:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_master_to_pl_slave_inst/pl_to_pl_slave_inst/s_axi_awlen">
+            <obj_property name="ElementShortName">s_axi_awlen[7:0]</obj_property>
+            <obj_property name="ObjectShortName">s_axi_awlen[7:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_master_to_pl_slave_inst/pl_to_pl_slave_inst/s_axi_awsize">
+            <obj_property name="ElementShortName">s_axi_awsize[2:0]</obj_property>
+            <obj_property name="ObjectShortName">s_axi_awsize[2:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_master_to_pl_slave_inst/pl_to_pl_slave_inst/s_axi_awburst">
+            <obj_property name="ElementShortName">s_axi_awburst[1:0]</obj_property>
+            <obj_property name="ObjectShortName">s_axi_awburst[1:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/design_1_wrapper_sim_wrapper/design_1_wrapper_i/pl_master_to_pl_slave_inst/pl_to_pl_slave_inst/s_axi_awcache">
+            <obj_property name="ElementShortName">s_axi_awcache[3:0]</obj_property>
+            <obj_property name="ObjectShortName">s_axi_awcache[3:0]</obj_property>
+         </wvobject>
+      </wvobject>
+   </wvobject>
+</wave_config>
