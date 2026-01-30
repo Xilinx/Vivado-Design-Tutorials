@@ -1,0 +1,56 @@
+<table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://github.com/Xilinx/Image-Collateral/blob/main/xilinx-logo.png?raw=true" width="30%"/><h1>Versal™ NoC Design Flow Tutorials</h1>
+    <a href="https://www.amd.com/en/products/software/adaptive-socs-and-fpgas/vivado.html">See Vivado™ Development Environment on amd.com</a>
+    </td>
+ </tr>
+</table>
+
+# Introduction to NoC Design Flow
+
+***Version: Vivado 2024.1***
+
+## Tutorial Overview
+
+This tutorial introduces different design aspects for the NoC by providing step-by-step instructions to create different designs using the Vivado IP integrator (IPI) flow.
+
+
+
+# Before You Begin
+
+To build and run the NoC tutorials, download and install the following:
+
+* [Vivado 2024.1](https://www.xilinx.com/support/download.html)
+
+
+## Module 01 - Basic NoC Design
+
+
+[Read more...](Module_01_Basic_NoC_Design)
+
+## Module 02 - Using the Integrated Memory Controller with the NoC
+
+
+[Read more...](Module_02_Using_Integrated_Memory_Controller_with_NoC)
+
+## Module 03 - Isochronous Class with Streaming Traffic
+
+
+[Read more...](Module_03_Isochronous_class_with_streaming_traffic)
+
+## Module 04 - Inter-NoC Interface: Connecting Multiple NoC Instances
+
+
+[Read more...](Module_04_Inter_NoC_Interface_Connecting_multiple_NoC_instances)
+
+## Module 05 - Synthesis and Implementing the Design
+
+
+[Read more...](Module_05_Synthesis_and_Implementing_Design)
+
+
+<hr class="sphinxhide"></hr>
+
+<p class="sphinxhide" align="center"><sub>Copyright © 2020–2024 Advanced Micro Devices, Inc.</sub></p>
+
+<p class="sphinxhide" align="center"><sup><a href="https://www.amd.com/en/corporate/copyright">Terms and Conditions</a></sup></p>
