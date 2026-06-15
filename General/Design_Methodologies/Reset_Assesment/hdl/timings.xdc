@@ -1,4 +1,5 @@
-# Copyright (C) 2026, Advanced Micro Devices, Inc. All rights reserved.
+# Copyright © Advanced Micro Devices, Inc., or its affiliates.
+# SPDX-License-Identifier: MIT
 
 create_clock -period 2.000 -name clk -waveform {0.000 1.000} [get_ports clk]
 create_clock -period 2.000 -name clk_g -waveform {0.000 1.000} [get_ports clk_g]
