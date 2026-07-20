@@ -8,44 +8,21 @@
 
 # Boot and Configuration Tutorials
 
-## <a href="./JTAG_Boot/">JTAG Boot</a>
-
-This tutorial show how to program the VCK190 evaluation board with JTAG boot mode.
-
 
 ## <a href="./Segmented_Configuration/">Segmented Configuration</a>
 
 This document provides an overview of the Segmented Configuration boot solution for Versal devices. A tutorial walks through the Vivado tool flow and notes current limitation and known issues. Examples for delivering the PL programming image via PetaLinux or U-boot are shown.
 
 
-## <a href="./vck190_boot_emmc/">VCK190 Boot via eMMC</a>
+## <a href="./vck190_tutorials/">VCK190 Boot Mode tutorials</a>
 
-This tutorial shows how to program the VCK190 evaluation board with eMMC boot mode.
-
-
-## <a href="./vck190_boot_ospi/">VCK190 Boot via OSPI</a>
-
-This tutorial shows how to program the VCK190 evaluation board with OSPI boot mode.
+This directory contains a set of tutorials showing different Boot Modes and utilities for first generation Versal devices. These tutorials are designed to run on the VCK190 evaluation platform.
 
 
-## <a href="./vck190_boot_time/">VCK190 Boot Time</a>
+## <a href="./versal_gen2_boot_modes/">Versal Gen 2 Boot Mode tutorials</a>
 
-This tutorial shows how to calculate and measure the boot time of the VCK190 evaluation board using different boot modes.
+This directory contains a set of tutorials showing different Boot Modes and utilities for second generation Versal devices.
 
-
-## <a href="./vck190_fallback/">VCK190 Fallback</a>
-
-This tutorial shows how to use the fallback capability with the VCK190 evaluation board.
-
-
-## <a href="./vck190_plm_usb_second/">VCK190 with USB as a Secondary Boot Device</a>
-
-This tutorial shows how to program the VCK190 evaluation board using USB as a secondary boot device.
-
-
-## <a href="./vck190_post_boot/">VCK190 Post BootROM State</a>
-
-This tutorial shows the post bootROM state using different boot modes.
 
 
 <hr class="sphinxhide"></hr>

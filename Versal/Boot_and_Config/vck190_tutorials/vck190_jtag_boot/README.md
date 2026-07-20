@@ -10,6 +10,7 @@
 # JTAG Boot Tutorial: Introduction
 
 ***Version: Vivado 2021.2***
+No updates to this tutorial planned
 
 ## Table of Contents
 
