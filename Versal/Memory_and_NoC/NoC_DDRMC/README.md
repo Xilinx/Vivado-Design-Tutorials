@@ -51,6 +51,12 @@
     </td>
     <td>This tutorial presents how to measure bandwidth using the NoC and DDRMC performance monitors, using the tutorial design used in the Performance Tuning tutorial.</td>
   </tr>
+  <tr>
+    <td align="center">
+      <a href="./Performance_Measurement_Using_ChipScoPy/">Performance Measurement using ChipScoPy</a>
+    </td>
+    <td>This tutorial shows how to use ChipScoPy's NoC PerfMon to measure NoC and memory controller performance from Python, with a real-time graphical display.</td>
+  </tr>
 </table>
 
 
