@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="top_sim_wrapper_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="\$unit_bd_8be5_S03_AXI_nmu_0_top_sv_3464015808 " />
+            <top_module name="\$unit_bd_a08e_MC_hbmc_0_top_unisim_stack0_sv_894613854 " />
+            <top_module name="axi_vip_pkg" />
+            <top_module name="glbl" />
+            <top_module name="lib_pkg" />
+            <top_module name="noc_mc_ddr4_phy_v1_0_7_ddr4_bfm_macros_pkg" />
+            <top_module name="std" />
+            <top_module name="top_sim_wrapper" />
+            <top_module name="xil_common_vip_pkg" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0.000000 us"></ZoomStartTime>
+      <ZoomEndTime time="127.564897 us"></ZoomEndTime>
+      <Cursor1Time time="28.000000 us"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="276"></NameColumnWidth>
+      <ValueColumnWidth column_width="100"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="22" />
+   <wvobject fp_name="divider215" type="divider">
+      <obj_property name="label">BLI to HBM</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/bli_to_hbm_inst/pl0_ref_clk_0">
+      <obj_property name="ElementShortName">pl0_ref_clk_0</obj_property>
+      <obj_property name="ObjectShortName">pl0_ref_clk_0</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/bli_to_hbm_inst/tg_rstb">
+      <obj_property name="ElementShortName">tg_rstb</obj_property>
+      <obj_property name="ObjectShortName">tg_rstb</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/bli_to_hbm_inst/tg_start">
+      <obj_property name="ElementShortName">tg_start</obj_property>
+      <obj_property name="ObjectShortName">tg_start</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/bli_to_hbm_inst/tg_done">
+      <obj_property name="ElementShortName">tg_done</obj_property>
+      <obj_property name="ObjectShortName">tg_done</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/bli_to_hbm_inst/tg_error">
+      <obj_property name="ElementShortName">tg_error</obj_property>
+      <obj_property name="ObjectShortName">tg_error</obj_property>
+   </wvobject>
+   <wvobject type="group" fp_name="group333">
+      <obj_property name="label">Write_addr</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject type="array" fp_name="/top_sim_wrapper/top_i/bli_to_hbm_inst/perf_axi_tg_pl_bli_to_hbm_inst/axi_awlen">
+         <obj_property name="ElementShortName">axi_awlen[7:0]</obj_property>
+         <obj_property name="ObjectShortName">axi_awlen[7:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/top_sim_wrapper/top_i/bli_to_hbm_inst/perf_axi_tg_pl_bli_to_hbm_inst/axi_awsize">
+         <obj_property name="ElementShortName">axi_awsize[2:0]</obj_property>
+         <obj_property name="ObjectShortName">axi_awsize[2:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/top_sim_wrapper/top_i/bli_to_hbm_inst/perf_axi_tg_pl_bli_to_hbm_inst/axi_awburst">
+         <obj_property name="ElementShortName">axi_awburst[1:0]</obj_property>
+         <obj_property name="ObjectShortName">axi_awburst[1:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/top_sim_wrapper/top_i/bli_to_hbm_inst/perf_axi_tg_pl_bli_to_hbm_inst/axi_awid">
+         <obj_property name="ElementShortName">axi_awid[0:0]</obj_property>
+         <obj_property name="ObjectShortName">axi_awid[0:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/top_sim_wrapper/top_i/bli_to_hbm_inst/perf_axi_tg_pl_bli_to_hbm_inst/axi_awaddr">
+         <obj_property name="ElementShortName">axi_awaddr[47:0]</obj_property>
+         <obj_property name="ObjectShortName">axi_awaddr[47:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/bli_to_hbm_inst/perf_axi_tg_pl_bli_to_hbm_inst/axi_awvalid">
+         <obj_property name="ElementShortName">axi_awvalid</obj_property>
+         <obj_property name="ObjectShortName">axi_awvalid</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/bli_to_hbm_inst/perf_axi_tg_pl_bli_to_hbm_inst/axi_awready">
+         <obj_property name="ElementShortName">axi_awready</obj_property>
+         <obj_property name="ObjectShortName">axi_awready</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="group" fp_name="group334">
+      <obj_property name="label">Write_data</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject type="array" fp_name="/top_sim_wrapper/top_i/bli_to_hbm_inst/perf_axi_tg_pl_bli_to_hbm_inst/axi_wdata">
+         <obj_property name="ElementShortName">axi_wdata[255:0]</obj_property>
+         <obj_property name="ObjectShortName">axi_wdata[255:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/top_sim_wrapper/top_i/bli_to_hbm_inst/perf_axi_tg_pl_bli_to_hbm_inst/axi_wstrb">
+         <obj_property name="ElementShortName">axi_wstrb[31:0]</obj_property>
+         <obj_property name="ObjectShortName">axi_wstrb[31:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/bli_to_hbm_inst/perf_axi_tg_pl_bli_to_hbm_inst/axi_wlast">
+         <obj_property name="ElementShortName">axi_wlast</obj_property>
+         <obj_property name="ObjectShortName">axi_wlast</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/bli_to_hbm_inst/perf_axi_tg_pl_bli_to_hbm_inst/axi_wvalid">
+         <obj_property name="ElementShortName">axi_wvalid</obj_property>
+         <obj_property name="ObjectShortName">axi_wvalid</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/bli_to_hbm_inst/perf_axi_tg_pl_bli_to_hbm_inst/axi_wready">
+         <obj_property name="ElementShortName">axi_wready</obj_property>
+         <obj_property name="ObjectShortName">axi_wready</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="group" fp_name="group335">
+      <obj_property name="label">Write_response</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject type="array" fp_name="/top_sim_wrapper/top_i/bli_to_hbm_inst/perf_axi_tg_pl_bli_to_hbm_inst/axi_bresp">
+         <obj_property name="ElementShortName">axi_bresp[1:0]</obj_property>
+         <obj_property name="ObjectShortName">axi_bresp[1:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/top_sim_wrapper/top_i/bli_to_hbm_inst/perf_axi_tg_pl_bli_to_hbm_inst/axi_buser">
+         <obj_property name="ElementShortName">axi_buser[15:0]</obj_property>
+         <obj_property name="ObjectShortName">axi_buser[15:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/bli_to_hbm_inst/perf_axi_tg_pl_bli_to_hbm_inst/axi_bvalid">
+         <obj_property name="ElementShortName">axi_bvalid</obj_property>
+         <obj_property name="ObjectShortName">axi_bvalid</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/bli_to_hbm_inst/perf_axi_tg_pl_bli_to_hbm_inst/axi_bready">
+         <obj_property name="ElementShortName">axi_bready</obj_property>
+         <obj_property name="ObjectShortName">axi_bready</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="group" fp_name="group336">
+      <obj_property name="label">Read_addr</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject type="array" fp_name="/top_sim_wrapper/top_i/bli_to_hbm_inst/perf_axi_tg_pl_bli_to_hbm_inst/axi_araddr">
+         <obj_property name="ElementShortName">axi_araddr[47:0]</obj_property>
+         <obj_property name="ObjectShortName">axi_araddr[47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/top_sim_wrapper/top_i/bli_to_hbm_inst/perf_axi_tg_pl_bli_to_hbm_inst/axi_arsize">
+         <obj_property name="ElementShortName">axi_arsize[2:0]</obj_property>
+         <obj_property name="ObjectShortName">axi_arsize[2:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/top_sim_wrapper/top_i/bli_to_hbm_inst/perf_axi_tg_pl_bli_to_hbm_inst/axi_arburst">
+         <obj_property name="ElementShortName">axi_arburst[1:0]</obj_property>
+         <obj_property name="ObjectShortName">axi_arburst[1:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/bli_to_hbm_inst/perf_axi_tg_pl_bli_to_hbm_inst/axi_arvalid">
+         <obj_property name="ElementShortName">axi_arvalid</obj_property>
+         <obj_property name="ObjectShortName">axi_arvalid</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/bli_to_hbm_inst/perf_axi_tg_pl_bli_to_hbm_inst/axi_arready">
+         <obj_property name="ElementShortName">axi_arready</obj_property>
+         <obj_property name="ObjectShortName">axi_arready</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="group" fp_name="group337">
+      <obj_property name="label">Read_data</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject type="array" fp_name="/top_sim_wrapper/top_i/bli_to_hbm_inst/perf_axi_tg_pl_bli_to_hbm_inst/axi_rdata">
+         <obj_property name="ElementShortName">axi_rdata[255:0]</obj_property>
+         <obj_property name="ObjectShortName">axi_rdata[255:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/bli_to_hbm_inst/perf_axi_tg_pl_bli_to_hbm_inst/axi_rlast">
+         <obj_property name="ElementShortName">axi_rlast</obj_property>
+         <obj_property name="ObjectShortName">axi_rlast</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/bli_to_hbm_inst/perf_axi_tg_pl_bli_to_hbm_inst/axi_rvalid">
+         <obj_property name="ElementShortName">axi_rvalid</obj_property>
+         <obj_property name="ObjectShortName">axi_rvalid</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/bli_to_hbm_inst/perf_axi_tg_pl_bli_to_hbm_inst/axi_rready">
+         <obj_property name="ElementShortName">axi_rready</obj_property>
+         <obj_property name="ObjectShortName">axi_rready</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="divider215" type="divider">
+      <obj_property name="label">VNOC to HBM</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/vnoc_to_hbm_inst/pl0_ref_clk_0">
+      <obj_property name="ElementShortName">pl0_ref_clk_0</obj_property>
+      <obj_property name="ObjectShortName">pl0_ref_clk_0</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/vnoc_to_hbm_inst/tg_rstb">
+      <obj_property name="ElementShortName">tg_rstb</obj_property>
+      <obj_property name="ObjectShortName">tg_rstb</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/vnoc_to_hbm_inst/tg_start">
+      <obj_property name="ElementShortName">tg_start</obj_property>
+      <obj_property name="ObjectShortName">tg_start</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/vnoc_to_hbm_inst/tg_done">
+      <obj_property name="ElementShortName">tg_done</obj_property>
+      <obj_property name="ObjectShortName">tg_done</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/vnoc_to_hbm_inst/tg_error">
+      <obj_property name="ElementShortName">tg_error</obj_property>
+      <obj_property name="ObjectShortName">tg_error</obj_property>
+   </wvobject>
+   <wvobject type="group" fp_name="group389">
+      <obj_property name="label">Write_addr</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject type="array" fp_name="/top_sim_wrapper/top_i/vnoc_to_hbm_inst/perf_axi_tg_pl_vnoc_to_hbm_inst/axi_awlen">
+         <obj_property name="ElementShortName">axi_awlen[7:0]</obj_property>
+         <obj_property name="ObjectShortName">axi_awlen[7:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/top_sim_wrapper/top_i/vnoc_to_hbm_inst/perf_axi_tg_pl_vnoc_to_hbm_inst/axi_awsize">
+         <obj_property name="ElementShortName">axi_awsize[2:0]</obj_property>
+         <obj_property name="ObjectShortName">axi_awsize[2:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/top_sim_wrapper/top_i/vnoc_to_hbm_inst/perf_axi_tg_pl_vnoc_to_hbm_inst/axi_awburst">
+         <obj_property name="ElementShortName">axi_awburst[1:0]</obj_property>
+         <obj_property name="ObjectShortName">axi_awburst[1:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/top_sim_wrapper/top_i/vnoc_to_hbm_inst/perf_axi_tg_pl_vnoc_to_hbm_inst/axi_awaddr">
+         <obj_property name="ElementShortName">axi_awaddr[47:0]</obj_property>
+         <obj_property name="ObjectShortName">axi_awaddr[47:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/vnoc_to_hbm_inst/perf_axi_tg_pl_vnoc_to_hbm_inst/axi_awvalid">
+         <obj_property name="ElementShortName">axi_awvalid</obj_property>
+         <obj_property name="ObjectShortName">axi_awvalid</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/vnoc_to_hbm_inst/perf_axi_tg_pl_vnoc_to_hbm_inst/axi_awready">
+         <obj_property name="ElementShortName">axi_awready</obj_property>
+         <obj_property name="ObjectShortName">axi_awready</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="group" fp_name="group390">
+      <obj_property name="label">Write_data</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/vnoc_to_hbm_inst/perf_axi_tg_pl_vnoc_to_hbm_inst/axi_wvalid">
+         <obj_property name="ElementShortName">axi_wvalid</obj_property>
+         <obj_property name="ObjectShortName">axi_wvalid</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/vnoc_to_hbm_inst/perf_axi_tg_pl_vnoc_to_hbm_inst/axi_wready">
+         <obj_property name="ElementShortName">axi_wready</obj_property>
+         <obj_property name="ObjectShortName">axi_wready</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/vnoc_to_hbm_inst/perf_axi_tg_pl_vnoc_to_hbm_inst/axi_wlast">
+         <obj_property name="ElementShortName">axi_wlast</obj_property>
+         <obj_property name="ObjectShortName">axi_wlast</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/top_sim_wrapper/top_i/vnoc_to_hbm_inst/perf_axi_tg_pl_vnoc_to_hbm_inst/axi_wdata">
+         <obj_property name="ElementShortName">axi_wdata[255:0]</obj_property>
+         <obj_property name="ObjectShortName">axi_wdata[255:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="group" fp_name="group391">
+      <obj_property name="label">Write_response</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/vnoc_to_hbm_inst/perf_axi_tg_pl_vnoc_to_hbm_inst/axi_bvalid">
+         <obj_property name="ElementShortName">axi_bvalid</obj_property>
+         <obj_property name="ObjectShortName">axi_bvalid</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/vnoc_to_hbm_inst/perf_axi_tg_pl_vnoc_to_hbm_inst/axi_bready">
+         <obj_property name="ElementShortName">axi_bready</obj_property>
+         <obj_property name="ObjectShortName">axi_bready</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/top_sim_wrapper/top_i/vnoc_to_hbm_inst/perf_axi_tg_pl_vnoc_to_hbm_inst/axi_bresp">
+         <obj_property name="ElementShortName">axi_bresp[1:0]</obj_property>
+         <obj_property name="ObjectShortName">axi_bresp[1:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="group" fp_name="group392">
+      <obj_property name="label">Read_addr</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/vnoc_to_hbm_inst/perf_axi_tg_pl_vnoc_to_hbm_inst/axi_arvalid">
+         <obj_property name="ElementShortName">axi_arvalid</obj_property>
+         <obj_property name="ObjectShortName">axi_arvalid</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/vnoc_to_hbm_inst/perf_axi_tg_pl_vnoc_to_hbm_inst/axi_arready">
+         <obj_property name="ElementShortName">axi_arready</obj_property>
+         <obj_property name="ObjectShortName">axi_arready</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/top_sim_wrapper/top_i/vnoc_to_hbm_inst/perf_axi_tg_pl_vnoc_to_hbm_inst/axi_araddr">
+         <obj_property name="ElementShortName">axi_araddr[47:0]</obj_property>
+         <obj_property name="ObjectShortName">axi_araddr[47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/top_sim_wrapper/top_i/vnoc_to_hbm_inst/perf_axi_tg_pl_vnoc_to_hbm_inst/axi_arsize">
+         <obj_property name="ElementShortName">axi_arsize[2:0]</obj_property>
+         <obj_property name="ObjectShortName">axi_arsize[2:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/top_sim_wrapper/top_i/vnoc_to_hbm_inst/perf_axi_tg_pl_vnoc_to_hbm_inst/axi_arburst">
+         <obj_property name="ElementShortName">axi_arburst[1:0]</obj_property>
+         <obj_property name="ObjectShortName">axi_arburst[1:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="group" fp_name="group393">
+      <obj_property name="label">Read_data</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject type="array" fp_name="/top_sim_wrapper/top_i/vnoc_to_hbm_inst/perf_axi_tg_pl_vnoc_to_hbm_inst/axi_rdata">
+         <obj_property name="ElementShortName">axi_rdata[255:0]</obj_property>
+         <obj_property name="ObjectShortName">axi_rdata[255:0]</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/vnoc_to_hbm_inst/perf_axi_tg_pl_vnoc_to_hbm_inst/axi_rlast">
+         <obj_property name="ElementShortName">axi_rlast</obj_property>
+         <obj_property name="ObjectShortName">axi_rlast</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/vnoc_to_hbm_inst/perf_axi_tg_pl_vnoc_to_hbm_inst/axi_rvalid">
+         <obj_property name="ElementShortName">axi_rvalid</obj_property>
+         <obj_property name="ObjectShortName">axi_rvalid</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/top_sim_wrapper/top_i/vnoc_to_hbm_inst/perf_axi_tg_pl_vnoc_to_hbm_inst/axi_rready">
+         <obj_property name="ElementShortName">axi_rready</obj_property>
+         <obj_property name="ObjectShortName">axi_rready</obj_property>
+      </wvobject>
+   </wvobject>
+</wave_config>

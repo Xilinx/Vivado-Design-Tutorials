@@ -1,0 +1,9 @@
+build/
+vivado_prj/
+vivado_non_prj/
+vivado_sim/
+.Xil/
+*.jou
+*.log
+*.str
+*.debug

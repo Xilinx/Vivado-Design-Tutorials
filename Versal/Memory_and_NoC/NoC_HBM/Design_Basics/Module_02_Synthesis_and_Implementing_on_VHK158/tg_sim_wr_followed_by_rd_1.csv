@@ -1,0 +1,8 @@
+# Any line that starts with # will be commented out,,,,,,,,,,,,,,,,,,,,,,,
+TG_NUM,cmd,txn_count/loop_count/wait_option,start_delay/loop_operation,loop_addr_incr_by,wdata_pattern,wdata_pat_value,data_integrity,dest_id,base_addr,high_addr,addr_incr_by,axi_addr_offset,axi_len,axi_size,axi_id,axi_burst,axi_lock,axi_cache,axi_prot,axi_qos,axi_region,axi_user,exp_resp
+1, START_LOOP,1,use_original_addr,0x0,,,,,,,,,,,,,,,,,,,
+1, WRITE,100,0,,constant,0x032,disabled,0x0,0x4000000000,0x403fffffff,auto_incr,0x0,0x7f,0x5,0x0,INCR,0x0,0x2,0x0,0x0,0x0,0x0,
+1, WAIT,all_wr_resp,,,,,,,,,,,,,,,,,,,,,,,,
+1, READ,100,0,,constant,0x032,disabled,0x0,0x4000000000,0x403fffffff,auto_incr,0x0,0x7f,0x5,0x0,INCR,0x0,0x2,0x0,0x0,0x0,0x0,
+1, END_LOOP,,,,,,,,,,,,,,,,,,,,,,
+

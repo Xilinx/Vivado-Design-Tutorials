@@ -1,0 +1,42 @@
+# #########################################################################
+#Copyright (C) 2023, Advanced Micro Devices, Inc. All rights reserved.
+
+#SPDX-License-Identifier: MIT
+# ###########################################################################
+
+
+# The "wait_for_arvalid" state is used to detect the start 
+# of the read address phase of the AXI transaction which
+# is indicated by the axi_arvalid signal equal to '1'
+#
+state wait_for_arvalid:
+    if (design_1_i/axis_ila_0/SLOT_0_AXI_arvalid == 1'b1) then
+      goto wait_for_rready;
+    else
+      goto wait_for_arvalid;
+    endif
+#
+# The "wait_for_rready" state is used to detect the start 
+# of the read data phase of the AXI transaction which
+# is indicated by the axi_rready signal equal to '1'
+#
+state wait_for_rready:
+  if (design_1_i/axis_ila_0/SLOT_0_AXI_rready == 1'b1) then
+    goto wait_for_rlast;
+  else
+    goto wait_for_rready;
+  endif
+
+#
+# The "wait_for_rlast" state is used to detect the end 
+# of the read data phase of the AXI transaction which
+# is indicated by the axi_rlast signal equal to '1'.
+# Once the end of the data phase is detected, the ILA core
+# will trigger.
+#
+state wait_for_rlast:
+  if (design_1_i/axis_ila_0/SLOT_0_AXI_rready == 1'b1) then
+    trigger;
+  else
+    goto wait_for_rlast;
+  endif

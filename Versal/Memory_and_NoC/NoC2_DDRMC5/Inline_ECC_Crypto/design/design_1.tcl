@@ -1,0 +1,1461 @@
+#
+# Copyright (C) 2025, Advanced Micro Devices, Inc. All rights reserved.
+# SPDX-License-Identifier: X11
+#
+
+################################################################
+# This is a generated script based on design: design_1
+#
+# Though there are limitations about the generated script,
+# the main purpose of this utility is to make learning
+# IP Integrator Tcl commands easier.
+################################################################
+
+namespace eval _tcl {
+proc get_script_folder {} {
+   set script_path [file normalize [info script]]
+   set script_folder [file dirname $script_path]
+   return $script_folder
+}
+}
+variable script_folder
+set script_folder [_tcl::get_script_folder]
+
+################################################################
+# Check if script is running in correct Vivado version.
+################################################################
+set scripts_vivado_version 2025.2
+set current_vivado_version [version -short]
+
+if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
+   puts ""
+   if { [string compare $scripts_vivado_version $current_vivado_version] > 0 } {
+      catch {common::send_gid_msg -ssname BD::TCL -id 2042 -severity "ERROR" " This script was generated using Vivado <$scripts_vivado_version> and is being run in <$current_vivado_version> of Vivado. Sourcing the script failed since it was created with a future version of Vivado."}
+
+   } else {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2041 -severity "ERROR" "This script was generated using Vivado <$scripts_vivado_version> and is being run in <$current_vivado_version> of Vivado. Please run the script in Vivado <$scripts_vivado_version> then open the design in Vivado <$current_vivado_version>. Upgrade the design by running \"Tools => Report => Report IP Status...\", then run write_bd_tcl to create an updated script."}
+
+   }
+
+   return 1
+}
+
+################################################################
+# START
+################################################################
+
+# To test this script, run the following commands from Vivado Tcl console:
+# source design_1_script.tcl
+
+# If there is no project opened, this script will create a
+# project, but make sure you do not have an existing project
+# <./myproj/project_1.xpr> in the current working folder.
+
+set list_projs [get_projects -quiet]
+if { $list_projs eq "" } {
+   create_project project_1 myproj -part xc2ve3858-ssva2112-2MP-e-S
+}
+
+
+# CHANGE DESIGN NAME HERE
+variable design_name
+set design_name design_1
+
+# If you do not already have an existing IP Integrator design open,
+# you can create a design using the following command:
+#    create_bd_design $design_name
+
+# Creating design if needed
+set errMsg ""
+set nRet 0
+
+set cur_design [current_bd_design -quiet]
+set list_cells [get_bd_cells -quiet]
+
+if { ${design_name} eq "" } {
+   # USE CASES:
+   #    1) Design_name not set
+
+   set errMsg "Please set the variable <design_name> to a non-empty value."
+   set nRet 1
+
+} elseif { ${cur_design} ne "" && ${list_cells} eq "" } {
+   # USE CASES:
+   #    2): Current design opened AND is empty AND names same.
+   #    3): Current design opened AND is empty AND names diff; design_name NOT in project.
+   #    4): Current design opened AND is empty AND names diff; design_name exists in project.
+
+   if { $cur_design ne $design_name } {
+      common::send_gid_msg -ssname BD::TCL -id 2001 -severity "INFO" "Changing value of <design_name> from <$design_name> to <$cur_design> since current design is empty."
+      set design_name [get_property NAME $cur_design]
+   }
+   common::send_gid_msg -ssname BD::TCL -id 2002 -severity "INFO" "Constructing design in IPI design <$cur_design>..."
+
+} elseif { ${cur_design} ne "" && $list_cells ne "" && $cur_design eq $design_name } {
+   # USE CASES:
+   #    5) Current design opened AND has components AND same names.
+
+   set errMsg "Design <$design_name> already exists in your project, please set the variable <design_name> to another value."
+   set nRet 1
+} elseif { [get_files -quiet ${design_name}.bd] ne "" } {
+   # USE CASES: 
+   #    6) Current opened design, has components, but diff names, design_name exists in project.
+   #    7) No opened design, design_name exists in project.
+
+   set errMsg "Design <$design_name> already exists in your project, please set the variable <design_name> to another value."
+   set nRet 2
+
+} else {
+   # USE CASES:
+   #    8) No opened design, design_name not in project.
+   #    9) Current opened design, has components, but diff names, design_name not in project.
+
+   common::send_gid_msg -ssname BD::TCL -id 2003 -severity "INFO" "Currently there is no design <$design_name> in project, so creating one..."
+
+   create_bd_design $design_name
+
+   common::send_gid_msg -ssname BD::TCL -id 2004 -severity "INFO" "Making design <$design_name> as current_bd_design."
+   current_bd_design $design_name
+
+}
+
+common::send_gid_msg -ssname BD::TCL -id 2005 -severity "INFO" "Currently the variable <design_name> is equal to \"$design_name\"."
+
+if { $nRet != 0 } {
+   catch {common::send_gid_msg -ssname BD::TCL -id 2006 -severity "ERROR" $errMsg}
+   return $nRet
+}
+
+set bCheckIPsPassed 1
+##################################################################
+# CHECK IPs
+##################################################################
+set bCheckIPs 1
+if { $bCheckIPs == 1 } {
+   set list_check_ips "\ 
+xilinx.com:ip:perf_axi_tg:1.0\
+xilinx.com:ip:clk_gen_sim:1.0\
+xilinx.com:ip:sim_trig:1.0\
+xilinx.com:ip:clkx5_wiz:1.0\
+xilinx.com:ip:proc_sys_reset:5.0\
+xilinx.com:ip:smartconnect:1.0\
+xilinx.com:ip:axi_noc2:1.1\
+xilinx.com:ip:ps_wizard:1.0\
+"
+
+   set list_ips_missing ""
+   common::send_gid_msg -ssname BD::TCL -id 2011 -severity "INFO" "Checking if the following IPs exist in the project's IP catalog: $list_check_ips ."
+
+   foreach ip_vlnv $list_check_ips {
+      set ip_obj [get_ipdefs -all $ip_vlnv]
+      if { $ip_obj eq "" } {
+         lappend list_ips_missing $ip_vlnv
+      }
+   }
+
+   if { $list_ips_missing ne "" } {
+      catch {common::send_gid_msg -ssname BD::TCL -id 2012 -severity "ERROR" "The following IPs are not found in the IP Catalog:\n  $list_ips_missing\n\nResolution: Please add the repository containing the IP(s) to the project." }
+      set bCheckIPsPassed 0
+   }
+
+}
+
+if { $bCheckIPsPassed != 1 } {
+  common::send_gid_msg -ssname BD::TCL -id 2023 -severity "WARNING" "Will not continue with creation of design due to the error(s) above."
+  return 3
+}
+
+##################################################################
+# DESIGN PROCs
+##################################################################
+
+
+
+# Procedure to create entire design; Provide argument to make
+# procedure reusable. If parentCell is "", will use root.
+proc create_root_design { parentCell } {
+
+  variable script_folder
+  variable design_name
+
+  if { $parentCell eq "" } {
+     set parentCell [get_bd_cells /]
+  }
+
+  # Get object for parentCell
+  set parentObj [get_bd_cells $parentCell]
+  if { $parentObj == "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2090 -severity "ERROR" "Unable to find parent cell <$parentCell>!"}
+     return
+  }
+
+  # Make sure parentObj is hier blk
+  set parentType [get_property TYPE $parentObj]
+  if { $parentType ne "hier" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2091 -severity "ERROR" "Parent <$parentObj> has TYPE = <$parentType>. Expected to be <hier>."}
+     return
+  }
+
+  # Save current instance; Restore later
+  set oldCurInst [current_bd_instance .]
+
+  # Set parent object as current
+  current_bd_instance $parentObj
+
+
+  # Create interface ports
+  set CH3_LPDDR5X [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:lpddr5_rtl:1.0 CH3_LPDDR5X ]
+
+  set CH2_LPDDR5X [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:lpddr5_rtl:1.0 CH2_LPDDR5X ]
+
+  set CH1_LPDDR5X [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:lpddr5_rtl:1.0 CH1_LPDDR5X ]
+
+  set CH4_LPDDR5X [ create_bd_intf_port -mode Master -vlnv xilinx.com:interface:lpddr5_rtl:1.0 CH4_LPDDR5X ]
+
+
+  # Create ports
+
+  # Create instance: perf_axi_tg_0, and set properties
+  set perf_axi_tg_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:perf_axi_tg:1.0 perf_axi_tg_0 ]
+  set_property -dict [list \
+    CONFIG.IS_CONN_SLAVE_AXI_NOC {true} \
+    CONFIG.USER_C_AXI_CLK_PERIOD {3749} \
+    CONFIG.USER_C_AXI_READ_BASEADDR {0x0000050000000000} \
+    CONFIG.USER_C_AXI_READ_HIGHADDR {0x00000500FFFFFFFF} \
+    CONFIG.USER_C_AXI_READ_SIZE {1} \
+    CONFIG.USER_C_AXI_SLAVE_DATA_WIDTH {128} \
+    CONFIG.USER_C_AXI_WDATA_WIDTH {512} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR {0x0000050000000000} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR_SLV {0x050000000000} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR {0x00000500FFFFFFFF} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR_SLV {0x0500FFFFFFFF} \
+    CONFIG.USER_C_AXI_WRITE_SIZE {1} \
+    CONFIG.USER_DEBUG_INTF {TRUE} \
+    CONFIG.USER_EN_VIO_STATUS_MONITOR {FALSE} \
+    CONFIG.USER_NO_OF_SLAVE_CONNECTED {1} \
+    CONFIG.USER_PERF_TG {SYNTHESIZABLE} \
+    CONFIG.USER_SYNTH_DEFINED_PATTERN_CSV {../../../../../../../traffic_gen_data_64.csv} \
+    CONFIG.USER_SYNTH_DI_EN {Disabled} \
+    CONFIG.USER_SYN_ID_WIDTH {4} \
+    CONFIG.USER_TRAFFIC_SHAPING_EN {FALSE} \
+  ] $perf_axi_tg_0
+
+  set_property -dict [list \
+    CONFIG.IS_CONN_SLAVE_AXI_NOC.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_CLK_PERIOD.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_READ_BASEADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_READ_HIGHADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_SLAVE_DATA_WIDTH.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR_SLV.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR_SLV.VALUE_MODE {auto} \
+    CONFIG.USER_NO_OF_SLAVE_CONNECTED.VALUE_MODE {auto} \
+  ] $perf_axi_tg_0
+
+
+  # Create instance: perf_axi_tg_1, and set properties
+  set perf_axi_tg_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:perf_axi_tg:1.0 perf_axi_tg_1 ]
+  set_property -dict [list \
+    CONFIG.IS_CONN_SLAVE_AXI_NOC {true} \
+    CONFIG.USER_C_AXI_CLK_PERIOD {3749} \
+    CONFIG.USER_C_AXI_READ_BASEADDR {0x0000050000000000} \
+    CONFIG.USER_C_AXI_READ_HIGHADDR {0x00000500FFFFFFFF} \
+    CONFIG.USER_C_AXI_READ_SIZE {1} \
+    CONFIG.USER_C_AXI_SLAVE_DATA_WIDTH {128} \
+    CONFIG.USER_C_AXI_WDATA_WIDTH {512} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR {0x0000050000000000} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR_SLV {0x050000000000} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR {0x00000500FFFFFFFF} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR_SLV {0x0500FFFFFFFF} \
+    CONFIG.USER_C_AXI_WRITE_SIZE {1} \
+    CONFIG.USER_DEBUG_INTF {TRUE} \
+    CONFIG.USER_EN_VIO_STATUS_MONITOR {FALSE} \
+    CONFIG.USER_NO_OF_SLAVE_CONNECTED {1} \
+    CONFIG.USER_PARAM_SRC_ID {1} \
+    CONFIG.USER_PERF_TG {SYNTHESIZABLE} \
+    CONFIG.USER_SYNTH_DEFINED_PATTERN_CSV {../../../../../../../traffic_gen_data_64.csv} \
+    CONFIG.USER_SYNTH_DI_EN {Disabled} \
+    CONFIG.USER_SYN_ID_WIDTH {4} \
+    CONFIG.USER_TRAFFIC_SHAPING_EN {FALSE} \
+  ] $perf_axi_tg_1
+
+  set_property -dict [list \
+    CONFIG.IS_CONN_SLAVE_AXI_NOC.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_CLK_PERIOD.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_READ_BASEADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_READ_HIGHADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_SLAVE_DATA_WIDTH.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR_SLV.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR_SLV.VALUE_MODE {auto} \
+    CONFIG.USER_NO_OF_SLAVE_CONNECTED.VALUE_MODE {auto} \
+    CONFIG.USER_PARAM_SRC_ID.VALUE_MODE {auto} \
+  ] $perf_axi_tg_1
+
+
+  # Create instance: clk_gen_sim_0, and set properties
+  set clk_gen_sim_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:clk_gen_sim:1.0 clk_gen_sim_0 ]
+  set_property -dict [list \
+    CONFIG.USER_AXI_CLK_0_FREQ {266.667} \
+    CONFIG.USER_NUM_OF_SYS_CLK {0} \
+    CONFIG.USER_SYS_CLK0_FREQ {320.000} \
+    CONFIG.USER_SYS_CLK1_FREQ {320.000} \
+    CONFIG.USER_SYS_CLK2_FREQ {320.000} \
+  ] $clk_gen_sim_0
+
+
+  # Create instance: sim_trig_0, and set properties
+  set sim_trig_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:sim_trig:1.0 sim_trig_0 ]
+  set_property -dict [list \
+    CONFIG.USER_DEBUG_INTF {EXTERNAL_AXI4_LITE} \
+    CONFIG.USER_NUM_AXI_TG {8} \
+    CONFIG.USER_TRAFFIC_SHAPING_EN {FALSE} \
+  ] $sim_trig_0
+
+
+  # Create instance: clkx5_wiz_0, and set properties
+  set clkx5_wiz_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:clkx5_wiz:1.0 clkx5_wiz_0 ]
+  set_property -dict [list \
+    CONFIG.CLKOUT_DRIVES {BUFG,BUFG,BUFG,BUFG,BUFG,BUFG,BUFG} \
+    CONFIG.CLKOUT_DYN_PS {None,None,None,None,None,None,None} \
+    CONFIG.CLKOUT_GROUPING {Auto,Auto,Auto,Auto,Auto,Auto,Auto} \
+    CONFIG.CLKOUT_MATCHED_ROUTING {false,false,false,false,false,false,false} \
+    CONFIG.CLKOUT_PORT {clk_out1,clk_out2,clk_out3,clk_out4,clk_out5,clk_out6,clk_out7} \
+    CONFIG.CLKOUT_REQUESTED_DUTY_CYCLE {50.000,50.000,50.000,50.000,50.000,50.000,50.000} \
+    CONFIG.CLKOUT_REQUESTED_OUT_FREQUENCY {266.667,100.000,100.000,100.000,100.000,100.000,100.000} \
+    CONFIG.CLKOUT_REQUESTED_PHASE {0.000,0.000,0.000,0.000,0.000,0.000,0.000} \
+    CONFIG.CLKOUT_USED {true,false,false,false,false,false,false} \
+    CONFIG.USE_LOCKED {true} \
+  ] $clkx5_wiz_0
+
+
+  # Create instance: proc_sys_reset_0, and set properties
+  set proc_sys_reset_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset:5.0 proc_sys_reset_0 ]
+
+  # Create instance: smartconnect_0, and set properties
+  set smartconnect_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:smartconnect:1.0 smartconnect_0 ]
+  set_property CONFIG.NUM_SI {1} $smartconnect_0
+
+
+  # Create instance: axi_noc2_1, and set properties
+  set axi_noc2_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc2:1.1 axi_noc2_1 ]
+  set_property -dict [list \
+    CONFIG.DDR5_DEVICE_TYPE {Components} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_ADDRESS_MAP) {NA,NA,NA,NA,NA,NA,NA,NA,RA15,RA14,BG1,RA13,RA12,RA11,RA10,RA9,RA8,RA7,RA6,RA5,RA4,RA3,RA2,RA1,RA0,BA1,BA0,CA5,CA4,CA3,CA2,CA1,CA0,BG0,NC,NC,NC,NC,NA,NA} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_AUTO_PRECHARGE) {true} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_BACKGROUND_SCRUB) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_BA_ADDR_WIDTH) {2} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_BG_WIDTH) {2} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_BOARD_INTRF_EN) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_BURST_ADDR_WIDTH) {4} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_CAL_MASK_POLL) {ENABLE} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_COL_ADDR_WIDTH) {6} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_CONFIG12_SWAP) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_CONFIG13_OPT) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_CONTROLLERTYPE) {LPDDR5_SDRAM} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_CRYPTO) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DATA_WIDTH) {32} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_2T) {DISABLE} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_PAR_RCD_EN) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_RDIMM_ADDR_MODE) {DDR} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TFAW_DLR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TREFSBRD) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TREFSBRD_DLR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TREFSBRD_SLR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFC1) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFC1_DLR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFC1_DPR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFC2) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFC2_DLR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFC2_DPR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFCSB) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFCSB_DLR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DEVICE_TYPE) {Components} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DM_EN) {true} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DQS_OSCI_EN) {DISABLE} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DRAM_SIZE) {16Gb} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DRAM_WIDTH) {x16} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_EXTENDED_DDRMC5E) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_CL) {64} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_CWL) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_DDR5_TCCD_L_WR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_DDR5_TCCD_L_WR2) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_DDR5_TCCD_L_WR2_RU) {16} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_DDR5_TCCD_L_WR_RU) {32} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_DDR5_TPD) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_DDR5_TRP) {18000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_DDR5_TRRD_L) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_LP5_BANK_ARCH) {BG} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_LP5_TCSPD) {10938} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_LP5_TRPAB) {21000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_LP5_TRPPB) {18000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_LP5_TRRD) {3750} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_RL) {25} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TCCD_L) {4} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TCK) {938} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TFAW) {15000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TRAS) {42000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TRCD) {18000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TRTP) {7500} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TRTP_RU) {24} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TXP) {7000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TZQLAT) {30000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_WL) {12} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_CL) {64} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_CWL) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_DDR5_TCCD_L_WR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_DDR5_TCCD_L_WR2) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_DDR5_TCCD_L_WR2_RU) {16} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_DDR5_TCCD_L_WR_RU) {32} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_DDR5_TPD) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_DDR5_TRP) {18000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_DDR5_TRRD_L) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_LP5_BANK_ARCH) {BG} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_LP5_TCSPD) {10938} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_LP5_TRPAB) {21000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_LP5_TRPPB) {18000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_LP5_TRRD) {3750} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_RL) {25} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TCCD_L) {4} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TCK) {938} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TFAW) {15000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TRAS) {42000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TRCD) {18000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TRTP) {7500} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TRTP_RU) {24} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TXP) {7000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TZQLAT) {30000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_WL) {12} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_FPGA_DEVICE_TYPE) {NON_KSB} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_FREQ_SWITCHING) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_INLINE_ECC) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_INPUTCLK0_PERIOD) {4925} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_INTERLEAVE_SIZE) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LATENCY_MODE) {x16} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LBDQ_SWAP) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LOW_TRFC_DPR) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LP5_TPBR2ACT) {7500} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LP5_TPBR2PBR) {90000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LP5_TRFCAB) {280000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LP5_TRFCPB) {140000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LP5_TRFMAB) {280000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LP5_TRFMPB) {190000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MAIN_DEVICE_TYPE) {Components} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC0_CONFIG_SEL) {config12_opt} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC1_CONFIG_SEL) {config13_opt} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC2_CONFIG_SEL) {config13_opt} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC3_CONFIG_SEL) {config13_opt} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC4_CONFIG_SEL) {config13_opt} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC5_CONFIG_SEL) {config13_opt} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC6_CONFIG_SEL) {config13_opt} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC7_CONFIG_SEL) {config13_opt} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MEMORY_DENSITY) {4GB} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MEM_FILL) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_NUM_CH) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_NUM_CK) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_NUM_MC) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_NUM_MCP) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_NUM_RANKS) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_NUM_SLOTS) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_ON_DIE_ECC) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_OP_TEMPERATURE) {LOW} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_OTF_SCRUB) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_PERIODIC_READ) {ENABLE} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_PRE_DEF_ADDR_MAP_SEL) {USER_DEFINED_ADDRESS_MAP} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_RD_DBI) {true} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_REFRESH_MODE) {NORMAL} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_REFRESH_TYPE) {PER_BANK} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_REF_AND_PER_CAL_INTF) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_REG_SCRUB_INTVL) {0x015180} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_ROW_ADDR_WIDTH) {16} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_SCRUB_SIZE) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_SELF_REFRESH) {DISABLE} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_SIDE_BAND_ECC) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_SILICON_REVISION) {NA} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_SPEED_GRADE) {LPDDR5X-8533} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_STACK_HEIGHT) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_SYSTEM_CLOCK) {Internal} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_TREFI) {3906000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_UBLAZE_BLI_INTF) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_USER_DEFINED_ADDRESS_MAP) {2RA-1BG-14RA-2BA-6CA-1BG} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_USER_REFRESH) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_WL_SET) {A} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_WR_DBI) {true} \
+    CONFIG.DDRMC5_CRYPTO {None} \
+    CONFIG.DDRMC5_INLINE_ECC {0} \
+    CONFIG.DDRMC5_NUM_CH {1} \
+    CONFIG.MC_CHAN_REGION0 {DDR_CH1} \
+    CONFIG.NUM_MC {1} \
+    CONFIG.NUM_MCP {2} \
+    CONFIG.NUM_MI {0} \
+    CONFIG.NUM_SI {2} \
+    CONFIG.SI_SIDEBAND_PINS {0} \
+  ] $axi_noc2_1
+
+
+  set_property -dict [ list \
+   CONFIG.DATA_WIDTH {512} \
+   CONFIG.PHYSICAL_LOC {} \
+   CONFIG.CONNECTIONS {MC_0 {read_bw {14000} write_bw {14000} read_avg_burst {4} write_avg_burst {4}}} \
+   CONFIG.DEST_IDS {} \
+   CONFIG.NOC_PARAMS {} \
+   CONFIG.CATEGORY {pl} \
+ ] [get_bd_intf_pins $axi_noc2_1/S00_AXI]
+
+  set_property -dict [ list \
+   CONFIG.DATA_WIDTH {512} \
+   CONFIG.PHYSICAL_LOC {} \
+   CONFIG.CONNECTIONS {MC_1 {read_bw {14000} write_bw {14000} read_avg_burst {4} write_avg_burst {4}}} \
+   CONFIG.DEST_IDS {} \
+   CONFIG.NOC_PARAMS {} \
+   CONFIG.CATEGORY {pl} \
+ ] [get_bd_intf_pins $axi_noc2_1/S01_AXI]
+
+  set_property -dict [ list \
+   CONFIG.ASSOCIATED_BUSIF {S00_AXI:S01_AXI} \
+ ] [get_bd_pins $axi_noc2_1/aclk0]
+
+  # Create instance: axi_noc2_2, and set properties
+  set axi_noc2_2 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc2:1.1 axi_noc2_2 ]
+  set_property -dict [list \
+    CONFIG.DDR5_DEVICE_TYPE {Components} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_ADDRESS_MAP) {NA,NA,NA,NA,NA,NA,NA,NA,RA15,RA14,BG1,RA13,RA12,RA11,RA10,RA9,RA8,RA7,RA6,RA5,RA4,RA3,RA2,RA1,RA0,BA1,BA0,CA5,CA4,CA3,CA2,CA1,CA0,BG0,NC,NC,NC,NC,NA,NA} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_AUTO_PRECHARGE) {true} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_BACKGROUND_SCRUB) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_BA_ADDR_WIDTH) {2} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_BG_WIDTH) {2} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_BOARD_INTRF_EN) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_BURST_ADDR_WIDTH) {4} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_CAL_MASK_POLL) {ENABLE} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_COL_ADDR_WIDTH) {6} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_CONFIG12_SWAP) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_CONFIG13_OPT) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_CONTROLLERTYPE) {LPDDR5_SDRAM} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_CRYPTO) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DATA_WIDTH) {32} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_2T) {DISABLE} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_PAR_RCD_EN) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_RDIMM_ADDR_MODE) {DDR} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TFAW_DLR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TREFSBRD) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TREFSBRD_DLR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TREFSBRD_SLR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFC1) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFC1_DLR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFC1_DPR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFC2) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFC2_DLR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFC2_DPR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFCSB) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFCSB_DLR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DEVICE_TYPE) {Components} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DM_EN) {true} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DQS_OSCI_EN) {DISABLE} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DRAM_SIZE) {16Gb} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DRAM_WIDTH) {x16} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_EXTENDED_DDRMC5E) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_CL) {64} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_CWL) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_DDR5_TCCD_L_WR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_DDR5_TCCD_L_WR2) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_DDR5_TCCD_L_WR2_RU) {16} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_DDR5_TCCD_L_WR_RU) {32} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_DDR5_TPD) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_DDR5_TRP) {18000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_DDR5_TRRD_L) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_LP5_BANK_ARCH) {BG} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_LP5_TCSPD) {10938} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_LP5_TRPAB) {21000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_LP5_TRPPB) {18000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_LP5_TRRD) {3750} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_RL) {25} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TCCD_L) {4} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TCK) {938} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TFAW) {15000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TRAS) {42000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TRCD) {18000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TRTP) {7500} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TRTP_RU) {24} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TXP) {7000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TZQLAT) {30000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_WL) {12} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_CL) {64} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_CWL) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_DDR5_TCCD_L_WR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_DDR5_TCCD_L_WR2) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_DDR5_TCCD_L_WR2_RU) {16} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_DDR5_TCCD_L_WR_RU) {32} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_DDR5_TPD) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_DDR5_TRP) {18000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_DDR5_TRRD_L) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_LP5_BANK_ARCH) {BG} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_LP5_TCSPD) {10938} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_LP5_TRPAB) {21000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_LP5_TRPPB) {18000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_LP5_TRRD) {3750} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_RL) {25} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TCCD_L) {4} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TCK) {938} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TFAW) {15000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TRAS) {42000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TRCD) {18000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TRTP) {7500} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TRTP_RU) {24} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TXP) {7000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TZQLAT) {30000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_WL) {12} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_FPGA_DEVICE_TYPE) {NON_KSB} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_FREQ_SWITCHING) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_INLINE_ECC) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_INPUTCLK0_PERIOD) {4925} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_INTERLEAVE_SIZE) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LATENCY_MODE) {x16} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LBDQ_SWAP) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LOW_TRFC_DPR) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LP5_TPBR2ACT) {7500} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LP5_TPBR2PBR) {90000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LP5_TRFCAB) {280000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LP5_TRFCPB) {140000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LP5_TRFMAB) {280000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LP5_TRFMPB) {190000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MAIN_DEVICE_TYPE) {Components} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC0_CONFIG_SEL) {config13} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC1_CONFIG_SEL) {config13} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC2_CONFIG_SEL) {config13} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC3_CONFIG_SEL) {config13} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC4_CONFIG_SEL) {config13} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC5_CONFIG_SEL) {config13} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC6_CONFIG_SEL) {config13} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC7_CONFIG_SEL) {config13} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MEMORY_DENSITY) {4GB} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MEM_FILL) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_NUM_CH) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_NUM_CK) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_NUM_MC) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_NUM_MCP) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_NUM_RANKS) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_NUM_SLOTS) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_ON_DIE_ECC) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_OP_TEMPERATURE) {LOW} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_OTF_SCRUB) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_PERIODIC_READ) {ENABLE} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_PRE_DEF_ADDR_MAP_SEL) {USER_DEFINED_ADDRESS_MAP} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_RD_DBI) {true} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_REFRESH_MODE) {NORMAL} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_REFRESH_TYPE) {PER_BANK} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_REF_AND_PER_CAL_INTF) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_REG_SCRUB_INTVL) {0x015180} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_ROW_ADDR_WIDTH) {16} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_SCRUB_SIZE) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_SELF_REFRESH) {DISABLE} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_SIDE_BAND_ECC) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_SILICON_REVISION) {NA} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_SPEED_GRADE) {LPDDR5X-8533} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_STACK_HEIGHT) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_SYSTEM_CLOCK) {Internal} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_TREFI) {3906000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_UBLAZE_BLI_INTF) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_USER_DEFINED_ADDRESS_MAP) {2RA-1BG-14RA-2BA-6CA-1BG} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_USER_REFRESH) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_WL_SET) {A} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_WR_DBI) {true} \
+    CONFIG.DDRMC5_CRYPTO {None} \
+    CONFIG.DDRMC5_INLINE_ECC {1} \
+    CONFIG.DDRMC5_NUM_CH {1} \
+    CONFIG.MC_CHAN_REGION0 {DDR_CH1A} \
+    CONFIG.NUM_MC {1} \
+    CONFIG.NUM_MCP {2} \
+    CONFIG.NUM_MI {0} \
+    CONFIG.NUM_SI {2} \
+  ] $axi_noc2_2
+
+
+  set_property -dict [ list \
+   CONFIG.DATA_WIDTH {512} \
+   CONFIG.PHYSICAL_LOC {NOC2_NMU512_X3Y0} \
+   CONFIG.CONNECTIONS {MC_0 {read_bw {14000} write_bw {14000} read_avg_burst {4} write_avg_burst {4}}} \
+   CONFIG.DEST_IDS {} \
+   CONFIG.NOC_PARAMS {} \
+   CONFIG.CATEGORY {pl} \
+ ] [get_bd_intf_pins $axi_noc2_2/S00_AXI]
+
+  set_property -dict [ list \
+   CONFIG.DATA_WIDTH {512} \
+   CONFIG.PHYSICAL_LOC {NOC2_NMU512_X2Y0} \
+   CONFIG.CONNECTIONS {MC_1 {read_bw {14000} write_bw {14000} read_avg_burst {4} write_avg_burst {4}}} \
+   CONFIG.DEST_IDS {} \
+   CONFIG.NOC_PARAMS {} \
+   CONFIG.CATEGORY {pl} \
+ ] [get_bd_intf_pins $axi_noc2_2/S01_AXI]
+
+  set_property -dict [ list \
+   CONFIG.ASSOCIATED_BUSIF {S00_AXI:S01_AXI} \
+ ] [get_bd_pins $axi_noc2_2/aclk0]
+
+  # Create instance: axi_noc2_3, and set properties
+  set axi_noc2_3 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc2:1.1 axi_noc2_3 ]
+  set_property -dict [list \
+    CONFIG.DDR5_DEVICE_TYPE {Components} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_ADDRESS_MAP) {NA,NA,NA,NA,NA,NA,NA,NA,RA15,RA14,BG1,RA13,RA12,RA11,RA10,RA9,RA8,RA7,RA6,RA5,RA4,RA3,RA2,RA1,RA0,BA1,BA0,CA5,CA4,CA3,CA2,CA1,CA0,BG0,NC,NC,NC,NC,NA,NA} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_AUTO_PRECHARGE) {true} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_BACKGROUND_SCRUB) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_BA_ADDR_WIDTH) {2} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_BG_WIDTH) {2} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_BOARD_INTRF_EN) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_BURST_ADDR_WIDTH) {4} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_CAL_MASK_POLL) {ENABLE} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_COL_ADDR_WIDTH) {6} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_CONFIG12_SWAP) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_CONFIG13_OPT) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_CONTROLLERTYPE) {LPDDR5_SDRAM} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_CRYPTO) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DATA_WIDTH) {32} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_2T) {DISABLE} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_PAR_RCD_EN) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_RDIMM_ADDR_MODE) {DDR} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TFAW_DLR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TREFSBRD) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TREFSBRD_DLR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TREFSBRD_SLR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFC1) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFC1_DLR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFC1_DPR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFC2) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFC2_DLR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFC2_DPR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFCSB) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFCSB_DLR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DEVICE_TYPE) {Components} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DM_EN) {true} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DQS_OSCI_EN) {DISABLE} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DRAM_SIZE) {16Gb} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DRAM_WIDTH) {x16} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_EXTENDED_DDRMC5E) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_CL) {64} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_CWL) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_DDR5_TCCD_L_WR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_DDR5_TCCD_L_WR2) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_DDR5_TCCD_L_WR2_RU) {16} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_DDR5_TCCD_L_WR_RU) {32} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_DDR5_TPD) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_DDR5_TRP) {18000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_DDR5_TRRD_L) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_LP5_BANK_ARCH) {BG} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_LP5_TCSPD) {10938} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_LP5_TRPAB) {21000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_LP5_TRPPB) {18000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_LP5_TRRD) {3750} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_RL) {25} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TCCD_L) {4} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TCK) {938} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TFAW) {15000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TRAS) {42000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TRCD) {18000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TRTP) {7500} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TRTP_RU) {24} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TXP) {7000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TZQLAT) {30000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_WL) {12} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_CL) {64} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_CWL) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_DDR5_TCCD_L_WR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_DDR5_TCCD_L_WR2) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_DDR5_TCCD_L_WR2_RU) {16} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_DDR5_TCCD_L_WR_RU) {32} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_DDR5_TPD) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_DDR5_TRP) {18000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_DDR5_TRRD_L) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_LP5_BANK_ARCH) {BG} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_LP5_TCSPD) {10938} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_LP5_TRPAB) {21000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_LP5_TRPPB) {18000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_LP5_TRRD) {3750} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_RL) {25} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TCCD_L) {4} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TCK) {938} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TFAW) {15000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TRAS) {42000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TRCD) {18000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TRTP) {7500} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TRTP_RU) {24} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TXP) {7000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TZQLAT) {30000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_WL) {12} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_FPGA_DEVICE_TYPE) {NON_KSB} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_FREQ_SWITCHING) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_INLINE_ECC) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_INPUTCLK0_PERIOD) {4925} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_INTERLEAVE_SIZE) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LATENCY_MODE) {x16} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LBDQ_SWAP) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LOW_TRFC_DPR) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LP5_TPBR2ACT) {7500} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LP5_TPBR2PBR) {90000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LP5_TRFCAB) {280000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LP5_TRFCPB) {140000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LP5_TRFMAB) {280000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LP5_TRFMPB) {190000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MAIN_DEVICE_TYPE) {Components} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC0_CONFIG_SEL) {config13} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC1_CONFIG_SEL) {config13_opt} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC2_CONFIG_SEL) {config13_opt} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC3_CONFIG_SEL) {config13_opt} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC4_CONFIG_SEL) {config13_opt} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC5_CONFIG_SEL) {config13_opt} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC6_CONFIG_SEL) {config13_opt} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC7_CONFIG_SEL) {config13_opt} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MEMORY_DENSITY) {4GB} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MEM_FILL) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_NUM_CH) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_NUM_CK) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_NUM_MC) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_NUM_MCP) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_NUM_RANKS) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_NUM_SLOTS) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_ON_DIE_ECC) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_OP_TEMPERATURE) {LOW} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_OTF_SCRUB) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_PERIODIC_READ) {ENABLE} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_PRE_DEF_ADDR_MAP_SEL) {USER_DEFINED_ADDRESS_MAP} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_RD_DBI) {true} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_REFRESH_MODE) {NORMAL} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_REFRESH_TYPE) {PER_BANK} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_REF_AND_PER_CAL_INTF) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_REG_SCRUB_INTVL) {0x015180} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_ROW_ADDR_WIDTH) {16} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_SCRUB_SIZE) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_SELF_REFRESH) {DISABLE} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_SIDE_BAND_ECC) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_SILICON_REVISION) {NA} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_SPEED_GRADE) {LPDDR5X-8533} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_STACK_HEIGHT) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_SYSTEM_CLOCK) {Internal} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_TREFI) {3906000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_UBLAZE_BLI_INTF) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_USER_DEFINED_ADDRESS_MAP) {2RA-1BG-14RA-2BA-6CA-1BG} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_USER_REFRESH) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_WL_SET) {A} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_WR_DBI) {true} \
+    CONFIG.DDRMC5_CRYPTO {XTS} \
+    CONFIG.DDRMC5_INLINE_ECC {0} \
+    CONFIG.DDRMC5_NUM_CH {1} \
+    CONFIG.MC_CHAN_REGION0 {DDR_CH2} \
+    CONFIG.NUM_MC {1} \
+    CONFIG.NUM_MCP {2} \
+    CONFIG.NUM_MI {0} \
+    CONFIG.NUM_SI {2} \
+    CONFIG.SI_SIDEBAND_PINS {0} \
+  ] $axi_noc2_3
+
+
+  set_property -dict [ list \
+   CONFIG.DATA_WIDTH {512} \
+   CONFIG.PHYSICAL_LOC {NOC2_NMU512_X5Y0} \
+   CONFIG.CONNECTIONS {MC_0 {read_bw {14000} write_bw {14000} read_avg_burst {4} write_avg_burst {4}}} \
+   CONFIG.DEST_IDS {} \
+   CONFIG.NOC_PARAMS {} \
+   CONFIG.CATEGORY {pl} \
+ ] [get_bd_intf_pins $axi_noc2_3/S00_AXI]
+
+  set_property -dict [ list \
+   CONFIG.DATA_WIDTH {512} \
+   CONFIG.PHYSICAL_LOC {NOC2_NMU512_X6Y0} \
+   CONFIG.CONNECTIONS {MC_1 {read_bw {14000} write_bw {14000} read_avg_burst {4} write_avg_burst {4}}} \
+   CONFIG.DEST_IDS {} \
+   CONFIG.NOC_PARAMS {} \
+   CONFIG.CATEGORY {pl} \
+ ] [get_bd_intf_pins $axi_noc2_3/S01_AXI]
+
+  set_property -dict [ list \
+   CONFIG.ASSOCIATED_BUSIF {S00_AXI:S01_AXI} \
+ ] [get_bd_pins $axi_noc2_3/aclk0]
+
+  # Create instance: perf_axi_tg_2, and set properties
+  set perf_axi_tg_2 [ create_bd_cell -type ip -vlnv xilinx.com:ip:perf_axi_tg:1.0 perf_axi_tg_2 ]
+  set_property -dict [list \
+    CONFIG.IS_CONN_SLAVE_AXI_NOC {true} \
+    CONFIG.USER_C_AXI_CLK_PERIOD {3749} \
+    CONFIG.USER_C_AXI_READ_BASEADDR {0x0000058000000000} \
+    CONFIG.USER_C_AXI_READ_HIGHADDR {0x00000580FFFFFFFF} \
+    CONFIG.USER_C_AXI_READ_SIZE {1} \
+    CONFIG.USER_C_AXI_SLAVE_DATA_WIDTH {128} \
+    CONFIG.USER_C_AXI_WDATA_WIDTH {512} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR {0x0000058000000000} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR_SLV {0x058000000000} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR {0x00000580FFFFFFFF} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR_SLV {0x0580FFFFFFFF} \
+    CONFIG.USER_C_AXI_WRITE_SIZE {1} \
+    CONFIG.USER_DEBUG_INTF {TRUE} \
+    CONFIG.USER_EN_VIO_STATUS_MONITOR {FALSE} \
+    CONFIG.USER_NO_OF_SLAVE_CONNECTED {1} \
+    CONFIG.USER_PARAM_SRC_ID {2} \
+    CONFIG.USER_PERF_TG {SYNTHESIZABLE} \
+    CONFIG.USER_SYNTH_DEFINED_PATTERN_CSV {../../../../../../../traffic_gen_data_64.csv} \
+    CONFIG.USER_SYNTH_DI_EN {Disabled} \
+    CONFIG.USER_SYN_ID_WIDTH {4} \
+    CONFIG.USER_TRAFFIC_SHAPING_EN {FALSE} \
+  ] $perf_axi_tg_2
+
+  set_property -dict [list \
+    CONFIG.IS_CONN_SLAVE_AXI_NOC.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_CLK_PERIOD.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_READ_BASEADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_READ_HIGHADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_SLAVE_DATA_WIDTH.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR_SLV.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR_SLV.VALUE_MODE {auto} \
+    CONFIG.USER_NO_OF_SLAVE_CONNECTED.VALUE_MODE {auto} \
+    CONFIG.USER_PARAM_SRC_ID.VALUE_MODE {auto} \
+  ] $perf_axi_tg_2
+
+
+  # Create instance: perf_axi_tg_3, and set properties
+  set perf_axi_tg_3 [ create_bd_cell -type ip -vlnv xilinx.com:ip:perf_axi_tg:1.0 perf_axi_tg_3 ]
+  set_property -dict [list \
+    CONFIG.IS_CONN_SLAVE_AXI_NOC {true} \
+    CONFIG.USER_C_AXI_CLK_PERIOD {3749} \
+    CONFIG.USER_C_AXI_READ_BASEADDR {0x0000058000000000} \
+    CONFIG.USER_C_AXI_READ_HIGHADDR {0x00000580FFFFFFFF} \
+    CONFIG.USER_C_AXI_READ_SIZE {1} \
+    CONFIG.USER_C_AXI_SLAVE_DATA_WIDTH {128} \
+    CONFIG.USER_C_AXI_WDATA_WIDTH {512} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR {0x0000058000000000} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR_SLV {0x058000000000} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR {0x00000580FFFFFFFF} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR_SLV {0x0580FFFFFFFF} \
+    CONFIG.USER_C_AXI_WRITE_SIZE {1} \
+    CONFIG.USER_DEBUG_INTF {TRUE} \
+    CONFIG.USER_EN_VIO_STATUS_MONITOR {FALSE} \
+    CONFIG.USER_NO_OF_SLAVE_CONNECTED {1} \
+    CONFIG.USER_PARAM_SRC_ID {3} \
+    CONFIG.USER_PERF_TG {SYNTHESIZABLE} \
+    CONFIG.USER_SYNTH_DEFINED_PATTERN_CSV {../../../../../../../traffic_gen_data_64.csv} \
+    CONFIG.USER_SYNTH_DI_EN {Disabled} \
+    CONFIG.USER_SYN_ID_WIDTH {4} \
+    CONFIG.USER_TRAFFIC_SHAPING_EN {FALSE} \
+  ] $perf_axi_tg_3
+
+  set_property -dict [list \
+    CONFIG.IS_CONN_SLAVE_AXI_NOC.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_CLK_PERIOD.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_READ_BASEADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_READ_HIGHADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_SLAVE_DATA_WIDTH.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR_SLV.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR_SLV.VALUE_MODE {auto} \
+    CONFIG.USER_NO_OF_SLAVE_CONNECTED.VALUE_MODE {auto} \
+    CONFIG.USER_PARAM_SRC_ID.VALUE_MODE {auto} \
+  ] $perf_axi_tg_3
+
+
+  # Create instance: perf_axi_tg_4, and set properties
+  set perf_axi_tg_4 [ create_bd_cell -type ip -vlnv xilinx.com:ip:perf_axi_tg:1.0 perf_axi_tg_4 ]
+  set_property -dict [list \
+    CONFIG.IS_CONN_SLAVE_AXI_NOC {true} \
+    CONFIG.USER_C_AXI_CLK_PERIOD {3749} \
+    CONFIG.USER_C_AXI_READ_BASEADDR {0x0000060000000000} \
+    CONFIG.USER_C_AXI_READ_HIGHADDR {0x00000600FFFFFFFF} \
+    CONFIG.USER_C_AXI_READ_SIZE {1} \
+    CONFIG.USER_C_AXI_SLAVE_DATA_WIDTH {128} \
+    CONFIG.USER_C_AXI_WDATA_WIDTH {512} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR {0x0000060000000000} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR_SLV {0x060000000000} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR {0x00000600FFFFFFFF} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR_SLV {0x0600FFFFFFFF} \
+    CONFIG.USER_C_AXI_WRITE_SIZE {1} \
+    CONFIG.USER_DEBUG_INTF {TRUE} \
+    CONFIG.USER_EN_VIO_STATUS_MONITOR {FALSE} \
+    CONFIG.USER_NO_OF_SLAVE_CONNECTED {1} \
+    CONFIG.USER_PARAM_SRC_ID {4} \
+    CONFIG.USER_PERF_TG {SYNTHESIZABLE} \
+    CONFIG.USER_SYNTH_DEFINED_PATTERN_CSV {../../../../../../../traffic_gen_data_64.csv} \
+    CONFIG.USER_SYNTH_DI_EN {Disabled} \
+    CONFIG.USER_SYN_ID_WIDTH {4} \
+    CONFIG.USER_TRAFFIC_SHAPING_EN {FALSE} \
+  ] $perf_axi_tg_4
+
+  set_property -dict [list \
+    CONFIG.IS_CONN_SLAVE_AXI_NOC.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_CLK_PERIOD.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_READ_BASEADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_READ_HIGHADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_SLAVE_DATA_WIDTH.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR_SLV.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR_SLV.VALUE_MODE {auto} \
+    CONFIG.USER_NO_OF_SLAVE_CONNECTED.VALUE_MODE {auto} \
+    CONFIG.USER_PARAM_SRC_ID.VALUE_MODE {auto} \
+  ] $perf_axi_tg_4
+
+
+  # Create instance: perf_axi_tg_5, and set properties
+  set perf_axi_tg_5 [ create_bd_cell -type ip -vlnv xilinx.com:ip:perf_axi_tg:1.0 perf_axi_tg_5 ]
+  set_property -dict [list \
+    CONFIG.IS_CONN_SLAVE_AXI_NOC {true} \
+    CONFIG.USER_C_AXI_CLK_PERIOD {3749} \
+    CONFIG.USER_C_AXI_READ_BASEADDR {0x0000060000000000} \
+    CONFIG.USER_C_AXI_READ_HIGHADDR {0x00000600FFFFFFFF} \
+    CONFIG.USER_C_AXI_READ_SIZE {1} \
+    CONFIG.USER_C_AXI_SLAVE_DATA_WIDTH {128} \
+    CONFIG.USER_C_AXI_WDATA_WIDTH {512} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR {0x0000060000000000} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR_SLV {0x060000000000} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR {0x00000600FFFFFFFF} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR_SLV {0x0600FFFFFFFF} \
+    CONFIG.USER_C_AXI_WRITE_SIZE {1} \
+    CONFIG.USER_DEBUG_INTF {TRUE} \
+    CONFIG.USER_EN_VIO_STATUS_MONITOR {FALSE} \
+    CONFIG.USER_NO_OF_SLAVE_CONNECTED {1} \
+    CONFIG.USER_PARAM_SRC_ID {5} \
+    CONFIG.USER_PERF_TG {SYNTHESIZABLE} \
+    CONFIG.USER_SYNTH_DEFINED_PATTERN_CSV {../../../../../../../traffic_gen_data_64.csv} \
+    CONFIG.USER_SYNTH_DI_EN {Disabled} \
+    CONFIG.USER_SYN_ID_WIDTH {4} \
+    CONFIG.USER_TRAFFIC_SHAPING_EN {FALSE} \
+  ] $perf_axi_tg_5
+
+  set_property -dict [list \
+    CONFIG.IS_CONN_SLAVE_AXI_NOC.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_CLK_PERIOD.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_READ_BASEADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_READ_HIGHADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_SLAVE_DATA_WIDTH.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR_SLV.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR_SLV.VALUE_MODE {auto} \
+    CONFIG.USER_NO_OF_SLAVE_CONNECTED.VALUE_MODE {auto} \
+    CONFIG.USER_PARAM_SRC_ID.VALUE_MODE {auto} \
+  ] $perf_axi_tg_5
+
+
+  # Create instance: perf_axi_tg_6, and set properties
+  set perf_axi_tg_6 [ create_bd_cell -type ip -vlnv xilinx.com:ip:perf_axi_tg:1.0 perf_axi_tg_6 ]
+  set_property -dict [list \
+    CONFIG.IS_CONN_SLAVE_AXI_NOC {true} \
+    CONFIG.USER_C_AXI_CLK_PERIOD {3749} \
+    CONFIG.USER_C_AXI_READ_BASEADDR {0x0000068000000000} \
+    CONFIG.USER_C_AXI_READ_HIGHADDR {0x00000680FFFFFFFF} \
+    CONFIG.USER_C_AXI_READ_SIZE {1} \
+    CONFIG.USER_C_AXI_SLAVE_DATA_WIDTH {128} \
+    CONFIG.USER_C_AXI_WDATA_WIDTH {512} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR {0x0000068000000000} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR_SLV {0x068000000000} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR {0x00000680FFFFFFFF} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR_SLV {0x0680FFFFFFFF} \
+    CONFIG.USER_C_AXI_WRITE_SIZE {1} \
+    CONFIG.USER_DEBUG_INTF {TRUE} \
+    CONFIG.USER_EN_VIO_STATUS_MONITOR {FALSE} \
+    CONFIG.USER_NO_OF_SLAVE_CONNECTED {1} \
+    CONFIG.USER_PARAM_SRC_ID {6} \
+    CONFIG.USER_PERF_TG {SYNTHESIZABLE} \
+    CONFIG.USER_SYNTH_DEFINED_PATTERN_CSV {../../../../../../../traffic_gen_data_64.csv} \
+    CONFIG.USER_SYNTH_DI_EN {Disabled} \
+    CONFIG.USER_SYN_ID_WIDTH {4} \
+    CONFIG.USER_TRAFFIC_SHAPING_EN {FALSE} \
+  ] $perf_axi_tg_6
+
+  set_property -dict [list \
+    CONFIG.IS_CONN_SLAVE_AXI_NOC.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_CLK_PERIOD.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_READ_BASEADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_READ_HIGHADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_SLAVE_DATA_WIDTH.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR_SLV.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR_SLV.VALUE_MODE {auto} \
+    CONFIG.USER_NO_OF_SLAVE_CONNECTED.VALUE_MODE {auto} \
+    CONFIG.USER_PARAM_SRC_ID.VALUE_MODE {auto} \
+  ] $perf_axi_tg_6
+
+
+  # Create instance: perf_axi_tg_7, and set properties
+  set perf_axi_tg_7 [ create_bd_cell -type ip -vlnv xilinx.com:ip:perf_axi_tg:1.0 perf_axi_tg_7 ]
+  set_property -dict [list \
+    CONFIG.IS_CONN_SLAVE_AXI_NOC {true} \
+    CONFIG.USER_C_AXI_CLK_PERIOD {3749} \
+    CONFIG.USER_C_AXI_READ_BASEADDR {0x0000068000000000} \
+    CONFIG.USER_C_AXI_READ_HIGHADDR {0x00000680FFFFFFFF} \
+    CONFIG.USER_C_AXI_READ_SIZE {1} \
+    CONFIG.USER_C_AXI_SLAVE_DATA_WIDTH {128} \
+    CONFIG.USER_C_AXI_WDATA_WIDTH {512} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR {0x0000068000000000} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR_SLV {0x068000000000} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR {0x00000680FFFFFFFF} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR_SLV {0x0680FFFFFFFF} \
+    CONFIG.USER_C_AXI_WRITE_SIZE {1} \
+    CONFIG.USER_DEBUG_INTF {TRUE} \
+    CONFIG.USER_EN_VIO_STATUS_MONITOR {FALSE} \
+    CONFIG.USER_NO_OF_SLAVE_CONNECTED {1} \
+    CONFIG.USER_PARAM_SRC_ID {7} \
+    CONFIG.USER_PERF_TG {SYNTHESIZABLE} \
+    CONFIG.USER_SYNTH_DEFINED_PATTERN_CSV {../../../../../../../traffic_gen_data_64.csv} \
+    CONFIG.USER_SYNTH_DI_EN {Disabled} \
+    CONFIG.USER_SYN_ID_WIDTH {4} \
+    CONFIG.USER_TRAFFIC_SHAPING_EN {FALSE} \
+  ] $perf_axi_tg_7
+
+  set_property -dict [list \
+    CONFIG.IS_CONN_SLAVE_AXI_NOC.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_CLK_PERIOD.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_READ_BASEADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_READ_HIGHADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_SLAVE_DATA_WIDTH.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_BASEADDR_SLV.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR.VALUE_MODE {auto} \
+    CONFIG.USER_C_AXI_WRITE_HIGHADDR_SLV.VALUE_MODE {auto} \
+    CONFIG.USER_NO_OF_SLAVE_CONNECTED.VALUE_MODE {auto} \
+    CONFIG.USER_PARAM_SRC_ID.VALUE_MODE {auto} \
+  ] $perf_axi_tg_7
+
+
+  # Create instance: axi_noc2_4, and set properties
+  set axi_noc2_4 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_noc2:1.1 axi_noc2_4 ]
+  set_property -dict [list \
+    CONFIG.DDR5_DEVICE_TYPE {Components} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_ADDRESS_MAP) {NA,NA,NA,NA,NA,NA,NA,NA,RA15,RA14,BG1,RA13,RA12,RA11,RA10,RA9,RA8,RA7,RA6,RA5,RA4,RA3,RA2,RA1,RA0,BA1,BA0,CA5,CA4,CA3,CA2,CA1,CA0,BG0,NC,NC,NC,NC,NA,NA} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_AUTO_PRECHARGE) {true} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_BACKGROUND_SCRUB) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_BA_ADDR_WIDTH) {2} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_BG_WIDTH) {2} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_BOARD_INTRF_EN) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_BURST_ADDR_WIDTH) {4} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_CAL_MASK_POLL) {ENABLE} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_COL_ADDR_WIDTH) {6} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_CONFIG12_SWAP) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_CONFIG13_OPT) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_CONTROLLERTYPE) {LPDDR5_SDRAM} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_CRYPTO) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DATA_WIDTH) {32} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_2T) {DISABLE} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_PAR_RCD_EN) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_RDIMM_ADDR_MODE) {DDR} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TFAW_DLR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TREFSBRD) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TREFSBRD_DLR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TREFSBRD_SLR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFC1) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFC1_DLR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFC1_DPR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFC2) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFC2_DLR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFC2_DPR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFCSB) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DDR5_TRFCSB_DLR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DEVICE_TYPE) {Components} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DM_EN) {true} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DQS_OSCI_EN) {DISABLE} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DRAM_SIZE) {16Gb} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_DRAM_WIDTH) {x16} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_EXTENDED_DDRMC5E) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_CL) {64} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_CWL) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_DDR5_TCCD_L_WR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_DDR5_TCCD_L_WR2) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_DDR5_TCCD_L_WR2_RU) {16} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_DDR5_TCCD_L_WR_RU) {32} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_DDR5_TPD) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_DDR5_TRP) {18000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_DDR5_TRRD_L) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_LP5_BANK_ARCH) {BG} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_LP5_TCSPD) {10938} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_LP5_TRPAB) {21000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_LP5_TRPPB) {18000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_LP5_TRRD) {3750} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_RL) {25} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TCCD_L) {4} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TCK) {938} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TFAW) {15000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TRAS) {42000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TRCD) {18000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TRTP) {7500} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TRTP_RU) {24} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TXP) {7000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_TZQLAT) {30000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F0_WL) {12} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_CL) {64} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_CWL) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_DDR5_TCCD_L_WR) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_DDR5_TCCD_L_WR2) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_DDR5_TCCD_L_WR2_RU) {16} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_DDR5_TCCD_L_WR_RU) {32} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_DDR5_TPD) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_DDR5_TRP) {18000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_DDR5_TRRD_L) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_LP5_BANK_ARCH) {BG} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_LP5_TCSPD) {10938} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_LP5_TRPAB) {21000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_LP5_TRPPB) {18000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_LP5_TRRD) {3750} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_RL) {25} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TCCD_L) {4} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TCK) {938} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TFAW) {15000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TRAS) {42000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TRCD) {18000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TRTP) {7500} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TRTP_RU) {24} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TXP) {7000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_TZQLAT) {30000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_F1_WL) {12} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_FPGA_DEVICE_TYPE) {NON_KSB} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_FREQ_SWITCHING) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_INLINE_ECC) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_INPUTCLK0_PERIOD) {4925} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_INTERLEAVE_SIZE) {0} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LATENCY_MODE) {x16} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LBDQ_SWAP) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LOW_TRFC_DPR) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LP5_TPBR2ACT) {7500} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LP5_TPBR2PBR) {90000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LP5_TRFCAB) {280000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LP5_TRFCPB) {140000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LP5_TRFMAB) {280000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_LP5_TRFMPB) {190000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MAIN_DEVICE_TYPE) {Components} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC0_CONFIG_SEL) {config13} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC1_CONFIG_SEL) {config13} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC2_CONFIG_SEL) {config13} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC3_CONFIG_SEL) {config13} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC4_CONFIG_SEL) {config13} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC5_CONFIG_SEL) {config13} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC6_CONFIG_SEL) {config13} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MC7_CONFIG_SEL) {config13} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MEMORY_DENSITY) {4GB} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_MEM_FILL) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_NUM_CH) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_NUM_CK) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_NUM_MC) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_NUM_MCP) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_NUM_RANKS) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_NUM_SLOTS) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_ON_DIE_ECC) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_OP_TEMPERATURE) {LOW} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_OTF_SCRUB) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_PERIODIC_READ) {ENABLE} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_PRE_DEF_ADDR_MAP_SEL) {USER_DEFINED_ADDRESS_MAP} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_RD_DBI) {true} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_REFRESH_MODE) {NORMAL} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_REFRESH_TYPE) {PER_BANK} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_REF_AND_PER_CAL_INTF) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_REG_SCRUB_INTVL) {0x015180} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_ROW_ADDR_WIDTH) {16} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_SCRUB_SIZE) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_SELF_REFRESH) {DISABLE} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_SIDE_BAND_ECC) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_SILICON_REVISION) {NA} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_SPEED_GRADE) {LPDDR5X-8533} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_STACK_HEIGHT) {1} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_SYSTEM_CLOCK) {Internal} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_TREFI) {3906000} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_UBLAZE_BLI_INTF) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_USER_DEFINED_ADDRESS_MAP) {2RA-1BG-14RA-2BA-6CA-1BG} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_USER_REFRESH) {false} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_WL_SET) {A} \
+    CONFIG.DDRMC5_CONFIG(DDRMC5_WR_DBI) {true} \
+    CONFIG.DDRMC5_CRYPTO {GCM} \
+    CONFIG.DDRMC5_INLINE_ECC {0} \
+    CONFIG.DDRMC5_NUM_CH {1} \
+    CONFIG.MC_CHAN_REGION0 {DDR_CH2A} \
+    CONFIG.NUM_MC {1} \
+    CONFIG.NUM_MCP {2} \
+    CONFIG.NUM_MI {0} \
+    CONFIG.NUM_SI {2} \
+    CONFIG.SI_SIDEBAND_PINS {0} \
+  ] $axi_noc2_4
+
+
+  set_property -dict [ list \
+   CONFIG.DATA_WIDTH {512} \
+   CONFIG.PHYSICAL_LOC {NOC2_NMU512_X7Y0} \
+   CONFIG.CONNECTIONS {MC_0 {read_bw {14000} write_bw {14000} read_avg_burst {4} write_avg_burst {4}}} \
+   CONFIG.DEST_IDS {} \
+   CONFIG.NOC_PARAMS {} \
+   CONFIG.CATEGORY {pl} \
+ ] [get_bd_intf_pins $axi_noc2_4/S00_AXI]
+
+  set_property -dict [ list \
+   CONFIG.DATA_WIDTH {512} \
+   CONFIG.PHYSICAL_LOC {NOC2_NMU512_X8Y0} \
+   CONFIG.CONNECTIONS {MC_1 {read_bw {14000} write_bw {14000} read_avg_burst {4} write_avg_burst {4}}} \
+   CONFIG.DEST_IDS {} \
+   CONFIG.NOC_PARAMS {} \
+   CONFIG.CATEGORY {pl} \
+ ] [get_bd_intf_pins $axi_noc2_4/S01_AXI]
+
+  set_property -dict [ list \
+   CONFIG.ASSOCIATED_BUSIF {S00_AXI:S01_AXI} \
+ ] [get_bd_pins $axi_noc2_4/aclk0]
+
+  # Create instance: ps_wizard_0, and set properties
+  set ps_wizard_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:ps_wizard:1.0 ps_wizard_0 ]
+  set_property -dict [list \
+    CONFIG.PS11_CONFIG(PMC_HSM1_CLK_OUT_ENABLE) {1} \
+    CONFIG.PS11_CONFIG(PS_NUM_FABRIC_RESETS) {1} \
+    CONFIG.PS11_CONFIG(PS_USE_LPD_AXI_PL) {1} \
+    CONFIG.PS11_CONFIG(PS_USE_PMCPL_CLK0) {1} \
+  ] $ps_wizard_0
+
+
+  # Create interface connections
+  connect_bd_intf_net -intf_net axi_noc2_1_C0_CH0_LPDDR5 [get_bd_intf_ports CH1_LPDDR5X] [get_bd_intf_pins axi_noc2_1/C0_CH0_LPDDR5]
+  connect_bd_intf_net -intf_net axi_noc2_2_C0_CH0_LPDDR5 [get_bd_intf_ports CH2_LPDDR5X] [get_bd_intf_pins axi_noc2_2/C0_CH0_LPDDR5]
+  connect_bd_intf_net -intf_net axi_noc2_3_C0_CH0_LPDDR5 [get_bd_intf_ports CH3_LPDDR5X] [get_bd_intf_pins axi_noc2_3/C0_CH0_LPDDR5]
+  connect_bd_intf_net -intf_net axi_noc2_4_C0_CH0_LPDDR5 [get_bd_intf_ports CH4_LPDDR5X] [get_bd_intf_pins axi_noc2_4/C0_CH0_LPDDR5]
+  connect_bd_intf_net -intf_net perf_axi_tg_0_M_AXI [get_bd_intf_pins axi_noc2_1/S00_AXI] [get_bd_intf_pins perf_axi_tg_0/M_AXI]
+  connect_bd_intf_net -intf_net perf_axi_tg_1_M_AXI [get_bd_intf_pins axi_noc2_1/S01_AXI] [get_bd_intf_pins perf_axi_tg_1/M_AXI]
+  connect_bd_intf_net -intf_net perf_axi_tg_2_M_AXI [get_bd_intf_pins axi_noc2_2/S00_AXI] [get_bd_intf_pins perf_axi_tg_2/M_AXI]
+  connect_bd_intf_net -intf_net perf_axi_tg_3_M_AXI [get_bd_intf_pins perf_axi_tg_3/M_AXI] [get_bd_intf_pins axi_noc2_2/S01_AXI]
+  connect_bd_intf_net -intf_net perf_axi_tg_4_M_AXI [get_bd_intf_pins axi_noc2_3/S00_AXI] [get_bd_intf_pins perf_axi_tg_4/M_AXI]
+  connect_bd_intf_net -intf_net perf_axi_tg_5_M_AXI [get_bd_intf_pins perf_axi_tg_5/M_AXI] [get_bd_intf_pins axi_noc2_3/S01_AXI]
+  connect_bd_intf_net -intf_net perf_axi_tg_6_M_AXI [get_bd_intf_pins axi_noc2_4/S00_AXI] [get_bd_intf_pins perf_axi_tg_6/M_AXI]
+  connect_bd_intf_net -intf_net perf_axi_tg_7_M_AXI [get_bd_intf_pins perf_axi_tg_7/M_AXI] [get_bd_intf_pins axi_noc2_4/S01_AXI]
+  connect_bd_intf_net -intf_net ps_wizard_0_LPD_AXI_PL [get_bd_intf_pins smartconnect_0/S00_AXI] [get_bd_intf_pins ps_wizard_0/LPD_AXI_PL]
+  connect_bd_intf_net -intf_net sim_trig_0_MCSIO_OUT_00 [get_bd_intf_pins sim_trig_0/MCSIO_OUT_00] [get_bd_intf_pins perf_axi_tg_1/MCSIO_IN]
+  connect_bd_intf_net -intf_net sim_trig_0_MCSIO_OUT_01 [get_bd_intf_pins sim_trig_0/MCSIO_OUT_01] [get_bd_intf_pins perf_axi_tg_0/MCSIO_IN]
+  connect_bd_intf_net -intf_net sim_trig_0_MCSIO_OUT_02 [get_bd_intf_pins sim_trig_0/MCSIO_OUT_02] [get_bd_intf_pins perf_axi_tg_2/MCSIO_IN]
+  connect_bd_intf_net -intf_net sim_trig_0_MCSIO_OUT_03 [get_bd_intf_pins perf_axi_tg_3/MCSIO_IN] [get_bd_intf_pins sim_trig_0/MCSIO_OUT_03]
+  connect_bd_intf_net -intf_net sim_trig_0_MCSIO_OUT_04 [get_bd_intf_pins sim_trig_0/MCSIO_OUT_04] [get_bd_intf_pins perf_axi_tg_4/MCSIO_IN]
+  connect_bd_intf_net -intf_net sim_trig_0_MCSIO_OUT_05 [get_bd_intf_pins perf_axi_tg_5/MCSIO_IN] [get_bd_intf_pins sim_trig_0/MCSIO_OUT_05]
+  connect_bd_intf_net -intf_net sim_trig_0_MCSIO_OUT_06 [get_bd_intf_pins sim_trig_0/MCSIO_OUT_06] [get_bd_intf_pins perf_axi_tg_6/MCSIO_IN]
+  connect_bd_intf_net -intf_net sim_trig_0_MCSIO_OUT_07 [get_bd_intf_pins perf_axi_tg_7/MCSIO_IN] [get_bd_intf_pins sim_trig_0/MCSIO_OUT_07]
+  connect_bd_intf_net -intf_net smartconnect_0_M00_AXI [get_bd_intf_pins smartconnect_0/M00_AXI] [get_bd_intf_pins sim_trig_0/AXI4_LITE]
+
+  # Create port connections
+  connect_bd_net -net clk_gen_sim_0_axi_clk_0  [get_bd_pins clk_gen_sim_0/axi_clk_0] \
+  [get_bd_pins perf_axi_tg_0/clk] \
+  [get_bd_pins perf_axi_tg_0/pclk] \
+  [get_bd_pins perf_axi_tg_1/clk] \
+  [get_bd_pins perf_axi_tg_1/pclk] \
+  [get_bd_pins perf_axi_tg_2/clk] \
+  [get_bd_pins perf_axi_tg_2/pclk] \
+  [get_bd_pins perf_axi_tg_3/clk] \
+  [get_bd_pins perf_axi_tg_3/pclk] \
+  [get_bd_pins perf_axi_tg_4/clk] \
+  [get_bd_pins perf_axi_tg_4/pclk] \
+  [get_bd_pins perf_axi_tg_5/clk] \
+  [get_bd_pins perf_axi_tg_5/pclk] \
+  [get_bd_pins perf_axi_tg_6/clk] \
+  [get_bd_pins perf_axi_tg_6/pclk] \
+  [get_bd_pins perf_axi_tg_7/clk] \
+  [get_bd_pins perf_axi_tg_7/pclk] \
+  [get_bd_pins sim_trig_0/pclk] \
+  [get_bd_pins smartconnect_0/aclk] \
+  [get_bd_pins axi_noc2_1/aclk0] \
+  [get_bd_pins axi_noc2_2/aclk0] \
+  [get_bd_pins axi_noc2_3/aclk0] \
+  [get_bd_pins axi_noc2_4/aclk0] \
+  [get_bd_pins ps_wizard_0/lpd_axi_pl_aclk]
+  connect_bd_net -net clk_gen_sim_0_axi_rst_0_n  [get_bd_pins clk_gen_sim_0/axi_rst_0_n] \
+  [get_bd_pins perf_axi_tg_0/tg_rst_n] \
+  [get_bd_pins perf_axi_tg_1/tg_rst_n] \
+  [get_bd_pins perf_axi_tg_2/tg_rst_n] \
+  [get_bd_pins perf_axi_tg_3/tg_rst_n] \
+  [get_bd_pins perf_axi_tg_4/tg_rst_n] \
+  [get_bd_pins perf_axi_tg_5/tg_rst_n] \
+  [get_bd_pins perf_axi_tg_6/tg_rst_n] \
+  [get_bd_pins perf_axi_tg_7/tg_rst_n] \
+  [get_bd_pins sim_trig_0/rst_n]
+  connect_bd_net -net clkx5_wiz_0_clk_out1  [get_bd_pins clkx5_wiz_0/clk_out1] \
+  [get_bd_pins clk_gen_sim_0/axi_clk_in_0] \
+  [get_bd_pins proc_sys_reset_0/slowest_sync_clk]
+  connect_bd_net -net clkx5_wiz_0_locked  [get_bd_pins clkx5_wiz_0/locked] \
+  [get_bd_pins proc_sys_reset_0/dcm_locked]
+  connect_bd_net -net perf_axi_tg_0_axi_tg_done  [get_bd_pins perf_axi_tg_0/axi_tg_done] \
+  [get_bd_pins sim_trig_0/all_done_00]
+  connect_bd_net -net perf_axi_tg_1_axi_tg_done  [get_bd_pins perf_axi_tg_1/axi_tg_done] \
+  [get_bd_pins sim_trig_0/all_done_01]
+  connect_bd_net -net perf_axi_tg_2_axi_tg_done  [get_bd_pins perf_axi_tg_2/axi_tg_done] \
+  [get_bd_pins sim_trig_0/all_done_02]
+  connect_bd_net -net perf_axi_tg_3_axi_tg_done  [get_bd_pins perf_axi_tg_3/axi_tg_done] \
+  [get_bd_pins sim_trig_0/all_done_03]
+  connect_bd_net -net perf_axi_tg_4_axi_tg_done  [get_bd_pins perf_axi_tg_4/axi_tg_done] \
+  [get_bd_pins sim_trig_0/all_done_04]
+  connect_bd_net -net perf_axi_tg_5_axi_tg_done  [get_bd_pins perf_axi_tg_5/axi_tg_done] \
+  [get_bd_pins sim_trig_0/all_done_05]
+  connect_bd_net -net perf_axi_tg_6_axi_tg_done  [get_bd_pins perf_axi_tg_6/axi_tg_done] \
+  [get_bd_pins sim_trig_0/all_done_06]
+  connect_bd_net -net perf_axi_tg_7_axi_tg_done  [get_bd_pins perf_axi_tg_7/axi_tg_done] \
+  [get_bd_pins sim_trig_0/all_done_07]
+  connect_bd_net -net proc_sys_reset_0_interconnect_aresetn  [get_bd_pins proc_sys_reset_0/interconnect_aresetn] \
+  [get_bd_pins smartconnect_0/aresetn]
+  connect_bd_net -net proc_sys_reset_0_peripheral_aresetn  [get_bd_pins proc_sys_reset_0/peripheral_aresetn] \
+  [get_bd_pins clk_gen_sim_0/axi_rst_in_0_n]
+  connect_bd_net -net ps_wizard_0_hsm1_ref_clk  [get_bd_pins ps_wizard_0/hsm1_ref_clk] \
+  [get_bd_pins axi_noc2_1/sys_clk0] \
+  [get_bd_pins axi_noc2_3/sys_clk0] \
+  [get_bd_pins axi_noc2_2/sys_clk0] \
+  [get_bd_pins axi_noc2_4/sys_clk0]
+  connect_bd_net -net ps_wizard_0_pl0_ref_clk  [get_bd_pins ps_wizard_0/pl0_ref_clk] \
+  [get_bd_pins clkx5_wiz_0/clk_in1]
+  connect_bd_net -net ps_wizard_0_pl0_resetn  [get_bd_pins ps_wizard_0/pl0_resetn] \
+  [get_bd_pins proc_sys_reset_0/ext_reset_in]
+  connect_bd_net -net sim_trig_0_trig_00  [get_bd_pins sim_trig_0/trig_00] \
+  [get_bd_pins perf_axi_tg_0/axi_tg_start]
+  connect_bd_net -net sim_trig_0_trig_01  [get_bd_pins sim_trig_0/trig_01] \
+  [get_bd_pins perf_axi_tg_1/axi_tg_start]
+  connect_bd_net -net sim_trig_0_trig_02  [get_bd_pins sim_trig_0/trig_02] \
+  [get_bd_pins perf_axi_tg_2/axi_tg_start]
+  connect_bd_net -net sim_trig_0_trig_03  [get_bd_pins sim_trig_0/trig_03] \
+  [get_bd_pins perf_axi_tg_3/axi_tg_start]
+  connect_bd_net -net sim_trig_0_trig_04  [get_bd_pins sim_trig_0/trig_04] \
+  [get_bd_pins perf_axi_tg_4/axi_tg_start]
+  connect_bd_net -net sim_trig_0_trig_05  [get_bd_pins sim_trig_0/trig_05] \
+  [get_bd_pins perf_axi_tg_5/axi_tg_start]
+  connect_bd_net -net sim_trig_0_trig_06  [get_bd_pins sim_trig_0/trig_06] \
+  [get_bd_pins perf_axi_tg_6/axi_tg_start]
+  connect_bd_net -net sim_trig_0_trig_07  [get_bd_pins sim_trig_0/trig_07] \
+  [get_bd_pins perf_axi_tg_7/axi_tg_start]
+
+  # Create address segments
+  assign_bd_address -offset 0x050000000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces perf_axi_tg_0/Data] [get_bd_addr_segs axi_noc2_1/DDR_MC_PORTS/DDR_CH1] -force
+  assign_bd_address -offset 0x050000000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces perf_axi_tg_1/Data] [get_bd_addr_segs axi_noc2_1/DDR_MC_PORTS/DDR_CH1] -force
+  assign_bd_address -offset 0x058000000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces perf_axi_tg_2/Data] [get_bd_addr_segs axi_noc2_2/DDR_MC_PORTS/DDR_CH1A] -force
+  assign_bd_address -offset 0x058000000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces perf_axi_tg_3/Data] [get_bd_addr_segs axi_noc2_2/DDR_MC_PORTS/DDR_CH1A] -force
+  assign_bd_address -offset 0x060000000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces perf_axi_tg_4/Data] [get_bd_addr_segs axi_noc2_3/DDR_MC_PORTS/DDR_CH2] -force
+  assign_bd_address -offset 0x060000000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces perf_axi_tg_5/Data] [get_bd_addr_segs axi_noc2_3/DDR_MC_PORTS/DDR_CH2] -force
+  assign_bd_address -offset 0x068000000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces perf_axi_tg_6/Data] [get_bd_addr_segs axi_noc2_4/DDR_MC_PORTS/DDR_CH2A] -force
+  assign_bd_address -offset 0x068000000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces perf_axi_tg_7/Data] [get_bd_addr_segs axi_noc2_4/DDR_MC_PORTS/DDR_CH2A] -force
+  assign_bd_address -offset 0x80000000 -range 0x00200000 -target_address_space [get_bd_addr_spaces ps_wizard_0/ps11_0_cortexr52_0] [get_bd_addr_segs sim_trig_0/SIM_TRIG_MEMORY_MAP/Reg] -force
+  assign_bd_address -offset 0x80000000 -range 0x00200000 -target_address_space [get_bd_addr_spaces ps_wizard_0/ps11_0_cortexr52_1] [get_bd_addr_segs sim_trig_0/SIM_TRIG_MEMORY_MAP/Reg] -force
+  assign_bd_address -offset 0x80000000 -range 0x00200000 -target_address_space [get_bd_addr_spaces ps_wizard_0/ps11_0_cortexr52_2] [get_bd_addr_segs sim_trig_0/SIM_TRIG_MEMORY_MAP/Reg] -force
+  assign_bd_address -offset 0x80000000 -range 0x00200000 -target_address_space [get_bd_addr_spaces ps_wizard_0/ps11_0_cortexr52_3] [get_bd_addr_segs sim_trig_0/SIM_TRIG_MEMORY_MAP/Reg] -force
+  assign_bd_address -offset 0x80000000 -range 0x00200000 -target_address_space [get_bd_addr_spaces ps_wizard_0/ps11_0_cortexr52_4] [get_bd_addr_segs sim_trig_0/SIM_TRIG_MEMORY_MAP/Reg] -force
+  assign_bd_address -offset 0x80000000 -range 0x00200000 -target_address_space [get_bd_addr_spaces ps_wizard_0/ps11_0_cortexr52_5] [get_bd_addr_segs sim_trig_0/SIM_TRIG_MEMORY_MAP/Reg] -force
+  assign_bd_address -offset 0x80000000 -range 0x00200000 -target_address_space [get_bd_addr_spaces ps_wizard_0/ps11_0_cortexr52_6] [get_bd_addr_segs sim_trig_0/SIM_TRIG_MEMORY_MAP/Reg] -force
+  assign_bd_address -offset 0x80000000 -range 0x00200000 -target_address_space [get_bd_addr_spaces ps_wizard_0/ps11_0_cortexr52_7] [get_bd_addr_segs sim_trig_0/SIM_TRIG_MEMORY_MAP/Reg] -force
+  assign_bd_address -offset 0x80000000 -range 0x00200000 -target_address_space [get_bd_addr_spaces ps_wizard_0/ps11_0_cortexr52_8] [get_bd_addr_segs sim_trig_0/SIM_TRIG_MEMORY_MAP/Reg] -force
+  assign_bd_address -offset 0x80000000 -range 0x00200000 -target_address_space [get_bd_addr_spaces ps_wizard_0/ps11_0_cortexr52_9] [get_bd_addr_segs sim_trig_0/SIM_TRIG_MEMORY_MAP/Reg] -force
+  assign_bd_address -offset 0x80000000 -range 0x00200000 -target_address_space [get_bd_addr_spaces ps_wizard_0/ps11_0_dma_pmc_0] [get_bd_addr_segs sim_trig_0/SIM_TRIG_MEMORY_MAP/Reg] -force
+  assign_bd_address -offset 0x80000000 -range 0x00200000 -target_address_space [get_bd_addr_spaces ps_wizard_0/ps11_0_dma_pmc_1] [get_bd_addr_segs sim_trig_0/SIM_TRIG_MEMORY_MAP/Reg] -force
+  assign_bd_address -offset 0x80000000 -range 0x00200000 -target_address_space [get_bd_addr_spaces ps_wizard_0/ps11_0_dpc] [get_bd_addr_segs sim_trig_0/SIM_TRIG_MEMORY_MAP/Reg] -force
+  assign_bd_address -offset 0x80000000 -range 0x00200000 -target_address_space [get_bd_addr_spaces ps_wizard_0/ps11_0_lpd_dma_0] [get_bd_addr_segs sim_trig_0/SIM_TRIG_MEMORY_MAP/Reg] -force
+  assign_bd_address -offset 0x80000000 -range 0x00200000 -target_address_space [get_bd_addr_spaces ps_wizard_0/ps11_0_pmc_0] [get_bd_addr_segs sim_trig_0/SIM_TRIG_MEMORY_MAP/Reg] -force
+  assign_bd_address -offset 0x80000000 -range 0x00200000 -target_address_space [get_bd_addr_spaces ps_wizard_0/ps11_0_ppu_0] [get_bd_addr_segs sim_trig_0/SIM_TRIG_MEMORY_MAP/Reg] -force
+
+
+  # Restore current instance
+  current_bd_instance $oldCurInst
+
+  validate_bd_design
+  save_bd_design
+}
+# End of create_root_design()
+
+
+##################################################################
+# MAIN FLOW
+##################################################################
+
+create_root_design ""
+
+

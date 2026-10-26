@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_func_synth.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="62.892580 us"></ZoomStartTime>
+      <ZoomEndTime time="270.892581 us"></ZoomEndTime>
+      <Cursor1Time time="236.225914 us"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="464"></NameColumnWidth>
+      <ValueColumnWidth column_width="115"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="38" />
+   <wave_markers>
+      <marker label="" time="163655000" />
+   </wave_markers>
+   <wvobject type="array" fp_name="/tb/dut/banka_data_pins">
+      <obj_property name="ElementShortName">banka_data_pins[47:0]</obj_property>
+      <obj_property name="ObjectShortName">banka_data_pins[47:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/dut/banka_wrclk">
+      <obj_property name="ElementShortName">banka_wrclk[0:0]</obj_property>
+      <obj_property name="ObjectShortName">banka_wrclk[0:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/dut/banka_rxclk">
+      <obj_property name="ElementShortName">banka_rxclk[0:0]</obj_property>
+      <obj_property name="ObjectShortName">banka_rxclk[0:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/dut/bankb_data_pins">
+      <obj_property name="ElementShortName">bankb_data_pins[47:0]</obj_property>
+      <obj_property name="ObjectShortName">bankb_data_pins[47:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/dut/bankb_rxclk">
+      <obj_property name="ElementShortName">bankb_rxclk[0:0]</obj_property>
+      <obj_property name="ObjectShortName">bankb_rxclk[0:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/dut/bankb_wrclk">
+      <obj_property name="ElementShortName">bankb_wrclk[0:0]</obj_property>
+      <obj_property name="ObjectShortName">bankb_wrclk[0:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/dut/bankc_data_pins">
+      <obj_property name="ElementShortName">bankc_data_pins[47:0]</obj_property>
+      <obj_property name="ObjectShortName">bankc_data_pins[47:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/dut/bankc_rxclk">
+      <obj_property name="ElementShortName">bankc_rxclk[0:0]</obj_property>
+      <obj_property name="ObjectShortName">bankc_rxclk[0:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/dut/bankc_wrclk">
+      <obj_property name="ElementShortName">bankc_wrclk[0:0]</obj_property>
+      <obj_property name="ObjectShortName">bankc_wrclk[0:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/dut/bankd_data_pins">
+      <obj_property name="ElementShortName">bankd_data_pins[47:0]</obj_property>
+      <obj_property name="ObjectShortName">bankd_data_pins[47:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/dut/bankd_rxclk">
+      <obj_property name="ElementShortName">bankd_rxclk[0:0]</obj_property>
+      <obj_property name="ObjectShortName">bankd_rxclk[0:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/dut/bankd_wrclk">
+      <obj_property name="ElementShortName">bankd_wrclk[0:0]</obj_property>
+      <obj_property name="ObjectShortName">bankd_wrclk[0:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/dut/banke_data_pins">
+      <obj_property name="ElementShortName">banke_data_pins[47:0]</obj_property>
+      <obj_property name="ObjectShortName">banke_data_pins[47:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/dut/banke_rxclk">
+      <obj_property name="ElementShortName">banke_rxclk[0:0]</obj_property>
+      <obj_property name="ObjectShortName">banke_rxclk[0:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/dut/banke_wrclk">
+      <obj_property name="ElementShortName">banke_wrclk[0:0]</obj_property>
+      <obj_property name="ObjectShortName">banke_wrclk[0:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/dut/bankf_data_pins">
+      <obj_property name="ElementShortName">bankf_data_pins[47:0]</obj_property>
+      <obj_property name="ObjectShortName">bankf_data_pins[47:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/dut/bankf_rxclk">
+      <obj_property name="ElementShortName">bankf_rxclk[0:0]</obj_property>
+      <obj_property name="ObjectShortName">bankf_rxclk[0:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/dut/bankf_wrclk">
+      <obj_property name="ElementShortName">bankf_wrclk[0:0]</obj_property>
+      <obj_property name="ObjectShortName">bankf_wrclk[0:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider739" type="divider">
+      <obj_property name="label">Write Controls</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/dut/banka_write">
+      <obj_property name="ElementShortName">banka_write</obj_property>
+      <obj_property name="ObjectShortName">banka_write</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/dut/bankb_write">
+      <obj_property name="ElementShortName">bankb_write</obj_property>
+      <obj_property name="ObjectShortName">bankb_write</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/dut/bankc_write">
+      <obj_property name="ElementShortName">bankc_write</obj_property>
+      <obj_property name="ObjectShortName">bankc_write</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/dut/bankd_write">
+      <obj_property name="ElementShortName">bankd_write</obj_property>
+      <obj_property name="ObjectShortName">bankd_write</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/dut/banke_write">
+      <obj_property name="ElementShortName">banke_write</obj_property>
+      <obj_property name="ObjectShortName">banke_write</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/dut/bankf_write">
+      <obj_property name="ElementShortName">bankf_write</obj_property>
+      <obj_property name="ObjectShortName">bankf_write</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider1808" type="divider">
+      <obj_property name="label">Advanced IO Wizard Status</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/dut/banka_intf_rdy_reg">
+      <obj_property name="ElementShortName">banka_intf_rdy_reg</obj_property>
+      <obj_property name="ObjectShortName">banka_intf_rdy_reg</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/dut/bankb_intf_rdy_reg">
+      <obj_property name="ElementShortName">bankb_intf_rdy_reg</obj_property>
+      <obj_property name="ObjectShortName">bankb_intf_rdy_reg</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/dut/bankc_intf_rdy_reg">
+      <obj_property name="ElementShortName">bankc_intf_rdy_reg</obj_property>
+      <obj_property name="ObjectShortName">bankc_intf_rdy_reg</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/dut/bankd_intf_rdy_reg">
+      <obj_property name="ElementShortName">bankd_intf_rdy_reg</obj_property>
+      <obj_property name="ObjectShortName">bankd_intf_rdy_reg</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/dut/banke_intf_rdy_reg">
+      <obj_property name="ElementShortName">banke_intf_rdy_reg</obj_property>
+      <obj_property name="ObjectShortName">banke_intf_rdy_reg</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/dut/bankf_intf_rdy_reg">
+      <obj_property name="ElementShortName">bankf_intf_rdy_reg</obj_property>
+      <obj_property name="ObjectShortName">bankf_intf_rdy_reg</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider1164" type="divider">
+      <obj_property name="label">prbs_checkers</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/dut/banka_prbs_error">
+      <obj_property name="ElementShortName">banka_prbs_error[383:0]</obj_property>
+      <obj_property name="ObjectShortName">banka_prbs_error[383:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/dut/bankb_prbs_error">
+      <obj_property name="ElementShortName">bankb_prbs_error[383:0]</obj_property>
+      <obj_property name="ObjectShortName">bankb_prbs_error[383:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/dut/bankc_prbs_error">
+      <obj_property name="ElementShortName">bankc_prbs_error[383:0]</obj_property>
+      <obj_property name="ObjectShortName">bankc_prbs_error[383:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/dut/bankd_prbs_error">
+      <obj_property name="ElementShortName">bankd_prbs_error[383:0]</obj_property>
+      <obj_property name="ObjectShortName">bankd_prbs_error[383:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/dut/banke_prbs_error">
+      <obj_property name="ElementShortName">banke_prbs_error[383:0]</obj_property>
+      <obj_property name="ObjectShortName">banke_prbs_error[383:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/dut/bankf_prbs_error">
+      <obj_property name="ElementShortName">bankf_prbs_error[383:0]</obj_property>
+      <obj_property name="ObjectShortName">bankf_prbs_error[383:0]</obj_property>
+   </wvobject>
+</wave_config>
